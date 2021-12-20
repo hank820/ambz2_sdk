@@ -2075,6 +2075,19 @@ void fATchipapp1(void *arg)
 		printf("Fabric2 not exist\n");
 }
 
+extern void changeValue(BOOL value);
+void fATchipapp2(void *arg)
+{
+	(void) arg;
+	unsigned char *argv[MAX_ARGC] = {0};
+	BOOL value;
+
+	parse_param(arg, argv);
+	value = atoi(argv[1]);
+
+	changeValue(value);
+}
+
 #if defined(CONFIG_PLATFORM_8711B)
 /*Function: Check if the input jtag key is matched with the jtag password derived from the SB key stored in EFUSE.
 		    If the input jtag key is correct, it will be stored in system data area of the flash.
@@ -2880,6 +2893,7 @@ log_item_t at_sys_items[] = {
 	{"ATS#", fATSt,{NULL,NULL}},	// test command
 	{"ATS$", fATchipapp, {NULL, NULL}},
 	{"ATS%", fATchipapp1, {NULL, NULL}},
+	{"ATS^", fATchipapp2, {NULL, NULL}},
 	{"ATS?", fATSx,{NULL,NULL}},	// Help
 #if WIFI_LOGO_CERTIFICATION_CONFIG
 	{"ATSV", fATSV},				// Write SW version for wifi logo test
