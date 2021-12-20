@@ -220,6 +220,8 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/general-diagnostics-server/general-diagno
 SRC_CPP += $(CHIPDIR)/src/app/clusters/identify-server/identify-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 

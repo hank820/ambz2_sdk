@@ -235,7 +235,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/application-basic-server/application-basi
 SRC_CPP += $(CHIPDIR)/src/app/clusters/audio-output-server/audio-output-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/keypad-input-server/keypad-input-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/application-launcher-server/application-launcher-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/tv-channel-server/tv-channel-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/channel-server/channel-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/media-input-server/media-input-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/target-navigator-server/target-navigator-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/account-login-server/account-login-server.cpp
@@ -244,6 +244,9 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/thermostat-server/thermostat-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/power-source-configuration-server/power-source-configuration-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
