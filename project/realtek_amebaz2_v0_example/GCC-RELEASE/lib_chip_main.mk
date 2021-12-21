@@ -214,8 +214,8 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/door-lock-server/door-lock-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ias-zone-server/ias-zone-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/low-power-server/low-power-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning-ember.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-old.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-ember.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-provider/ota-provider.cpp
@@ -260,6 +260,7 @@ SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-
 
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/bridged-actions-stub.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/static-supported-modes-manager.cpp
+SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/ota-requestor-stub.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/chipinterface.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DeviceCallbacks.cpp
