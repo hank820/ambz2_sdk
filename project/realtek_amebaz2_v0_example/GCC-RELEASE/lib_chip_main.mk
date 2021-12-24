@@ -267,7 +267,7 @@ SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DeviceCallbacks.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/CHIPDeviceManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/Globals.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/LEDWidget.cpp
-
+SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DsoHack.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
