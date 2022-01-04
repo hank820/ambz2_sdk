@@ -557,7 +557,7 @@ extern void *pvPortMalloc( size_t xWantedSize );
 #endif
 
 #ifndef in_addr_t
-    typedef __uint32_t in_addr_t;
+    typedef uint32_t in_addr_t;
 #endif
 
 #endif // defined(CHIP_PROJECT) && CHIP_PROJECT
