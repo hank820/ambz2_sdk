@@ -2034,14 +2034,17 @@ void chipapp(void *param)
 	ChipTest();
 }
 
+#if CONFIG_EXAMPLE_MATTER
 void fATchipapp(void *arg)
 {
 	(void) arg;
+
 	printf("Chip Test:\r\n");
 	xTaskCreate(chipapp, "chipapp",
                                 4096 / sizeof(StackType_t), NULL,
                                 1, NULL);
 }
+#endif
 
 void fATSt(void *arg)
 {
@@ -2052,13 +2055,16 @@ void fATSt(void *arg)
 	printf("xPortGetFreeHeapSize = %d \n",xPortGetFreeHeapSize());
 	printf("xPortGetMinimumEverFreeHeapSize = %d \n",xPortGetMinimumEverFreeHeapSize());
 
+#if CONFIG_EXAMPLE_MATTER
 	deinitPref();
-	AT_PRINTK("[ATS#]: _AT_SYSTEM_TEST_");
+#endif
 
 #if CONFIG_EXAMPLE_WLAN_FAST_CONNECT
     Erase_Fastconnect_data();
     printf("Erased Fast Connect data\r\n");
 #endif
+
+    AT_PRINTK("[ATS#]: _AT_SYSTEM_TEST_");
 }
 
 #if defined(CONFIG_PLATFORM_8711B)
@@ -2864,7 +2870,9 @@ log_item_t at_sys_items[] = {
 	{"ATS@", fATSs,{NULL,NULL}},	// Debug message setting
 	{"ATS!", fATSc,{NULL,NULL}},	// Debug config setting
 	{"ATS#", fATSt,{NULL,NULL}},	// test command
+#if (defined(CONFIG_EXAMPLE_MATTER) && CONFIG_EXAMPLE_MATTER)
 	{"ATS$", fATchipapp, {NULL, NULL}},
+#endif
 	{"ATS?", fATSx,{NULL,NULL}},	// Help
 #if WIFI_LOGO_CERTIFICATION_CONFIG
 	{"ATSV", fATSV},				// Write SW version for wifi logo test
