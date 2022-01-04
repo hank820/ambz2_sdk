@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
     <fileVersion>3</fileVersion>
     <configuration>
@@ -2208,6 +2208,9 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\component\common\application\mqtt\MQTTClient\MQTTFreertos.c</name>
+                    <excluded>
+                        <configuration>Debug</configuration>
+                    </excluded>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\component\common\application\mqtt\MQTTPacket\MQTTPacket.c</name>
