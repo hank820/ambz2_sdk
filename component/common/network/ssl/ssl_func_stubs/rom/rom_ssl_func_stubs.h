@@ -29,27 +29,27 @@ typedef struct ssl_func_stubs_s {
 		void *(*ssl_calloc)(unsigned int, unsigned int),
 		void (*ssl_free)(void *),
 		int (*ssl_printf)(const char *, ...),
-		u32 use_hw_crypto_func
+		uint32_t use_hw_crypto_func
 	);
 	void (*init_rom_ssl_hw_crypto_aes_ecb)(
-		int (*hw_crypto_aes_ecb_init)(const u8*, const u32),
-		int (*hw_crypto_aes_ecb_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_aes_ecb_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_aes_ecb_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_aes_ecb_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_aes_ecb_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	void (*init_rom_ssl_hw_crypto_aes_cbc)(
-		int (*hw_crypto_aes_cbc_init)(const u8*, const u32),
-		int (*hw_crypto_aes_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_aes_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_aes_cbc_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_aes_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_aes_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	void (*init_rom_ssl_hw_crypto_des_cbc)(
-		int (*hw_crypto_des_cbc_init)(const u8*, const u32),
-		int (*hw_crypto_des_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_des_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_des_cbc_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_des_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_des_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	void (*init_rom_ssl_hw_crypto_3des_cbc)(
-		int (*hw_crypto_3des_cbc_init)(const u8*, const u32),
-		int (*hw_crypto_3des_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_3des_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_3des_cbc_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_3des_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_3des_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	// bignum
 	void (*mbedtls_mpi_init)(mbedtls_mpi *X);
@@ -102,27 +102,27 @@ typedef struct ssl_func_stubs_s {
 		void *(*ssl_calloc)(unsigned int, unsigned int),
 		void (*ssl_free)(void *),
 		int (*ssl_printf)(const char *, ...),
-		u32 use_hw_crypto_func
+		uint32_t use_hw_crypto_func
 	);
 	void (*init_rom_ssl_hw_crypto_aes_ecb)(
-		int (*hw_crypto_aes_ecb_init)(const u8*, const u32),
-		int (*hw_crypto_aes_ecb_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_aes_ecb_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_aes_ecb_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_aes_ecb_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_aes_ecb_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	void (*init_rom_ssl_hw_crypto_aes_cbc)(
-		int (*hw_crypto_aes_cbc_init)(const u8*, const u32),
-		int (*hw_crypto_aes_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_aes_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_aes_cbc_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_aes_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_aes_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	void (*init_rom_ssl_hw_crypto_des_cbc)(
-		int (*hw_crypto_des_cbc_init)(const u8*, const u32),
-		int (*hw_crypto_des_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_des_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_des_cbc_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_des_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_des_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	void (*init_rom_ssl_hw_crypto_3des_cbc)(
-		int (*hw_crypto_3des_cbc_init)(const u8*, const u32),
-		int (*hw_crypto_3des_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-		int (*hw_crypto_3des_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+		int (*hw_crypto_3des_cbc_init)(const uint8_t*, const uint32_t),
+		int (*hw_crypto_3des_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+		int (*hw_crypto_3des_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 	);
 	// bignum
 	void (*mbedtls_mpi_init)(mbedtls_mpi *X);

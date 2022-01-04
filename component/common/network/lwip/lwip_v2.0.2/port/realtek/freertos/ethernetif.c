@@ -85,7 +85,7 @@
 static void arp_timer(void *arg);
 
 extern void rltk_mii_recv(struct eth_drv_sg *sg_list, int sg_len);
-extern s8 rltk_mii_send(struct eth_drv_sg *sg_list, int sg_len, int total_len);
+extern int8_t rltk_mii_send(struct eth_drv_sg *sg_list, int sg_len, int total_len);
 
 /**
  * In this function, the hardware should be initialized.

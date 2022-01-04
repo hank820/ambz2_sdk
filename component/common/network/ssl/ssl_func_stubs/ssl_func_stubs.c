@@ -343,43 +343,43 @@ void init_rom_ssl_ram_map(
 	void *(*ssl_calloc)(unsigned int, unsigned int),
 	void (*ssl_free)(void *),
 	int (*ssl_printf)(const char *, ...),
-	u32 use_hw_crypto_func
+	uint32_t use_hw_crypto_func
 )
 {
 	__rom_stubs_ssl.init_rom_ssl_ram_map(ssl_calloc, ssl_free, ssl_printf, use_hw_crypto_func);
 }
 
 void init_rom_ssl_hw_crypto_aes_ecb(
-	int (*hw_crypto_aes_ecb_init)(const u8*, const u32),
-	int (*hw_crypto_aes_ecb_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-	int (*hw_crypto_aes_ecb_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+	int (*hw_crypto_aes_ecb_init)(const uint8_t*, const uint32_t),
+	int (*hw_crypto_aes_ecb_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+	int (*hw_crypto_aes_ecb_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 )
 {
 	__rom_stubs_ssl.init_rom_ssl_hw_crypto_aes_ecb(hw_crypto_aes_ecb_init, hw_crypto_aes_ecb_decrypt, hw_crypto_aes_ecb_encrypt);
 }
 
 void init_rom_ssl_hw_crypto_aes_cbc(
-	int (*hw_crypto_aes_cbc_init)(const u8*, const u32),
-	int (*hw_crypto_aes_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-	int (*hw_crypto_aes_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+	int (*hw_crypto_aes_cbc_init)(const uint8_t*, const uint32_t),
+	int (*hw_crypto_aes_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+	int (*hw_crypto_aes_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 )
 {
 	__rom_stubs_ssl.init_rom_ssl_hw_crypto_aes_cbc(hw_crypto_aes_cbc_init, hw_crypto_aes_cbc_decrypt, hw_crypto_aes_cbc_encrypt);
 }
 
 void init_rom_ssl_hw_crypto_des_cbc(
-	int (*hw_crypto_des_cbc_init)(const u8*, const u32),
-	int (*hw_crypto_des_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-	int (*hw_crypto_des_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+	int (*hw_crypto_des_cbc_init)(const uint8_t*, const uint32_t),
+	int (*hw_crypto_des_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+	int (*hw_crypto_des_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 )
 {
 	__rom_stubs_ssl.init_rom_ssl_hw_crypto_des_cbc(hw_crypto_des_cbc_init, hw_crypto_des_cbc_decrypt, hw_crypto_des_cbc_encrypt);
 }
 
 void init_rom_ssl_hw_crypto_3des_cbc(
-	int (*hw_crypto_3des_cbc_init)(const u8*, const u32),
-	int (*hw_crypto_3des_cbc_decrypt)(const u8*, const u32, const u8*, const u32, u8*),
-	int (*hw_crypto_3des_cbc_encrypt)(const u8*, const u32, const u8*, const u32, u8*)
+	int (*hw_crypto_3des_cbc_init)(const uint8_t*, const uint32_t),
+	int (*hw_crypto_3des_cbc_decrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*),
+	int (*hw_crypto_3des_cbc_encrypt)(const uint8_t*, const uint32_t, const uint8_t*, const uint32_t, uint8_t*)
 )
 {
 	__rom_stubs_ssl.init_rom_ssl_hw_crypto_3des_cbc(hw_crypto_3des_cbc_init, hw_crypto_3des_cbc_decrypt, hw_crypto_3des_cbc_encrypt);
@@ -408,7 +408,7 @@ int platform_set_malloc_free(
 #endif
 #if (defined(MBEDTLS_VERSION_NUMBER) && MBEDTLS_VERSION_NUMBER == 0x02040000) || ((defined(MBEDTLS_VERSION_NUMBER) && MBEDTLS_VERSION_NUMBER==0x02100300) && (defined(MBEDTLS_USE_ROM_API) || defined(MBEDTLS_BIGNUM_USE_S_ROM_API)))
 #if defined(MBEDTLS_BIGNUM_USE_S_ROM_API)
-	if((*((volatile u32*)(0x400001F0)) & (BIT4|BIT5|BIT6|BIT7))>>4 >= 0x3)
+	if((*((volatile uint32_t*)(0x400001F0)) & (BIT4|BIT5|BIT6|BIT7))>>4 >= 0x3)
 	{
 		init_rom_ssl_ram_map(ssl_calloc, ssl_free, NULL, rom_ssl_ram_map.use_hw_crypto_func);
 		init_rom_ssl_hw_crypto_aes_ecb(rtl_crypto_aes_ecb_init, rtl_crypto_aes_ecb_decrypt, rtl_crypto_aes_ecb_encrypt);
