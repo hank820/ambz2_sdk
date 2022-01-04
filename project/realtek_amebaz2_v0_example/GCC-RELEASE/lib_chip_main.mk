@@ -247,6 +247,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/wake-on-lan-server/wake-on-lan-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
