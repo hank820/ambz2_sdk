@@ -393,6 +393,6 @@
 #define CONFIG_MIIO_MP		0 //miio mp test and rw private data
 #endif
 
-#define CONFIG_EXAMPLE_MATTER 1
+#define CONFIG_EXAMPLE_MATTER 0
 
 #endif
