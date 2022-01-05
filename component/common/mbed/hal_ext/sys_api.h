@@ -118,6 +118,11 @@ void sys_cpu_reset(void);
 
 /*\@}*/
 
+// Matter Changes START
+uint32_t sys_update_ota_prepare_addr(void);
+
+// Matter Changes END
+
 #ifdef __cplusplus
 }
 #endif
