@@ -63,6 +63,8 @@ clean:
 	@$(MAKE) -f lib_chip_main.mk clean
 	@$(MAKE) -f lib_chip_light_core.mk clean
 	@$(MAKE) -f lib_chip_light_main.mk clean
+	@$(MAKE) -f lib_chip_otar_core.mk clean
+	@$(MAKE) -f lib_chip_otar_main.mk clean
 	@$(MAKE) -f application.is.mk clean
 
 debug: toolchain
