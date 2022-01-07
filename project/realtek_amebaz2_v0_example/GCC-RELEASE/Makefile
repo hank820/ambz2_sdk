@@ -27,9 +27,9 @@ ifneq ("$(LBITS)", "64")
 	@echo ONLY 64-BIT LINUX IS SUPPORTED!
 	@exit -1
 endif
-	if [ ! -f ../../../tools/arm-none-eabi-gcc/asdk-9.3.0-linux-newlib-build-3483-x86_64.tar.bz2 ] ; then cat ../../../tools/arm-none-eabi-gcc/asdk-9.3.0-linux-newlib-build-3483-x86_64.tar.bz2* > ../../../tools/arm-none-eabi-gcc/asdk-9.3.0-linux-newlib-build-3483-x86_64.tar.bz2; fi;\
+	if [ ! -f ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2 ] ; then cat ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2* > ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2; fi;\
 	if [ ! -d ../../../tools/arm-none-eabi-gcc/asdk ] ; then mkdir ../../../tools/arm-none-eabi-gcc/asdk; fi;\
-	if [ ! -d ../../../tools/arm-none-eabi-gcc/asdk/linux ] ; then tar -jxf ../../../tools/arm-none-eabi-gcc/asdk-9.3.0-linux-newlib-build-3483-x86_64.tar.bz2 -C ../../../tools/arm-none-eabi-gcc/ ; mv ../../../tools/arm-none-eabi-gcc/asdk-9.3.0/linux ../../../tools/arm-none-eabi-gcc/asdk/linux ; rmdir ../../../tools/arm-none-eabi-gcc/asdk-9.3.0; fi
+	if [ ! -d ../../../tools/arm-none-eabi-gcc/asdk/linux ] ; then tar -jxf ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2 -C ../../../tools/arm-none-eabi-gcc/ ; mv ../../../tools/arm-none-eabi-gcc/asdk-10.3.0/linux ../../../tools/arm-none-eabi-gcc/asdk/linux ; rmdir ../../../tools/arm-none-eabi-gcc/asdk-10.3.0; fi
 endif
 	@echo Toolchain unzip done!
 

@@ -96,7 +96,7 @@ void __wrap__free_r( void *reent, void *p )
  *
  **************************************************/
 int check_format(const char * fmt,...){
-  
+
     const char* fmt1;
     fmt1 = fmt;
 
@@ -107,18 +107,18 @@ int check_format(const char * fmt,...){
             } while(*fmt1 != '"');
             fmt1 ++;
         }
-        
+
         if(*fmt1 != '%')
             continue;
         else
             fmt1 ++;
-        
+
         while(isdigit(*fmt1)){
             fmt1 ++;
         }
-        
+
         switch (*fmt1) {
-                  case '0':      
+                  case '0':
                   case '1':
                   case '2':
                   case '3':
@@ -130,15 +130,15 @@ int check_format(const char * fmt,...){
                   case '9':
                   case '.':
                   case '%':
-                  case 'c':                
+                  case 'c':
                   case 's':
                   case '-':
                   case '+':
-                  case ' ':  
+                  case ' ':
                   case '#':
                   case 'l':
                   case 'h':
-                  case 'z':  
+                  case 'z':
                   case 'j':
                   case 't':
                   case 'i':
@@ -152,11 +152,11 @@ int check_format(const char * fmt,...){
                   case 'F':
                   case 'f':
                   case 'A':
-                  case 'a': 
+                  case 'a':
                       continue;
                   default:
                       goto exit;
-                
+
         }
     }
         return 1;
@@ -307,7 +307,7 @@ int __wrap_vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 
 #if defined(MEM_WR_CHECK)
 #if defined(__ICCARM__)
-#pragma section = "SRAM_OBJECT" 
+#pragma section = "SRAM_OBJECT"
 
 void const * robase = __section_begin("SRAM_OBJECT");
 void const * rolimit = __section_end("SRAM_OBJECT");
@@ -317,7 +317,7 @@ void const * rolimit = __section_end("SRAM_OBJECT");
 int check_address(uint32_t addr){
 	uint32_t valid_addr[2][2] = {{0x10000000, 0x1003FA00}, {0x60000000, 0x603F0000}};
 	uint32_t except_addr[1][2] = {{(uint32_t)robase, (uint32_t)rolimit}};
-	
+
 	int valid = 0;
 	for(int i=0;i<2;i++){
 		if((addr >= valid_addr[i][0])&&(addr < valid_addr[i][1])){
@@ -325,14 +325,14 @@ int check_address(uint32_t addr){
 			break;
 		}
 	}
-	
+
 	if(valid==1){
 		for(int i=0;i<1;i++){
 			if((addr >= except_addr[i][0])&&(addr < except_addr[i][1])){
 				valid = 0;
 				break;
 			}
-		}		
+		}
 	}
 	return valid;
 }
@@ -642,7 +642,7 @@ static const int _DAYS_BEFORE_MONTH[12] =
 #include "time64.h"
 #include <platform_stdlib.h>
 
-#if defined (__ICCARM__)
+#if defined (__ICCARM__) || (__GNUC__ > 9)
 extern long long  _Tzoff();
 
 typedef struct __tzrule_struct
@@ -950,4 +950,4 @@ void __wrap_free( void *p )
       }
     }
 }
-#endif  
+#endif

@@ -18,7 +18,7 @@ endif
 ifeq ($(findstring Linux, $(OS)), Linux)
 	ELF2BIN = $(AMEBAZ2_GCCTOOLDIR)/elf2bin.linux	
 	CHKSUM = $(AMEBAZ2_GCCTOOLDIR)/checksum.linux
-	TOOLCHAIN_FILENAME_CURR = asdk-9.3.0-linux-newlib-build-3483-x86_64.tar.bz2
+	TOOLCHAIN_FILENAME_CURR = asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2
 	TOOLCHAIN_FILENAME_PREV = asdk-6.4.1-linux-newlib-build-3026-x86_64.tar.bz2
 	TOOLCHAIN_BITS = 64
 endif
