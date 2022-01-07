@@ -103,7 +103,7 @@ void bt_matter_adapter_app_task_init()
 {
 	if (app_task_handle == NULL) {
 		BC_printf("bt_matter_adapter_app_task_init\n\r");
-		os_task_create(&app_task_handle, "bt_matter_adapter_app", bt_matter_adapter_app_main_task, 0, APP_TASK_STACK_SIZE,
+		os_task_create(&app_task_handle, "bt_matter_adapter_app", bt_matter_adapter_app_main_task, 0, 2048,
 					   APP_TASK_PRIORITY);
 	}
 	else {
