@@ -227,21 +227,18 @@ SRC_CPP += $(CHIPDIR)/src/app/util/im-client-callbacks.cpp
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
+SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/callback-stub.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/IMClusterCommandHandler.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/CHIPClusters.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/CHIPClientCallbacks.cpp
-SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
-SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/chipinterface.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/Globals.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/LEDWidget.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/CHIPDeviceManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/DeviceCallbacks.cpp
-#SRC_CPP += $(CHIPDIR)/src/platform/Ameba/AmebaOTAImageProcessor.cpp
-#SRC_CPP += $(CHIPDIR)/src/platform/GenericOTARequestorDriver.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
