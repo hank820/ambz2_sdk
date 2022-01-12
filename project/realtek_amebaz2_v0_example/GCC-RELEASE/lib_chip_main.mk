@@ -215,6 +215,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/ias-zone-server/ias-zone-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/low-power-server/low-power-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-old.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-ember.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp

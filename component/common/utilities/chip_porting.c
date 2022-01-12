@@ -11,6 +11,7 @@
 #include <sntp/sntp.h>
 #include "dct.h"
 #include <wifi_conf.h>
+#include "chip_porting.h"
 
 #define MICROSECONDS_PER_SECOND    ( 1000000LL )                                   /**< Microseconds per second. */
 #define NANOSECONDS_PER_SECOND     ( 1000000000LL )                                /**< Nanoseconds per second. */
@@ -156,7 +157,7 @@ int32_t deinitPref(void)
     return ret;
 }
 
-int32_t registerPref(char * ns)
+int32_t registerPref(const char * ns)
 {
     int32_t ret;
     ret = dct_register_module(ns);
@@ -168,7 +169,7 @@ int32_t registerPref(char * ns)
     return ret;
 }
 
-int32_t clearPref(char * ns)
+int32_t clearPref(const char * ns)
 {
     int32_t ret;
     ret = dct_unregister_module(ns);
@@ -180,7 +181,7 @@ int32_t clearPref(char * ns)
     return ret;
 }
 
-int32_t deleteKey(char *domain, char *key)
+int32_t deleteKey(const char *domain, const char *key)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -205,7 +206,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-BOOL checkExist(char *domain, char *key)
+BOOL checkExist(const char *domain, const char *key)
 {
 	dct_handle_t handle;
 	int32_t ret = -1;
@@ -251,7 +252,7 @@ exit:
     return found;
 }
 
-int32_t setPref_new(char *domain, char *key, uint8_t *value, size_t byteCount)
+int32_t setPref_new(const char *domain, const char *key, uint8_t *value, size_t byteCount)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -289,7 +290,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-int32_t getPref_bool_new(char *domain, char *key, uint32_t *val)
+int32_t getPref_bool_new(const char *domain, const char *key, uint32_t *val)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -313,7 +314,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-int32_t getPref_u32_new(char *domain, char *key, uint32_t *val)
+int32_t getPref_u32_new(const char *domain, const char *key, uint32_t *val)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -337,7 +338,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-int32_t getPref_u64_new(char *domain, char *key, uint64_t *val)
+int32_t getPref_u64_new(const char *domain, const char *key, uint64_t *val)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -361,7 +362,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-int32_t getPref_str_new(char *domain, char *key, char * buf, size_t bufSize, size_t *outLen)
+int32_t getPref_str_new(const char *domain, const char *key, char * buf, size_t bufSize, size_t *outLen)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -386,7 +387,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-int32_t getPref_bin_new(char *domain, char *key, uint8_t * buf, size_t bufSize, size_t *outLen)
+int32_t getPref_bin_new(const char *domain, const char *key, uint8_t * buf, size_t bufSize, size_t *outLen)
 {
     dct_handle_t handle;
     int32_t ret = -1;
@@ -533,15 +534,16 @@ static rtw_result_t matter_scan_with_ssid_result_handler( rtw_scan_handler_resul
         {
             // inform matter
             chip_connmgr_callback_func(chip_connmgr_callback_data);
+            vPortFree(matter_ssid);
         }
         else
         {
             printf("chip_connmgr_callback_func is NULL\r\n");
 		    apNum = 0;
+            vPortFree(matter_ssid);
             return RTW_ERROR;
         }
 	}
-    free(matter_ssid);
 	return RTW_SUCCESS;
 }
 
@@ -559,7 +561,7 @@ void matter_scan_networks_with_ssid(const unsigned char *ssid, size_t length)
 {
 	volatile int ret = RTW_SUCCESS;
     apNum = 0; // reset counter at the start of scan
-    matter_ssid = (char*) malloc(length+1);
+    matter_ssid = (char*) pvPortMalloc(length+1);
     memset(matter_ssid, 0, length+1);
     memcpy(matter_ssid, ssid, length);
     matter_ssid[length] = '\0';
