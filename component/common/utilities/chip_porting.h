@@ -35,6 +35,12 @@ extern int CHIP_SetWiFiConfig(rtw_wifi_setting_t *config);
 extern int CHIP_GetWiFiConfig(rtw_wifi_setting_t *config);
 extern rtw_mode_t wifi_mode;
 
+extern uint32_t apNum;
+typedef int (*chip_connmgr_callback)(void *object);
+void chip_connmgr_set_callback_func(chip_connmgr_callback p, void *data);
+void matter_scan_networks(void);
+void matter_scan_networks_with_ssid(const unsigned char *ssid, size_t length);
+void matter_get_scan_results(rtw_scan_result_t *result_buf, uint8_t scanned_num);
 
 #ifdef __cplusplus
 }
