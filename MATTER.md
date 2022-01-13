@@ -10,7 +10,7 @@ https://github.com/hank820/ambz2_sdk/blob/matter/MATTER_PORTING.md
 
 To check out this repository:
 
-    git clone -b matter --recurse-submodules https://github.com/hank820/ambz2_sdk.git
+    git clone -b test_event_6_ambz2.lts --recurse-submodules https://github.com/hank820/ambz2_sdk.git
 
 If you already have a checkout, run the following command to sync submodules recursively:
 
