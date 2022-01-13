@@ -219,6 +219,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-comm
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-old.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-ember.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
