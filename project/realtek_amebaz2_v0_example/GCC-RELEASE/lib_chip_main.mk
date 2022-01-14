@@ -194,8 +194,6 @@ SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/esi-management.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/process-cluster-message.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/process-global-message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
 
