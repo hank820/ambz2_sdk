@@ -271,6 +271,7 @@ CFLAGS += -DV8M_STKOVF
 # CHIP options
 # -------------------------------------------------------------------
 CFLAGS += -DCHIP_PROJECT=1
+CFLAGS += -DCHIP_ENABLE_OTAR=1
 CFLAGS += -DCHIP_DEVICE_LAYER_TARGET=Ameba
 CFLAGS += -DMBEDTLS_CONFIG_FILE=\"mbedtls_config.h\"
 
