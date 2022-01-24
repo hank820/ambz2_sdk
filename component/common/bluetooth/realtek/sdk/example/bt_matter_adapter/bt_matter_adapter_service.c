@@ -19,6 +19,7 @@
 #include <diag.h>
 #include "platform_stdlib.h"
 
+
 #define SIMPLE_BLE_SERVICE_CHAR_V1_READ_INDEX           0x02
 #define SIMPLE_BLE_SERVICE_CHAR_V2_WRITE_INDEX          0x05
 #define SIMPLE_BLE_SERVICE_CHAR_V3_NOTIFY_INDEX         0x07
@@ -27,10 +28,12 @@
 #define SIMPLE_BLE_SERVICE_CHAR_INDICATE_CCCD_INDEX     (SIMPLE_BLE_SERVICE_CHAR_V4_INDICATE_INDEX + 1)
 
 #define BT_MATTER_ADAPTER_SERVICE_CHAR_V1_READ_WRITE_INDEX           0x02
+#define BT_MATTER_ADAPTER_SERVICE_C3_INDEX           0x07
 //#define UUID_RX	0x18, 0xEE, 0x2E, 0xF5, 0x26, 0x3D, 0x45, 0x59, 0x95, 0x9F, 0x4F, 0x9C, 0x42, 0x9F, 0x9D, 0x11
 //#define UUID_TX 0x18, 0xEE, 0x2E, 0xF5, 0x26, 0x3D, 0x45, 0x59, 0x95, 0x9F, 0x4F, 0x9C, 0x42, 0x9F, 0x9D, 0x12
 #define UUID_RX		0x11, 0x9D, 0x9F, 0x42, 0x9C, 0x4F, 0x9F, 0x95, 0x59, 0x45, 0x3D, 0x26, 0xF5, 0x2E, 0xEE, 0x18
 #define UUID_TX		0x12, 0x9D, 0x9F, 0x42, 0x9C, 0x4F, 0x9F, 0x95, 0x59, 0x45, 0x3D, 0x26, 0xF5, 0x2E, 0xEE, 0x18
+#define UUID_C3		0x04, 0x8F, 0x21, 0x83, 0x8A, 0x74, 0x7D, 0xB8, 0xF2, 0x45, 0x72, 0x87, 0x38, 0x02, 0x63, 0x64
 
 T_SERVER_ID bt_matter_adapter_service_id;
 /**<  Value of bt config characteristic. */
@@ -116,6 +119,29 @@ HI_WORD(GATT_CLIENT_CHAR_CONFIG_DEFAULT)
 NULL,
 (GATT_PERM_READ | GATT_PERM_WRITE) /* permissions */
 },
+
+/* <<Characteristic>> C3 Data TX */
+{
+ATTRIB_FLAG_VALUE_INCL, /* flags */
+{ /* type_value */
+LO_WORD(GATT_UUID_CHARACTERISTIC),
+HI_WORD(GATT_UUID_CHARACTERISTIC),
+(GATT_CHAR_PROP_READ) /* characteristic properties */
+/* characteristic UUID not needed here, is UUID of next attrib. */
+},
+1, /* bValueLen */
+NULL,
+GATT_PERM_READ /* permissions */
+},
+{
+ATTRIB_FLAG_VALUE_APPL | ATTRIB_FLAG_UUID_128BIT, /* flags */
+{ /* type_value */
+UUID_C3
+},
+0, /* bValueLen */
+NULL,
+GATT_PERM_READ //GATT_PERM_NONE // permissions
+},
 };
 
 
@@ -193,6 +219,21 @@ T_APP_RESULT  bt_matter_adapter_service_attr_read_cb(uint8_t conn_id, T_SERVER_I
         }
         break;
 
+    case BT_MATTER_ADAPTER_SERVICE_C3_INDEX:
+        {
+            TBTCONFIG_CALLBACK_DATA callback_data;
+            callback_data.msg_type = SERVICE_CALLBACK_TYPE_READ_CHAR_VALUE;
+			callback_data.msg_data.read_value_index = BTCONFIG_READ_V1;
+			callback_data.msg_data.read_offset = offset;
+            callback_data.conn_id = conn_id;
+            if (pfn_bt_matter_adapter_service_cb)
+            {
+                pfn_bt_matter_adapter_service_cb(service_id, (void *)&callback_data);
+            }
+            *pp_value = callback_data.msg_data.write.p_value;
+            *p_length = callback_data.msg_data.write.len;
+        }
+        break;
     }
 
     return (cause);
