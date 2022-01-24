@@ -193,8 +193,6 @@ SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/esi-management.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/process-cluster-message.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/process-global-message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
 
@@ -222,6 +220,11 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 

@@ -194,8 +194,6 @@ SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/esi-management.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/process-cluster-message.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/process-global-message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
 
@@ -219,7 +217,6 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioni
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commissioning-ember.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-provider/ota-provider.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/test-cluster-server/test-cluster-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/occupancy-sensor-server/occupancy-sensor-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/pump-configuration-and-control-server/pump-configuration-and-control-server.cpp
@@ -249,6 +246,13 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/wake-on-lan-server/wake-on-lan-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/bindings.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/BindingManager.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
@@ -262,7 +266,6 @@ SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-
 
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/bridged-actions-stub.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/static-supported-modes-manager.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/ota-requestor-stub.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/chipinterface.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DeviceCallbacks.cpp
