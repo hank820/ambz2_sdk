@@ -300,7 +300,7 @@ int32_t getPref_bool_new(const char *domain, const char *key, uint32_t *val)
     if (DCT_SUCCESS != ret)
     {
         printf("%s : dct_open_module(%s) failed\n",__FUNCTION__,key);
-        return exit;
+        goto exit;
     }
 
     len = sizeof(uint32_t);
@@ -496,7 +496,7 @@ static rtw_result_t matter_scan_result_handler( rtw_scan_handler_result_t* mallo
 
 		if(malloced_scan_result->user_data)
 			memcpy((void *)((char *)malloced_scan_result->user_data+(apNum-1)*sizeof(rtw_scan_result_t)), (char *)record, sizeof(rtw_scan_result_t));
-	} 
+	}
     else
     {
         if (chip_connmgr_callback_func && chip_connmgr_callback_data)
@@ -527,7 +527,7 @@ static rtw_result_t matter_scan_with_ssid_result_handler( rtw_scan_handler_resul
 			memcpy((void *)((char *)malloced_scan_result->user_data+(apNum-1)*sizeof(rtw_scan_result_t)), (char *)record, sizeof(rtw_scan_result_t));
             print_matter_scan_result(record);
         }
-	} 
+	}
     else
     {
         if (chip_connmgr_callback_func && chip_connmgr_callback_data)
