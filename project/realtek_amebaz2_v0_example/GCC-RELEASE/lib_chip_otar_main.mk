@@ -181,13 +181,10 @@ SRC_CPP += $(CHIPDIR)/src/app/server/Server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/server/CommissioningWindowManager.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/util/af-event.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/af-main-common.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-size-util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-storage.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-table.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/binding-table.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/CHIPDeviceCallbacksMgr.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/chip-message-send.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/client-api.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/DataModelHandler.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
@@ -196,7 +193,6 @@ SRC_CPP += $(CHIPDIR)/src/app/util/esi-management.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/im-client-callbacks.cpp
 
 SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/responders/IP.cpp
 
@@ -220,6 +216,9 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning-old/network-commiss
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
@@ -231,8 +230,6 @@ SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/callback-stub.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/IMClusterCommandHandler.cpp
-SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/CHIPClusters.cpp
-SRC_CPP += $(CHIPDIR)/zzz_generated/ota-requestor-app/zap-generated/CHIPClientCallbacks.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/chipinterface.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/Globals.cpp

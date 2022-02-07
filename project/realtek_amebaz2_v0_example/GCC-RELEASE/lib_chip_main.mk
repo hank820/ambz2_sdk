@@ -181,13 +181,10 @@ SRC_CPP += $(CHIPDIR)/src/app/server/Server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/server/CommissioningWindowManager.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/util/af-event.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/af-main-common.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-size-util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-storage.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-table.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/binding-table.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/CHIPDeviceCallbacksMgr.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/chip-message-send.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/client-api.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/DataModelHandler.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
@@ -252,16 +249,15 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localiz
 SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/power-source-server/power-source-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
-SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/CHIPClientCallbacks.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/callback-stub.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/IMClusterCommandHandler.cpp
-SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/CHIPClusters.cpp
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
