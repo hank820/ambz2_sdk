@@ -2029,6 +2029,10 @@ void fATSM(void *arg)
 
 extern void ChipTest(void);
 extern int32_t deinitPref(void);
+#if CHIP_ENABLE_OTAR
+extern void amebaQueryImageCmdHandler(uint32_t nodeId, uint32_t fabricId);
+extern void amebaApplyUpdateCmdHandler();
+#endif
 void chipapp(void *param)
 {
 	ChipTest();
@@ -2041,6 +2045,35 @@ void fATchipapp(void *arg)
 	xTaskCreate(chipapp, "chipapp",
                                 4096 / sizeof(StackType_t), NULL,
                                 1, NULL);
+}
+
+void fATchipapp1(void *arg)
+{
+#if CHIP_ENABLE_OTAR
+	(void) arg;
+	// ATS%=1,1
+	unsigned char *argv[MAX_ARGC] = {0};
+	uint32_t nodeId;
+	uint32_t fabricId;
+
+	printf("Chip Test: amebaQueryImageCmdHandler\r\n");
+
+	parse_param(arg, argv);
+	nodeId = atoi(argv[1]);
+	fabricId = atoi(argv[2]);
+
+	amebaQueryImageCmdHandler(nodeId, fabricId);
+#endif
+}
+
+void fATchipapp2(void *arg)
+{
+#if CHIP_ENABLE_OTAR
+	(void) arg;
+	printf("Chip Test: amebaApplyUpdateCmdHandler\r\n");
+
+	amebaApplyUpdateCmdHandler();
+#endif
 }
 
 void fATSt(void *arg)
@@ -2865,6 +2898,8 @@ log_item_t at_sys_items[] = {
 	{"ATS!", fATSc,{NULL,NULL}},	// Debug config setting
 	{"ATS#", fATSt,{NULL,NULL}},	// test command
 	{"ATS$", fATchipapp, {NULL, NULL}},
+    {"ATS%", fATchipapp1, {NULL, NULL}},
+	{"ATS^", fATchipapp2, {NULL, NULL}},
 	{"ATS?", fATSx,{NULL,NULL}},	// Help
 #if WIFI_LOGO_CERTIFICATION_CONFIG
 	{"ATSV", fATSV},				// Write SW version for wifi logo test
