@@ -26,7 +26,7 @@ If you already have a checkout, run the following command to sync submodules rec
     source scripts/activate.sh
 
     > Find more details to setup linux build environment
-    > https://github.com/hank820/connectedhomeip/blob/master/docs/BUILDING.md
+    > https://github.com/project-chip/connectedhomeip/blob/master/docs/guides/BUILDING.md
 
 
 ## Make CHIP library by gn and Make lib_main.a
