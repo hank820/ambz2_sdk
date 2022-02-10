@@ -162,6 +162,7 @@ INCLUDES += -I$(CHIPDIR)/third_party/nlassert/repo/include
 INCLUDES += -I$(CHIPDIR)/src/app
 INCLUDES += -I$(CHIPDIR)/src/app/util
 INCLUDES += -I$(CHIPDIR)/src/app/server
+INCLUDES += -I$(CHIPDIR)/src/app/clusters/bindings
 INCLUDES += -I$(CHIPDIR)/third_party/nlio/repo/include
 INCLUDES += -I$(CHIPDIR)/third_party/nlunit-test/repo/src
 
@@ -196,6 +197,8 @@ SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/responders/IP.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/clusters/basic/basic.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/bindings.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/BindingManager.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/PendingNotificationMap.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/diagnostic-logs-server/diagnostic-logs-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/on-off-server/on-off-server.cpp
