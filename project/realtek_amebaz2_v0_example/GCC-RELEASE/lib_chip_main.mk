@@ -257,6 +257,8 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
+SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/records/IP.cpp
+
 SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/callback-stub.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/IMClusterCommandHandler.cpp
 

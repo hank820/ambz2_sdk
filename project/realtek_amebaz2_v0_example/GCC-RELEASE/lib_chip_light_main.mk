@@ -224,6 +224,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-form
 SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
