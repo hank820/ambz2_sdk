@@ -2030,7 +2030,7 @@ void fATSM(void *arg)
 extern void ChipTest(void);
 extern int32_t deinitPref(void);
 #if CONFIG_ENABLE_OTA_REQUESTOR
-extern void amebaQueryImageCmdHandler(uint32_t nodeId, uint32_t fabricId);
+extern void amebaQueryImageCmdHandler();
 extern void amebaApplyUpdateCmdHandler();
 #endif
 void chipapp(void *param)
@@ -2050,19 +2050,8 @@ void fATchipapp(void *arg)
 void fATchipapp1(void *arg)
 {
 #if CONFIG_ENABLE_OTA_REQUESTOR
-	(void) arg;
-	// ATS%=1,1
-	unsigned char *argv[MAX_ARGC] = {0};
-	uint32_t nodeId;
-	uint32_t fabricId;
-
 	printf("Chip Test: amebaQueryImageCmdHandler\r\n");
-
-	parse_param(arg, argv);
-	nodeId = atoi(argv[1]);
-	fabricId = atoi(argv[2]);
-
-	amebaQueryImageCmdHandler(nodeId, fabricId);
+	amebaQueryImageCmdHandler();
 #endif
 }
 
