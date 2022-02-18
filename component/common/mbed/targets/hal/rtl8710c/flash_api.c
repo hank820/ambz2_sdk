@@ -317,7 +317,7 @@ Users can use either of functions depending on their needs.
 * @retval   status: Success:1 or Failure: Others.
 
 */
-int flash_burst_write(flash_t *obj, uint32_t address ,uint32_t Length, uint8_t * data)
+int flash_burst_write(flash_t *obj, uint32_t address ,uint32_t Length, const uint8_t * data)
 {
     flash_init(obj);
 
