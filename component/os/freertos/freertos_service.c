@@ -20,7 +20,7 @@
 #define USE_MUTEX_FOR_SPINLOCK 1
 #endif
 #if defined(CONFIG_PLATFORM_8710C)
-u8 _freertos_get_scheduler_state(void);
+uint8_t _freertos_get_scheduler_state(void);
 #endif
 //----- ------------------------------------------------------------------
 // Misc Function
@@ -42,22 +42,22 @@ void cli()
 }
 
 /* Not needed on 64bit architectures */
-static unsigned int __div64_32(u64 *n, unsigned int base)
+static unsigned int __div64_32(uint64_t *n, unsigned int base)
 {
-	u64 rem = *n;
-	u64 b = base;
-	u64 res, d = 1;
+	uint64_t rem = *n;
+	uint64_t b = base;
+	uint64_t res, d = 1;
 	unsigned int high = rem >> 32;
 
 	/* Reduce the thing a bit first */
 	res = 0;
 	if (high >= base) {
 		high /= base;
-		res = (u64) high << 32;
-		rem -= (u64) (high * base) << 32;
+		res = (uint64_t) high << 32;
+		rem -= (uint64_t) (high * base) << 32;
 	}
 
-	while ((u64)b > 0 && b < rem) {
+	while ((uint64_t)b > 0 && b < rem) {
 		b = b+b;
 		d = d+d;
 	}
@@ -77,14 +77,14 @@ static unsigned int __div64_32(u64 *n, unsigned int base)
 
 /********************* os depended service ********************/
 
-u8* _freertos_malloc(u32 sz)
+uint8_t* _freertos_malloc(uint32_t sz)
 {
 	return pvPortMalloc(sz);
 }
 
-u8* _freertos_zmalloc(u32 sz)
+uint8_t* _freertos_zmalloc(uint32_t sz)
 {
-	u8 *pbuf = _freertos_malloc(sz);
+	uint8_t *pbuf = _freertos_malloc(sz);
 
 	if (pbuf != NULL)
 		memset(pbuf, 0, sz);
@@ -92,7 +92,7 @@ u8* _freertos_zmalloc(u32 sz)
 	return pbuf;	
 }
 
-void _freertos_mfree(u8 *pbuf, u32 sz)
+void _freertos_mfree(uint8_t *pbuf, uint32_t sz)
 {
 	/* To avoid gcc warnings */
 	( void ) sz;
@@ -100,12 +100,12 @@ void _freertos_mfree(u8 *pbuf, u32 sz)
 	vPortFree(pbuf);
 }
 
-static void _freertos_memcpy(void* dst, void* src, u32 sz)
+static void _freertos_memcpy(void* dst, void* src, uint32_t sz)
 {
 	memcpy(dst, src, sz);
 }
 
-static int _freertos_memcmp(void *dst, void *src, u32 sz)
+static int _freertos_memcmp(void *dst, void *src, uint32_t sz)
 {
 //under Linux/GNU/GLibc, the return value of memcmp for two same mem. chunk is 0
 	if (!(memcmp(dst, src, sz)))
@@ -114,7 +114,7 @@ static int _freertos_memcmp(void *dst, void *src, u32 sz)
 	return 0;
 }
 
-static void _freertos_memset(void *pbuf, int c, u32 sz)
+static void _freertos_memset(void *pbuf, int c, uint32_t sz)
 {
 	memset(pbuf, c, sz);
 }
@@ -144,7 +144,7 @@ static void _freertos_up_sema_from_isr(_sema *sema)
 	portEND_SWITCHING_ISR(taskWoken);
 }
 
-static u32 _freertos_down_sema(_sema *sema, u32 timeout)
+static uint32_t _freertos_down_sema(_sema *sema, uint32_t timeout)
 {
 	if(timeout == RTW_MAX_DELAY) {
 		timeout = portMAX_DELAY;
@@ -199,7 +199,7 @@ static void _freertos_mutex_get(_mutex *pmutex)
 	}
 }
 
-static int _freertos_mutex_get_timeout(_mutex *pmutex, u32 timeout_ms)
+static int _freertos_mutex_get_timeout(_mutex *pmutex, uint32_t timeout_ms)
 {
 #if defined(CONFIG_PLATFORM_8710C)
 	if(_freertos_get_scheduler_state() == OS_SCHEDULER_SUSPENDED && timeout_ms != 0)
@@ -256,7 +256,7 @@ static void _freertos_exit_critical(_lock *plock, _irqL *pirqL)
 	taskEXIT_CRITICAL();
 }
 
-static u32 uxSavedInterruptStatus = 0;
+static uint32_t uxSavedInterruptStatus = 0;
 static void _freertos_enter_critical_from_isr(_lock *plock, _irqL *pirqL)
 {
 	/* To avoid gcc warnings */
@@ -403,7 +403,7 @@ static void _freertos_spinunlock_irqsave(_lock *plock, _irqL *irqL)
 	taskEXIT_CRITICAL();
 }
 
-static int _freertos_init_xqueue( _xqueue* queue, const char* name, u32 message_size, u32 number_of_messages )
+static int _freertos_init_xqueue( _xqueue* queue, const char* name, uint32_t message_size, uint32_t number_of_messages )
 {
 	/* To avoid gcc warnings */
 	( void ) name;
@@ -416,7 +416,7 @@ static int _freertos_init_xqueue( _xqueue* queue, const char* name, u32 message_
     return 0;
 }
 
-static int _freertos_push_to_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
+static int _freertos_push_to_xqueue( _xqueue* queue, void* message, uint32_t timeout_ms )
 {
 	if(timeout_ms == RTW_MAX_DELAY) {
 	      timeout_ms = portMAX_DELAY;
@@ -432,7 +432,7 @@ static int _freertos_push_to_xqueue( _xqueue* queue, void* message, u32 timeout_
     return 0;
 }
 
-static int _freertos_pop_from_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
+static int _freertos_pop_from_xqueue( _xqueue* queue, void* message, uint32_t timeout_ms )
 {
 	if(timeout_ms == RTW_WAIT_FOREVER) {
 		timeout_ms = portMAX_DELAY;
@@ -449,7 +449,7 @@ static int _freertos_pop_from_xqueue( _xqueue* queue, void* message, u32 timeout
 }
 
 
-static int _freertos_peek_from_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
+static int _freertos_peek_from_xqueue( _xqueue* queue, void* message, uint32_t timeout_ms )
 {
 	if(timeout_ms == RTW_WAIT_FOREVER) {
 		timeout_ms = portMAX_DELAY;
@@ -476,27 +476,27 @@ static int _freertos_deinit_xqueue( _xqueue* queue )
     return result;
 }
 
-static u32 _freertos_get_current_time(void)
+static uint32_t _freertos_get_current_time(void)
 {
 	return xTaskGetTickCount();	//The count of ticks since vTaskStartScheduler was called.
 }
 
-static u32 _freertos_systime_to_ms(u32 systime)
+static uint32_t _freertos_systime_to_ms(uint32_t systime)
 {
 	return systime * portTICK_RATE_MS;
 }
 
-static u32 _freertos_systime_to_sec(u32 systime)
+static uint32_t _freertos_systime_to_sec(uint32_t systime)
 {
 	return systime / configTICK_RATE_HZ;
 }
 
-static u32 _freertos_ms_to_systime(u32 ms)
+static uint32_t _freertos_ms_to_systime(uint32_t ms)
 {
 	return ms / portTICK_RATE_MS;
 }
 
-static u32 _freertos_sec_to_systime(u32 sec)
+static uint32_t _freertos_sec_to_systime(uint32_t sec)
 {
 	return sec * configTICK_RATE_HZ;
 }
@@ -666,7 +666,7 @@ static int _freertos_ATOMIC_DEC_RETURN(ATOMIC_T *v)
 	return _freertos_ATOMIC_SUB_RETURN(v, 1);
 }
 
-static u64 _freertos_modular64(u64 n, u64 base)
+static uint64_t _freertos_modular64(uint64_t n, uint64_t base)
 {
 	unsigned int __base = (base);
 	unsigned int __rem;
@@ -689,7 +689,7 @@ static int _freertos_arc4random(void)
 	return value;
 
 #else
-	u32 res = xTaskGetTickCount();
+	uint32_t res = xTaskGetTickCount();
 	static unsigned long seed = 0xDEADB00B;
 
 #if defined(CONFIG_PLATFORM_8711B)
@@ -706,7 +706,7 @@ static int _freertos_arc4random(void)
 #endif
 }
 
-static int _freertos_get_random_bytes(void *buf, u32 len)
+static int _freertos_get_random_bytes(void *buf, uint32_t len)
 {
 #if 1 //becuase of 4-byte align, we use the follow code style.
 	unsigned int ranbuf;
@@ -737,13 +737,13 @@ static int _freertos_get_random_bytes(void *buf, u32 len)
 #endif
 }
 
-static u32 _freertos_GetFreeHeapSize(void)
+static uint32_t _freertos_GetFreeHeapSize(void)
 {
-	return (u32)xPortGetFreeHeapSize();
+	return (uint32_t)xPortGetFreeHeapSize();
 }
 void *tcm_heap_malloc(int size);
 static int _freertos_create_task(struct task_struct *ptask, const char *name,
-	u32  stack_size, u32 priority, thread_func_t func, void *thctx)
+	uint32_t  stack_size, uint32_t priority, thread_func_t func, void *thctx)
 {
 	thread_func_t task_func = NULL;
 	void *task_ctx = NULL;
@@ -823,7 +823,7 @@ static void _freertos_delete_task(struct task_struct *ptask)
 	DBG_TRACE("Delete Task \"%s\"\n", ptask->task_name);
 }
 
-static void _freertos_set_priority_task(void* task, u32 NewPriority)
+static void _freertos_set_priority_task(void* task, uint32_t NewPriority)
 {
 	vTaskPrioritySet( (TaskHandle_t) task, (UBaseType_t) NewPriority );
 }
@@ -859,7 +859,7 @@ static void _freertos_thread_exit(void)
 
 _timerHandle _freertos_timerCreate( const signed char *pcTimerName, 
 							  osdepTickType xTimerPeriodInTicks, 
-							  u32 uxAutoReload, 
+							  uint32_t uxAutoReload, 
 							  void * pvTimerID, 
 							  TIMER_FUN pxCallbackFunction )
 {
@@ -869,73 +869,73 @@ _timerHandle _freertos_timerCreate( const signed char *pcTimerName,
 	return xTimerCreate((const char *)pcTimerName, xTimerPeriodInTicks, uxAutoReload, pvTimerID, (TimerCallbackFunction_t)pxCallbackFunction);	
 }
 
-u32 _freertos_timerDelete( _timerHandle xTimer, 
+uint32_t _freertos_timerDelete( _timerHandle xTimer, 
 							   osdepTickType xBlockTime )
 {
-	return (u32)xTimerDelete(xTimer, xBlockTime);	
+	return (uint32_t)xTimerDelete(xTimer, xBlockTime);	
 }
 
-u32 _freertos_timerIsTimerActive( _timerHandle xTimer )
+uint32_t _freertos_timerIsTimerActive( _timerHandle xTimer )
 {
-	return (u32)xTimerIsTimerActive(xTimer);	
+	return (uint32_t)xTimerIsTimerActive(xTimer);	
 }
 
-u32  _freertos_timerStop( _timerHandle xTimer, 
+uint32_t  _freertos_timerStop( _timerHandle xTimer, 
 							   osdepTickType xBlockTime )
 {
-	return (u32)xTimerStop(xTimer, xBlockTime);	
+	return (uint32_t)xTimerStop(xTimer, xBlockTime);	
 }
 
-u32  _freertos_timerChangePeriod( _timerHandle xTimer, 
+uint32_t  _freertos_timerChangePeriod( _timerHandle xTimer, 
 							   osdepTickType xNewPeriod, 
 							   osdepTickType xBlockTime )
 {
 	if(xNewPeriod == 0)
 		xNewPeriod += 1;
-	return (u32)xTimerChangePeriod(xTimer, xNewPeriod, xBlockTime);	
+	return (uint32_t)xTimerChangePeriod(xTimer, xNewPeriod, xBlockTime);	
 }
 void *_freertos_timerGetID( _timerHandle xTimer ){
 
 	return pvTimerGetTimerID(xTimer);
 }
 
-u32  _freertos_timerStart( _timerHandle xTimer, 
+uint32_t  _freertos_timerStart( _timerHandle xTimer, 
 							   osdepTickType xBlockTime )
 {
-	return (u32)xTimerStart(xTimer, xBlockTime);	
+	return (uint32_t)xTimerStart(xTimer, xBlockTime);	
 }
 
-u32  _freertos_timerStartFromISR( _timerHandle xTimer, 
+uint32_t  _freertos_timerStartFromISR( _timerHandle xTimer, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
-	return (u32)xTimerStartFromISR(xTimer, pxHigherPriorityTaskWoken);	
+	return (uint32_t)xTimerStartFromISR(xTimer, pxHigherPriorityTaskWoken);	
 }
 
-u32  _freertos_timerStopFromISR( _timerHandle xTimer, 
+uint32_t  _freertos_timerStopFromISR( _timerHandle xTimer, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
-	return (u32)xTimerStopFromISR(xTimer, pxHigherPriorityTaskWoken);	
+	return (uint32_t)xTimerStopFromISR(xTimer, pxHigherPriorityTaskWoken);	
 }
 
-u32  _freertos_timerResetFromISR( _timerHandle xTimer, 
+uint32_t  _freertos_timerResetFromISR( _timerHandle xTimer, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
-	return (u32)xTimerResetFromISR(xTimer, pxHigherPriorityTaskWoken);	
+	return (uint32_t)xTimerResetFromISR(xTimer, pxHigherPriorityTaskWoken);	
 }
 
-u32  _freertos_timerChangePeriodFromISR( _timerHandle xTimer, 
+uint32_t  _freertos_timerChangePeriodFromISR( _timerHandle xTimer, 
 							   osdepTickType xNewPeriod, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
 	if(xNewPeriod == 0)
 		xNewPeriod += 1;
-	return (u32)xTimerChangePeriodFromISR(xTimer, xNewPeriod, pxHigherPriorityTaskWoken);
+	return (uint32_t)xTimerChangePeriodFromISR(xTimer, xNewPeriod, pxHigherPriorityTaskWoken);
 }
 
-u32  _freertos_timerReset( _timerHandle xTimer, 
+uint32_t  _freertos_timerReset( _timerHandle xTimer, 
 							   osdepTickType xBlockTime )
 {
-	return (u32)xTimerReset(xTimer, xBlockTime);	
+	return (uint32_t)xTimerReset(xTimer, xBlockTime);	
 }
 
 void _freertos_acquire_wakelock(void)
@@ -988,9 +988,9 @@ void _freertos_wakelock_timeout(uint32_t timeout)
 #endif
 }
 
-u8 _freertos_get_scheduler_state(void)
+uint8_t _freertos_get_scheduler_state(void)
 {
-	u8 state = xTaskGetSchedulerState();
+	uint8_t state = xTaskGetSchedulerState();
 	switch(state){
 		case taskSCHEDULER_NOT_STARTED:	state = OS_SCHEDULER_NOT_STARTED;	break;
 		case taskSCHEDULER_RUNNING:		state = OS_SCHEDULER_RUNNING;		break;
@@ -1000,7 +1000,7 @@ u8 _freertos_get_scheduler_state(void)
 }
 
 
-void _freertos_create_secure_context(u32 secure_stack_size)
+void _freertos_create_secure_context(uint32_t secure_stack_size)
 {
 	/* initial support on freertos 10.2.0 */
 #if (tskKERNEL_VERSION_MAJOR>=10) && (tskKERNEL_VERSION_MINOR>=2)	

@@ -15,7 +15,7 @@ extern "C" {
 #include "hal.h"
 #include "hal_sys_ctrl.h"
 /*   README.TXT
-UART0:can't use。
+UART0:can't use??
 UART1:use  PA3(TX) PA2(RX)   BT TRACE LOG 
 UART2:use  PA16(TX) PA15(RX)   WIFI CMD UART
 BT_FW_LOG: PA14
@@ -40,7 +40,7 @@ BT_TRACE_LOG: PA3    (baudrate 921600,couldn't use 1500000)
 //HCI_UART
 
 //MP DEFINE
-extern u8 rltk_wlan_is_mp(void);
+extern uint8_t rltk_wlan_is_mp(void);
 
 //hci
 #define hci_board_debug printf

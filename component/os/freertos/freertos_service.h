@@ -17,7 +17,7 @@
 // --------------------------------------------
 #if defined(CONFIG_PLATFORM_8195A) || defined(CONFIG_PLATFORM_8195BHP) || defined(CONFIG_PLATFORM_8710C)
 #include "platform/platform_stdlib.h"
-extern VOID RtlUdelayOS(u32 us);
+extern VOID RtlUdelayOS(uint32_t us);
 #elif defined(CONFIG_PLATFORM_8711B)
 #include "platform/platform_stdlib.h"
 #elif defined(CONFIG_PLATFORM_8721D)
@@ -236,7 +236,7 @@ void cli(void);
 
 
 extern void	rtw_init_listhead(_list *list);
-extern u32	rtw_is_list_empty(_list *phead);
+extern uint32_t	rtw_is_list_empty(_list *phead);
 extern void	rtw_list_insert_head(_list *plist, _list *phead);
 extern void	rtw_list_insert_tail(_list *plist, _list *phead);
 extern void	rtw_list_delete(_list *plist);
@@ -244,7 +244,7 @@ extern void	rtw_list_delete(_list *plist);
 extern int rtw_if_wifi_thread(char *name);
 
 #if (defined CONFIG_PLATFORM_8711B) || (defined CONFIG_PLATFORM_8721D)
-extern u32 random_seed;
+extern uint32_t random_seed;
 #endif
 
 #endif /* _FREERTOS_SERVICE_H_ */

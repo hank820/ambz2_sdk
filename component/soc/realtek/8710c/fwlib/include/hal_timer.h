@@ -830,7 +830,7 @@ void hal_delay_us (uint32_t time_us)
         DBG_TIMER_ERR ("system timer is not initialized\r\n");
         return;
     }
-    if ((u32)(psys_timer->tg_ba) != TG0_BASE && (u32)(psys_timer->tg_ba) != TG1_BASE) {
+    if ((uint32_t)(psys_timer->tg_ba) != TG0_BASE && (uint32_t)(psys_timer->tg_ba) != TG1_BASE) {
         DBG_TIMER_ERR ("system timer is not initialized properly\r\n");
         return;
     }

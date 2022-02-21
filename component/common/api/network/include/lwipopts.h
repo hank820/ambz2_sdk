@@ -12,6 +12,7 @@
 
 #include <platform/platform_stdlib.h>
 #include "platform_opts.h"
+#include "lwip/init.h"                  //for version control
 #define WIFI_LOGO_CERTIFICATION_CONFIG 0    //for ping 10k test buffer setting
     
 /**
@@ -68,7 +69,7 @@ a lot of data that needs to be copied, this should be set high. */
 #define MEMP_NUM_PBUF           100
 /* MEMP_NUM_UDP_PCB: the number of UDP protocol control blocks. One
    per active UDP "connection". */
-#define MEMP_NUM_UDP_PCB        6
+#define MEMP_NUM_UDP_PCB        10
 /* MEMP_NUM_TCP_PCB: the number of simulatenously active TCP
    connections. */
 #define MEMP_NUM_TCP_PCB        10
@@ -110,7 +111,7 @@ a lot of data that needs to be copied, this should be set high. */
 #endif
 
 /* PBUF_POOL_BUFSIZE: the size of each pbuf in the pbuf pool. */
-#define PBUF_POOL_BUFSIZE       500
+#define PBUF_POOL_BUFSIZE       1280
 
 
 /* ---------- TCP options ---------- */
@@ -181,7 +182,7 @@ a lot of data that needs to be copied, this should be set high. */
 /* Support Multicast */
 #define LWIP_IGMP                   1
 #define LWIP_RAND()                 rand()
-extern unsigned int sys_now(void);
+//extern unsigned int sys_now(void);
 #define LWIP_SRAND()                srand(sys_now())
 
 #define LWIP_MTU_ADJUST 		1
@@ -365,19 +366,31 @@ Certain platform allows computing and verifying the IP, UDP, TCP and ICMP checks
 /* Added by Realtek end */
 
 /* Extra options for lwip_v2.0.2 which should not affect lwip_v1.4.1 */
-#define LWIP_TCPIP_CORE_LOCKING         0
+#define LWIP_TCPIP_CORE_LOCKING         1
+#define LWIP_COMPAT_MUTEX_ALLOWED       1
+#define LWIP_IPV6_ND                    1
+#define LWIP_IPV6_SCOPES                0
+#define LWIP_PBUF_FROM_CUSTOM_POOLS     0
+#define ERRNO   1
 #define LWIP_TCPIP_TIMEOUT              1
 #define LWIP_SO_RCVTIMEO                1
-#define LWIP_SOCKET_SET_ERRNO           0
+#define LWIP_SO_SNDTIMEO                1
+#define LWIP_SOCKET_SET_ERRNO           1
 #undef LWIP_DEBUG
 #define LWIP_RAW                        1
 #define LWIP_AUTOIP                     1
 #define TCPIP_THREAD_NAME              "TCP_IP" 
 
-#define LWIP_IPV6                       0
+#define LWIP_IPV6                       1
 #if LWIP_IPV6
 #undef  MEMP_NUM_SYS_TIMEOUT
 #define MEMP_NUM_SYS_TIMEOUT            13
+#define LWIP_IPV6_MLD                   1
+#define LWIP_IPV6_AUTOCONFIG            1
+#define LWIP_ICMP6                      1
+#if LWIP_VERSION_MAJOR >= 2 && LWIP_VERSION_MINOR >= 1
+#define LWIP_IPV6_DHCP6                 1
+#endif
 #endif
 
 /*CONFIG_LIBCOAP_ON is defined to 1 in the lib_coap project options preprocessor defined symbol
@@ -420,7 +433,5 @@ CONFIG_EXAMPLE_COAP_SERVER and CONFIG_EXAMPLE_COAP_CLIENT is defined in platform
 #if (defined(CONFIG_MIIO)&&(CONFIG_MIIO))
 #define LWIP_NETIF_HOSTNAME             1
 #endif
-
-#include "lwip/init.h"                  //for version control
 
 #endif /* LWIP_HDR_LWIPOPTS_H */

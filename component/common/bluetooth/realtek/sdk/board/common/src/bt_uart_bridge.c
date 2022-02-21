@@ -29,13 +29,13 @@ void bt_uart_tx(uint8_t tx_data)
 {
 #ifdef CONFIG_PLATFORM_8710C
 	while (!hal_uart_writeable(&log_uart));
-	hal_uart_putc(&log_uart, (u8)tx_data);
+	hal_uart_putc(&log_uart, (uint8_t)tx_data);
 #endif
 
 
 #ifdef CONFIG_PLATFORM_8721D
 	while (!UART_Writable(UART2_DEV));
-	UART_CharPut(UART2_DEV, (u8)tx_data);
+	UART_CharPut(UART2_DEV, (uint8_t)tx_data);
 #endif	
 
 }
@@ -47,7 +47,7 @@ char bt_uart_bridge_getc(void)
 	return (char)(hal_uart_getc (&log_uart));
 #endif
 #ifdef CONFIG_PLATFORM_8721D
-	u8 Byte;
+	uint8_t Byte;
 	while(!UART_Readable(UART2_DEV));
 	UART_CharGet(UART2_DEV, &Byte);
 	return Byte;
@@ -58,7 +58,7 @@ char bt_uart_bridge_getc(void)
 #ifdef CONFIG_PLATFORM_8710C
 static int log_flag = 0;
 extern uint32_t btc_set_single_tone_tx(uint8_t bStart);
-static void _bt_uart_bridge_irq(u32 id,u32 event)
+static void _bt_uart_bridge_irq(uint32_t id,uint32_t event)
 {
 	unsigned char rc = 0;
 	char const close_cmd_buf[]="ATM2=bridge,close";
@@ -67,7 +67,7 @@ static void _bt_uart_bridge_irq(u32 id,u32 event)
 		
 		//if(log_flag)
 			//printf("~~~~~~~~~~~set = %02x, check_byte_num = %d\r\n",rc, check_byte_num);
-		//bt_uart_tx((u8)rc);//Test UART rx
+		//bt_uart_tx((uint8_t)rc);//Test UART rx
 		if(check_byte_num!=17){
 			switch (rc)
 			{				
@@ -254,9 +254,9 @@ static void _bt_uart_bridge_irq(u32 id,u32 event)
 static void _bt_uart_bridge_irq(void * data)
 {
 	(void)data;
-	volatile u8 reg_iir;
-	u8 IntId;
-	u32 RegValue;
+	volatile uint8_t reg_iir;
+	uint8_t IntId;
+	uint32_t RegValue;
 	UART_TypeDef * pLOG_UART = UART2_DEV;
 	unsigned char rc = 0;
 	const char close_cmd_buf[]="ATM2=bridge,close";
@@ -384,7 +384,7 @@ void bt_uart_bridge_open(PinName tx, PinName rx)
 	UartBkFunc = (void *)UserIrqFunTable[UART_LOG_IRQ_LP];
 	ConfigDebugClose=1;
 	/* Register Log Uart Callback function */
-	InterruptRegister((IRQ_FUN) _bt_uart_bridge_irq, UART_LOG_IRQ_LP, (u32)NULL, 10);
+	InterruptRegister((IRQ_FUN) _bt_uart_bridge_irq, UART_LOG_IRQ_LP, (uint32_t)NULL, 10);
 	InterruptEn(UART_LOG_IRQ_LP, 10);
 	#endif
 //#error //add UART init and hook _bt_uart_bridge_irq function here, use same API:_bt_uart_bridge_irq

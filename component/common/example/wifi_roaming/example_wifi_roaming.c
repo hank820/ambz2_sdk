@@ -24,15 +24,15 @@
 
 typedef struct wifi_roaming_ap
 {
-	u8 	ssid[33];
-	u8 	bssid[ETH_ALEN];
-	u8	channel;
+	uint8_t 	ssid[33];
+	uint8_t 	bssid[ETH_ALEN];
+	uint8_t	channel;
 	rtw_security_t		security_type;
-	u8 	password[65];
-	u8	key_idx;
-	s32	rssi;		
+	uint8_t 	password[65];
+	uint8_t	key_idx;
+	int32_t	rssi;		
 #if CONFIG_LWIP_LAYER
-	u8	ip[4];
+	uint8_t	ip[4];
 #endif
 }wifi_roaming_ap_t;
 
@@ -40,32 +40,32 @@ typedef struct wifi_roaming_ap
 extern struct netif xnetif[NET_IF_NUM]; 
 #endif
 static wifi_roaming_ap_t * ap_list[MAX_AP_NUM]={0};
-static u32 ap_count = 0;//scanned AP NUM
-static u8 pscan_enable = _FALSE; // if set _TRUE, please set pscan_channel_list
-static u8 pscan_channel_list[]={1,3,5};// set by customer
+static uint32_t ap_count = 0;//scanned AP NUM
+static uint8_t pscan_enable = _FALSE; // if set _TRUE, please set pscan_channel_list
+static uint8_t pscan_channel_list[]={1,3,5};// set by customer
 
-u32 wifi_roaming_find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void *user_data)
+uint32_t wifi_roaming_find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void *user_data)
 {
 	wifi_roaming_ap_t *pwifi = (wifi_roaming_ap_t *)user_data;
 	wifi_roaming_ap_t * candicate,*temp;
-	u32 i,j,plen = 0;	
+	uint32_t i,j,plen = 0;	
 	pwifi->rssi = -100;//init
 
 	while(plen < buflen)
 	{
-		u32 len, ssid_len, security_mode, security_type, channel;
-		s32 rssi;
-		u8 *mac, *ssid;				
+		uint32_t len, ssid_len, security_mode, security_type, channel;
+		int32_t rssi;
+		uint8_t *mac, *ssid;				
 		// len
 		len = (int)*(buf + plen);
 		// check end
 		if(len == 0|| len == strlen(target_ssid)) break;// if len == ssid_len, it means driver dont do scan,maybe it is busy now, buf detail is the same as it initialized
 		// mac
-		mac =(u8*)(buf + plen + 1);
+		mac =(uint8_t*)(buf + plen + 1);
 		// rssi
-		rssi = *(s32*)(buf + plen + 1 + 6);
+		rssi = *(int32_t*)(buf + plen + 1 + 6);
 		// security_mode offset = 11
-		security_mode = (u8)*(buf + plen + 1 + 6 + 4);
+		security_mode = (uint8_t)*(buf + plen + 1 + 6 + 4);
 		switch(security_mode){
 			case IW_ENCODE_ALG_NONE:
 				security_type = RTW_SECURITY_OPEN;
@@ -86,7 +86,7 @@ u32 wifi_roaming_find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, 
 		channel = *(buf + plen + 1 + 6 + 4 + 1 + 1);
 		// ssid
 		ssid_len = len - 1 - 6 - 4 - 1 - 1 - 1;
-		ssid = (u8*)(buf + plen + 1 + 6 + 4 + 1 + 1 + 1);
+		ssid = (uint8_t*)(buf + plen + 1 + 6 + 4 + 1 + 1 + 1);
 		if(pwifi->security_type == security_type ||
 		((pwifi->security_type & (WPA2_SECURITY|WPA_SECURITY))&&(security_type & (WPA2_SECURITY|WPA_SECURITY)))){
 			if(ap_count < MAX_AP_NUM){
@@ -122,7 +122,7 @@ u32 wifi_roaming_find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, 
 	return 0;
 }
 
-void wifi_ip_changed_hdl( u8* buf, u32 buf_len, u32 flags, void* userdata) 
+void wifi_ip_changed_hdl( uint8_t* buf, uint32_t buf_len, uint32_t flags, void* userdata) 
 {
 	//todo for customer
 	printf("\r\n IP has channged!");
@@ -132,9 +132,9 @@ void wifi_roaming_thread(void *param)
 	rtw_wifi_setting_t	setting;
 	wifi_roaming_ap_t	roaming_ap;
 	int	ap_rssi;
-	u32	i = 0, polling_count =0;
-	u8	*pscan_config = NULL;
-	u8	pscan_connect = PSCAN_ENABLE;
+	uint32_t	i = 0, polling_count =0;
+	uint8_t	*pscan_config = NULL;
+	uint8_t	pscan_connect = PSCAN_ENABLE;
 	memset(&setting, 0, sizeof(rtw_wifi_setting_t));
 	memset(&roaming_ap, 0, sizeof(wifi_roaming_ap_t));
 	roaming_ap.rssi = -100;
@@ -164,7 +164,7 @@ void wifi_roaming_thread(void *param)
 #endif		
 					if(pscan_enable == _TRUE)
 					{
-						pscan_config = (u8*)malloc(strlen((char const*)pscan_channel_list));
+						pscan_config = (uint8_t*)malloc(strlen((char const*)pscan_channel_list));
 						if(pscan_config == NULL)
 						{
 							printf("\r\n malloc pscan_config fail!");
@@ -183,7 +183,7 @@ void wifi_roaming_thread(void *param)
 connect_ap:
 					if(ap_list[i] && memcmp(roaming_ap.bssid, ap_list[i]->bssid, ETH_ALEN))
 					{									
-						u8 retry_time = 0;
+						uint8_t retry_time = 0;
 						while(1)
 						{
 							wifi_set_pscan_chan(&ap_list[i]->channel, &pscan_connect,1);

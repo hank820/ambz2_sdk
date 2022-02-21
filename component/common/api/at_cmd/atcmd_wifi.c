@@ -111,7 +111,7 @@ extern void cmd_wps(int argc, char **argv);
 
 #if defined(CONFIG_ENABLE_WPS_AP) && CONFIG_ENABLE_WPS_AP
 extern void cmd_ap_wps(int argc, char **argv);
-extern int wpas_wps_dev_config(u8 *dev_addr, u8 bregistrar);
+extern int wpas_wps_dev_config(uint8_t *dev_addr, uint8_t bregistrar);
 #endif
 #if CONFIG_ENABLE_P2P
 extern void cmd_wifi_p2p_start(int argc, char **argv);
@@ -136,7 +136,7 @@ extern void cmd_wowlan_service(int argc, char **argv);
 #endif
 #if defined(CONFIG_INIC_CMD_RSP) && CONFIG_INIC_CMD_RSP
 extern void inic_c2h_wifi_info(const char *atcmd, char status);
-extern void inic_c2h_msg(const char *atcmd, u8 status, char *msg, u16 msg_len);
+extern void inic_c2h_msg(const char *atcmd, uint8_t status, char *msg, uint16_t msg_len);
 #endif
 extern int wifi_set_beacon_mode(int mode);
 
@@ -164,7 +164,7 @@ unsigned char arp_keep_alive = 0;
 void send_arp_thread(void *param)
 {
 	struct netif * pnetif = &xnetif[0];
-	u8 *gw = NULL;
+	uint8_t *gw = NULL;
 
 	while(arp_keep_alive){
 		gw = LwIP_GetGW(&xnetif[0]);
@@ -431,14 +431,14 @@ void fATWq(void *arg)
 
 void fATWS(void *arg){
 	char buf[32] = {0};
-	u8 *channel_list = NULL;
-	u8 *pscan_config = NULL;
+	uint8_t *channel_list = NULL;
+	uint8_t *pscan_config = NULL;
 	int num_channel = 0;
 	int i, argc = 0;
 	char *argv[MAX_ARGC] = {0};
 	volatile int ret = RTW_SUCCESS;
 #if defined(CONFIG_INIC_CMD_RSP) && CONFIG_INIC_CMD_RSP
-	u8 *inic_scan_buf = NULL;
+	uint8_t *inic_scan_buf = NULL;
 #endif
 #if ATCMD_VER == ATVER_2
 	int error_no = 0;
@@ -461,7 +461,7 @@ void fATWS(void *arg){
 			goto exit;
 		}
 		num_channel = atoi(argv[1]);
-		channel_list = (u8*)malloc(num_channel);
+		channel_list = (uint8_t*)malloc(num_channel);
 		if(!channel_list){
 			printf("[ATWS]ERROR: Can't malloc memory for channel list\n\r");
 			ret = RTW_BUFFER_UNAVAILABLE_TEMPORARY;
@@ -470,7 +470,7 @@ void fATWS(void *arg){
 #endif
 			goto exit;
 		}
-		pscan_config = (u8*)malloc(num_channel);
+		pscan_config = (uint8_t*)malloc(num_channel);
 		if(!pscan_config){
 			printf("[ATWS]ERROR: Can't malloc memory for pscan_config\n\r");
 			ret = RTW_BUFFER_UNAVAILABLE_TEMPORARY;
@@ -481,7 +481,7 @@ void fATWS(void *arg){
 		}
 		//parse command channel list
 		for(i = 2; i <= argc -1 ; i++){
-			*(channel_list + i - 2) = (u8)atoi(argv[i]);
+			*(channel_list + i - 2) = (uint8_t)atoi(argv[i]);
 			*(pscan_config + i - 2) = PSCAN_ENABLE;
 		}
 
@@ -548,25 +548,25 @@ void fATWx(void *arg){
 
 	int i = 0;
 #if CONFIG_LWIP_LAYER
-	u8 *mac = LwIP_GetMAC(&xnetif[0]);
-	u8 *ip = LwIP_GetIP(&xnetif[0]);
+	uint8_t *mac = LwIP_GetMAC(&xnetif[0]);
+	uint8_t *ip = LwIP_GetIP(&xnetif[0]);
 #if LWIP_VERSION_MAJOR >= 2 && LWIP_VERSION_MINOR >= 1
 #if LWIP_IPV6
-	u8 *ipv6_0 = LwIP_GetIPv6_linklocal(&xnetif[0]);
-	u8 *ipv6_1 = LwIP_GetIPv6_global(&xnetif[0]);
+	uint8_t *ipv6_0 = LwIP_GetIPv6_linklocal(&xnetif[0]);
+	uint8_t *ipv6_1 = LwIP_GetIPv6_global(&xnetif[0]);
 #endif
 #endif
-	u8 *gw = LwIP_GetGW(&xnetif[0]);
-	u8 *msk = LwIP_GetMASK(&xnetif[0]);
+	uint8_t *gw = LwIP_GetGW(&xnetif[0]);
+	uint8_t *msk = LwIP_GetMASK(&xnetif[0]);
 #endif
-	u8 *ifname[2] = {(u8*)WLAN0_NAME,(u8*)WLAN1_NAME};
+	uint8_t *ifname[2] = {(uint8_t*)WLAN0_NAME,(uint8_t*)WLAN1_NAME};
 	rtw_wifi_setting_t setting;
 
 	printf("[ATW?]: _AT_WLAN_INFO_\n\r");
 #if defined(CONFIG_INIC_CMD_RSP) && CONFIG_INIC_CMD_RSP
 	int ret = RTW_SUCCESS;
 	int info_sz = 0;
-	u8 *info = malloc(NET_IF_NUM*sizeof(rtw_wifi_setting_t)+3*sizeof(rtw_mac_t));
+	uint8_t *info = malloc(NET_IF_NUM*sizeof(rtw_wifi_setting_t)+3*sizeof(rtw_mac_t));
 	if(info == NULL)
 		ret = RTW_BUFFER_UNAVAILABLE_TEMPORARY;
 #endif
@@ -833,7 +833,7 @@ exit:
 
 void fATW6(void *arg){
 	unsigned int mac[ETH_ALEN];
-	u32		i;
+	uint32_t		i;
 	int ret = RTW_SUCCESS;
 	(void) ret;
 	if(!arg){
@@ -844,7 +844,7 @@ void fATW6(void *arg){
 	printf("[ATW6]: _AT_WLAN_SET_BSSID_ [%s]\n\r", (char*)arg);
 	sscanf(arg, MAC_FMT, mac, mac + 1, mac + 2, mac + 3, mac + 4, mac + 5);
 	for(i = 0; i < ETH_ALEN; i ++)
-		wifi.bssid.octet[i] = (u8)mac[i] & 0xFF;
+		wifi.bssid.octet[i] = (uint8_t)mac[i] & 0xFF;
 exit:
 #if defined(CONFIG_INIC_CMD_RSP) && CONFIG_INIC_CMD_RSP
 	inic_c2h_msg("ATW6", ret, NULL, 0);
@@ -1019,7 +1019,7 @@ static int _find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void 
 	int plen = 0;
 	
 	while(plen < buflen){
-		u8 len, ssid_len, security_mode;
+		uint8_t len, ssid_len, security_mode;
 		char *ssid;
 
 		// len offset = 0
@@ -1036,7 +1036,7 @@ static int _find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void 
 			// channel offset = 13
 			pwifi->channel = *(buf + plen + 13);
 			// security_mode offset = 11
-			security_mode = (u8)*(buf + plen + 11);
+			security_mode = (uint8_t)*(buf + plen + 11);
 			if(security_mode == IW_ENCODE_ALG_NONE)
 				pwifi->security_type = RTW_SECURITY_OPEN;
 			else if(security_mode == IW_ENCODE_ALG_WEP)
@@ -1050,10 +1050,10 @@ static int _find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void 
 	return 0;
 }
 
-static int _get_ap_security_mode(IN char * ssid, OUT rtw_security_t *security_mode, OUT u8 * channel)
+static int _get_ap_security_mode(IN char * ssid, OUT rtw_security_t *security_mode, OUT uint8_t * channel)
 {
 	rtw_wifi_setting_t wifi;
-	u32 scan_buflen = 1000;
+	uint32_t scan_buflen = 1000;
 
 	memset(&wifi, 0, sizeof(wifi));
 
@@ -1128,8 +1128,8 @@ void fATWC(void *arg){
 	}
 
 #if CONFIG_INIC_EN //get security mode from scan list
-	u8 connect_channel;
-	u8 pscan_config;
+	uint8_t connect_channel;
+	uint8_t pscan_config;
 	//the keyID may be not set for WEP which may be confued with WPA2 
 	if((wifi.security_type == RTW_SECURITY_UNKNOWN)||(wifi.security_type == RTW_SECURITY_WPA2_AES_PSK))
 	{
@@ -1152,23 +1152,23 @@ void fATWC(void *arg){
 		{
 			if(wifi.password_len == 10)
 			{
-				u32 p[5];
-				u8 pwd[6], i = 0; 
+				uint32_t p[5];
+				uint8_t pwd[6], i = 0; 
 				sscanf((const char*)wifi.password, "%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4]);
 				for(i=0; i< 5; i++)
-					pwd[i] = (u8)p[i];
+					pwd[i] = (uint8_t)p[i];
 				pwd[5] = '\0';
 				memset(wifi.password, 0, 65);
 				strcpy((char*)wifi.password, (char*)pwd);
 				wifi.password_len = 5;
 			}else if(wifi.password_len == 26){
-				u32 p[13];
-				u8 pwd[14], i = 0;
+				uint32_t p[13];
+				uint8_t pwd[14], i = 0;
 				sscanf((const char*)wifi.password, "%02x%02x%02x%02x%02x%02x%02x"\
 				"%02x%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4],\
 				&p[5], &p[6], &p[7], &p[8], &p[9], &p[10], &p[11], &p[12]);
 				for(i=0; i< 13; i++)
-					pwd[i] = (u8)p[i];
+					pwd[i] = (uint8_t)p[i];
 				pwd[13] = '\0';
 				memset(wifi.password, 0, 65);
 				strcpy((char*)wifi.password, (char*)pwd);
@@ -1234,8 +1234,8 @@ EXIT:
 #if SCAN_WITH_SSID
 void fATWs(void *arg){
 	char buf[32] = {0};
-	u8 *channel_list = NULL;
-	u8 *pscan_config = NULL;
+	uint8_t *channel_list = NULL;
+	uint8_t *pscan_config = NULL;
 	int scan_buf_len = 500;
 	int num_channel = 0;
 	int i, argc = 0;
@@ -1252,19 +1252,19 @@ void fATWs(void *arg){
 			}
 		}else if(argc > 2){
 			num_channel = atoi(argv[1]);
-			channel_list = (u8*)malloc(num_channel);
+			channel_list = (uint8_t*)malloc(num_channel);
 			if(!channel_list){
 				printf("[ATWs]ERROR: Can't malloc memory for channel list\n\r");
 				goto exit;
 			}
-			pscan_config = (u8*)malloc(num_channel);
+			pscan_config = (uint8_t*)malloc(num_channel);
 			if(!pscan_config){
 				printf("[ATWs]ERROR: Can't malloc memory for pscan_config\n\r");
 				goto exit;
 		  	}			
 			//parse command channel list
 			for(i = 2; i <= argc -1 ; i++){
-				*(channel_list + i - 2) = (u8)atoi(argv[i]);
+				*(channel_list + i - 2) = (uint8_t)atoi(argv[i]);
 				*(pscan_config + i - 2) = PSCAN_ENABLE;	
 			}
 
@@ -1393,6 +1393,13 @@ void fATWB(void *arg)
 	dhcps_deinit();
 #endif
         
+#if defined(CONFIG_PLATFORM_8710C) && (defined(CONFIG_BT) && CONFIG_BT)
+	if (wifi_set_mode(RTW_MODE_STA_AP) < 0){
+		printf("\n\rERROR: Wifi on failed!");
+		ret = RTW_ERROR;
+		goto exit;
+	}
+#else
 	wifi_off();
 	vTaskDelay(20);
 	if ((ret = wifi_on(RTW_MODE_STA_AP)) < 0){
@@ -1400,6 +1407,7 @@ void fATWB(void *arg)
 		ret = RTW_ERROR;
 		goto exit;
 	}
+#endif
 
 	printf("\n\rStarting AP ...");
 	if((ret = wifi_start_ap((char*)ap.ssid.val, ap.security_type, (char*)ap.password, ap.ssid.len, ap.password_len, ap.channel)) < 0) {
@@ -2298,7 +2306,7 @@ static int _find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void 
 	int plen = 0;
 	
 	while(plen < buflen){
-		u8 len, ssid_len, security_mode;
+		uint8_t len, ssid_len, security_mode;
 		char *ssid;
 
 		// len offset = 0
@@ -2315,7 +2323,7 @@ static int _find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void 
 			// channel offset = 13
 			pwifi->channel = *(buf + plen + 13);
 			// security_mode offset = 11
-			security_mode = (u8)*(buf + plen + 11);
+			security_mode = (uint8_t)*(buf + plen + 11);
 			if(security_mode == IW_ENCODE_ALG_NONE)
 				pwifi->security_type = RTW_SECURITY_OPEN;
 			else if(security_mode == IW_ENCODE_ALG_WEP)
@@ -2330,10 +2338,10 @@ static int _find_ap_from_scan_buf(char*buf, int buflen, char *target_ssid, void 
 }
 
 /*get ap security mode from scan list*/
-static int _get_ap_security_mode(IN char * ssid, OUT rtw_security_t *security_mode, OUT u8 * channel)
+static int _get_ap_security_mode(IN char * ssid, OUT rtw_security_t *security_mode, OUT uint8_t * channel)
 {
 	rtw_wifi_setting_t wifi;
-	u32 scan_buflen = 1000;
+	uint32_t scan_buflen = 1000;
 
 	memset(&wifi, 0, sizeof(wifi));
 
@@ -2368,24 +2376,24 @@ static void atcmd_wifi_disconn_hdl( char* buf, int buf_len, int flags, void* use
 	#endif
 }
 
-u32 connect_by_rssi(char* buf, int buflen, char *target_ssid, void *user_data) {
+uint32_t connect_by_rssi(char* buf, int buflen, char *target_ssid, void *user_data) {
 
-	u32 len, ssid_len, security_mode, channel;
-	s32 rssi, last_rssi = 0;
-	u8 *mac, *ssid;
+	uint32_t len, ssid_len, security_mode, channel;
+	int32_t rssi, last_rssi = 0;
+	uint8_t *mac, *ssid;
 	int same_ssid_cnt = 0;
-	u32 plen = 0;
+	uint32_t plen = 0;
 	while (plen < buflen) {
 		len = (int)*(buf + plen);
 		// check end
 		if(len == 0|| len == strlen(target_ssid)) break;// if len == ssid_len, it means driver dont do scan,maybe it is busy now, buf detail is the same as it initialized
-		mac =(u8*)(buf + plen + 1);
-		rssi = *(s32*)(buf + plen + 1 + 6);
+		mac =(uint8_t*)(buf + plen + 1);
+		rssi = *(int32_t*)(buf + plen + 1 + 6);
 		// security_mode offset = 11
-		security_mode = (u8)*(buf + plen + 1 + 6 + 4);
+		security_mode = (uint8_t)*(buf + plen + 1 + 6 + 4);
 		channel = *(buf + plen + 1 + 6 + 4 + 1 + 1);
 		ssid_len = len - 1 - 6 - 4 - 1 - 1 - 1;
-		ssid = (u8*)(buf + plen + 1 + 6 + 4 + 1 + 1 + 1);
+		ssid = (uint8_t*)(buf + plen + 1 + 6 + 4 + 1 + 1 + 1);
 
 		char ssid_buf[64]={0};
 		memset(ssid_buf, 0x00, 64);
@@ -2475,8 +2483,8 @@ void fATPN(void *arg)
 	unsigned long tick1 = xTaskGetTickCount();
 	unsigned long tick2, tick3;
 	char empty_bssid[6] = {0};
-	u8 connect_channel;
-	u8 pscan_config;
+	uint8_t connect_channel;
+	uint8_t pscan_config;
 
 	g_assoc_by_bssid = 0;
 #if ATCMD_VER == ATVER_2
@@ -2911,7 +2919,7 @@ exit:
 	return;
 }
 
-int atcmd_wifi_read_info_from_flash(u8 *read_data, u32 read_len)
+int atcmd_wifi_read_info_from_flash(uint8_t *read_data, uint32_t read_len)
 {
 	atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_READ, read_data, read_len);
 	return 0;
@@ -2923,18 +2931,18 @@ void atcmd_wifi_write_info_to_flash(rtw_wifi_setting_t *setting, int enable)
 	rtw_wifi_setting_t *old_setting;
 
 	flash_t flash;
-	u32 channel = 0, i, write_needed = 0;
-	u8 index = 0;
-	u32 data;
+	uint32_t channel = 0, i, write_needed = 0;
+	uint8_t index = 0;
+	uint32_t data;
 
 	data_to_flash = (struct atcmd_wifi_conf *)malloc(sizeof(struct atcmd_wifi_conf));
 	
 	if(data_to_flash) {	
 		if(enable){
-			memset((u8 *)data_to_flash, 0, sizeof(struct atcmd_wifi_conf));
-			atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_READ, (u8 *)data_to_flash, sizeof(struct atcmd_wifi_conf));
+			memset((uint8_t *)data_to_flash, 0, sizeof(struct atcmd_wifi_conf));
+			atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_READ, (uint8_t *)data_to_flash, sizeof(struct atcmd_wifi_conf));
 			old_setting = &(data_to_flash->setting);
-			if(memcmp((u8 *)old_setting, setting, sizeof(rtw_wifi_setting_t))){
+			if(memcmp((uint8_t *)old_setting, setting, sizeof(rtw_wifi_setting_t))){
 				memcpy(old_setting, setting, sizeof(rtw_wifi_setting_t));
 				write_needed = 1;
 			}
@@ -2942,7 +2950,7 @@ void atcmd_wifi_write_info_to_flash(rtw_wifi_setting_t *setting, int enable)
 				struct wlan_fast_reconnect reconn;
 				int found = 0;
 				/*clean wifi ssid,key and bssid*/
-				memset((u8 *)&reconn, 0, sizeof(struct wlan_fast_reconnect));
+				memset((uint8_t *)&reconn, 0, sizeof(struct wlan_fast_reconnect));
 
 				channel = setting->channel;
 
@@ -2989,7 +2997,7 @@ void atcmd_wifi_write_info_to_flash(rtw_wifi_setting_t *setting, int enable)
 
 				reconn.enable = enable;
 				for(i = 0; i < data_to_flash->reconn_num; i++){
-					if(memcmp((u8 *)&reconn, (u8 *)&(data_to_flash->reconn[i]), sizeof(struct wlan_fast_reconnect)) == 0) {
+					if(memcmp((uint8_t *)&reconn, (uint8_t *)&(data_to_flash->reconn[i]), sizeof(struct wlan_fast_reconnect)) == 0) {
 						AT_DBG_MSG(AT_FLAG_WIFI, AT_DBG_ALWAYS,
 							"the same profile found in flash");
 						found = 1;
@@ -3000,7 +3008,7 @@ void atcmd_wifi_write_info_to_flash(rtw_wifi_setting_t *setting, int enable)
 					data_to_flash->reconn_last_index++;
 					if(data_to_flash->reconn_last_index >= ATCMD_WIFI_CONN_STORE_MAX_NUM)
 						data_to_flash->reconn_last_index -= ATCMD_WIFI_CONN_STORE_MAX_NUM;
-					memcpy((u8 *)&data_to_flash->reconn[data_to_flash->reconn_last_index], (u8 *)&reconn, sizeof(struct wlan_fast_reconnect));
+					memcpy((uint8_t *)&data_to_flash->reconn[data_to_flash->reconn_last_index], (uint8_t *)&reconn, sizeof(struct wlan_fast_reconnect));
 					data_to_flash->reconn_num++;
 					if(data_to_flash->reconn_num > ATCMD_WIFI_CONN_STORE_MAX_NUM)
 						data_to_flash->reconn_num = ATCMD_WIFI_CONN_STORE_MAX_NUM;
@@ -3009,10 +3017,10 @@ void atcmd_wifi_write_info_to_flash(rtw_wifi_setting_t *setting, int enable)
 			}
 			if(write_needed || data_to_flash->auto_enable != enable){
 				data_to_flash->auto_enable = enable;
-				atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_WRITE, (u8 *)data_to_flash, sizeof(struct atcmd_wifi_conf));
+				atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_WRITE, (uint8_t *)data_to_flash, sizeof(struct atcmd_wifi_conf));
 			}
 		}else{
-			atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_ERASE, (u8 *)data_to_flash, sizeof(struct atcmd_wifi_conf));
+			atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_ERASE, (uint8_t *)data_to_flash, sizeof(struct atcmd_wifi_conf));
 		}
 	}
 	if(data_to_flash) {
@@ -3043,7 +3051,7 @@ int atcmd_wifi_restore_from_flash(void)
 
 	data = (struct atcmd_wifi_conf *)rtw_zmalloc(sizeof(struct atcmd_wifi_conf));
 	if(data){
-		atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_READ, (u8 *)data, sizeof(struct atcmd_wifi_conf));
+		atcmd_update_partition_info(AT_PARTITION_WIFI, AT_PARTITION_READ, (uint8_t *)data, sizeof(struct atcmd_wifi_conf));
 		if(data->auto_enable != 1)
 			goto exit;
 		setting = &data->setting;
@@ -3125,7 +3133,7 @@ exit:
 	if(ret == 0)
 		wifi_reg_event_handler(WIFI_EVENT_DISCONNECT, atcmd_wifi_disconn_hdl, NULL);
 	if(data)
-		rtw_mfree((u8 *)data, sizeof(struct wlan_fast_reconnect));
+		rtw_mfree((uint8_t *)data, sizeof(struct wlan_fast_reconnect));
 	return ret;
 }
 
@@ -3154,7 +3162,7 @@ void fATPG(void *arg)
 	if(argv[1] != NULL){
 #if 0
 		device_mutex_lock(RT_DEV_LOCK_FLASH);
-		flash_stream_read(&flash, FAST_RECONNECT_DATA, sizeof(struct wlan_fast_reconnect), (u8 *) &read_data);
+		flash_stream_read(&flash, FAST_RECONNECT_DATA, sizeof(struct wlan_fast_reconnect), (uint8_t *) &read_data);
 		read_data.enable = atoi((const char *)(argv[1]));
 		if(read_data.enable != 0 && read_data.enable != 1){
 			//at_printf("\r\n[ATPG] ERROR : parameter must be 0 or 1");
@@ -3163,7 +3171,7 @@ void fATPG(void *arg)
 			goto exit;
 		}
 		flash_erase_sector(&flash, FAST_RECONNECT_DATA);
-		flash_stream_write(&flash, FAST_RECONNECT_DATA, sizeof(struct wlan_fast_reconnect), (u8 *) &read_data);
+		flash_stream_write(&flash, FAST_RECONNECT_DATA, sizeof(struct wlan_fast_reconnect), (uint8_t *) &read_data);
 		device_mutex_unlock(RT_DEV_LOCK_FLASH);
 #else
 		rtw_wifi_setting_t setting;
@@ -3173,7 +3181,7 @@ void fATPG(void *arg)
 			goto exit;
 		}
 		if(enable == 1){
-			u8 *ifname[1] = {WLAN0_NAME};
+			uint8_t *ifname[1] = {WLAN0_NAME};
 			if(wifi_get_setting((const char*)ifname[0],&setting)){
 				AT_DBG_MSG(AT_FLAG_WIFI, AT_DBG_ERROR,
 					"wifi_get_setting fail");

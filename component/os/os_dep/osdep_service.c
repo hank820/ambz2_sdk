@@ -13,20 +13,20 @@
 extern struct osdep_service_ops osdep_service;
 
 #ifdef CONFIG_LITTLE_ENDIAN
-u16
-_htons(u16 n)
+uint16_t
+_htons(uint16_t n)
 {
   return ((n & 0xff) << 8) | ((n & 0xff00) >> 8);
 }
 
-u16
-_ntohs(u16 n)
+uint16_t
+_ntohs(uint16_t n)
 {
   return _htons(n);
 }
 
-u32
-_htonl(u32 n)
+uint32_t
+_htonl(uint32_t n)
 {
   return ((n & 0xff) << 24) |
     ((n & 0xff00) << 8) |
@@ -34,8 +34,8 @@ _htonl(u32 n)
     ((n & 0xff000000UL) >> 24);
 }
 
-u32
-_ntohl(u32 n)
+uint32_t
+_ntohl(uint32_t n)
 {
   return _htonl(n);
 }
@@ -53,7 +53,7 @@ int RTW_STATUS_CODE(int error_code)
 	return _FAIL;
 }
 
-u32 rtw_atoi(u8* s)
+uint32_t rtw_atoi(uint8_t* s)
 {
 	int num=0,flag=0;
 	int i;
@@ -77,9 +77,9 @@ u32 rtw_atoi(u8* s)
 void *tcm_heap_malloc(int size);
 void *tcm_heap_calloc(int size);
 #endif
-u8* _rtw_vmalloc(u32 sz)
+uint8_t* _rtw_vmalloc(uint32_t sz)
 {
-	u8 *pbuf = NULL;	
+	uint8_t *pbuf = NULL;	
 #if defined(CONFIG_USE_TCM_HEAP) && CONFIG_USE_TCM_HEAP
 	pbuf = tcm_heap_malloc(sz);
 #endif
@@ -92,9 +92,9 @@ u8* _rtw_vmalloc(u32 sz)
 	return pbuf;
 }
 
-u8* _rtw_zvmalloc(u32 sz)
+uint8_t* _rtw_zvmalloc(uint32_t sz)
 {
-	u8 *pbuf = NULL;	
+	uint8_t *pbuf = NULL;	
 #if defined(CONFIG_USE_TCM_HEAP) && CONFIG_USE_TCM_HEAP
 	pbuf = tcm_heap_calloc(sz);
 #endif
@@ -107,11 +107,11 @@ u8* _rtw_zvmalloc(u32 sz)
 	return pbuf;
 }
 
-void _rtw_vmfree(u8 *pbuf, u32 sz)
+void _rtw_vmfree(uint8_t *pbuf, uint32_t sz)
 {
 	
 #if defined(CONFIG_USE_TCM_HEAP) && CONFIG_USE_TCM_HEAP
-	if( (u32)pbuf > 0x1FFF0000 && (u32)pbuf < 0x20000000 )
+	if( (uint32_t)pbuf > 0x1FFF0000 && (uint32_t)pbuf < 0x20000000 )
 		tcm_heap_free(pbuf);
 	else
 #endif
@@ -123,10 +123,10 @@ void _rtw_vmfree(u8 *pbuf, u32 sz)
 	}
 }
 
-u8* _rtw_malloc(u32 sz)
+uint8_t* _rtw_malloc(uint32_t sz)
 {
 	if(osdep_service.rtw_malloc) {
-		u8 *pbuf = osdep_service.rtw_malloc(sz);
+		uint8_t *pbuf = osdep_service.rtw_malloc(sz);
 		return pbuf;
 	} else
 		OSDEP_DBG("Not implement osdep service: rtw_malloc");	
@@ -134,10 +134,10 @@ u8* _rtw_malloc(u32 sz)
 	return NULL;
 }
 
-u8* _rtw_zmalloc(u32 sz)
+uint8_t* _rtw_zmalloc(uint32_t sz)
 {
 	if(osdep_service.rtw_zmalloc) {
-		u8 *pbuf = osdep_service.rtw_zmalloc(sz);
+		uint8_t *pbuf = osdep_service.rtw_zmalloc(sz);
 		return pbuf;
 	} else
 		OSDEP_DBG("Not implement osdep service: rtw_zmalloc");	
@@ -145,7 +145,7 @@ u8* _rtw_zmalloc(u32 sz)
 	return NULL;
 }
 
-void _rtw_mfree(u8 *pbuf, u32 sz)
+void _rtw_mfree(uint8_t *pbuf, uint32_t sz)
 {
 	if(osdep_service.rtw_mfree) {
 		osdep_service.rtw_mfree(pbuf, sz);
@@ -195,7 +195,7 @@ void deinit_mem_monitor(_list *pmem_table, int *used_num)
 		DBG_ERR("Not release memory at %p with size of %d", mem_entry->ptr, mem_entry->size);
 		
 		rtw_list_delete(plist);
-		_rtw_mfree((u8 *) mem_entry, sizeof(struct mem_entry));
+		_rtw_mfree((uint8_t *) mem_entry, sizeof(struct mem_entry));
 	}
 	
 	restore_flags();
@@ -283,7 +283,7 @@ void del_mem_usage(_list *pmem_table, void *ptr, int *used_num, int flag)
 		DBG_ERR("Fail to find the mem_entry in mem table");
 	else {
 		*used_num --;
-		_rtw_mfree((u8 *) mem_entry, sizeof(struct mem_entry));
+		_rtw_mfree((uint8_t *) mem_entry, sizeof(struct mem_entry));
 	}
 #endif
 }
@@ -322,9 +322,9 @@ int get_mem_usage(_list *pmem_table)
 #endif
 
 
-u8* rtw_vmalloc(u32 sz)
+uint8_t* rtw_vmalloc(uint32_t sz)
 {
-	u8 *pbuf = _rtw_vmalloc(sz);
+	uint8_t *pbuf = _rtw_vmalloc(sz);
 #if CONFIG_MEM_MONITOR & MEM_MONITOR_LEAK
 	add_mem_usage(&mem_table, pbuf, sz, &mem_used_num, MEM_MONITOR_FLAG_WIFI_DRV);
 #else
@@ -333,9 +333,9 @@ u8* rtw_vmalloc(u32 sz)
 	return pbuf;
 }
 
-u8* rtw_zvmalloc(u32 sz)
+uint8_t* rtw_zvmalloc(uint32_t sz)
 {
-	u8 *pbuf = _rtw_zvmalloc(sz);
+	uint8_t *pbuf = _rtw_zvmalloc(sz);
 #if CONFIG_MEM_MONITOR & MEM_MONITOR_LEAK
 	add_mem_usage(&mem_table, pbuf, sz, &mem_used_num, MEM_MONITOR_FLAG_WIFI_DRV);
 #else
@@ -344,7 +344,7 @@ u8* rtw_zvmalloc(u32 sz)
 	return pbuf;
 }
 
-void rtw_vmfree(u8 *pbuf, u32 sz)
+void rtw_vmfree(uint8_t *pbuf, uint32_t sz)
 {
 	_rtw_vmfree(pbuf, sz);
 #if CONFIG_MEM_MONITOR & MEM_MONITOR_LEAK
@@ -354,9 +354,9 @@ void rtw_vmfree(u8 *pbuf, u32 sz)
 #endif
 }
 
-u8* rtw_malloc(u32 sz)
+uint8_t* rtw_malloc(uint32_t sz)
 {
-	u8 *pbuf = _rtw_malloc(sz);
+	uint8_t *pbuf = _rtw_malloc(sz);
 #if CONFIG_MEM_MONITOR & MEM_MONITOR_LEAK
 	add_mem_usage(&mem_table, pbuf, sz, &mem_used_num, MEM_MONITOR_FLAG_WIFI_DRV);
 #else
@@ -365,9 +365,9 @@ u8* rtw_malloc(u32 sz)
 	return pbuf;
 }
 
-u8* rtw_zmalloc(u32 sz)
+uint8_t* rtw_zmalloc(uint32_t sz)
 {
-	u8 *pbuf = _rtw_zmalloc(sz);
+	uint8_t *pbuf = _rtw_zmalloc(sz);
 #if CONFIG_MEM_MONITOR & MEM_MONITOR_LEAK
 	add_mem_usage(&mem_table, pbuf, sz, &mem_used_num, MEM_MONITOR_FLAG_WIFI_DRV);
 #else
@@ -376,7 +376,7 @@ u8* rtw_zmalloc(u32 sz)
 	return pbuf;
 }
 
-void rtw_mfree(u8 *pbuf, u32 sz)
+void rtw_mfree(uint8_t *pbuf, uint32_t sz)
 {
 	_rtw_mfree(pbuf, sz);
 #if CONFIG_MEM_MONITOR & MEM_MONITOR_LEAK
@@ -406,10 +406,10 @@ void* rtw_malloc2d(int h, int w, int size)
 
 void rtw_mfree2d(void *pbuf, int h, int w, int size)
 {
-	rtw_mfree((u8 *)pbuf, h*sizeof(void*) + w*h*size);
+	rtw_mfree((uint8_t *)pbuf, h*sizeof(void*) + w*h*size);
 }
 
-void rtw_memcpy(void* dst, void* src, u32 sz)
+void rtw_memcpy(void* dst, void* src, uint32_t sz)
 {
 	if(osdep_service.rtw_memcpy)
 		osdep_service.rtw_memcpy(dst, src, sz);
@@ -417,7 +417,7 @@ void rtw_memcpy(void* dst, void* src, u32 sz)
 		OSDEP_DBG("Not implement osdep service: rtw_memcpy");
 }
 
-int rtw_memcmp(void *dst, void *src, u32 sz)
+int rtw_memcmp(void *dst, void *src, uint32_t sz)
 {
 	if(osdep_service.rtw_memcmp)
 		return osdep_service.rtw_memcmp(dst, src, sz);
@@ -427,7 +427,7 @@ int rtw_memcmp(void *dst, void *src, u32 sz)
 	return _FALSE;
 }
 
-void rtw_memset(void *pbuf, int c, u32 sz)
+void rtw_memset(void *pbuf, int c, uint32_t sz)
 {
 	if(osdep_service.rtw_memset)
 		osdep_service.rtw_memset(pbuf, c, sz);
@@ -445,7 +445,7 @@ For the following list_xxx operations,
 caller must guarantee the atomic context.
 Otherwise, there will be racing condition.
 */
-u32 rtw_is_list_empty(_list *phead)
+uint32_t rtw_is_list_empty(_list *phead)
 {
 	if(list_empty(phead))
 		return _TRUE;
@@ -529,7 +529,7 @@ void rtw_up_sema_from_isr(_sema *sema)
 		OSDEP_DBG("Not implement osdep service: rtw_up_sema_from_isr");
 }
 
-u32	rtw_down_timeout_sema(_sema *sema, u32 timeout)
+uint32_t	rtw_down_timeout_sema(_sema *sema, uint32_t timeout)
 {
 	if(osdep_service.rtw_down_timeout_sema)
 		return osdep_service.rtw_down_timeout_sema(sema, timeout);
@@ -539,7 +539,7 @@ u32	rtw_down_timeout_sema(_sema *sema, u32 timeout)
 	return _FAIL;
 }
 
-u32 rtw_down_sema(_sema *sema)
+uint32_t rtw_down_sema(_sema *sema)
 {
 	while(rtw_down_timeout_sema(sema, RTW_MAX_DELAY) != _TRUE)
 //		rom_e_rtw_msg_871X_LEVEL(DOWN_SEMA_1, _drv_always_, "%s(%p) failed, retry\n",  __FUNCTION__, sema);
@@ -580,7 +580,7 @@ void rtw_mutex_get(_mutex *pmutex)
 		OSDEP_DBG("Not implement osdep service: rtw_mutex_get");
 }
 
-int rtw_mutex_get_timeout(_mutex *pmutex, u32 timeout_ms)
+int rtw_mutex_get_timeout(_mutex *pmutex, uint32_t timeout_ms)
 {
 	if(osdep_service.rtw_mutex_get_timeout)
 		return osdep_service.rtw_mutex_get_timeout(pmutex, timeout_ms);
@@ -691,13 +691,13 @@ void	rtw_init_queue(_queue	*pqueue)
 	rtw_spinlock_init(&(pqueue->lock));
 }
 
-u32	  rtw_queue_empty(_queue	*pqueue)
+uint32_t	  rtw_queue_empty(_queue	*pqueue)
 {
 	return (rtw_is_list_empty(&(pqueue->queue)));
 }
 
 
-u32 rtw_end_of_queue_search(_list *head, _list *plist)
+uint32_t rtw_end_of_queue_search(_list *head, _list *plist)
 {
 	if (head == plist)
 		return _TRUE;
@@ -755,7 +755,7 @@ void rtw_spinunlock_irqsave(_lock *plock, _irqL *irqL)
 }
 #endif
 
-int rtw_init_xqueue( _xqueue* queue, const char* name, u32 message_size, u32 number_of_messages )
+int rtw_init_xqueue( _xqueue* queue, const char* name, uint32_t message_size, uint32_t number_of_messages )
 {
 	if(osdep_service.rtw_init_xqueue)
 		return (int)osdep_service.rtw_init_xqueue(queue, name, message_size, number_of_messages);
@@ -765,7 +765,7 @@ int rtw_init_xqueue( _xqueue* queue, const char* name, u32 message_size, u32 num
 	return FAIL;
 }
 
-int rtw_push_to_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
+int rtw_push_to_xqueue( _xqueue* queue, void* message, uint32_t timeout_ms )
 {
 	if(osdep_service.rtw_push_to_xqueue)
 		return (int)osdep_service.rtw_push_to_xqueue(queue, message, timeout_ms);
@@ -775,7 +775,7 @@ int rtw_push_to_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
 	return FAIL;
 }
 
-int rtw_pop_from_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
+int rtw_pop_from_xqueue( _xqueue* queue, void* message, uint32_t timeout_ms )
 {
 	if(osdep_service.rtw_pop_from_xqueue)
 		return (int)osdep_service.rtw_pop_from_xqueue(queue, message, timeout_ms);
@@ -785,7 +785,7 @@ int rtw_pop_from_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
 	return FAIL;
 }
 
-int rtw_peek_from_xqueue( _xqueue* queue, void* message, u32 timeout_ms )
+int rtw_peek_from_xqueue( _xqueue* queue, void* message, uint32_t timeout_ms )
 {
 	if(osdep_service.rtw_peek_from_xqueue)
 		return (int)osdep_service.rtw_peek_from_xqueue(queue, message, timeout_ms);
@@ -817,12 +817,12 @@ void	rtw_deinit_queue(_queue *pqueue)
 	rtw_mutex_free(&(pqueue->lock));
 }
 
-u32 rtw_is_queue_empty(_queue *pqueue)
+uint32_t rtw_is_queue_empty(_queue *pqueue)
 {
 	return (rtw_is_list_empty(&(pqueue->queue)));
 }
 
-u32 rtw_end_of_queue_search(_list *head, _list *plist)
+uint32_t rtw_end_of_queue_search(_list *head, _list *plist)
 {
 	if (head == plist)
 		return _TRUE;
@@ -836,7 +836,7 @@ _list	*rtw_get_queue_head(_queue	*queue)
 }
 #endif
 
-u32 rtw_get_current_time(void)
+uint32_t rtw_get_current_time(void)
 {
 	if(osdep_service.rtw_get_current_time)
 		return osdep_service.rtw_get_current_time();
@@ -846,7 +846,7 @@ u32 rtw_get_current_time(void)
 	return 0;
 }
 
-u32 rtw_systime_to_ms(u32 systime)
+uint32_t rtw_systime_to_ms(uint32_t systime)
 {
 	if(osdep_service.rtw_systime_to_ms)
 		return osdep_service.rtw_systime_to_ms(systime);
@@ -856,7 +856,7 @@ u32 rtw_systime_to_ms(u32 systime)
 	return 0;
 }
 
-u32 rtw_systime_to_sec(u32 systime)
+uint32_t rtw_systime_to_sec(uint32_t systime)
 {
 	if(osdep_service.rtw_systime_to_sec)
 		return osdep_service.rtw_systime_to_sec(systime);
@@ -866,7 +866,7 @@ u32 rtw_systime_to_sec(u32 systime)
 	return 0;
 }
 
-u32 rtw_ms_to_systime(u32 ms)
+uint32_t rtw_ms_to_systime(uint32_t ms)
 {
 	if(osdep_service.rtw_ms_to_systime)
 		return osdep_service.rtw_ms_to_systime(ms);
@@ -876,7 +876,7 @@ u32 rtw_ms_to_systime(u32 ms)
 	return 0;
 }
 
-u32 rtw_sec_to_systime(u32 sec)
+uint32_t rtw_sec_to_systime(uint32_t sec)
 {
 	if(osdep_service.rtw_sec_to_systime)
 		return osdep_service.rtw_sec_to_systime(sec);
@@ -887,12 +887,12 @@ u32 rtw_sec_to_systime(u32 sec)
 }
 
 // the input parameter start use the same unit as returned by rtw_get_current_time
-s32 rtw_get_passing_time_ms(u32 start)
+int32_t rtw_get_passing_time_ms(uint32_t start)
 {
 	return rtw_systime_to_ms(rtw_get_current_time() - start);
 }
 
-s32 rtw_get_time_interval_ms(u32 start, u32 end)
+int32_t rtw_get_time_interval_ms(uint32_t start, uint32_t end)
 {
 	return rtw_systime_to_ms(end - start);
 }
@@ -1032,7 +1032,7 @@ int ATOMIC_DEC_AND_TEST(ATOMIC_T *v)
 	return ATOMIC_DEC_RETURN(v) == 0;
 }
 
-u64 rtw_modular64(u64 x, u64 y)
+uint64_t rtw_modular64(uint64_t x, uint64_t y)
 {
 	if(osdep_service.rtw_modular64)
 		return osdep_service.rtw_modular64(x, y);
@@ -1042,7 +1042,7 @@ u64 rtw_modular64(u64 x, u64 y)
 	return 0;
 }
 
-int rtw_get_random_bytes(void* dst, u32 size)
+int rtw_get_random_bytes(void* dst, uint32_t size)
 {
 	if(osdep_service.rtw_get_random_bytes)
 		return osdep_service.rtw_get_random_bytes(dst, size);
@@ -1052,7 +1052,7 @@ int rtw_get_random_bytes(void* dst, u32 size)
 	return 0;
 }
 
-u32 rtw_getFreeHeapSize(void)
+uint32_t rtw_getFreeHeapSize(void)
 {
 	if(osdep_service.rtw_getFreeHeapSize)
 		return osdep_service.rtw_getFreeHeapSize();
@@ -1108,7 +1108,7 @@ void rtw_release_wakelock(void)
 		OSDEP_DBG("Not implement osdep service: rtw_release_wakelock");
 }
 
-void rtw_wakelock_timeout(u32 timeoutms)
+void rtw_wakelock_timeout(uint32_t timeoutms)
 {
 	if (osdep_service.rtw_wakelock_timeout)
 		osdep_service.rtw_wakelock_timeout(timeoutms);
@@ -1117,7 +1117,7 @@ void rtw_wakelock_timeout(u32 timeoutms)
 }
 
 int rtw_create_task(struct task_struct *task, const char *name,
-	u32 stack_size, u32 priority, thread_func_t func, void *thctx)
+	uint32_t stack_size, uint32_t priority, thread_func_t func, void *thctx)
 {
 	if(osdep_service.rtw_create_task)
 		return osdep_service.rtw_create_task(task, name, stack_size, priority, func, thctx);
@@ -1144,7 +1144,7 @@ void rtw_wakeup_task(struct task_struct *task)
 	return;	
 }
 
-void rtw_set_priority_task(void* task, u32 NewPriority)
+void rtw_set_priority_task(void* task, uint32_t NewPriority)
 {
 	if(osdep_service.rtw_set_priority_task)
 		osdep_service.rtw_set_priority_task(task,NewPriority);
@@ -1198,13 +1198,13 @@ static void worker_thread_main( void *arg )
 			message.function(message.buf, message.buf_len, message.flags, message.user_data);
 			if(message.buf){
 				//printf("\n!!!!!Free %p(%d)\n", message.buf, message.buf_len);
-				_rtw_mfree((u8 *)message.buf, message.buf_len);
+				_rtw_mfree((uint8_t *)message.buf, message.buf_len);
 			}
 		}
 	}
 }
 
-int rtw_create_worker_thread( rtw_worker_thread_t* worker_thread, u8 priority, u32 stack_size, u32 event_queue_size )
+int rtw_create_worker_thread( rtw_worker_thread_t* worker_thread, uint8_t priority, uint32_t stack_size, uint32_t event_queue_size )
 {
 	if(NULL == worker_thread)
 		return FAIL;
@@ -1239,7 +1239,7 @@ int rtw_delete_worker_thread( rtw_worker_thread_t* worker_thread )
 
 _timerHandle rtw_timerCreate( const signed char *pcTimerName, 
 							  osdepTickType xTimerPeriodInTicks, 
-							  u32 uxAutoReload, 
+							  uint32_t uxAutoReload, 
 							  void * pvTimerID, 
 							  TIMER_FUN pxCallbackFunction )
 {
@@ -1252,7 +1252,7 @@ _timerHandle rtw_timerCreate( const signed char *pcTimerName,
 	return 0;	
 }
 
-u32 rtw_timerDelete( _timerHandle xTimer, 
+uint32_t rtw_timerDelete( _timerHandle xTimer, 
 							   osdepTickType xBlockTime )
 {
 	if(osdep_service.rtw_timerDelete)
@@ -1263,7 +1263,7 @@ u32 rtw_timerDelete( _timerHandle xTimer,
 	return 0;	
 }
 
-u32 rtw_timerIsTimerActive( _timerHandle xTimer )
+uint32_t rtw_timerIsTimerActive( _timerHandle xTimer )
 {
 	if(osdep_service.rtw_timerIsTimerActive)
 		return osdep_service.rtw_timerIsTimerActive(xTimer);
@@ -1273,7 +1273,7 @@ u32 rtw_timerIsTimerActive( _timerHandle xTimer )
 	return 0;	
 }
 
-u32  rtw_timerStop( _timerHandle xTimer, 
+uint32_t  rtw_timerStop( _timerHandle xTimer, 
 							   osdepTickType xBlockTime )
 {
 	if(osdep_service.rtw_timerStop)
@@ -1284,7 +1284,7 @@ u32  rtw_timerStop( _timerHandle xTimer,
 	return 0;	
 }
 
-u32  rtw_timerChangePeriod( _timerHandle xTimer, 
+uint32_t  rtw_timerChangePeriod( _timerHandle xTimer, 
 							   osdepTickType xNewPeriod, 
 							   osdepTickType xBlockTime )
 {
@@ -1306,7 +1306,7 @@ void *rtw_timerGetID( _timerHandle xTimer )
 	return NULL;		
 }
 
-u32  rtw_timerStart( _timerHandle xTimer, osdepTickType xBlockTime )
+uint32_t  rtw_timerStart( _timerHandle xTimer, osdepTickType xBlockTime )
 {
 	if(osdep_service.rtw_timerStart)
 		return osdep_service.rtw_timerStart(xTimer, xBlockTime);
@@ -1316,7 +1316,7 @@ u32  rtw_timerStart( _timerHandle xTimer, osdepTickType xBlockTime )
 	return 0;	
 }
 
-u32  rtw_timerStartFromISR( _timerHandle xTimer, 
+uint32_t  rtw_timerStartFromISR( _timerHandle xTimer, 
 								osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
 	if(osdep_service.rtw_timerStartFromISR)
@@ -1327,7 +1327,7 @@ u32  rtw_timerStartFromISR( _timerHandle xTimer,
 	return 0;	
 }
 
-u32  rtw_timerStopFromISR( _timerHandle xTimer, 
+uint32_t  rtw_timerStopFromISR( _timerHandle xTimer, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
 	if(osdep_service.rtw_timerStopFromISR)
@@ -1338,7 +1338,7 @@ u32  rtw_timerStopFromISR( _timerHandle xTimer,
 	return 0;	
 }
 
-u32  rtw_timerResetFromISR( _timerHandle xTimer, 
+uint32_t  rtw_timerResetFromISR( _timerHandle xTimer, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
 	if(osdep_service.rtw_timerResetFromISR)
@@ -1349,7 +1349,7 @@ u32  rtw_timerResetFromISR( _timerHandle xTimer,
 	return 0;	
 }
 
-u32  rtw_timerChangePeriodFromISR( _timerHandle xTimer, 
+uint32_t  rtw_timerChangePeriodFromISR( _timerHandle xTimer, 
 							   osdepTickType xNewPeriod, 
 							   osdepBASE_TYPE *pxHigherPriorityTaskWoken )
 {
@@ -1361,7 +1361,7 @@ u32  rtw_timerChangePeriodFromISR( _timerHandle xTimer,
 	return 0;	
 }
 
-u32  rtw_timerReset( _timerHandle xTimer, 
+uint32_t  rtw_timerReset( _timerHandle xTimer, 
 						osdepTickType xBlockTime )
 {
 	if(osdep_service.rtw_timerReset)
@@ -1395,7 +1395,7 @@ void rtw_deinit_delayed_work(struct delayed_work *dwork)
 }
 
 int rtw_queue_delayed_work(struct workqueue_struct *wq,
-			struct delayed_work *dwork, u32 delay, void* context)
+			struct delayed_work *dwork, uint32_t delay, void* context)
 {
 	if(osdep_service.rtw_queue_delayed_work)
 		osdep_service.rtw_queue_delayed_work(wq, dwork, delay, context);
@@ -1431,7 +1431,7 @@ void rtw_thread_exit()
 		OSDEP_DBG("Not implement osdep service: rtw_thread_exit");
 }
 
-u8 rtw_get_scheduler_state()
+uint8_t rtw_get_scheduler_state()
 {	
 	// OS_SCHEDULER_NOT_STARTED	0
 	// OS_SCHEDULER_RUNNING		1
@@ -1445,7 +1445,7 @@ u8 rtw_get_scheduler_state()
 	}
 }
 
-void rtw_create_secure_context(u32 secure_stack_size)
+void rtw_create_secure_context(uint32_t secure_stack_size)
 {
 	if(osdep_service.rtw_create_secure_context)
 		osdep_service.rtw_create_secure_context(secure_stack_size);

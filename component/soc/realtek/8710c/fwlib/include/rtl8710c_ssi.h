@@ -191,10 +191,10 @@ enum spi_mwcr_tmod_e {
 typedef uint8_t spi_mwcr_tmod_t;
 
 typedef struct spi_pin_sel_s {
-    u8 spi_cs_pin;
-    u8 spi_clk_pin;
-    u8 spi_mosi_pin;
-    u8 spi_miso_pin;
+    uint8_t spi_cs_pin;
+    uint8_t spi_clk_pin;
+    uint8_t spi_mosi_pin;
+    uint8_t spi_miso_pin;
 } spi_pin_sel_t, *pspi_pin_sel_t;
 
 /**
@@ -215,15 +215,15 @@ typedef struct hal_ssi_adaptor_s {
     void *tx_idle_cb_para;                                              //!< The parameter of the transmit idle callback function
     void (*dcache_invalidate_by_addr)(uint32_t *addr, int32_t dsize);   //!< callback function to do the D-cache invalidate
     void (*dcache_clean_by_addr) (uint32_t *addr, int32_t dsize);       //!< callback function to do the D-cache clean
-    u32  dma_rx_data_level;                                             //!< The receive FIFO threshold to trigger DMA requests
-    u32  dma_tx_data_level;                                             //!< The transmit FIFO threshold to tigger DMA requests
-    u32  rx_length;                                                     //!< The total transfer length in receive mode
-    u32  rx_threshold_level;                                            //!< The receive FIFO threshold to trigger receive FIFO full interrupt
-    u32  tx_length;                                                     //!< The total transfer length in transmit mode
-    u32  tx_threshold_level;                                            //!< The transmit FIFO threshold to tigger transmit FIFO empty interrupt
-    u32  slave_select_enable;                                           //!< The index of slave in multi-slave mode, should always be 0
-    u16  clock_divider;                                                 //!< The divider to determine SPI operting frequency for SPI master
-    u16  data_frame_number;                                             //!< The total data length expected to receive in SPI master receive mode
+    uint32_t  dma_rx_data_level;                                             //!< The receive FIFO threshold to trigger DMA requests
+    uint32_t  dma_tx_data_level;                                             //!< The transmit FIFO threshold to tigger DMA requests
+    uint32_t  rx_length;                                                     //!< The total transfer length in receive mode
+    uint32_t  rx_threshold_level;                                            //!< The receive FIFO threshold to trigger receive FIFO full interrupt
+    uint32_t  tx_length;                                                     //!< The total transfer length in transmit mode
+    uint32_t  tx_threshold_level;                                            //!< The transmit FIFO threshold to tigger transmit FIFO empty interrupt
+    uint32_t  slave_select_enable;                                           //!< The index of slave in multi-slave mode, should always be 0
+    uint16_t  clock_divider;                                                 //!< The divider to determine SPI operting frequency for SPI master
+    uint16_t  data_frame_number;                                             //!< The total data length expected to receive in SPI master receive mode
     uint32_t *cache_invalidate_addr;                                    //!< The starting address to perform D-cache invalidate
     int32_t  cache_invalidate_len;                                      //!< The total length to perform D-cache invalidate
     spi_ctrlr0_cfs_t                control_frame_size;                 //!< The control frame size for Microwire
@@ -239,17 +239,17 @@ typedef struct hal_ssi_adaptor_s {
     spi_ctrlr0_slv_oe_t             slave_output_enable;                //!< The SPI slave output control
     spi_ctrlr0_tmod_t               transfer_mode;                      //!< The transfer mode for SPI, transmit only, receive only or transmit and receive mode
     spi_pin_sel_t                   spi_pin;                            //!< The pinmux selection of the SPI device
-    u8   index;                                                         //!< The index of the SPI device
-    u8   interrupt_mask;                                                //!< The interrupt mask of the SPI device
-    u8   irq_en;                                                        //!< The flag to show if irq is enabled
-    u8   rsv;
+    uint8_t   index;                                                         //!< The index of the SPI device
+    uint8_t   interrupt_mask;                                                //!< The interrupt mask of the SPI device
+    uint8_t   irq_en;                                                        //!< The flag to show if irq is enabled
+    uint8_t   rsv;
 }hal_ssi_adaptor_t, *phal_ssi_adaptor_t;
 
 /**
   \brief  The data struct of SPI stub functions. RAM codes access SPI ROM codes via these stub functions
 */
 typedef struct hal_ssi_func_stubs_s {
-    hal_status_t (*hal_ssi_clock_ctl) (u8 ctl);
+    hal_status_t (*hal_ssi_clock_ctl) (uint8_t ctl);
     hal_status_t (*hal_ssi_enable) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_disable) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_init_setting) (phal_ssi_adaptor_t phal_ssi_adaptor);
@@ -259,31 +259,31 @@ typedef struct hal_ssi_func_stubs_s {
     void (*hal_ssi_irq_handle) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_interrupt_enable) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_interrupt_disable) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    hal_status_t (*hal_ssi_interrupt_init_read) (phal_ssi_adaptor_t phal_ssi_adaptor, void *rx_data, u32 length);
-    hal_status_t (*hal_ssi_interrupt_init_write) (phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_data, u32 length);
-    hal_status_t (*hal_ssi_set_sclk) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 clk_rate);
+    hal_status_t (*hal_ssi_interrupt_init_read) (phal_ssi_adaptor_t phal_ssi_adaptor, void *rx_data, uint32_t length);
+    hal_status_t (*hal_ssi_interrupt_init_write) (phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_data, uint32_t length);
+    hal_status_t (*hal_ssi_set_sclk) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t clk_rate);
     hal_status_t (*hal_ssi_set_format) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_set_microwire) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    hal_status_t (*hal_ssi_set_sclk_polarity) (phal_ssi_adaptor_t phal_ssi_adaptor, u8 sclk_polarity);
-    hal_status_t (*hal_ssi_set_sclk_phase) (phal_ssi_adaptor_t phal_ssi_adaptor, u8 sclk_phase);
-    hal_status_t (*hal_ssi_set_data_frame_number) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 length);
-    hal_status_t (*hal_ssi_set_interrupt_mask) (phal_ssi_adaptor_t phal_ssi_adaptor, u8 imr_value);
-    hal_status_t (*hal_ssi_set_device_role) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 role);
-    hal_status_t (*hal_ssi_set_txfifo_threshold) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 txftlr_value);
-    hal_status_t (*hal_ssi_set_rxfifo_threshold) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 rxftlr_value);
-    hal_status_t (*hal_ssi_set_slave_enable) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 slave_index);
-    u32 (*hal_ssi_get_rxfifo_level) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_txfifo_level) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_status) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_busy) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_interrupt_mask) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_interrupt_status) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_raw_interrupt_status) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_get_slave_enable_register) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_writable) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    u32 (*hal_ssi_readable) (phal_ssi_adaptor_t phal_ssi_adaptor);
-    hal_status_t (*hal_ssi_write) (phal_ssi_adaptor_t phal_ssi_adaptor, u32 value);
-    u32 (*hal_ssi_read) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    hal_status_t (*hal_ssi_set_sclk_polarity) (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t sclk_polarity);
+    hal_status_t (*hal_ssi_set_sclk_phase) (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t sclk_phase);
+    hal_status_t (*hal_ssi_set_data_frame_number) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t length);
+    hal_status_t (*hal_ssi_set_interrupt_mask) (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t imr_value);
+    hal_status_t (*hal_ssi_set_device_role) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t role);
+    hal_status_t (*hal_ssi_set_txfifo_threshold) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t txftlr_value);
+    hal_status_t (*hal_ssi_set_rxfifo_threshold) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t rxftlr_value);
+    hal_status_t (*hal_ssi_set_slave_enable) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t slave_index);
+    uint32_t (*hal_ssi_get_rxfifo_level) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_txfifo_level) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_status) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_busy) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_interrupt_mask) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_interrupt_status) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_raw_interrupt_status) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_get_slave_enable_register) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_writable) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    uint32_t (*hal_ssi_readable) (phal_ssi_adaptor_t phal_ssi_adaptor);
+    hal_status_t (*hal_ssi_write) (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t value);
+    uint32_t (*hal_ssi_read) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_stop_recv) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_enter_critical) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_exit_critical) (phal_ssi_adaptor_t phal_ssi_adaptor);
@@ -291,8 +291,8 @@ typedef struct hal_ssi_func_stubs_s {
     void (*hal_ssi_rx_gdma_irq_handle) (phal_ssi_adaptor_t phal_ssi_adaptor);
     hal_status_t (*hal_ssi_tx_gdma_init_setting) (phal_ssi_adaptor_t phal_ssi_adaptor,phal_gdma_adaptor_t phal_gdma_adaptor);
     hal_status_t (*hal_ssi_rx_gdma_init_setting) (phal_ssi_adaptor_t phal_ssi_adaptor,phal_gdma_adaptor_t phal_gdma_adaptor);
-    hal_status_t (*hal_ssi_dma_send_init) (phal_ssi_adaptor_t phal_ssi_adaptor, u8 *ptx_data, u32 length);
-    hal_status_t (*hal_ssi_dma_recv_init) (phal_ssi_adaptor_t phal_ssi_adaptor, u8 *prx_data, u32 length);
+    hal_status_t (*hal_ssi_dma_send_init) (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t *ptx_data, uint32_t length);
+    hal_status_t (*hal_ssi_dma_recv_init) (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t *prx_data, uint32_t length);
 } hal_ssi_func_stubs_t;
 
 /// @cond DOXYGEN_ROM_HAL_API
@@ -304,7 +304,7 @@ typedef struct hal_ssi_func_stubs_s {
 */
 
 
-hal_status_t hal_ssi_clock_ctl_rtl8710c(u8 ctl);
+hal_status_t hal_ssi_clock_ctl_rtl8710c(uint8_t ctl);
 hal_status_t hal_ssi_enable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_disable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_init_setting_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
@@ -315,32 +315,32 @@ void hal_ssi_write_interrupt_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 void hal_ssi_irq_handle_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_interrupt_enable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_interrupt_disable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-hal_status_t hal_ssi_interrupt_init_read_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, void *rx_data, u32 length);
-hal_status_t hal_ssi_interrupt_init_write_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_data, u32 length);
-hal_status_t hal_ssi_set_sclk_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 clk_rate);
+hal_status_t hal_ssi_interrupt_init_read_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, void *rx_data, uint32_t length);
+hal_status_t hal_ssi_interrupt_init_write_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_data, uint32_t length);
+hal_status_t hal_ssi_set_sclk_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t clk_rate);
 hal_status_t hal_ssi_set_format_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_set_microwire_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-hal_status_t hal_ssi_set_sclk_polarity_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u8 sclk_polarity);
-hal_status_t hal_ssi_set_sclk_phase_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u8 sclk_phase);
-hal_status_t hal_ssi_set_data_frame_number_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 length);
-hal_status_t hal_ssi_set_interrupt_mask_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u8 imr_value);
-hal_status_t hal_ssi_set_device_role_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 role);
-hal_status_t hal_ssi_set_txfifo_threshold_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 txftlr_value);
-hal_status_t hal_ssi_set_rxfifo_threshold_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 rxftlr_value);
-hal_status_t hal_ssi_set_slave_enable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 slave_index);
-u32 hal_ssi_get_rxfifo_level_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_txfifo_level_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_status_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_busy_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_interrupt_mask_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_interrupt_status_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_raw_interrupt_status_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_get_slave_enable_register_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_writable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-u32 hal_ssi_readable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-hal_status_t hal_ssi_write_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u32 value);
-u32 hal_ssi_read_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
-hal_status_t hal_ssi_is_timeout_rtl8710c(u32 start_count, u32 timeout_count);
+hal_status_t hal_ssi_set_sclk_polarity_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t sclk_polarity);
+hal_status_t hal_ssi_set_sclk_phase_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t sclk_phase);
+hal_status_t hal_ssi_set_data_frame_number_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t length);
+hal_status_t hal_ssi_set_interrupt_mask_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t imr_value);
+hal_status_t hal_ssi_set_device_role_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t role);
+hal_status_t hal_ssi_set_txfifo_threshold_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t txftlr_value);
+hal_status_t hal_ssi_set_rxfifo_threshold_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t rxftlr_value);
+hal_status_t hal_ssi_set_slave_enable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t slave_index);
+uint32_t hal_ssi_get_rxfifo_level_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_txfifo_level_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_status_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_busy_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_interrupt_mask_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_interrupt_status_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_raw_interrupt_status_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_get_slave_enable_register_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_writable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+uint32_t hal_ssi_readable_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+hal_status_t hal_ssi_write_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t value);
+uint32_t hal_ssi_read_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
+hal_status_t hal_ssi_is_timeout_rtl8710c(uint32_t start_count, uint32_t timeout_count);
 hal_status_t hal_ssi_stop_recv_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_enter_critical_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_exit_critical_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor);
@@ -348,8 +348,8 @@ void hal_ssi_tx_gdma_irq_handle_rtl8710c (phal_ssi_adaptor_t phal_ssi_adaptor);
 void hal_ssi_rx_gdma_irq_handle_rtl8710c (phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_tx_gdma_init_setting_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor,phal_gdma_adaptor_t phal_gdma_adaptor);
 hal_status_t hal_ssi_rx_gdma_init_setting_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor,phal_gdma_adaptor_t phal_gdma_adaptor);
-hal_status_t hal_ssi_dma_send_init_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u8 *ptx_data, u32 length);
-hal_status_t hal_ssi_dma_recv_init_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, u8 *prx_data, u32 length);
+hal_status_t hal_ssi_dma_send_init_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t *ptx_data, uint32_t length);
+hal_status_t hal_ssi_dma_recv_init_rtl8710c(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t *prx_data, uint32_t length);
 
 /** *@} */ /* End of group hs_hal_ssi_rom_func */
 

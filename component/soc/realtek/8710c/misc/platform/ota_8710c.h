@@ -7,6 +7,10 @@
 #include <flash_api.h>
 #include <lwip/sockets.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /************************Related setting****************************/
 #define HTTP_OTA_UPDATE
 
@@ -50,7 +54,7 @@ int update_ota_signature(unsigned char* sig_backup, uint32_t NewFWAddr);
 
 /*******************Functions called by AT CMD**********************/
 void cmd_update(int argc, char **argv);
-void cmd_ota_image(bool cmd);
+void cmd_ota_image(BOOL cmd);
 /*******************************************************************/
 
 
@@ -75,6 +79,10 @@ int update_ota_http_connect_server(int server_socket, char *host, int port);
 ** Return         : NULL
 **************************************************************************************************/
 int http_update_ota(char *host, int port, char *resource);
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif

@@ -24,28 +24,28 @@
 #endif
 
 #if !defined(CONFIG_PLATFORM_8195BHP) && !defined(CONFIG_PLATFORM_8710C)
-extern u32 ConfigDebugErr;
-extern u32 ConfigDebugInfo;
-extern u32 ConfigDebugWarn;
+extern uint32_t ConfigDebugErr;
+extern uint32_t ConfigDebugInfo;
+extern uint32_t ConfigDebugWarn;
 #endif
 #if defined(CONFIG_PLATFORM_8710C)
 #if defined(configUSE_WAKELOCK_PMU) && (configUSE_WAKELOCK_PMU == 1)
 #include "rtl8710c_freertos_pmu.h"
 #endif
 #if defined(CONFIG_BUILD_NONSECURE) && (CONFIG_BUILD_NONSECURE==1)
-extern s32 cmd_dump_word_s(u32 argc, u8 *argv[]);
-extern s32 cmd_write_word_s(u32 argc, u8 *argv[]);
+extern int32_t cmd_dump_word_s(uint32_t argc, uint8_t *argv[]);
+extern int32_t cmd_write_word_s(uint32_t argc, uint8_t *argv[]);
 #define CmdDumpWord(argc, argv) cmd_dump_word_s(argc, argv)
 #define CmdWriteWord(argc, argv) cmd_write_word_s(argc, argv)
 #else
-extern s32 cmd_dump_word(u32 argc, u8 *argv[]);
-extern s32 cmd_write_word(u32 argc, u8 *argv[]);
+extern int32_t cmd_dump_word(uint32_t argc, uint8_t *argv[]);
+extern int32_t cmd_write_word(uint32_t argc, uint8_t *argv[]);
 #define CmdDumpWord(argc, argv) cmd_dump_word(argc, argv)
 #define CmdWriteWord(argc, argv) cmd_write_word(argc, argv)
 #endif
 #else
-extern u32 CmdDumpWord(IN u16 argc, IN u8 *argv[]);
-extern u32 CmdWriteWord(IN u16 argc, IN u8 *argv[]);
+extern uint32_t CmdDumpWord(IN uint16_t argc, IN uint8_t *argv[]);
+extern uint32_t CmdWriteWord(IN uint16_t argc, IN uint8_t *argv[]);
 #endif
 #if defined(CONFIG_UART_YMODEM) && CONFIG_UART_YMODEM
 extern int uart_ymodem(void);
@@ -138,7 +138,7 @@ void fATSK(void *arg)
 {
 	int argc = 0;
 	char *argv[MAX_ARGC] = {0};
-	u8 key[16];
+	uint8_t key[16];
 
 	AT_DBG_MSG(AT_FLAG_RDP, AT_DBG_ALWAYS, "[ATSK]: _AT_SYSTEM_RDP/RSIP_CONFIGURE_");
 	if(!arg){
@@ -198,8 +198,8 @@ void fATSK(void *arg)
 		EFUSE_OTF_KEY(key);
 		AT_DBG_MSG(AT_FLAG_RDP, AT_DBG_ALWAYS, "[ATSK] Set RSIP key done");
 	}else if(strcmp(argv[1], "SB_EN") == 0){
-		u8 data = 0;
-		u32 efuse_ctrl = HAL_READ32(SYSTEM_CTRL_BASE, REG_SYS_EFUSE_CTRL);
+		uint8_t data = 0;
+		uint32_t efuse_ctrl = HAL_READ32(SYSTEM_CTRL_BASE, REG_SYS_EFUSE_CTRL);
 	
 		EFUSERead8(efuse_ctrl, 0xD3, &data, L25EOUTVOLTAGE);
 		if ((data & EFUSE_PHYSICAL_SBOOT_ON) != 0) {
@@ -209,7 +209,7 @@ void fATSK(void *arg)
 			AT_DBG_MSG(AT_FLAG_RDP, AT_DBG_ALWAYS, "[ATSK] : Security Boot is already enabled!");
 		}
 	}else if(strcmp(argv[1], "SB_PK_MD5") == 0){
-		u8 i = 0;
+		uint8_t i = 0;
 		
 		if(argc != 3){
 			AT_DBG_MSG(AT_FLAG_RDP, AT_DBG_ALWAYS, "[ATSK] Usage: ATSK=SB_PK_MD5[value(hex)]");
@@ -279,15 +279,15 @@ void fATSK(void *arg)
 	int argc = 0;
 	int ret;
 	char *argv[MAX_ARGC] = {0};
-	u8 key[PRIV_KEY_LEN],read_buffer[PRIV_KEY_LEN],read_buf_mac[MAC_LEN],hash_result[PRIV_KEY_LEN];
+	uint8_t key[PRIV_KEY_LEN],read_buffer[PRIV_KEY_LEN],read_buf_mac[MAC_LEN],hash_result[PRIV_KEY_LEN];
 	flash_t flash;
 	char *ptmp;
-	u32 offset_1, offset_2, len;
-	u32 test_mode;
-	u32 test_mode_bit;
+	uint32_t offset_1, offset_2, len;
+	uint32_t test_mode;
+	uint32_t test_mode_bit;
 	int i;
 	unsigned char *enc_img;
-	u8 mac_empty[MAC_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+	uint8_t mac_empty[MAC_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
 
 	at_printf("[ATSK]: _AT_SYSTEM_ENABLE_SECURE_BOOT_\r\n");
 
@@ -912,9 +912,9 @@ ss_key_hash:
 			return;
 		}
 
-		u8 seed[PRIV_KEY_LEN];
-		u32 seed_in = 0;
-		u32 key_tmp[8];
+		uint8_t seed[PRIV_KEY_LEN];
+		uint32_t seed_in = 0;
+		uint32_t key_tmp[8];
 
 		if(sscanf(argv[2], "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x", 
 			&seed[0], &seed[1], &seed[2], &seed[3], &seed[4], &seed[5], &seed[6], &seed[7], 
@@ -1160,10 +1160,10 @@ ss_key_hash:
 void fATSA(void *arg)
 {
 #if !defined(CONFIG_PLATFORM_8195BHP) && !defined(CONFIG_PLATFORM_8710C) && !defined(CONFIG_PLATFORM_8721D)
-	u32 tConfigDebugInfo = ConfigDebugInfo;
+	uint32_t tConfigDebugInfo = ConfigDebugInfo;
 	int argc = 0, channel;
 	char *argv[MAX_ARGC] = {0}, *ptmp;
-	u16 offset, gain;
+	uint16_t offset, gain;
 	
 	AT_DBG_MSG(AT_FLAG_ADC, AT_DBG_ALWAYS, "[ATSA]: _AT_SYSTEM_ADC_TEST_");
 	if(!arg){
@@ -1193,7 +1193,7 @@ void fATSA(void *arg)
 			return;
 		}
 		analogin_t   adc;
-		u16 adcdat;
+		uint16_t adcdat;
 		
 		// Remove debug info massage
 		ConfigDebugInfo = 0;
@@ -1214,9 +1214,9 @@ void fATSA(void *arg)
 	int argc = 0, channel;
 	char *argv[MAX_ARGC] = {0};
 	analogin_t   adc;
-	u16 adcdat;
-	u8 max_ch_num =   8;
-	u32 ch_list[8] = {AD_0, AD_1, AD_2, AD_3, AD_4, AD_5, AD_6, AD_7};
+	uint16_t adcdat;
+	uint8_t max_ch_num =   8;
+	uint32_t ch_list[8] = {AD_0, AD_1, AD_2, AD_3, AD_4, AD_5, AD_6, AD_7};
 
 	AT_DBG_MSG(AT_FLAG_ADC, AT_DBG_ALWAYS, "[ATSA]: _AT_SYSTEM_ADC_TEST_");
 	if(!arg){
@@ -1247,7 +1247,7 @@ void fATSG(void *arg)
     int argc = 0, val;
 	char *argv[MAX_ARGC] = {0}, port, num;
 	PinName pin = NC;
-	u32 tConfigDebugInfo = ConfigDebugInfo;
+	uint32_t tConfigDebugInfo = ConfigDebugInfo;
     
 	AT_DBG_MSG(AT_FLAG_GPIO, AT_DBG_ALWAYS, "[ATSG]: _AT_SYSTEM_GPIO_TEST_");
 	if(!arg){
@@ -1357,7 +1357,7 @@ void fATSG(void *arg)
     int argc = 0, val, num;
 	char *argv[MAX_ARGC] = {0}, port;
 	PinName pin = NC;
-	u32 tConfigDebugInfo = ConfigDebugInfo;
+	uint32_t tConfigDebugInfo = ConfigDebugInfo;
     
 	AT_DBG_MSG(AT_FLAG_GPIO, AT_DBG_ALWAYS, "[ATSG]: _AT_SYSTEM_GPIO_TEST_");
 	if(!arg){
@@ -1480,7 +1480,7 @@ void fATSG(void *arg)
 	char *argv[MAX_ARGC] = {0}, port;
 
 	PinName pin = NC;
-	u32 tConfigDebugInfo = ConfigDebugInfo;
+	uint32_t tConfigDebugInfo = ConfigDebugInfo;
 	AT_DBG_MSG(AT_FLAG_GPIO, AT_DBG_ALWAYS, "[ATSG]: _AT_SYSTEM_GPIO_TEST_");
 	if(!arg){
 		AT_DBG_MSG(AT_FLAG_GPIO, AT_DBG_ALWAYS, "[ATSG] Usage: ATSG=PINNAME(ex:A0)");
@@ -1644,11 +1644,11 @@ void fATSB(void *arg)
 #if !defined(CONFIG_PLATFORM_8195BHP) && !defined(CONFIG_PLATFORM_8710C)
 	int   argc           = 0;
 	char *argv[MAX_ARGC] = {0};
-	u32 boot_gpio, rb_boot_gpio;
-	u8 gpio_pin;
-	u8 uart_port, uart_index;
-	u8 gpio_pin_bar;
-	u8 uart_port_bar;		
+	uint32_t boot_gpio, rb_boot_gpio;
+	uint8_t gpio_pin;
+	uint8_t uart_port, uart_index;
+	uint8_t gpio_pin_bar;
+	uint8_t uart_port_bar;
 	flash_t flash;
 
 	// parameter check
@@ -1782,7 +1782,7 @@ void fATSF(void *arg)
 		valid_i = 1;
 		char len;
 		PinName pin = NC;
-		u32 tConfigDebugInfo = ConfigDebugInfo;
+		uint32_t tConfigDebugInfo = ConfigDebugInfo;
 		unsigned char error_msg[50] =  "error:";
 		len = strlen(error_msg);
 		
@@ -2027,12 +2027,71 @@ void fATSM(void *arg)
 }
 #endif
 
+extern void ChipTest(void);
+extern int32_t deinitPref(void);
+#if CONFIG_ENABLE_OTA_REQUESTOR
+extern void amebaQueryImageCmdHandler(uint32_t nodeId, uint32_t fabricId);
+extern void amebaApplyUpdateCmdHandler();
+#endif
+void chipapp(void *param)
+{
+	ChipTest();
+}
+
+void fATchipapp(void *arg)
+{
+	(void) arg;
+	printf("Chip Test:\r\n");
+	xTaskCreate(chipapp, "chipapp",
+                                4096 / sizeof(StackType_t), NULL,
+                                1, NULL);
+}
+
+void fATchipapp1(void *arg)
+{
+#if CONFIG_ENABLE_OTA_REQUESTOR
+	(void) arg;
+	// ATS%=1,1
+	unsigned char *argv[MAX_ARGC] = {0};
+	uint32_t nodeId;
+	uint32_t fabricId;
+
+	printf("Chip Test: amebaQueryImageCmdHandler\r\n");
+
+	parse_param(arg, argv);
+	nodeId = atoi(argv[1]);
+	fabricId = atoi(argv[2]);
+
+	amebaQueryImageCmdHandler(nodeId, fabricId);
+#endif
+}
+
+void fATchipapp2(void *arg)
+{
+#if CONFIG_ENABLE_OTA_REQUESTOR
+	(void) arg;
+	printf("Chip Test: amebaApplyUpdateCmdHandler\r\n");
+
+	amebaApplyUpdateCmdHandler();
+#endif
+}
+
 void fATSt(void *arg)
 {
 	/* To avoid gcc warnings */
 	( void ) arg;
 	
+	printf("xPortGetTotalHeapSize = %d \n",xPortGetTotalHeapSize());
+	printf("xPortGetFreeHeapSize = %d \n",xPortGetFreeHeapSize());
+	printf("xPortGetMinimumEverFreeHeapSize = %d \n",xPortGetMinimumEverFreeHeapSize());
+
+	deinitPref();
 	AT_PRINTK("[ATS#]: _AT_SYSTEM_TEST_");
+
+#if CONFIG_EXAMPLE_WLAN_FAST_CONNECT
+    Erase_Fastconnect_data();
+    printf("Erased Fast Connect data\r\n");
+#endif
 }
 
 #if defined(CONFIG_PLATFORM_8711B)
@@ -2042,8 +2101,8 @@ void fATSt(void *arg)
 static void sys_enable_jtag_by_password(char *keystring)
 {
 	flash_t flash;
-	u8 key[8];
-	u32 data, key32[8], i = 0, errmap = 0;
+	uint8_t key[8];
+	uint32_t data, key32[8], i = 0, errmap = 0;
 	int is_match = 0;
 	
 	if(strlen(keystring) < 16){
@@ -2469,17 +2528,17 @@ void fATSC(void *arg){
 #endif
 
 #if (defined(CONFIG_EXAMPLE_UART_ATCMD) && CONFIG_EXAMPLE_UART_ATCMD)
-extern const u32 log_uart_support_rate[];
+extern const uint32_t log_uart_support_rate[];
 
 void fATSU(void *arg){
 	int argc = 0;
 	char *argv[MAX_ARGC] = {0};
-	u32 baud = 0;
-	u8 databits = 0;
-	u8 stopbits = 0;
-	u8 parity = 0;
-	u8 flowcontrol = 0;
-	u8 configmode = 0;
+	uint32_t baud = 0;
+	uint8_t databits = 0;
+	uint8_t stopbits = 0;
+	uint8_t parity = 0;
+	uint8_t flowcontrol = 0;
+	uint8_t configmode = 0;
 	int i;
 	UART_LOG_CONF uartconf;
 	
@@ -2555,7 +2614,7 @@ void fATSU(void *arg){
 struct gpio_str
 {
 	gpio_t gpio[24];
-	u32 pinmux_manager;
+	uint32_t pinmux_manager;
 };
 #endif
 
@@ -2593,7 +2652,7 @@ void fATSG(void *arg)
 		pin = num;
 	}
 	else{		// If Other Port
-		pin = (u8)NC;
+		pin = (uint8_t)NC;
 	}
 #else
 	pin = (port << 4 | num);
@@ -2838,6 +2897,9 @@ log_item_t at_sys_items[] = {
 	{"ATS@", fATSs,{NULL,NULL}},	// Debug message setting
 	{"ATS!", fATSc,{NULL,NULL}},	// Debug config setting
 	{"ATS#", fATSt,{NULL,NULL}},	// test command
+	{"ATS$", fATchipapp, {NULL, NULL}},
+	{"ATS%", fATchipapp1, {NULL, NULL}},
+	{"ATS^", fATchipapp2, {NULL, NULL}},
 	{"ATS?", fATSx,{NULL,NULL}},	// Help
 #if WIFI_LOGO_CERTIFICATION_CONFIG
 	{"ATSV", fATSV},				// Write SW version for wifi logo test

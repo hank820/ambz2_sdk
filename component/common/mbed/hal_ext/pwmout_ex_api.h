@@ -40,7 +40,7 @@ extern "C" {
 ///@name Ameba Common
 ///@{
 #if !defined(CONFIG_PLATFORM_8710C)
-typedef void (*pwm_lim_callback_t) (void *, u8 dir);
+typedef void (*pwm_lim_callback_t) (void *, uint8_t dir);
 typedef void (*pwm_period_callback_t) (void *);
 #endif
 
@@ -80,7 +80,7 @@ void pwmout_startoffset_us(pwmout_t *obj, int us);
  *                'callback' & 'arg' are ignored.
  *  @returns void
  */
-void pwmout_period_int(pwmout_t *obj, pwm_period_callback_t callback, u8 enable);
+void pwmout_period_int(pwmout_t *obj, pwm_period_callback_t callback, uint8_t enable);
 
 /**
  *  @brief To setup the PWM duty auto adjustment interrupt.
@@ -94,7 +94,7 @@ void pwmout_period_int(pwmout_t *obj, pwm_period_callback_t callback, u8 enable)
  *
  *  @returns void
  */
-void pwmout_autoadj_int (pwmout_t *obj, pwm_lim_callback_t callback, u8 direction, u8 enable);
+void pwmout_autoadj_int (pwmout_t *obj, pwm_lim_callback_t callback, uint8_t direction, uint8_t enable);
 
 /**
  *  @brief To start the PWM duty auto-adjustment for duty duration increasing.
@@ -106,7 +106,7 @@ void pwmout_autoadj_int (pwmout_t *obj, pwm_lim_callback_t callback, u8 directio
  *
  *  @returns The result.
  */
-void pwmout_autoadj_inc(pwmout_t *obj, u32 max_duty_us, u32 step_sz_us, u32 step_period_cnt);
+void pwmout_autoadj_inc(pwmout_t *obj, uint32_t max_duty_us, uint32_t step_sz_us, uint32_t step_period_cnt);
 
 /**
  *  @brief To start the PWM duty auto-adjustment for duty duration decreasing.
@@ -118,7 +118,7 @@ void pwmout_autoadj_inc(pwmout_t *obj, u32 max_duty_us, u32 step_sz_us, u32 step
  *
  *  @returns The result.
  */
-void pwmout_autoadj_dec(pwmout_t *obj, u32 min_duty_us, u32 step_sz_us, u32 step_period_cnt);
+void pwmout_autoadj_dec(pwmout_t *obj, uint32_t min_duty_us, uint32_t step_sz_us, uint32_t step_period_cnt);
 
 /**
   *  @brief  To Eable the PWM function.
@@ -143,7 +143,7 @@ void pwmout_stop(pwmout_t *obj);
   *
   *  @returns void
   */
-void pwmout_multi_start(u8 pin_ctrl);
+void pwmout_multi_start(uint8_t pin_ctrl);
 
 ///@}
 

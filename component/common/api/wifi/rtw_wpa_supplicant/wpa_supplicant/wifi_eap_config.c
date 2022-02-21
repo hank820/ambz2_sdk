@@ -19,8 +19,8 @@
 #define	DISABLE (0)
 #endif
 
-u8 eap_phase = 0;
-u8 eap_method = 0;
+uint8_t eap_phase = 0;
+uint8_t eap_method = 0;
 
 // eap config arguments
 char *eap_target_ssid = NULL;
@@ -313,7 +313,7 @@ void eap_autoreconnect_thread(void *method)
 }
 #endif
 
-void eap_autoreconnect_hdl(u8 method_id)
+void eap_autoreconnect_hdl(uint8_t method_id)
 {
 	/* To avoid gcc warnings */
 	( void ) method_id;	

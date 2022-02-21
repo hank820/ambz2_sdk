@@ -88,9 +88,9 @@ void spic_load_default_setting(pspic_init_para_t pspic_init_data)
  *
  *   \param void.
  *
- *   \return u8: The macro definition of CPU clock.
+ *   \return uint8_t: The macro definition of CPU clock.
  */
-u8 spic_query_system_clk(void)
+uint8_t spic_query_system_clk(void)
 {
     return hal_spic_stubs.spic_query_system_clk();
 }
@@ -99,11 +99,11 @@ u8 spic_query_system_clk(void)
  *
  *    spic_clock_ctrl is used to enable or disable the flash controller clock and function enable.
  *
- *   \param u8 ctl:      The control parameter.
+ *   \param uint8_t ctl:      The control parameter.
  *
  *   \return void.
  */
-void spic_clock_ctrl(u8 ctl)
+void spic_clock_ctrl(uint8_t ctl)
 {
     hal_spic_stubs.spic_clock_ctrl(ctl);
 }
@@ -118,11 +118,11 @@ void spic_clock_ctrl(u8 ctl)
  *    After these commands, a read ID command is issued to identify the flash type.
  *
  *   \param phal_spic_adaptor_t phal_spic_adaptor:      The pointer of the flash controller adaptor.
- *   \param u8 spic_bit_mode:      The target IO mode the flash controller is going to operate.
+ *   \param uint8_t spic_bit_mode:      The target IO mode the flash controller is going to operate.
  *
  *   \return hal_status_t.
  */
-hal_status_t spic_init_setting(phal_spic_adaptor_t phal_spic_adaptor, u8 spic_bit_mode)
+hal_status_t spic_init_setting(phal_spic_adaptor_t phal_spic_adaptor, uint8_t spic_bit_mode)
 {
     return hal_spic_stubs.spic_init_setting(phal_spic_adaptor, spic_bit_mode);
 }
@@ -141,8 +141,8 @@ void spic_config_auto_mode(phal_spic_adaptor_t phal_spic_adaptor)
     SPIC_Type *spic_dev  = phal_spic_adaptor->spic_dev;
     pflash_cmd_t cmd = phal_spic_adaptor->cmd;
     spic_valid_cmd_t valid_cmd;
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
-    u8 flash_type = phal_spic_adaptor->flash_type;
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint8_t flash_type = phal_spic_adaptor->flash_type;
 
 
     /*Set default send cmd channel mode*/
@@ -249,11 +249,11 @@ void spic_set_chnl_num(phal_spic_adaptor_t phal_spic_adaptor)
  *    spic_set_delay_line is used to fine-tune data receive timing with digital PHY.
  *    100 levels of delay line can be used.
  *
- *   \param u8 delay_line:      The level of the delay line, can be 0~99.
+ *   \param uint8_t delay_line:      The level of the delay line, can be 0~99.
  *
  *   \return void.
  */
-void spic_set_delay_line(u8 delay_line)
+void spic_set_delay_line(uint8_t delay_line)
 {
     hal_spic_stubs.spic_set_delay_line(delay_line);
 }
@@ -263,13 +263,13 @@ void spic_set_delay_line(u8 delay_line)
  *    spic_rx_cmd is an entry function to switch between 8IO or non-8IO rx_cmd functions depending on flash types.
  *
  *   \param phal_spic_adaptor_t phal_spic_adaptor:      The pointer of the flash controller adaptor.
- *   \param u8 cmd:      The command byte.
- *   \param u8 data_phase_len:      The length of data followed by command phase.
- *   \param u8 *pdata:      The data followed by command phase.
+ *   \param uint8_t cmd:      The command byte.
+ *   \param uint8_t data_phase_len:      The length of data followed by command phase.
+ *   \param uint8_t *pdata:      The data followed by command phase.
  *
  *   \return void.
  */
-void spic_rx_cmd(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata)
+void spic_rx_cmd(phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata)
 {
     hal_spic_stubs.spic_rx_cmd(phal_spic_adaptor, cmd, data_phase_len, pdata);
 }
@@ -279,13 +279,13 @@ void spic_rx_cmd(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_le
  *    spic_tx_cmd_no_check is an entry function to switch between 8IO or non-8IO tx_cmd_no_check functions depending on flash types.
  *
  *   \param phal_spic_adaptor_t phal_spic_adaptor:      The pointer of the flash controller adaptor.
- *   \param u8 cmd:      The command byte.
- *   \param u8 data_phase_len:      The length of data followed by command phase.
- *   \param u8 *pdata:      The data followed by command phase.
+ *   \param uint8_t cmd:      The command byte.
+ *   \param uint8_t data_phase_len:      The length of data followed by command phase.
+ *   \param uint8_t *pdata:      The data followed by command phase.
  *
  *   \return void.
  */
-void spic_tx_cmd_no_check(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata)
+void spic_tx_cmd_no_check(phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata)
 {
     hal_spic_stubs.spic_tx_cmd_no_check(phal_spic_adaptor, cmd, data_phase_len, pdata);
 }
@@ -295,13 +295,13 @@ void spic_tx_cmd_no_check(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data
  *    spic_tx_cmd is an entry function to switch between 8IO or non-8IO tx_cmd functions depending on flash types.
  *
  *   \param phal_spic_adaptor_t phal_spic_adaptor:      The pointer of the flash controller adaptor.
- *   \param u8 cmd:      The command byte.
- *   \param u8 data_phase_len:      The length of data followed by command phase.
- *   \param u8 *pdata:      The data followed by command phase.
+ *   \param uint8_t cmd:      The command byte.
+ *   \param uint8_t data_phase_len:      The length of data followed by command phase.
+ *   \param uint8_t *pdata:      The data followed by command phase.
  *
  *   \return void.
  */
-void spic_tx_cmd(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata)
+void spic_tx_cmd(phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata)
 {
     hal_spic_stubs.spic_tx_cmd(phal_spic_adaptor, cmd, data_phase_len,pdata);
 }
@@ -338,14 +338,14 @@ void spic_flush_fifo(SPIC_Type *spic_dev)
  *    The pinmux selection is registered and checked if the relevant pins are occpuied by other devices.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 ctl:      The flash pins control bit.
+ *   \param uint8_t ctl:      The flash pins control bit.
  *
  *   \return hal_status_t.
  */
-hal_status_t spic_pinmux_ctl(phal_spic_adaptor_t phal_spic_adaptor, u8 ctl)
+hal_status_t spic_pinmux_ctl(phal_spic_adaptor_t phal_spic_adaptor, uint8_t ctl)
 {
     hal_status_t ret;
-    u8 quad_pin_sel = phal_spic_adaptor->quad_pin_sel;
+    uint8_t quad_pin_sel = phal_spic_adaptor->quad_pin_sel;
     pflash_pin_sel_t pflash_pin_sel = &(phal_spic_adaptor->flash_pin_sel);
 #if !defined(CONFIG_BUILD_NONSECURE)
 #define spic_pinmux_register        hal_pinmux_register
@@ -406,19 +406,19 @@ hal_status_t spic_pinmux_ctl(phal_spic_adaptor_t phal_spic_adaptor, u8 ctl)
  *    At the end of the function, the sequential transfer mode is also calibrated for future use.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 spic_bit_mode:   The flash IO mode.
+ *   \param uint8_t spic_bit_mode:   The flash IO mode.
  *   \param pflash_pin_sel_t pflash_pin_sel:      The GPIO pin selections for flash.
  *
  *   \return hal_status_t.
  */
-hal_status_t spic_init(phal_spic_adaptor_t phal_spic_adaptor, u8 spic_bit_mode, pflash_pin_sel_t pflash_pin_sel)
+hal_status_t spic_init(phal_spic_adaptor_t phal_spic_adaptor, uint8_t spic_bit_mode, pflash_pin_sel_t pflash_pin_sel)
 {
     pflash_dummy_cycle_t dummy_cycle;
     SPIC_Type *spic_dev;
-    u32 default_dummy_cycle;
+    uint32_t default_dummy_cycle;
     pspic_init_para_t pspic_data;
     flash_pin_sel_t flash_pin_sel;
-    u8 cpu_type = spic_query_system_clk();
+    uint8_t cpu_type = spic_query_system_clk();
 
     phal_spic_adaptor->spic_bit_mode = spic_bit_mode;
 
@@ -451,7 +451,7 @@ hal_status_t spic_init(phal_spic_adaptor_t phal_spic_adaptor, u8 spic_bit_mode, 
 
     pspic_data = &phal_spic_adaptor->spic_init_data[spic_bit_mode][cpu_type];
     dummy_cycle = phal_spic_adaptor->dummy_cycle;
-    default_dummy_cycle = *(((u8 *)dummy_cycle) + spic_bit_mode);
+    default_dummy_cycle = *(((uint8_t *)dummy_cycle) + spic_bit_mode);
 
     if (pspic_data->valid == 0) {
         spic_config_auto_mode(phal_spic_adaptor);
@@ -508,26 +508,26 @@ hal_status_t spic_deinit(phal_spic_adaptor_t phal_spic_adaptor)
  *    If an optimal available window is found, the setting is stored in flash so that flash controller directly load the setting next time.
  *
  *   \param phal_spic_adaptor_t phal_spic_adaptor:      The pointer of the flash adaptor.
- *   \param u32 default_dummy_cycle:      The default dummy cycle defined by flash spec.
+ *   \param uint32_t default_dummy_cycle:      The default dummy cycle defined by flash spec.
  *
  *   \return BOOL: _TURE: Success, _FALSE: No available window, calibration unsuccessful.
  */
-BOOL spic_calibration(phal_spic_adaptor_t phal_spic_adaptor, u32 default_dummy_cycle)
+BOOL spic_calibration(phal_spic_adaptor_t phal_spic_adaptor, uint32_t default_dummy_cycle)
 {
     SPIC_Type *spic_dev  = phal_spic_adaptor->spic_dev;
     pspic_init_para_t pspic_init_para;
-    u32 rd_data = 0;
-    u32 auto_len = 0;
-    u32 tmp_str_pt = 0;
-    u32 tmp_end_pt = 0;
-    u32 tmp_max_wd = 0;
-    u32 tmp_max_str = 0;
-    u32 tmp_max_end = 0;
-    u32 last_pass = 0;
-    u8 baudr = 0;
-    u8 min_baud_rate = 0;
-    u8 cpu_type = spic_query_system_clk();
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint32_t rd_data = 0;
+    uint32_t auto_len = 0;
+    uint32_t tmp_str_pt = 0;
+    uint32_t tmp_end_pt = 0;
+    uint32_t tmp_max_wd = 0;
+    uint32_t tmp_max_str = 0;
+    uint32_t tmp_max_end = 0;
+    uint32_t last_pass = 0;
+    uint8_t baudr = 0;
+    uint8_t min_baud_rate = 0;
+    uint8_t cpu_type = spic_query_system_clk();
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
 
     pspic_init_para = &(phal_spic_adaptor->spic_init_data[spic_bit_mode][cpu_type]);
 
@@ -638,22 +638,22 @@ BOOL spic_calibration(phal_spic_adaptor_t phal_spic_adaptor, u32 default_dummy_c
 }
 
 #if 0
-BOOL spic_calibration(phal_spic_adaptor_t phal_spic_adaptor, u32 default_dummy_cycle)
+BOOL spic_calibration(phal_spic_adaptor_t phal_spic_adaptor, uint32_t default_dummy_cycle)
 {
     SPIC_Type *spic_dev  = phal_spic_adaptor->spic_dev;
     pspic_init_para_t pspic_init_para;
     valid_windows_t max_wd;
-    u32 rd_data = 0;
-    u32 auto_len = 0;
-    u32 dly_line = 0;
-    u32 total_ava_wds = 0;
-    u32 tmp_str_pt = 0;
-    u32 tmp_end_pt = 0;
-    u32 last_pass = 0;
-    u8  baudr = 0;
-    u8 min_baud_rate = 0;
-    u8 cpu_type = spic_query_system_clk();
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint32_t rd_data = 0;
+    uint32_t auto_len = 0;
+    uint32_t dly_line = 0;
+    uint32_t total_ava_wds = 0;
+    uint32_t tmp_str_pt = 0;
+    uint32_t tmp_end_pt = 0;
+    uint32_t last_pass = 0;
+    uint8_t  baudr = 0;
+    uint8_t min_baud_rate = 0;
+    uint8_t cpu_type = spic_query_system_clk();
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
 
     pspic_init_para = &(phal_spic_adaptor->spic_init_data[spic_bit_mode][cpu_type]);
 
@@ -809,13 +809,13 @@ BOOL spic_calibration(phal_spic_adaptor_t phal_spic_adaptor, u32 default_dummy_c
  */
 void spic_load_calibration_setting(phal_spic_adaptor_t phal_spic_adaptor)
 {
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
-    u8 cpu_type = spic_query_system_clk();
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint8_t cpu_type = spic_query_system_clk();
     SPIC_Type *spic_dev  = phal_spic_adaptor->spic_dev;
     pspic_init_para_t pspic_data;
-    u32 spic_data;
-    u32 spic_data_inv;
-    u32 data_offset;
+    uint32_t spic_data;
+    uint32_t spic_data_inv;
+    uint32_t data_offset;
 
     /*The last 4 byte is used to check the integrity of data*/
     data_offset = cpu_type * 48 + spic_bit_mode * 8;
@@ -864,11 +864,11 @@ void spic_load_calibration_setting(phal_spic_adaptor_t phal_spic_adaptor)
  */
 void spic_store_calibration_setting(phal_spic_adaptor_t phal_spic_adaptor)
 {
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
-    u8 cpu_type = spic_query_system_clk();
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint8_t cpu_type = spic_query_system_clk();
     pspic_init_para_t pspic_data;
-    u32 data_offset;
-    u32 spic_data[2];
+    uint32_t data_offset;
+    uint32_t spic_data[2];
 
     data_offset = cpu_type * 48 + spic_bit_mode * 8;
 
@@ -881,7 +881,7 @@ void spic_store_calibration_setting(phal_spic_adaptor_t phal_spic_adaptor)
         pspic_data->delay_line = phal_spic_adaptor->spic_init_data[spic_bit_mode][cpu_type].delay_line;
         pspic_data->valid = phal_spic_adaptor->spic_init_data[spic_bit_mode][cpu_type].valid;
         spic_data[1] = ~spic_data[0];
-        hal_flash_page_program(phal_spic_adaptor, 8, (u32)(SPIC_DATA_BASE + data_offset), (u8 *)&spic_data[0]);
+        hal_flash_page_program(phal_spic_adaptor, 8, (uint32_t)(SPIC_DATA_BASE + data_offset), (uint8_t *)&spic_data[0]);
         DBG_SPIF_WARN("spic_store_calibration_setting: Wr=%x\r\n", spic_data[0]);
     } else {
         DBG_SPIF_ERR("spic_store_calibration_setting: The flash memory(@0x%x = 0x%x) cannot be programmed, Erase it first!!\r\n",
@@ -902,8 +902,8 @@ void spic_store_calibration_setting(phal_spic_adaptor_t phal_spic_adaptor)
  */
 void spic_store_setting(phal_spic_adaptor_t phal_spic_adaptor, phal_spic_restore_setting_t phal_spic_setting)
 {
-    u8 cpu_type = spic_query_system_clk();
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint8_t cpu_type = spic_query_system_clk();
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
 
     phal_spic_setting->spic_bit_mode = spic_bit_mode;
     //phal_spic_setting->flash_pin_sel = phal_spic_adaptor->flash_pin_sel;
@@ -931,8 +931,8 @@ void spic_recover_setting(phal_spic_adaptor_t phal_spic_adaptor, phal_spic_resto
 {
     SPIC_Type *spic_dev;
     pspic_init_para_t pspic_init_data = NULL;
-    u8 cpu_type = spic_query_system_clk();
-    u8 spic_bit_mode = phal_spic_setting->spic_bit_mode;
+    uint8_t cpu_type = spic_query_system_clk();
+    uint8_t spic_bit_mode = phal_spic_setting->spic_bit_mode;
 
     phal_spic_adaptor->spic_bit_mode = spic_bit_mode;
     //phal_spic_adaptor->flash_pin_sel = phal_spic_setting->flash_pin_sel;

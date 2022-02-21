@@ -43,7 +43,7 @@ void spi_tx_done_callback(VOID *obj);
 void spi_rx_done_callback(VOID *obj);
 void spi_bus_tx_done_callback(VOID *obj);
 
-u8 format_is_set;
+uint8_t format_is_set;
 
 void spi_init (spi_t *obj, PinName mosi, PinName miso, PinName sclk, PinName ssel)
 {
@@ -122,9 +122,9 @@ void spi_format (spi_t *obj, int bits, int mode, int slave)
 
     if (slave) {
         if (phal_ssi_adaptor->sclk_polarity == ScpolInactiveIsLow) {
-            hal_gpio_pull_ctrl((u32)obj->sclk, PullCtrl_PullLow);
+            hal_gpio_pull_ctrl((uint32_t)obj->sclk, PullCtrl_PullLow);
         } else {
-            hal_gpio_pull_ctrl((u32)obj->sclk, PullCtrl_PullHigh);
+            hal_gpio_pull_ctrl((uint32_t)obj->sclk, PullCtrl_PullHigh);
         }
     }
 
@@ -196,8 +196,8 @@ int spi_busy (spi_t *obj)
 void spi_flush_rx_fifo (spi_t *obj)
 {
     phal_ssi_adaptor_t phal_ssi_adaptor = &(obj->hal_ssi_adaptor);
-    u32 rx_fifo_level;
-    u32 i;
+    uint32_t rx_fifo_level;
+    uint32_t i;
     
     while (hal_ssi_readable(phal_ssi_adaptor)) {
         rx_fifo_level = hal_ssi_get_rxfifo_level(phal_ssi_adaptor);
@@ -213,7 +213,7 @@ void spi_flush_rx_fifo (spi_t *obj)
 void spi_slave_flush_fifo(spi_t *obj)
 {
     phal_ssi_adaptor_t phal_ssi_adaptor = &(obj->hal_ssi_adaptor);
-    u8 role;
+    uint8_t role;
 
     role = phal_ssi_adaptor->role;
     
@@ -266,14 +266,14 @@ void spi_rx_done_callback(VOID *obj)
 
 void spi_irq_hook(spi_t *obj, spi_irq_handler handler, uint32_t id) 
 {
-    obj->irq_handler = (u32)handler;
-    obj->irq_id = (u32)id;
+    obj->irq_handler = (uint32_t)handler;
+    obj->irq_id = (uint32_t)id;
 }
 
 void spi_bus_tx_done_irq_hook(spi_t *obj, spi_irq_handler handler, uint32_t id) 
 {
-    obj->bus_tx_done_handler = (u32)handler;
-    obj->bus_tx_done_irq_id = (u32)id;
+    obj->bus_tx_done_handler = (uint32_t)handler;
+    obj->bus_tx_done_irq_id = (uint32_t)id;
 }
 
 void spi_enable(spi_t *obj)
@@ -423,7 +423,7 @@ int32_t spi_slave_read_stream_timeout(spi_t *obj, char *rx_buffer, uint32_t leng
 {
     phal_ssi_adaptor_t phal_ssi_adaptor = &(obj->hal_ssi_adaptor);
     int ret,timeout = 0;
-    u32 start_us;
+    uint32_t start_us;
 
     if (obj->state & SPI_STATE_RX_BUSY) {
         DBG_SSI_WARN("spi_slave_read_stream: state(0x%x) is not ready\r\n", 
@@ -468,7 +468,7 @@ int32_t spi_slave_read_stream_timeout(spi_t *obj, char *rx_buffer, uint32_t leng
 int32_t spi_slave_read_stream_terminate(spi_t *obj, char *rx_buffer, uint32_t length)
 {
     phal_ssi_adaptor_t phal_ssi_adaptor = &(obj->hal_ssi_adaptor);
-    volatile u8 cs_stop;
+    volatile uint8_t cs_stop;
 
     cs_stop = 0;
     if (obj->state & SPI_STATE_RX_BUSY) {
@@ -571,7 +571,7 @@ int32_t spi_slave_read_stream_dma(spi_t *obj, char *rx_buffer, uint32_t length)
     }
     
     obj->state |= SPI_STATE_RX_BUSY;
-    ret = hal_ssi_dma_recv(phal_ssi_adaptor, (u8*)rx_buffer, length);
+    ret = hal_ssi_dma_recv(phal_ssi_adaptor, (uint8_t*)rx_buffer, length);
 
     if (ret != HAL_OK) {
         obj->state &= ~SPI_STATE_RX_BUSY;
@@ -608,7 +608,7 @@ int32_t spi_slave_write_stream_dma(spi_t *obj, char *tx_buffer, uint32_t length)
     }
     
     obj->state |= SPI_STATE_TX_BUSY;
-    ret = hal_ssi_dma_send(phal_ssi_adaptor, (u8*)tx_buffer, length);
+    ret = hal_ssi_dma_send(phal_ssi_adaptor, (uint8_t*)tx_buffer, length);
     
     if (ret != HAL_OK) {
         obj->state &= ~SPI_STATE_TX_BUSY;
@@ -644,7 +644,7 @@ int32_t spi_master_read_stream_dma(spi_t *obj, char *rx_buffer, uint32_t length)
     }
     
     obj->state |= SPI_STATE_RX_BUSY;
-    ret = hal_ssi_dma_recv(phal_ssi_adaptor, (u8*)rx_buffer, length);
+    ret = hal_ssi_dma_recv(phal_ssi_adaptor, (uint8_t*)rx_buffer, length);
     if (ret != HAL_OK) {
         obj->state &= ~SPI_STATE_RX_BUSY;
     }
@@ -653,7 +653,7 @@ int32_t spi_master_read_stream_dma(spi_t *obj, char *rx_buffer, uint32_t length)
     if (obj->dma_en & SPI_DMA_TX_EN) {
         // TX DMA is on already, so use DMA to TX data
         // Make the GDMA to use the rx_buffer too
-        ret = hal_ssi_dma_send(phal_ssi_adaptor, (u8*)rx_buffer, length);
+        ret = hal_ssi_dma_send(phal_ssi_adaptor, (uint8_t*)rx_buffer, length);
         if (ret != HAL_OK) {
             obj->state &= ~SPI_STATE_RX_BUSY;
         }
@@ -695,7 +695,7 @@ int32_t spi_master_write_stream_dma(spi_t *obj, char *tx_buffer, uint32_t length
     }
     
     obj->state |= SPI_STATE_TX_BUSY;
-    ret = hal_ssi_dma_send(phal_ssi_adaptor, (u8*)tx_buffer, length);
+    ret = hal_ssi_dma_send(phal_ssi_adaptor, (uint8_t*)tx_buffer, length);
     
     if (ret != HAL_OK) {
         obj->state &= ~SPI_STATE_TX_BUSY;
@@ -747,9 +747,9 @@ int32_t spi_master_write_read_stream_dma(spi_t *obj, char *tx_buffer, char *rx_b
     
     obj->state |= SPI_STATE_RX_BUSY;
     /* as Master mode, sending data will receive data at sametime */
-    if ((ret = hal_ssi_dma_recv(phal_ssi_adaptor, (u8*)rx_buffer, length)) == HAL_OK) {
+    if ((ret = hal_ssi_dma_recv(phal_ssi_adaptor, (uint8_t*)rx_buffer, length)) == HAL_OK) {
         obj->state |= SPI_STATE_TX_BUSY;
-        if ((ret = hal_ssi_dma_send(phal_ssi_adaptor, (u8*)tx_buffer, length)) != HAL_OK) {
+        if ((ret = hal_ssi_dma_send(phal_ssi_adaptor, (uint8_t*)tx_buffer, length)) != HAL_OK) {
             obj->state &= ~(SPI_STATE_RX_BUSY|SPI_STATE_TX_BUSY);
         }
     } else {
@@ -762,7 +762,7 @@ int32_t spi_master_write_read_stream_dma(spi_t *obj, char *tx_buffer, char *rx_b
 int32_t spi_slave_read_stream_dma_timeout(spi_t *obj, char *rx_buffer, uint32_t length, uint32_t timeout_ms)
 {
     int ret,timeout = 0;
-    u32 start_us;
+    uint32_t start_us;
     phal_ssi_adaptor_t phal_ssi_adaptor = &(obj->hal_ssi_adaptor);
 
     /* Checks PSRAM alignment */
@@ -790,7 +790,7 @@ int32_t spi_slave_read_stream_dma_timeout(spi_t *obj, char *rx_buffer, uint32_t 
     obj->state |= SPI_STATE_RX_BUSY;
 
     hal_ssi_enter_critical(phal_ssi_adaptor);
-    ret = hal_ssi_dma_recv(phal_ssi_adaptor, (u8*)rx_buffer, length);
+    ret = hal_ssi_dma_recv(phal_ssi_adaptor, (uint8_t*)rx_buffer, length);
     hal_ssi_exit_critical(phal_ssi_adaptor);
     
     if ((ret == HAL_OK) && (timeout_ms > 0)) {
@@ -820,7 +820,7 @@ int32_t spi_slave_read_stream_dma_timeout(spi_t *obj, char *rx_buffer, uint32_t 
 int32_t spi_slave_read_stream_dma_terminate(spi_t *obj, char *rx_buffer, uint32_t length)
 {
     phal_ssi_adaptor_t phal_ssi_adaptor = &(obj->hal_ssi_adaptor);
-    volatile u8 cs_stop;
+    volatile uint8_t cs_stop;
 
     cs_stop = 0;
 
@@ -848,7 +848,7 @@ int32_t spi_slave_read_stream_dma_terminate(spi_t *obj, char *rx_buffer, uint32_
 
     obj->state |= SPI_STATE_RX_BUSY;
     hal_ssi_enter_critical(phal_ssi_adaptor);
-    if (hal_ssi_dma_recv(phal_ssi_adaptor, (u8*)rx_buffer, length) != HAL_OK) {
+    if (hal_ssi_dma_recv(phal_ssi_adaptor, (uint8_t*)rx_buffer, length) != HAL_OK) {
         obj->state &= ~ SPI_STATE_RX_BUSY;
     }
     hal_ssi_exit_critical(phal_ssi_adaptor);

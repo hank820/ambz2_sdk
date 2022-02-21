@@ -283,7 +283,7 @@ static void my_debug(void *ctx, int level, const char *file, int line, const cha
 	printf("\n\r%s:%d: %s\n\r", file, line, str);
 }
 
-extern int rtw_get_random_bytes(void* dst, u32 size);
+extern int rtw_get_random_bytes(void* dst, uint32_t size);
 #ifdef SSL_CLIENT_EXT
 extern int ssl_client_ext_init(void);
 extern int ssl_client_ext_setup(mbedtls_ssl_config *conf);

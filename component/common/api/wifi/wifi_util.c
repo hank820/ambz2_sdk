@@ -555,7 +555,7 @@ exit:
 	return ret;
 }
 
-int wext_set_lps_thresh(const char *ifname, u8 low_thresh) {
+int wext_set_lps_thresh(const char *ifname, uint8_t low_thresh) {
 	struct iwreq iwr;
 	int ret = 0;
 	__u16 pindex = 0;
@@ -1084,7 +1084,7 @@ int wext_private_command(const char *ifname, char *cmd, int show_msg)
 	int ret = 0, buf_size;
 	char *buf;
 
-	u8 cmdname[17] = {0}; // IFNAMSIZ+1
+	uint8_t cmdname[17] = {0}; // IFNAMSIZ+1
 
 	sscanf(cmd, "%16s", cmdname);
 	if((strcmp((const char *)cmdname, "config_get") == 0)
@@ -1247,7 +1247,7 @@ int wext_set_autoreconnect(const char *ifname, __u8 mode, __u8 retry_times, __u1
 	__u8 *para = NULL;
 	int cmd_len = 0;
 
-	__u8 split_timeout[2]; //split u16 timeout into 2 u8
+	__u8 split_timeout[2]; //split u16 timeout into 2 uint8_t
 	split_timeout[0] = timeout & 0xff;
 	split_timeout[1] = (timeout >> 8);
 
@@ -1486,8 +1486,8 @@ int wext_set_ch_deauth(const char *ifname, __u8 enable)
 
 int wext_set_adaptivity(rtw_adaptivity_mode_t adaptivity_mode)
 {
-	extern u8 rtw_adaptivity_en;
-	extern u8 rtw_adaptivity_mode;
+	extern uint8_t rtw_adaptivity_en;
+	extern uint8_t rtw_adaptivity_mode;
 
 	switch(adaptivity_mode){
 		case RTW_ADAPTIVITY_NORMAL:
@@ -1508,14 +1508,14 @@ int wext_set_adaptivity(rtw_adaptivity_mode_t adaptivity_mode)
 
 int wext_set_adaptivity_th_l2h_ini(__u8 l2h_threshold)
 {
-	extern s8 rtw_adaptivity_th_l2h_ini;
+	extern int8_t rtw_adaptivity_th_l2h_ini;
 	rtw_adaptivity_th_l2h_ini = (__s8)l2h_threshold;
 	return 0;
 }
 
 int wext_set_anti_interference(__u8 enable)
 {
-	extern u8 rtw_anti_interference_en;
+	extern uint8_t rtw_anti_interference_en;
 
 	if(enable == ENABLE){
 		rtw_anti_interference_en = 1;
@@ -1528,9 +1528,9 @@ int wext_set_anti_interference(__u8 enable)
 
 int wext_set_trp_tis(__u8 enable)
 {
-	extern u8 rtw_tx_pwr_lmt_enable;
-	extern u8 rtw_tx_pwr_by_rate;
-	extern u8 rtw_trp_tis_test_en;
+	extern uint8_t rtw_tx_pwr_lmt_enable;
+	extern uint8_t rtw_tx_pwr_by_rate;
+	extern uint8_t rtw_trp_tis_test_en;
 
 	if(enable != RTW_TRP_TIS_DISABLE){
 		//close the tx power limit and pwr by rate incase the efficiency of Antenna is not good enough.
@@ -1552,14 +1552,14 @@ int wext_set_trp_tis(__u8 enable)
 
 int wext_set_support_wpa3(__u8 enable)
 {
-	extern u8 rtw_cmd_tsk_spt_wap3;
+	extern uint8_t rtw_cmd_tsk_spt_wap3;
 	rtw_cmd_tsk_spt_wap3 = enable;
 	return 0;
 }
 
-u8 wext_get_support_wpa3(void)
+uint8_t wext_get_support_wpa3(void)
 {
-	extern u8 rtw_cmd_tsk_spt_wap3;
+	extern uint8_t rtw_cmd_tsk_spt_wap3;
 	return rtw_cmd_tsk_spt_wap3;
 }
 

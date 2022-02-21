@@ -51,7 +51,7 @@
  *
  *  @returns void
  */
-void DeepSleep (u8 Option, u32 SDuration, u8 Clock)
+void DeepSleep (uint8_t Option, uint32_t SDuration, uint8_t Clock)
 {
     hal_gpio_pull_ctrl(PA_1, Pin_PullDown);
     hal_DeepSleep (Option, SDuration, Clock);
@@ -73,7 +73,7 @@ void DeepSleep (u8 Option, u32 SDuration, u8 Clock)
  *
  *  @returns void
  */
-void SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption)
+void SleepCG (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption)
 {
     hal_gpio_pull_ctrl(PA_1, Pin_PullDown);
     hal_SleepCG(Option, SDuration, Clock, GpioOption);
@@ -94,7 +94,7 @@ void SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption)
  *
  *  @returns void
  */
-void Standby (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption)
+void Standby (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption)
 {
     hal_gpio_pull_ctrl(PA_1, Pin_PullDown);
     hal_SleepPG (Option, SDuration, Clock, GpioOption);

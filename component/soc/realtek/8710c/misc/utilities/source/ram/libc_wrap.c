@@ -34,9 +34,9 @@
 #include "diag.h"
 
 /* for GNU C++ */
-#if defined(__GNUC__)
-void* __dso_handle = 0;
-#endif
+//#if defined(__GNUC__)
+//void* __dso_handle = 0;
+//#endif
 
 #if !defined(PLATFORM_OHOS) && defined(CONFIG_CMSIS_FREERTOS_EN) && (CONFIG_CMSIS_FREERTOS_EN != 0)
 /**************************************************
@@ -271,7 +271,6 @@ int __wrap_sprintf(char *buf, const char * fmt,...)
         dbg_printf("format not support!\n");
     }
     return count;
-
 }
 
 int __wrap_snprintf(char *buf, size_t size, const char *fmt,...)
@@ -329,7 +328,6 @@ int __wrap_vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
     }
 
     return count;
-
 }
 
 
@@ -673,7 +671,7 @@ static const int _DAYS_BEFORE_MONTH[12] =
 #include "time64.h"
 #include <platform_stdlib.h>
 
-#if defined (__ICCARM__)
+#if defined (__ICCARM__) || (__GNUC__ > 9)
 extern long long  _Tzoff();
 
 typedef struct __tzrule_struct

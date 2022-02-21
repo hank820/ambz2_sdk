@@ -58,16 +58,16 @@ static alarm_irq_handler rtc_alarm_handler = NULL;
 void rtc_alarm_intr_handler(void);
 void rtc_disable_alarm(void);
 
-const static u8 dim[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const static uint8_t dim[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-static inline bool is_leap_year(unsigned int year)
+static inline BOOL is_leap_year(unsigned int year)
 {
     return (!(year % 4) && (year % 100)) || !(year % 400);
 }
 
-static u8 days_in_month (u8 month, u8 year)
+static uint8_t days_in_month (uint8_t month, uint8_t year)
 {
-    u8 ret = dim [month];
+    uint8_t ret = dim [month];
     if (ret == 0) {
         ret = is_leap_year (year) ? 29 : 28;
     }
@@ -174,7 +174,7 @@ void rtc_write(time_t t)
   *            - 1: success
   *            - Others: failure
   */
-u32 rtc_set_alarm(alarm_t *alrm, alarm_irq_handler alarmHandler)
+uint32_t rtc_set_alarm(alarm_t *alrm, alarm_irq_handler alarmHandler)
 {
     uint32_t alarm_time_s = 0;
     time_t current_t = rtc_read();

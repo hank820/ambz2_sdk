@@ -61,8 +61,8 @@ typedef struct utility_func_stubs_s {
     void *(*memmove) (void *destaddr, const void *sourceaddr, unsigned length);
     void *(*memset)(void *dst0, int val,  size_t length);
 
-    void (*dump_bytes)(u8 *pdata, u32 len);
-    void (*dump_words)(u8 *src, u32 len);
+    void (*dump_bytes)(uint8_t *pdata, uint32_t len);
+    void (*dump_words)(uint8_t *src, uint32_t len);
 
     // B-Cut
     int (*memcmp_s)(const void *av, const void *bv, size_t len);
@@ -86,7 +86,7 @@ extern utility_func_stubs_t __rom_stubs_utility_ns;
   \param[in]   len      The size (in byte) the memory to dump.
   \return   void.
 */
-__STATIC_INLINE void dump_bytes(u8 *src, u32 len)
+__STATIC_INLINE void dump_bytes(uint8_t *src, uint32_t len)
 {
     utility_stubs.dump_bytes(src, len);
 }
@@ -99,7 +99,7 @@ __STATIC_INLINE void dump_bytes(u8 *src, u32 len)
   \return   void.
 */
 
-__STATIC_INLINE void dump_words(u8 *src, u32 len)
+__STATIC_INLINE void dump_words(uint8_t *src, uint32_t len)
 {
     utility_stubs.dump_words(src, len);
 }

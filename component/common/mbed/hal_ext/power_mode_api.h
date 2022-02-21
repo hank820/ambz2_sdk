@@ -93,7 +93,7 @@ enum {
  *
  *  @returns void
  */
-void SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
+void SleepCG (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption);
 
 #if defined (CONFIG_PLATFORM_8195BHP)
 
@@ -109,7 +109,7 @@ void SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
  *
  *  @returns void
  */
-void SleepPG (u16 Option, u32 SDuration, u8 Memsel, u8 GpioOption);
+void SleepPG (uint16_t Option, uint32_t SDuration, uint8_t Memsel, uint8_t GpioOption);
 
 #endif
 #if defined (CONFIG_PLATFORM_8195BLP)
@@ -129,7 +129,7 @@ void SleepPG (u16 Option, u32 SDuration, u8 Memsel, u8 GpioOption);
  *
  *  @returns void
  */
-void Standby (u16 Option, u32 SDuration, u8 Memsel, u8 GpioOption);
+void Standby (uint16_t Option, uint32_t SDuration, uint8_t Memsel, uint8_t GpioOption);
 
 /**
   * @brief The stubs functions table to exports POWER MODE HAL functions in ROM.
@@ -151,7 +151,7 @@ void Standby (u16 Option, u32 SDuration, u8 Memsel, u8 GpioOption);
  *
  *  @returns void
  */
-void DeepSleep (u8  Option, u32 SDuration, u8 Memsel, u8 Clock);
+void DeepSleep (uint8_t  Option, uint32_t SDuration, uint8_t Memsel, uint8_t Clock);
 
 /** 
  *  @brief The function for ls deep sleep mode.
@@ -165,7 +165,7 @@ void DeepSleep (u8  Option, u32 SDuration, u8 Memsel, u8 Clock);
  *
  *  @returns void
  */
-void DeepSleep_RTC (u8 Option, u8 Memsel);
+void DeepSleep_RTC (uint8_t Option, uint8_t Memsel);
 
 ///@}
 
@@ -210,7 +210,7 @@ enum {
  *
  *  @returns void
  */
-void DeepSleep (u8  Option, u32 SDuration, u8 Clock);
+void DeepSleep (uint8_t  Option, uint32_t SDuration, uint8_t Clock);
 
 /** 
  *  @brief The function for sleep mode.
@@ -227,7 +227,7 @@ void DeepSleep (u8  Option, u32 SDuration, u8 Clock);
  *
  *  @returns void
  */
-void SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
+void SleepCG (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption);
 
 /** 
  *  @brief The function for Standby mode.
@@ -244,7 +244,7 @@ void SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
  *
  *  @returns void
  */
-void Standby (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
+void Standby (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption);
 
 #endif
 

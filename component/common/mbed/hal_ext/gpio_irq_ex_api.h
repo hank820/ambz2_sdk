@@ -70,7 +70,7 @@ void gpio_irq_pull_ctrl(gpio_irq_t *obj, PinMode pull_type);
  *  @return     0:  Setting Succeed.
  *  @return     -1:  Setting Fail.
  */
-int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, u8 enable);
+int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, uint8_t enable);
 ///@}
 #endif //CONFIG_PLATFORM_8195BHP || CONFIG_PLATFORM_8195BLP
 
@@ -92,7 +92,7 @@ int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, u8 enable);
  *  @return     0:  Setting Succeed.
  *  @return     -1:  Setting Fail.
  */
-int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, u8 enable);
+int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, uint8_t enable);
 
 /**
   * @brief  Reads the specified gpio irq port pin.

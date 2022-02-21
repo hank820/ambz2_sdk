@@ -1,6 +1,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
+#include "osdep_service.h"
 
 #include <lwip/sockets.h>
 #include <lwip/raw.h>

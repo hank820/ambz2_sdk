@@ -10,47 +10,47 @@ struct _rom_ssl_ram_map {
 	int (*ssl_printf)(const char *, ...);
 
 	//AES HW CRYPTO
-	int (*hw_crypto_aes_ecb_init)(const u8* key, const u32 keylen);
+	int (*hw_crypto_aes_ecb_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_aes_ecb_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_aes_ecb_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
-	int (*hw_crypto_aes_cbc_init)(const u8* key, 	const u32 keylen);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
+	int (*hw_crypto_aes_cbc_init)(const uint8_t* key, 	const uint32_t keylen);
 	int (*hw_crypto_aes_cbc_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_aes_cbc_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 
 	//DES HW CRYPTO
-	int (*hw_crypto_des_cbc_init)(const u8* key, const u32 keylen);
+	int (*hw_crypto_des_cbc_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_des_cbc_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_des_cbc_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
-	int (*hw_crypto_3des_cbc_init)(const u8* key, const u32 keylen);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
+	int (*hw_crypto_3des_cbc_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_3des_cbc_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_3des_cbc_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 
 	/* Variables */
-	u32 use_hw_crypto_func;
+	uint32_t use_hw_crypto_func;
 };
 
 struct _rom_mbedtls_ram_map {
@@ -60,47 +60,47 @@ struct _rom_mbedtls_ram_map {
 	int (*ssl_printf)(const char *, ...);
 
 	//AES HW CRYPTO
-	int (*hw_crypto_aes_ecb_init)(const u8* key, const u32 keylen);
+	int (*hw_crypto_aes_ecb_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_aes_ecb_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_aes_ecb_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
-	int (*hw_crypto_aes_cbc_init)(const u8* key, const u32 keylen);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
+	int (*hw_crypto_aes_cbc_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_aes_cbc_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_aes_cbc_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 
 	//DES HW CRYPTO
-	int (*hw_crypto_des_cbc_init)(const u8* key, const u32 keylen);
+	int (*hw_crypto_des_cbc_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_des_cbc_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_des_cbc_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
-	int (*hw_crypto_3des_cbc_init)(const u8* key, const u32 keylen);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
+	int (*hw_crypto_3des_cbc_init)(const uint8_t* key, const uint32_t keylen);
 	int (*hw_crypto_3des_cbc_decrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 	int (*hw_crypto_3des_cbc_encrypt)(
-		const u8* message, 	const u32 msglen, 
-		const u8* iv, 		const u32 ivlen, 
-		u8* pResult);
+		const uint8_t* message, 	const uint32_t msglen, 
+		const uint8_t* iv, 		const uint32_t ivlen, 
+		uint8_t* pResult);
 
 	/* Variables */
-	u32 use_hw_crypto_func;
+	uint32_t use_hw_crypto_func;
 };
 
 extern struct _rom_ssl_ram_map rom_ssl_ram_map;

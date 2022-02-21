@@ -48,7 +48,7 @@ extern "C" {
   * @param  pbuf: buffer of read data
   * @retval : return number of used bytes
   */
-int efuse_logical_read(u16 laddr, u16 size, u8 *pbuf);
+int efuse_logical_read(uint16_t laddr, uint16_t size, uint8_t *pbuf);
 
 /**
   * @brief  write in pg packet format 
@@ -57,7 +57,7 @@ int efuse_logical_read(u16 laddr, u16 size, u8 *pbuf);
   * @param  data: data need to be written
   * @retval 0: success -1: failure 
   */
-//static int efuse_pg_packet(u8 offset , u8 wden, u8 *data);
+//static int efuse_pg_packet(uint8_t offset , uint8_t wden, uint8_t *data);
 
 /**
   * @brief  Write user's content to efuse on logical map
@@ -66,7 +66,7 @@ int efuse_logical_read(u16 laddr, u16 size, u8 *pbuf);
   * @param  data: data need to be written
   * @retval 0: success <0: failure   
   */
-int efuse_logical_write(u16 addr, u16 cnts, u8 *data);
+int efuse_logical_write(uint16_t addr, uint16_t cnts, uint8_t *data);
 
 /**
   * @brief  To enable secure boot

@@ -133,19 +133,19 @@ void hal_misc_wdt_refresh_rtl8710c (void)
 void hal_misc_init_rtl8710c (hal_misc_adapter_t *pmisc_adp);
 void hal_misc_start_systimer_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t tmr_id,
                                             timer_cnt_mode_t cnt_md, uint32_t tick_us);
-u64 hal_misc_read_systime_rtl8710c (void);
-u32 hal_misc_read_curtime_rtl8710c (void);
-void hal_misc_delay_us_rtl8710c (u32 time_us);
-BOOLEAN hal_misc_is_timeout (u32 start_us, u32 timeout_us);
+uint64_t hal_misc_read_systime_rtl8710c (void);
+uint32_t hal_misc_read_curtime_rtl8710c (void);
+void hal_misc_delay_us_rtl8710c (uint32_t time_us);
+BOOLEAN hal_misc_is_timeout (uint32_t start_us, uint32_t timeout_us);
 void hal_misc_wdt_set_timeout_rtl8710c (uint32_t time_us);
 void hal_misc_wdt_init_rtl8710c (uint32_t time_us);
 void hal_misc_wdt_reg_irq_rtl8710c (irq_handler_t handler, void *arg);
 void hal_misc_nmi_reg_irq_rtl8710c (irq_handler_t handler, void *arg);
 void hal_misc_rst_by_wdt_rtl8710c (void);
 void hal_misc_cpu_rst_rtl8710c (void);
-void hal_misc_sdm_32k_enable_rtl8710c (u8 bypass_mode);
-void hal_misc_set_sdm_32k_time_loss_rtl8710c (u8 time_loss_set, u32 time_loss_reg);
-u32 hal_misc_read_sdm_32k_time_loss_rtl8710c (void);
+void hal_misc_sdm_32k_enable_rtl8710c (uint8_t bypass_mode);
+void hal_misc_set_sdm_32k_time_loss_rtl8710c (uint8_t time_loss_set, uint32_t time_loss_reg);
+uint32_t hal_misc_read_sdm_32k_time_loss_rtl8710c (void);
 void hal_misc_bt_enable_ctrl_rtl8710c (BOOLEAN enable);
 
 /** @} */ /* End of group hs_hal_misc_rom_func */
@@ -163,9 +163,9 @@ typedef struct hal_misc_func_stubs_s {
     void (*hal_misc_nmi_reg_irq) (irq_handler_t handler, void *arg);
     void (*hal_misc_rst_by_wdt) (void);
     void (*hal_misc_cpu_rst) (void);
-    void (*hal_misc_sdm_32k_enable) (u8 bypass_mode);
-    u32  (*hal_misc_read_sdm_32k_time_loss) (void);
-    void (*hal_misc_set_sdm_32k_time_loss) (u8 time_loss_set, u32 time_loss_reg);    
+    void (*hal_misc_sdm_32k_enable) (uint8_t bypass_mode);
+    uint32_t  (*hal_misc_read_sdm_32k_time_loss) (void);
+    void (*hal_misc_set_sdm_32k_time_loss) (uint8_t time_loss_set, uint32_t time_loss_reg);    
     void (*hal_misc_bt_enable_ctrl) (BOOLEAN enable);
     uint32_t reserved[16];  // reserved space for next ROM code version function table extending.
 } hal_misc_func_stubs_t;

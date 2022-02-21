@@ -64,15 +64,15 @@ static const PinMap PinMap_PWM[] = {
     {NC,    NC,     0}
 };
 
-static u8 timer_for_pwm[] = {GTimer1, GTimer2, GTimer3, GTimer4, GTimer5, GTimer6, GTimer7, 0xff};  // the timer ID list those can be used as PWM tick source
+static uint8_t timer_for_pwm[] = {GTimer1, GTimer2, GTimer3, GTimer4, GTimer5, GTimer6, GTimer7, 0xff};  // the timer ID list those can be used as PWM tick source
 static hal_pwm_comm_adapter_t pwm_com_handler;
 void pwmout_init(pwmout_t *obj, PinName pin)
 {
     uint32_t peripheral;
-    u32 pwm_idx;
-    u32 pin_sel;
-    u16 duty_res = 0;
-    static u8 pwm_com_initialed;
+    uint32_t pwm_idx;
+    uint32_t pin_sel;
+    uint16_t duty_res = 0;
+    static uint8_t pwm_com_initialed;
 
     if (!pwm_com_initialed) {
         hal_pwm_comm_init (&pwm_com_handler);
@@ -200,7 +200,7 @@ void pwmout_startoffset_us(pwmout_t *obj, int us)
     pwmout_write(obj, dc);
 }
 
-void pwmout_period_int(pwmout_t *obj, pwm_period_callback_t callback, u8 enable)
+void pwmout_period_int(pwmout_t *obj, pwm_period_callback_t callback, uint8_t enable)
 {
     DBG_PWM_INFO("%s: Init PWM Interrupt\n", __func__);
     if (enable) {
@@ -210,7 +210,7 @@ void pwmout_period_int(pwmout_t *obj, pwm_period_callback_t callback, u8 enable)
     }
 }
 
-void pwmout_autoadj_int (pwmout_t *obj, pwm_lim_callback_t callback, u8 direction, u8 enable)
+void pwmout_autoadj_int (pwmout_t *obj, pwm_lim_callback_t callback, uint8_t direction, uint8_t enable)
 {
     DBG_PWM_INFO("%s: Init PWM duty adjustment Interrupt\n", __func__);
     if (enable) {
@@ -226,12 +226,12 @@ void pwmout_autoadj_int (pwmout_t *obj, pwm_lim_callback_t callback, u8 directio
     }
 }
 
-void pwmout_autoadj_inc(pwmout_t *obj, u32 max_duty_us, u32 step_sz_us, u32 step_period_cnt)
+void pwmout_autoadj_inc(pwmout_t *obj, uint32_t max_duty_us, uint32_t step_sz_us, uint32_t step_period_cnt)
 {
     hal_pwm_auto_duty_inc (&obj->pwm_hal_adp, max_duty_us, step_sz_us, step_period_cnt);
 }
 
-void pwmout_autoadj_dec(pwmout_t *obj, u32 min_duty_us, u32 step_sz_us, u32 step_period_cnt)
+void pwmout_autoadj_dec(pwmout_t *obj, uint32_t min_duty_us, uint32_t step_sz_us, uint32_t step_period_cnt)
 {
     hal_pwm_auto_duty_dec (&obj->pwm_hal_adp, min_duty_us, step_sz_us, step_period_cnt);
 }
@@ -246,7 +246,7 @@ void pwmout_stop(pwmout_t *obj)
     hal_pwm_disable ((&obj->pwm_hal_adp));
 }
 
-void pwmout_multi_start(u8 pin_ctrl)
+void pwmout_multi_start(uint8_t pin_ctrl)
 {
     hal_pwm_comm_disable(pin_ctrl);
     hal_pwm_comm_enable(pin_ctrl);

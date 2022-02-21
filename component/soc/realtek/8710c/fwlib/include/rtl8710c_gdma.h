@@ -144,28 +144,28 @@ typedef struct _gdma_ctl_reg_s {
     gdma_inc_type_t         sinc;                   //!< The source address increment setting
     gdma_ctl_msize_t        dest_msize;             //!< The transaction burst size of the detination side
     gdma_ctl_msize_t        src_msize;              //!< The transaction burst size of the source side
-    u32                     block_size;             //!< The size of the block(transfer length)
-    u8                      int_en           :1;    //!< bit 0 : Interrupt enable control
-    u8                      llp_dst_en       :1;    //!< bit 1 : linked list enable control on the destination side
-    u8                      llp_src_en       :1;    //!< bit 2 : linked list enable control on the source side
-    u8                      rsvd             :1;    //!< bit 3 : Reserve
+    uint32_t                block_size;             //!< The size of the block(transfer length)
+    uint8_t                      int_en           :1;    //!< bit 0 : Interrupt enable control
+    uint8_t                      llp_dst_en       :1;    //!< bit 1 : linked list enable control on the destination side
+    uint8_t                      llp_src_en       :1;    //!< bit 2 : linked list enable control on the source side
+    uint8_t                      rsvd             :1;    //!< bit 3 : Reserve
 }gdma_ctl_reg_t, *pgdma_ctl_reg_t;
 
 /**
   \brief  The data struct of the configuration register
 */
 typedef struct _gdma_cfg_reg_s {
-    u8                     src_per;                 //!<  The hardware handshake number of the source peripheral
-    u8                     dest_per;                //!<  The hardware handshake number of the destination peripheral
-    u8                     rsvd;                    //!<  Reserve
-    u8                     ch_susp      :1;         //!<  bit 0 : Channel suspend control
-    u8                     fifo_empty   :1;         //!<  bit 1 : Indicate fifo is empty or not
-    u8                     hs_sel_dst   :1;         //!<  bit 2 : Destination software or hardware handshaking select. Don't have to configure.
-    u8                     hs_sel_src   :1;         //!<  bit 3 : Source software or hardware handshaking select. Don't have to configure.
-    u8                     dst_hs_pol   :1;         //!<  bit 4 : Destination handshaking interface polarity. Don't have to configure.
-    u8                     src_hs_pol   :1;         //!<  bit 5 : Source handshaking interface polarity. Don't have to configure.
-    u8                     reload_src   :1;         //!<  bit 6 : Source auto reload enbale control.
-    u8                     reload_dst   :1;         //!<  bit 7 : Destination auto reload enable control.
+    uint8_t                     src_per;                 //!<  The hardware handshake number of the source peripheral
+    uint8_t                     dest_per;                //!<  The hardware handshake number of the destination peripheral
+    uint8_t                     rsvd;                    //!<  Reserve
+    uint8_t                     ch_susp      :1;         //!<  bit 0 : Channel suspend control
+    uint8_t                     fifo_empty   :1;         //!<  bit 1 : Indicate fifo is empty or not
+    uint8_t                     hs_sel_dst   :1;         //!<  bit 2 : Destination software or hardware handshaking select. Don't have to configure.
+    uint8_t                     hs_sel_src   :1;         //!<  bit 3 : Source software or hardware handshaking select. Don't have to configure.
+    uint8_t                     dst_hs_pol   :1;         //!<  bit 4 : Destination handshaking interface polarity. Don't have to configure.
+    uint8_t                     src_hs_pol   :1;         //!<  bit 5 : Source handshaking interface polarity. Don't have to configure.
+    uint8_t                     reload_src   :1;         //!<  bit 6 : Source auto reload enbale control.
+    uint8_t                     reload_dst   :1;         //!<  bit 7 : Destination auto reload enable control.
 }gdma_cfg_reg_t, *pgdma_cfg_reg_t;
 
 /**
@@ -183,16 +183,16 @@ typedef struct _hal_gdma_adaptor_s {
     void                        *gdma_irq_para;                                                 //!<  The parameter of gdma callback function
     void                        (*dcache_invalidate_by_addr)(uint32_t *addr, int32_t dsize);    //!<  callback function to do the D-cache invalidate
     void                        (*dcache_clean_by_addr) (uint32_t *addr, int32_t dsize);        //!<  callback function to do the D-cache clean
-    u32                         rsvd;                                                           //!<  Reserve
-    u32                         ch_sar;                                                         //!<  The source address of the current transfer
-    u32                         ch_dar;                                                         //!<  The destination address of the current transfer
-    u32                         gdma_irq_num;                                                   //!<  The IRQ number
-    u32                         abort_recv_byte;
-    volatile u8                 busy;                                                           //!<  Indicate the busy status of this GDMA channel
-    u8                          ch_num;                                                         //!<  The channel number being allocated to this adaptor
-    u8                          gdma_index;                                                     //!<  The GDMA index being allocated to this adaptor
-    u8                          gdma_isr_type;                                                  //!<  The interrupt mask setting for the transfer
-    u8                          have_chnl;                                                      //!<  Indicate the adaptor owns a channel or not
+    uint32_t                    rsvd;                                                           //!<  Reserve
+    uint32_t                    ch_sar;                                                         //!<  The source address of the current transfer
+    uint32_t                    ch_dar;                                                         //!<  The destination address of the current transfer
+    uint32_t                    gdma_irq_num;                                                   //!<  The IRQ number
+    uint32_t                    abort_recv_byte;
+    volatile uint8_t                 busy;                                                           //!<  Indicate the busy status of this GDMA channel
+    uint8_t                          ch_num;                                                         //!<  The channel number being allocated to this adaptor
+    uint8_t                          gdma_index;                                                     //!<  The GDMA index being allocated to this adaptor
+    uint8_t                          gdma_isr_type;                                                  //!<  The interrupt mask setting for the transfer
+    uint8_t                          have_chnl;                                                      //!<  Indicate the adaptor owns a channel or not
 }hal_gdma_adaptor_t, *phal_gdma_adaptor_t;
 
 
@@ -200,8 +200,8 @@ typedef struct _hal_gdma_adaptor_s {
   \brief  The data struct that lists available GDMA and channels
 */
 typedef struct _hal_gdma_chnl_s {
-    u8 gdma_indx;               //!<  Available GDMA index that can be allocated
-    u8 gdma_chnl;               //!<  Available GDMA channels that can be allocated
+    uint8_t gdma_indx;               //!<  Available GDMA index that can be allocated
+    uint8_t gdma_chnl;               //!<  Available GDMA channels that can be allocated
 }hal_gdma_chnl_t, *phal_gdma_chnl_t;
 
 /**
@@ -209,9 +209,9 @@ typedef struct _hal_gdma_chnl_s {
 */
 typedef struct _hal_gdma_group_s {
     phal_gdma_adaptor_t phal_gdma_adaptor[MAX_GDMA_CHNL];    //!<  The pointers of GDMA adaptor for all available GDMA sets and channels
-    u8 chnl_in_use;                                            //!<  Record which channel is used, it is stored separately under secure and non-secure mode
+    uint8_t chnl_in_use;                                            //!<  Record which channel is used, it is stored separately under secure and non-secure mode
 #if !defined (CONFIG_BUILD_NONSECURE)
-    u8 hal_gdma_reg;                                           //!<  Record which channel is used and registered. Globally managed under secure mode.
+    uint8_t hal_gdma_reg;                                           //!<  Record which channel is used and registered. Globally managed under secure mode.
 #endif
 } hal_gdma_group_t, *phal_gdma_group_t;
 
@@ -231,12 +231,12 @@ typedef struct hal_gdma_func_stubs_s {
     void (*hal_gdma_chnl_clean_auto_src) (phal_gdma_adaptor_t phal_gdma_adaptor);
     void (*hal_gdma_chnl_clean_auto_dst) (phal_gdma_adaptor_t phal_gdma_adaptor);
     hal_status_t (*hal_gdma_chnl_setting) (phal_gdma_adaptor_t phal_gdma_adaptor);
-    u32 (*hal_gdma_query_dar) (phal_gdma_adaptor_t phal_gdma_adaptor);
-    u32 (*hal_gdma_query_sar) (phal_gdma_adaptor_t phal_gdma_adaptor);
+    uint32_t (*hal_gdma_query_dar) (phal_gdma_adaptor_t phal_gdma_adaptor);
+    uint32_t (*hal_gdma_query_sar) (phal_gdma_adaptor_t phal_gdma_adaptor);
     BOOL (*hal_gdma_query_chnl_en) (phal_gdma_adaptor_t phal_gdma_adaptor);
-    u32 (*hal_gdma_query_transfer_bytes) (phal_gdma_adaptor_t phal_gdma_adaptor);
+    uint32_t (*hal_gdma_query_transfer_bytes) (phal_gdma_adaptor_t phal_gdma_adaptor);
 #if !defined (CONFIG_BUILD_NONSECURE)
-    hal_status_t (*hal_gdma_chnl_register) (u8 gdma_index, u8 chnl_num);
+    hal_status_t (*hal_gdma_chnl_register) (uint8_t gdma_index, uint8_t chnl_num);
     hal_status_t (*hal_gdma_chnl_unregister) (phal_gdma_adaptor_t phal_gdma_adaptor);
 #endif
     hal_status_t (*hal_gdma_chnl_init) (phal_gdma_adaptor_t phal_gdma_adaptor);
@@ -245,11 +245,11 @@ typedef struct hal_gdma_func_stubs_s {
     void (*hal_gdma_memcpy_irq_handler) (phal_gdma_adaptor_t phal_gdma_adaptor);
     void (*hal_gdma0_irq_handler) (void);
     void (*hal_gdma1_irq_handler) (void);
-    void (*hal_gdma_irq_set_priority) (phal_gdma_adaptor_t phal_gdma_adaptor, u32 irq_priority);
+    void (*hal_gdma_irq_set_priority) (phal_gdma_adaptor_t phal_gdma_adaptor, uint32_t irq_priority);
     void (*hal_gdma_irq_reg) (phal_gdma_adaptor_t phal_gdma_adaptor, irq_handler_t irq_handler, void *irq_data);
     void (*hal_gdma_transfer_start) (phal_gdma_adaptor_t phal_gdma_adaptor);
     void (*hal_gdma_group_init) (phal_gdma_group_t pgdma_group);
-    hal_status_t (*hal_gdma_memcpy_config) (phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, u32 len);
+    hal_status_t (*hal_gdma_memcpy_config) (phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, uint32_t len);
     void (*hal_gdma_abort) (phal_gdma_adaptor_t phal_gdma_adaptor);
     void (*hal_gdma_chnl_reset) (phal_gdma_adaptor_t phal_gdma_adaptor);
     uint32_t reserved[12];  // reserved space for next ROM code version function table extending.
@@ -276,22 +276,22 @@ void hal_gdma_clean_chnl_isr_rtl8710c (phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_chnl_clean_auto_src_rtl8710c (phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_chnl_clean_auto_dst_rtl8710c (phal_gdma_adaptor_t phal_gdma_adaptor);
 hal_status_t hal_gdma_chnl_setting_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
-u32 hal_gdma_query_dar_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
-u32 hal_gdma_query_sar_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
+uint32_t hal_gdma_query_dar_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
+uint32_t hal_gdma_query_sar_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 BOOL hal_gdma_query_chnl_en_rtl8710c (phal_gdma_adaptor_t phal_gdma_adaptor);
-u32 hal_gdma_query_transfer_bytes_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
-hal_status_t hal_gdma_chnl_register_rtl8710c(u8 gdma_index, u8 chnl_num);
+uint32_t hal_gdma_query_transfer_bytes_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
+hal_status_t hal_gdma_chnl_register_rtl8710c(uint8_t gdma_index, uint8_t chnl_num);
 hal_status_t hal_gdma_chnl_unregister_rtl8710c (phal_gdma_adaptor_t phal_gdma_adaptor);
 hal_status_t hal_gdma_chnl_init_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_chnl_irq_free_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_memcpy_irq_hook_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, gdma_callback_t gdma_cb_func, void *gdma_cb_data);
 void hal_gdma_memcpy_irq_handler_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 void GDMA0_IRQHandler(void);
-void hal_gdma_irq_set_priority_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, u32 irq_priority);
+void hal_gdma_irq_set_priority_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, uint32_t irq_priority);
 void hal_gdma_irq_reg_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, irq_handler_t irq_handler, void *irq_data);
 void hal_gdma_transfer_start_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_group_init_rtl8710c(phal_gdma_group_t pgdma_group);
-hal_status_t hal_gdma_memcpy_config_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, u32 len);
+hal_status_t hal_gdma_memcpy_config_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, uint32_t len);
 void hal_gdma_abort_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_chnl_reset_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 
@@ -300,7 +300,7 @@ void hal_gdma_chnl_free_rtl8710c (phal_gdma_adaptor_t phal_gdma_adaptor);
 hal_status_t hal_gdma_chnl_alloc_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 BOOL hal_gdma_memcpy_init_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_memcpy_deinit_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor);
-hal_status_t hal_gdma_memcpy_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, u32 len);
+hal_status_t hal_gdma_memcpy_rtl8710c(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, uint32_t len);
 
 #endif
 

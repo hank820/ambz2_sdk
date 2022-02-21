@@ -209,9 +209,9 @@ void gpio_irq_set_event(gpio_irq_t *obj, gpio_irq_event event)
  *  @return     0:  Setting Succeed.
  *  @return     -1:  Setting Fail.
  */
-int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, u8 enable)
+int gpio_irq_debounce_set (gpio_irq_t *obj, uint32_t debounce_us, uint8_t enable)
 {
-    u8 ret = 0;
+    uint8_t ret = 0;
     if(enable) {
         ret = hal_gpio_irq_debounce_enable (&obj->gpio_irq_adp, debounce_us);
         if (ret == HAL_OK) {

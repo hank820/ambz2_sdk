@@ -135,14 +135,14 @@ typedef void (*pwm_period_callback_t) (void *);
   * \brief  The data structure to control the PWM duty auto adjstment.
 */
 typedef struct hal_pwm_auto_duty_adj_s {
-    u32 init_duty_us;   /*!< The initial duty size of the PWM to start a duty auto-adjustment, in us */
-    u32 max_duty_us;   /*!< The maximum duty size of the duty auto-adjustment, in us */
-    u32 min_duty_us;   /*!< The minium duty size of the duty auto-adjustment, in us */
-    u32 duty_inc_step_us;   /*!< The step size for the duty auto-adjustment increasing, in us */
-    u32 duty_dec_step_us;   /*!< The step size for the duty auto-adjustment decreasing, in us */
-    u32 step_period_cnt;   /*!< The number of PWM period to perform a duty auto-adjustment */
-    u8 init_dir;    /*!< The initial duty auto-adjustment direction */
-    u8 loop_mode;   /*!< Is enable the duty auto-adjustment loop mode */
+    uint32_t init_duty_us;   /*!< The initial duty size of the PWM to start a duty auto-adjustment, in us */
+    uint32_t max_duty_us;   /*!< The maximum duty size of the duty auto-adjustment, in us */
+    uint32_t min_duty_us;   /*!< The minium duty size of the duty auto-adjustment, in us */
+    uint32_t duty_inc_step_us;   /*!< The step size for the duty auto-adjustment increasing, in us */
+    uint32_t duty_dec_step_us;   /*!< The step size for the duty auto-adjustment decreasing, in us */
+    uint32_t step_period_cnt;   /*!< The number of PWM period to perform a duty auto-adjustment */
+    uint8_t init_dir;    /*!< The initial duty auto-adjustment direction */
+    uint8_t loop_mode;   /*!< Is enable the duty auto-adjustment loop mode */
 } hal_pwm_auto_duty_adj_t, *phal_pwm_auto_duty_adj_t;
 
 /**
@@ -154,12 +154,12 @@ typedef struct hal_pwm_adapter_s {
     pwm_id_t pwm_id;   /*! The PWM device index, 0 ~ 7 */
     pin_name_t pin_name;  /*! IO pin name for this PWM */
     pwm_clk_sel_t pwm_clk_sel;  /*! The PWM tick source selection, 0 ~ 8 */
-    u8 adj_int_en;       /*! The duty ratio auto adjustment interrupt enable control */
-    u16 duty_res_us;     /*! minimum resolution for the PWM duty, in us */
-    u32 adj_loop_count;    /*! The duty ratio auto adjustment loop count */
-    u32 tick_p5us;    /*! The tick time of this PWM, the unit of tick time is 0.5us */
-    u32 period_us;    /*! The period time of current PWM cycle, in us */
-    u32 duty_us;      /*! The duty time of current PWM cycle, in us */
+    uint8_t adj_int_en;       /*! The duty ratio auto adjustment interrupt enable control */
+    uint16_t duty_res_us;     /*! minimum resolution for the PWM duty, in us */
+    uint32_t adj_loop_count;    /*! The duty ratio auto adjustment loop count */
+    uint32_t tick_p5us;    /*! The tick time of this PWM, the unit of tick time is 0.5us */
+    uint32_t period_us;    /*! The period time of current PWM cycle, in us */
+    uint32_t duty_us;      /*! The duty time of current PWM cycle, in us */
     hal_pwm_auto_duty_adj_t duty_adj; /*! The data structure to control the PWM duty auto adjstment. */
 
     pwm_lim_callback_t bound_callback;      /*! User callback function for duty ratio reachs the boundary limit */
@@ -194,41 +194,41 @@ typedef struct hal_pwm_func_stubs_s {
     void (*hal_pwm_comm_init) (hal_pwm_comm_adapter_t *ppwm_com_adp);
     void (*hal_pwm_comm_deinit) (void);
     void (*hal_pwm_comm_tick_source_list) (uint8_t *timer_list);
-    hal_status_t (*hal_pwm_init) (hal_pwm_adapter_t *ppwm_adp, pin_name_t pin_name, u16 duty_res_us);
+    hal_status_t (*hal_pwm_init) (hal_pwm_adapter_t *ppwm_adp, pin_name_t pin_name, uint16_t duty_res_us);
 
     BOOLEAN (*hal_pwm_enable_sts) (hal_pwm_adapter_t *ppwm_adp);
-    void (*hal_pwm_comm_enable) (u32 en_ctrl);
-    void (*hal_pwm_comm_disable) (u32 dis_ctrl);
+    void (*hal_pwm_comm_enable) (uint32_t en_ctrl);
+    void (*hal_pwm_comm_disable) (uint32_t dis_ctrl);
     void (*hal_pwm_enable) (hal_pwm_adapter_t *ppwm_adp);
     void (*hal_pwm_disable) (hal_pwm_adapter_t *ppwm_adp);
     void (*hal_pwm_deinit) (hal_pwm_adapter_t *ppwm_adp);
     void (*hal_pwm_set_clk_sel) (hal_pwm_adapter_t *ppwm_adp, pwm_clk_sel_t clk_sel);
     void (*hal_pwm_wait_ctrl_ready) (hal_pwm_adapter_t *ppwm_adp);
-    hal_status_t (*hal_pwm_set_tick_time) (hal_pwm_adapter_t *ppwm_adp, u32 tick_p5us);
-    hal_status_t (*hal_pwm_set_duty) (hal_pwm_adapter_t *ppwm_adp, u32 period_us, \
-                                      u32 duty_us, u32 start_offset_us);
-    u32 (*hal_pwm_read_duty) (hal_pwm_adapter_t *ppwm_adp);
-    void (*hal_pwm_change_duty) (hal_pwm_adapter_t *ppwm_adp, u32 duty_us);
-    hal_status_t (*hal_pwm_set_duty_limit) (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us, u32 min_duty_us);
+    hal_status_t (*hal_pwm_set_tick_time) (hal_pwm_adapter_t *ppwm_adp, uint32_t tick_p5us);
+    hal_status_t (*hal_pwm_set_duty) (hal_pwm_adapter_t *ppwm_adp, uint32_t period_us, \
+                                      uint32_t duty_us, uint32_t start_offset_us);
+    uint32_t (*hal_pwm_read_duty) (hal_pwm_adapter_t *ppwm_adp);
+    void (*hal_pwm_change_duty) (hal_pwm_adapter_t *ppwm_adp, uint32_t duty_us);
+    hal_status_t (*hal_pwm_set_duty_limit) (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us, uint32_t min_duty_us);
     void (*hal_pwm_set_auto_duty_adj) (hal_pwm_adapter_t *ppwm_adp, hal_pwm_auto_duty_adj_t *pauto_duty);
     void (*hal_pwm_auto_duty_en) (hal_pwm_adapter_t *ppwm_adp, BOOLEAN enable);
-    hal_status_t (*hal_pwm_set_auto_duty_inc) (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us, \
-                                                    u32 step_sz_us, u32 step_period_cnt);
-    hal_status_t (*hal_pwm_set_auto_duty_dec) (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us, \
-                                                    u32 step_sz_us, u32 step_period_cnt);
-    hal_status_t (*hal_pwm_set_auto_duty_loop) (hal_pwm_adapter_t *ppwm_adp, u8 ini_dir, u32 loop_cnt);
-    void (*hal_pwm_set_period_int) (hal_pwm_adapter_t *ppwm_adp, pwm_period_callback_t callback, void *arg, u8 int_en);
-    void (*hal_pwm_set_autoadj_int) (hal_pwm_adapter_t *ppwm_adp, pwm_lim_callback_t callback, void *arg, u8 int_en);
+    hal_status_t (*hal_pwm_set_auto_duty_inc) (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us, \
+                                                    uint32_t step_sz_us, uint32_t step_period_cnt);
+    hal_status_t (*hal_pwm_set_auto_duty_dec) (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_us, \
+                                                    uint32_t step_sz_us, uint32_t step_period_cnt);
+    hal_status_t (*hal_pwm_set_auto_duty_loop) (hal_pwm_adapter_t *ppwm_adp, uint8_t ini_dir, uint32_t loop_cnt);
+    void (*hal_pwm_set_period_int) (hal_pwm_adapter_t *ppwm_adp, pwm_period_callback_t callback, void *arg, uint8_t int_en);
+    void (*hal_pwm_set_autoadj_int) (hal_pwm_adapter_t *ppwm_adp, pwm_lim_callback_t callback, void *arg, uint8_t int_en);
     void (*hal_pwm_set_autoadj_loop_int) (hal_pwm_adapter_t *ppwm_adp, pwm_lo_callback_t callback, void *arg);
-    hal_status_t (*hal_pwm_auto_duty_inc) (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us, u32 step_sz_us, \
-                                            u32 step_period_cnt);
-    hal_status_t (*hal_pwm_auto_duty_dec) (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us, \
-                                                    u32 step_sz_us, u32 step_period_cnt);
-    hal_status_t (*hal_pwm_auto_duty_loop) (hal_pwm_adapter_t *ppwm_adp, u32 ini_duty_us, u8 ini_dir, u32 loop_cnt);
-    void (*hal_pwm_stop_duty_loop) (hal_pwm_adapter_t *ppwm_adp, u8 stop_now);
-    hal_status_t (*hal_pwm_set_duty_ns) (hal_pwm_adapter_t *ppwm_adp, u32 period_ns, u32 duty_ns, u32 start_offset_ns);
-    hal_status_t (*hal_pwm_auto_duty_ns_inc) (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_ns, u32 step_sz_ns, u32 step_period_cnt);
-    hal_status_t (*hal_pwm_auto_duty_ns_dec) (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_ns, u32 step_sz_ns, u32 step_period_cnt);
+    hal_status_t (*hal_pwm_auto_duty_inc) (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us, uint32_t step_sz_us, \
+                                            uint32_t step_period_cnt);
+    hal_status_t (*hal_pwm_auto_duty_dec) (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_us, \
+                                                    uint32_t step_sz_us, uint32_t step_period_cnt);
+    hal_status_t (*hal_pwm_auto_duty_loop) (hal_pwm_adapter_t *ppwm_adp, uint32_t ini_duty_us, uint8_t ini_dir, uint32_t loop_cnt);
+    void (*hal_pwm_stop_duty_loop) (hal_pwm_adapter_t *ppwm_adp, uint8_t stop_now);
+    hal_status_t (*hal_pwm_set_duty_ns) (hal_pwm_adapter_t *ppwm_adp, uint32_t period_ns, uint32_t duty_ns, uint32_t start_offset_ns);
+    hal_status_t (*hal_pwm_auto_duty_ns_inc) (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_ns, uint32_t step_sz_ns, uint32_t step_period_cnt);
+    hal_status_t (*hal_pwm_auto_duty_ns_dec) (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_ns, uint32_t step_sz_ns, uint32_t step_period_cnt);
     uint32_t reserved[13];  // reserved space for next ROM code version function table extending.
 } hal_pwm_func_stubs_t;
 
@@ -247,7 +247,7 @@ typedef struct hal_pwm_func_stubs_s {
  *  \returns The PWM devices enable status, bit 0 ~ 7 map to PWM0 ~ PWM7.
  */
 __STATIC_INLINE
-u32 hal_pwm_comm_enable_sts_rtl8710c (hal_pwm_comm_adapter_t *ppwm_com_adp)
+uint32_t hal_pwm_comm_enable_sts_rtl8710c (hal_pwm_comm_adapter_t *ppwm_com_adp)
 {
     return ppwm_com_adp->base_addr->enable_status;
 }
@@ -276,7 +276,7 @@ void hal_pwm_update_ctrl_rtl8710c (hal_pwm_adapter_t *ppwm_adp)
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_duty_size_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 duty_ticks)
+void hal_pwm_set_duty_size_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t duty_ticks)
 {
     ppwm_adp->base_addr->ctrl_b.duty = duty_ticks;
 }
@@ -290,7 +290,7 @@ void hal_pwm_set_duty_size_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 duty_ticks
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_onduty_start_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 start_ticks)
+void hal_pwm_set_onduty_start_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t start_ticks)
 {
     ppwm_adp->base_addr->timing_ctrl_b.duty_start = start_ticks;
 }
@@ -304,7 +304,7 @@ void hal_pwm_set_onduty_start_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 start_t
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_period_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 period_ticks)
+void hal_pwm_set_period_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t period_ticks)
 {
     ppwm_adp->base_addr->timing_ctrl_b.period = period_ticks;
 }
@@ -333,7 +333,7 @@ void hal_pwm_pause_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOL pause_ctrl)
  *  \return     1:  PWM still is running.
  */
 __STATIC_INLINE
-u8 hal_pwm_get_run_sts_rtl8710c (hal_pwm_adapter_t *ppwm_adp)
+uint8_t hal_pwm_get_run_sts_rtl8710c (hal_pwm_adapter_t *ppwm_adp)
 {
     return ppwm_adp->base_addr->ctrl_b.run_sts;
 }
@@ -361,7 +361,7 @@ void hal_pwm_set_period_ie_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOL int_en)
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_max_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_tick)
+void hal_pwm_set_max_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_tick)
 {
     ppwm_adp->base_addr->auto_adj_limit_b.duty_adj_up_lim = max_duty_tick;
 }
@@ -375,7 +375,7 @@ void hal_pwm_set_max_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_ti
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_min_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_tick)
+void hal_pwm_set_min_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_tick)
 {
     ppwm_adp->base_addr->auto_adj_limit_b.duty_adj_dn_lim = min_duty_tick;
 }
@@ -389,7 +389,7 @@ void hal_pwm_set_min_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_ti
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_duty_inc_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 inc_step_ticks)
+void hal_pwm_set_duty_inc_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t inc_step_ticks)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_inc_step = inc_step_ticks;
 }
@@ -403,7 +403,7 @@ void hal_pwm_set_duty_inc_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 inc_st
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_duty_dec_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 dec_step_ticks)
+void hal_pwm_set_duty_dec_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t dec_step_ticks)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_dec_step = dec_step_ticks;
 }
@@ -417,7 +417,7 @@ void hal_pwm_set_duty_dec_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 dec_st
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_duty_adj_cycle_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 cycle_cnt)
+void hal_pwm_set_duty_adj_cycle_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t cycle_cnt)
 {
     ppwm_adp->base_addr->auto_adj_cycle_b.adj_cycles = cycle_cnt;
 }
@@ -459,7 +459,7 @@ void hal_pwm_set_duty_adj_dir_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_duty_ad
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_duty_loop_mode_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 loop_en)
+void hal_pwm_set_duty_loop_mode_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t loop_en)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.adj_loop_en = loop_en;
 }
@@ -473,7 +473,7 @@ void hal_pwm_set_duty_loop_mode_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 loop_e
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_max_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 int_en)
+void hal_pwm_set_max_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t int_en)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_up_lim_ie = int_en;
 }
@@ -487,7 +487,7 @@ void hal_pwm_set_max_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 int_en)
  *  \returns void
  */
 __STATIC_INLINE
-void hal_pwm_set_min_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 int_en)
+void hal_pwm_set_min_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t int_en)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_dn_lim_ie = int_en;
 }
@@ -499,46 +499,46 @@ void hal_pwm_limirq_unreg_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
 void hal_pwm_comm_init_rtl8710c (hal_pwm_comm_adapter_t *ppwm_com_adp);
 void hal_pwm_comm_deinit_rtl8710c (void);
 void hal_pwm_comm_tick_source_list_rtl8710c (uint8_t *timer_list);
-hal_status_t hal_pwm_init_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pin_name_t pin_name, u16 duty_res_us);
+hal_status_t hal_pwm_init_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pin_name_t pin_name, uint16_t duty_res_us);
 BOOLEAN hal_pwm_enable_sts_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
-void hal_pwm_comm_enable_rtl8710c (u32 en_ctrl);
-void hal_pwm_comm_disable_rtl8710c (u32 dis_ctrl);
+void hal_pwm_comm_enable_rtl8710c (uint32_t en_ctrl);
+void hal_pwm_comm_disable_rtl8710c (uint32_t dis_ctrl);
 void hal_pwm_enable_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
 void hal_pwm_disable_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
 void hal_pwm_deinit_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
 void hal_pwm_set_clk_sel_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_clk_sel_t clk_sel);
 void hal_pwm_wait_ctrl_ready_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
-hal_status_t hal_pwm_set_tick_time_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 tick_p5us);
-hal_status_t hal_pwm_set_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 period_us,
-                                            u32 duty_us, u32 start_offset_us);
-u32 hal_pwm_read_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
-void hal_pwm_change_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 duty_us);
-hal_status_t hal_pwm_set_duty_limit_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us, u32 min_duty_us);
+hal_status_t hal_pwm_set_tick_time_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t tick_p5us);
+hal_status_t hal_pwm_set_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t period_us,
+                                            uint32_t duty_us, uint32_t start_offset_us);
+uint32_t hal_pwm_read_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp);
+void hal_pwm_change_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t duty_us);
+hal_status_t hal_pwm_set_duty_limit_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us, uint32_t min_duty_us);
 void hal_pwm_set_auto_duty_adj_rtl8710c (hal_pwm_adapter_t *ppwm_adp, hal_pwm_auto_duty_adj_t *pauto_duty);
 void hal_pwm_auto_duty_en_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOLEAN enable);
-hal_status_t hal_pwm_set_auto_duty_inc_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us,
-                                                u32 step_sz_us, u32 step_period_cnt);
-hal_status_t hal_pwm_set_auto_duty_dec_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us,
-                                                u32 step_sz_us, u32 step_period_cnt);
-hal_status_t hal_pwm_set_auto_duty_loop_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 ini_dir, u32 loop_cnt);
+hal_status_t hal_pwm_set_auto_duty_inc_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us,
+                                                uint32_t step_sz_us, uint32_t step_period_cnt);
+hal_status_t hal_pwm_set_auto_duty_dec_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_us,
+                                                uint32_t step_sz_us, uint32_t step_period_cnt);
+hal_status_t hal_pwm_set_auto_duty_loop_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t ini_dir, uint32_t loop_cnt);
 void hal_pwm_set_period_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_period_callback_t callback, \
-                                        void *arg, u8 int_en);
+                                        void *arg, uint8_t int_en);
 void hal_pwm_set_autoadj_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_lim_callback_t callback, \
-                                        void *arg, u8 int_en);
+                                        void *arg, uint8_t int_en);
 void hal_pwm_set_autoadj_loop_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_lo_callback_t callback, void *arg);
 
-hal_status_t hal_pwm_auto_duty_inc_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us,
-                                                u32 step_sz_us, u32 step_period_cnt);
-hal_status_t hal_pwm_auto_duty_dec_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us,
-                                                u32 step_sz_us, u32 step_period_cnt);
-hal_status_t hal_pwm_auto_duty_loop_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 ini_duty_us, u8 ini_dir, u32 loop_cnt);
-void hal_pwm_stop_duty_loop_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u8 stop_now);
-hal_status_t hal_pwm_set_duty_ns_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 period_ns,
-                                            u32 duty_ns, u32 start_offset_ns);
-hal_status_t hal_pwm_auto_duty_ns_inc_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_ns,
-                                                u32 step_sz_ns, u32 step_period_cnt);
-hal_status_t hal_pwm_auto_duty_ns_dec_rtl8710c (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_ns,
-                                                u32 step_sz_ns, u32 step_period_cnt);
+hal_status_t hal_pwm_auto_duty_inc_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us,
+                                                uint32_t step_sz_us, uint32_t step_period_cnt);
+hal_status_t hal_pwm_auto_duty_dec_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_us,
+                                                uint32_t step_sz_us, uint32_t step_period_cnt);
+hal_status_t hal_pwm_auto_duty_loop_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t ini_duty_us, uint8_t ini_dir, uint32_t loop_cnt);
+void hal_pwm_stop_duty_loop_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t stop_now);
+hal_status_t hal_pwm_set_duty_ns_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t period_ns,
+                                            uint32_t duty_ns, uint32_t start_offset_ns);
+hal_status_t hal_pwm_auto_duty_ns_inc_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_ns,
+                                                uint32_t step_sz_ns, uint32_t step_period_cnt);
+hal_status_t hal_pwm_auto_duty_ns_dec_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_ns,
+                                                uint32_t step_sz_ns, uint32_t step_period_cnt);
 
 /** @} */ /* End of group hs_hal_pwm_rom_func */
 

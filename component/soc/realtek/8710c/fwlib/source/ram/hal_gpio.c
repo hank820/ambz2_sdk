@@ -236,9 +236,9 @@ void hal_gpio_port_dir (phal_gpio_port_adapter_t pgpio_port_adapter, gpio_dir_t 
  *
  *  @returns    void
  */
-void hal_gpio_h5l3 (u8 h5l3)
+void hal_gpio_h5l3 (uint8_t h5l3)
 {
-    u32 buff = 0;
+    uint32_t buff = 0;
     buff = HAL_READ32(0x40000000, 0xAC);
     // set voltage
     if (h5l3 == 1) {

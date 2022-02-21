@@ -103,12 +103,12 @@ struct Page_T
 
 QueueHandle_t ftl_sem = NULL;
 uint8_t *ftl_mapping_table = NULL;
-bool do_gc_in_idle = FALSE;
+BOOL do_gc_in_idle = FALSE;
 uint8_t idle_gc_page_thres = 1;
 uint16_t idle_gc_cell_thres = PAGE_element / 2;
 
 extern uint32_t ftl_write(uint16_t logical_addr, uint32_t w_data);
-extern bool ftl_page_erase(struct Page_T *p);
+extern BOOL ftl_page_erase(struct Page_T *p);
 void ftl_mapping_table_init(void);
 uint16_t read_mapping_table(uint16_t logical_addr);
 
@@ -142,7 +142,7 @@ void ftl_flash_write(uint32_t start_addr, uint32_t data)
 	device_mutex_unlock(RT_DEV_LOCK_FLASH);
 }
 
-bool ftl_flash_erase_sector(uint32_t addr)
+BOOL ftl_flash_erase_sector(uint32_t addr)
 {
 	flash_t flash;
 	
@@ -642,7 +642,7 @@ void ftl_set_page_end_position(struct Page_T *p, uint16_t Endpos)
     ftl_page_write(p, INFO_end_index,  data);
 }
 
-bool ftl_page_erase(struct Page_T *p)
+BOOL ftl_page_erase(struct Page_T *p)
 {
     uint32_t info = ftl_page_read(p, INFO_beg_index);
     uint32_t data = 0xFFFF0000;
@@ -663,7 +663,7 @@ bool ftl_page_erase(struct Page_T *p)
     return FALSE;
 }
 
-bool ftl_page_format(struct Page_T *p, uint8_t sequence)
+BOOL ftl_page_format(struct Page_T *p, uint8_t sequence)
 {
     FTL_PRINTF(FTL_LEVEL_INFO, "  ftl_page_format: %x seq: %d\n", p, sequence);
 

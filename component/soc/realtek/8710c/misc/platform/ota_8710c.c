@@ -315,7 +315,7 @@ void cmd_update(int argc, char **argv){
 }
 
 // choose the activated image. 0: default image / 1: upgrade image
-void cmd_ota_image(bool cmd){
+void cmd_ota_image(BOOL cmd){
 	if(cmd == 1)
 		sys_recover_ota_signature();
 	else

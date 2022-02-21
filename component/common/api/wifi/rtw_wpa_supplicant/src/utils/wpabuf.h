@@ -20,7 +20,7 @@
 struct wpabuf {
 	size_t size; 		/* total size of the allocated buffer (i.e allocated buffer size)*/
 	size_t used; 		/* length of data in the buffer (i.e data length) */
-	u8 *buf; 		/* pointer to the head of the buffer (i.e buffer address) */ 
+	uint8_t *buf; 		/* pointer to the head of the buffer (i.e buffer address) */ 
 	unsigned int flags;
 				/* optionally followed by the allocated buffer */
 };
@@ -28,7 +28,7 @@ struct wpabuf {
 
 int wpabuf_resize(struct wpabuf **buf, size_t add_len);
 struct wpabuf * wpabuf_alloc(size_t len);
-struct wpabuf * wpabuf_alloc_ext_data(u8 *data, size_t len);
+struct wpabuf * wpabuf_alloc_ext_data(uint8_t *data, size_t len);
 struct wpabuf * wpabuf_alloc_copy(const void *data, size_t len);
 struct wpabuf * wpabuf_dup(const struct wpabuf *src);
 void wpabuf_free(struct wpabuf *buf);
@@ -78,7 +78,7 @@ static inline const void *wpabuf_head(const struct wpabuf *buf)
 	return buf->buf;
 }
 
-static inline const u8 *wpabuf_head_u8(const struct wpabuf *buf)
+static inline const uint8_t *wpabuf_head_u8(const struct wpabuf *buf)
 {
 	return wpabuf_head(buf);
 }
@@ -93,59 +93,59 @@ static inline void *wpabuf_mhead(struct wpabuf *buf)
 	return buf->buf;
 }
 
-static inline u8 *wpabuf_mhead_u8(struct wpabuf *buf)
+static inline uint8_t *wpabuf_mhead_u8(struct wpabuf *buf)
 {
 	return wpabuf_mhead(buf);
 }
 
-static inline void wpabuf_put_u8(struct wpabuf *buf, u8 data)
+static inline void wpabuf_put_u8(struct wpabuf *buf, uint8_t data)
 {
-	u8 *pos = NULL;
+	uint8_t *pos = NULL;
 	if ( buf == NULL)
 		return;
 	pos = wpabuf_put(buf, 1);
 	*pos = data;
 }
 
-static inline void wpabuf_put_le16(struct wpabuf *buf, u16 data)
+static inline void wpabuf_put_le16(struct wpabuf *buf, uint16_t data)
 {
-	u8 *pos = NULL;
+	uint8_t *pos = NULL;
 	if ( buf == NULL)
 		return;
 	pos = wpabuf_put(buf, 2);
 	WPA_PUT_LE16(pos, data);
 }
 
-static inline void wpabuf_put_le32(struct wpabuf *buf, u32 data)
+static inline void wpabuf_put_le32(struct wpabuf *buf, uint32_t data)
 {
-	u8 *pos = NULL;
+	uint8_t *pos = NULL;
 	if ( buf == NULL)
 		return;
 	pos = wpabuf_put(buf, 4);
 	WPA_PUT_LE32(pos, data);
 }
 
-static inline void wpabuf_put_be16(struct wpabuf *buf, u16 data)
+static inline void wpabuf_put_be16(struct wpabuf *buf, uint16_t data)
 {
-	u8 *pos = NULL;
+	uint8_t *pos = NULL;
 	if ( buf == NULL)
 		return;
 	pos = wpabuf_put(buf, 2);
 	WPA_PUT_BE16(pos, data);
 }
 
-static inline void wpabuf_put_be24(struct wpabuf *buf, u32 data)
+static inline void wpabuf_put_be24(struct wpabuf *buf, uint32_t data)
 {
-	u8 *pos = NULL;
+	uint8_t *pos = NULL;
 	if ( buf == NULL)
 		return;
 	pos = wpabuf_put(buf, 3);
 	WPA_PUT_BE24(pos, data);
 }
 
-static inline void wpabuf_put_be32(struct wpabuf *buf, u32 data)
+static inline void wpabuf_put_be32(struct wpabuf *buf, uint32_t data)
 {
-	u8 *pos = NULL;
+	uint8_t *pos = NULL;
 	if ( buf == NULL)
 		return;
 	pos = wpabuf_put(buf, 4);
@@ -173,7 +173,7 @@ static inline void wpabuf_set(struct wpabuf *buf, const void *data, size_t len)
 {
 	if ( buf == NULL)
 		return;
-	buf->buf = (u8 *) data;
+	buf->buf = (uint8_t *) data;
 	buf->flags = WPABUF_FLAG_EXT_DATA;
 	buf->size = buf->used = len;
 }
