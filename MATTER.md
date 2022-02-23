@@ -248,3 +248,11 @@ or
 * Power on device and wait matter task run
 * Launch Android Chip-Tool app and press **Provision CHIP Device With Wi-Fi**
 * Scan the QR Code and enter the network credentials of the AP
+
+Note: The QR code will be provided when booting, for example:
+```shell
+chip[SVR] SetupQRCode: [MT:-24J042C00KA0648G00]
+chip[SVR] Copy/paste the below URL in a browser to see the QR Code:
+chip[SVR] https://dhrishi.github.io/connectedhomeip/qrcode.html?data=MT%3A-24J042C00KA0648G00
+```
+Copy/paste the URL in a browser and a scannable QR code will be displayed.
