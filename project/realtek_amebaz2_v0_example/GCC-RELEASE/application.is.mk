@@ -34,6 +34,17 @@ OS := $(shell uname)
 
 LDSCRIPT := ./rtl8710c_ram.ld
 
+# Read Matter OTA information from JSON file
+define GetFromJSON
+$(shell node -p "require('./matter_ota_settings.json').$(1)")
+endef
+
+VENDORID       := $(call GetFromJSON, VendorID)
+PRODUCTID      := $(call GetFromJSON, ProductID)
+VERSION        := $(call GetFromJSON, Version)
+VERSIONSTRING  := $(call GetFromJSON, VersionString)
+DIGESTALGO     := $(call GetFromJSON, DigestAlgorithm)
+
 
 # Initialize target name and target object files
 # -------------------------------------------------------------------
@@ -731,6 +742,7 @@ endif
 	$(ELF2BIN) convert amebaz2_firmware_is.json FIRMWARE secure_bit=0
 	$(CHKSUM) $(BIN_DIR)/firmware_is.bin
 	$(ELF2BIN) combine $(BIN_DIR)/flash_is.bin PTAB=partition.bin,BOOT=$(BOOT_BIN_DIR)/bootloader.bin,FW1=$(BIN_DIR)/firmware_is.bin
+	python3 $(CHIPDIR)/src/app/ota_image_tool.py create -v $(VENDORID) -p $(PRODUCTID) -vn $(VERSION) -vs $(VERSIONSTRING) -da $(DIGESTALGO) $(BIN_DIR)/firmware_is.bin $(BIN_DIR)/MATTER_OTA_FIRMWARE.bin
 
 # Generate build info
 # -------------------------------------------------------------------
