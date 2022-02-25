@@ -743,6 +743,7 @@ endif
 	$(CHKSUM) $(BIN_DIR)/firmware_is.bin
 	$(ELF2BIN) combine $(BIN_DIR)/flash_is.bin PTAB=partition.bin,BOOT=$(BOOT_BIN_DIR)/bootloader.bin,FW1=$(BIN_DIR)/firmware_is.bin
 	python3 $(CHIPDIR)/src/app/ota_image_tool.py create -v $(VENDORID) -p $(PRODUCTID) -vn $(VERSION) -vs $(VERSIONSTRING) -da $(DIGESTALGO) $(BIN_DIR)/firmware_is.bin $(BIN_DIR)/MATTER_OTA_FIRMWARE.bin
+	python3 $(CHIPDIR)/src/app/ota_image_tool.py show $(BIN_DIR)/MATTER_OTA_FIRMWARE.bin
 
 # Generate build info
 # -------------------------------------------------------------------
