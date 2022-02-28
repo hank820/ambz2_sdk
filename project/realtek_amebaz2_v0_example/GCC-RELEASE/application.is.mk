@@ -34,16 +34,12 @@ OS := $(shell uname)
 
 LDSCRIPT := ./rtl8710c_ram.ld
 
-# Read Matter OTA information from JSON file
-define GetFromJSON
-$(shell node -p "require('./matter_ota_settings.json').$(1)")
-endef
-
-VENDORID       := $(call GetFromJSON, VendorID)
-PRODUCTID      := $(call GetFromJSON, ProductID)
-VERSION        := $(call GetFromJSON, Version)
-VERSIONSTRING  := $(call GetFromJSON, VersionString)
-DIGESTALGO     := $(call GetFromJSON, DigestAlgorithm)
+# Matter OTA header information
+VENDORID       := 0xDEAD
+PRODUCTID      := 0xBEEF
+VERSION        := 1
+VERSIONSTRING  := 1.0
+DIGESTALGO     := sha256
 
 
 # Initialize target name and target object files
