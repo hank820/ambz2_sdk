@@ -49,6 +49,8 @@
 * For common flash usage
 */
 #define FLASH_BAKEUP_SECTOR		(0x3000)
+#if 0 
+// Default layout, Do not delete, for reference
 #define FAST_RECONNECT_DATA		(0x200000 - 0x1000)  // 0x1FF000
 #define BT_FTL_PHY_ADDR0		(0x200000 - 0x2000)  // 0x1FE000
 #define BT_FTL_PHY_ADDR1		(0x200000 - 0x3000)  // 0x1FD000
@@ -59,6 +61,15 @@
 #define BT_WHITELIST_BASE_1		(0x200000 - 0xA000)
 #define BT_WHITELIST_PAGE_SIZE		(0x1000)
 #define BT_WHITELIST_BASE_2		(BT_WHITELIST_BASE_1 + BT_WHITELIST_PAGE_SIZE)
+#else 
+// Matter layout
+#define FAST_RECONNECT_DATA		(0x400000 - 0x1000)  // 0x1FF000
+#define BT_FTL_PHY_ADDR0		(0x400000 - 0x2000)  // 0x1FE000
+#define BT_FTL_PHY_ADDR1		(0x400000 - 0x3000)  // 0x1FD000
+#define BT_FTL_BKUP_ADDR		(0x400000 - 0x4000)  // 0x1FC000
+#define UART_SETTING_SECTOR		(0x400000 - 0x5000)  // 0x1FB000
+#define DCT_BEGIN_ADDR			(0x400000 - 0x55000) // 0x1E3000 ~ 0x1FB000 : 96K /* !< DCT begin address of flash, ex: 0x200000 = 2M
+#endif
 /**
  * For Wlan configurations
  */
