@@ -98,7 +98,7 @@ a lot of data that needs to be copied, this should be set high. */
 #elif defined(ENABLE_AMAZON_COMMON)
 	#define PBUF_POOL_SIZE          30
 #else
-    #define PBUF_POOL_SIZE          20
+    #define PBUF_POOL_SIZE          80
 #endif
 
 /* IP_REASS_MAX_PBUFS: Total maximum amount of pbufs waiting to be reassembled.*/
