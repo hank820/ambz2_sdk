@@ -238,6 +238,8 @@ GENERATE_NINJA:
 	echo ameba_cxx = \"arm-none-eabi-c++\"  >> $(OUTPUT_DIR)/args.gn
 	echo ameba_cpu = \"ameba\"               >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_ota_requestor = "true" >> $(OUTPUT_DIR)/args.gn
+	echo chip_enable_additional_data_advertising = "true" >> $(OUTPUT_DIR)/args.gn
+	echo chip_enable_rotating_device_id = "true" >> $(OUTPUT_DIR)/args.gn
 	cd $(CHIPDIR) && PW_ENVSETUP_QUIET=1 . scripts/activate.sh
 	sed -i 's/chip_build_tests\ =\ true/chip_build_tests\ =\ false/g' $(CHIPDIR)/config/ameba/args.gni
 	mkdir -p $(CHIPDIR)/config/ameba/components/chip
