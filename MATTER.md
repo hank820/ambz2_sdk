@@ -45,6 +45,14 @@ If you already have a checkout, run the following command to sync submodules rec
     source ToolPath.sh
 
     make light
+    
+### ota-requestor-app
+
+    cd ambz2_sdk/project/realtek_amebaz2_v0_example/GCC-RELEASE
+
+    source ToolPath.sh
+
+    make otar
 
 ### CHIP core (generate by GN/ninja in connectedhomeip. Config by [lib_chip.mk](https://github.com/hank820/ambz2_sdk/blob/matter/project/realtek_amebaz2_v0_example/GCC-RELEASE/lib_chip.mk))
 
@@ -61,14 +69,14 @@ If you already have a checkout, run the following command to sync submodules rec
 ## Make Ameba application
     cd ambz2_sdk/project/realtek_amebaz2_v0_example/GCC-RELEASE
 
-    make is -j4
+    make is
 
 ## Flash Image
     ambz2_sdk/project/realtek_amebaz2_v0_example/GCC-RELEASE/application_is/Debug/bin/flash_is.bin
 
 Find more detail in [application_note](https://github.com/hank820/ambz2_sdk/blob/matter/doc/AN0500%20Realtek%20Ameba-ZII%20application%20note.en.pdf) Chapter4
 
-## Run CHIP task on AmebaZ2 (all-cluster-app/lighting-app example)
+## Run CHIP task on AmebaZ2 (all-cluster-app/lighting-app/ota-requestor-app example)
 
 	Matter task will auto start after reset the device.
 
@@ -183,6 +191,7 @@ the top CHIP directory:
 ```shell
 ./scripts/build/build_examples.py --target android-arm64-chip-tool build
 ```
+Note: It has been noticed that this step may fail on the first try, but running the second time will successfully build the apk.
 
 See the table above for other values of `TARGET_CPU`.
 
