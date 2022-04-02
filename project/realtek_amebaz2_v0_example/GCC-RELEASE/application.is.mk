@@ -255,7 +255,6 @@ SRC_C += ../../../component/common/bluetooth/realtek/sdk/example/bt_matter_adapt
 SRC_C += ../../../component/common/bluetooth/realtek/sdk/example/bt_matter_adapter/bt_matter_adapter_app_task.c
 SRC_C += ../../../component/common/bluetooth/realtek/sdk/example/bt_matter_adapter/bt_matter_adapter_peripheral_app.c
 SRC_C += ../../../component/common/bluetooth/realtek/sdk/example/bt_matter_adapter/bt_matter_adapter_service.c
-SRC_C += ../../../component/common/bluetooth/realtek/sdk/example/bt_matter_adapter/bt_matter_adapter_wifi.c
 
 #bluetooth - example
 SRC_C += ../../../component/common/bluetooth/realtek/sdk/bt_example_entry.c

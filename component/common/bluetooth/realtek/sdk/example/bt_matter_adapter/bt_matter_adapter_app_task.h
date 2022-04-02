@@ -23,7 +23,7 @@ extern "C" {
  * @brief  Initialize App task
  * @return void
  */
-void bt_matter_adapter_send_msg(uint16_t sub_type);
+bool bt_matter_adapter_send_msg(uint16_t sub_type, void *arg);
 void bt_matter_adapter_app_task_init(void);
 void bt_matter_adapter_app_task_deinit(void);
 

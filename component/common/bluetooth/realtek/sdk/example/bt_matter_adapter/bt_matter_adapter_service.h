@@ -22,7 +22,8 @@ extern "C"  {
 /* Add Includes here */
 #include <profile_server.h>
 #include "bt_matter_adapter_config.h"
-#include "simple_ble_service.h"
+//#include "complete_ble_service.h"
+
 
 /** @defgroup SIMP_Service Simple Ble Service
   * @brief Simple BLE service
@@ -53,7 +54,10 @@ typedef enum
   * @brief  Upstream message used to inform application.
   * @{
   */
-
+#define SIMP_NOTIFY_INDICATE_V3_ENABLE     1
+#define SIMP_NOTIFY_INDICATE_V3_DISABLE    2
+#define SIMP_NOTIFY_INDICATE_V4_ENABLE     3
+#define SIMP_NOTIFY_INDICATE_V4_DISABLE    4
 /** @defgroup SIMP_Service_Read_Info SIMP Service Read Info
   * @brief  Parameter for reading characteristic value.
   * @{
@@ -94,7 +98,7 @@ typedef struct
     T_WRITE_TYPE write_type;
     uint16_t len;
     uint8_t *p_value;
-} TBTCONFIG_WRITE_MSG;
+} TSIMP_WRITE_MSG;
 /** @} End of TSIMP_WRITE_MSG */
 
 
@@ -104,10 +108,11 @@ typedef struct
   */
 typedef union
 {
+    uint8_t notification_indification_index; //!< ref: @ref SIMP_Service_Notify_Indicate_Info
     uint8_t read_value_index; //!< ref: @ref SIMP_Service_Read_Info
-    TBTCONFIG_WRITE_MSG write;
-	uint16_t read_offset;
-} TBTCONFIG_MSG_DATA;
+    TSIMP_WRITE_MSG write;
+    uint16_t read_offset;
+} TSIMP_UPSTREAM_MSG_DATA;
 /** @} End of TSIMP_UPSTREAM_MSG_DATA */
 
 /** @defgroup TSIMP_CALLBACK_DATA TSIMP_CALLBACK_DATA
@@ -118,8 +123,8 @@ typedef struct
 {
     uint8_t                 conn_id;
     T_SERVICE_CALLBACK_TYPE msg_type;
-    TBTCONFIG_MSG_DATA msg_data;
-} TBTCONFIG_CALLBACK_DATA;
+    TSIMP_UPSTREAM_MSG_DATA msg_data;
+} TSIMP_CALLBACK_DATA;
 /** @} End of TSIMP_CALLBACK_DATA */
 
 /** @defgroup TSIMP_WRITE_MSG TSIMP_WRITE_MSG
@@ -127,42 +132,7 @@ typedef struct
   * @{
   */
 /*
-typedef struct
-{
-    uint8_t opcode; //!< ref:  @ref SIMP_Service_Write_Info
-    T_WRITE_TYPE write_type;
-    uint16_t len;
-    uint8_t *p_value;
-} TSIMP_WRITE_MSG;
-*/
-/** @} End of TSIMP_WRITE_MSG */
 
-
-/** @defgroup TSIMP_UPSTREAM_MSG_DATA TSIMP_UPSTREAM_MSG_DATA
-  * @brief Simple BLE service callback message content.
-  * @{
-  */
-/*
-typedef union
-{
-    uint8_t notification_indification_index; //!< ref: @ref SIMP_Service_Notify_Indicate_Info
-    uint8_t read_value_index; //!< ref: @ref SIMP_Service_Read_Info
-    TSIMP_WRITE_MSG write;
-} TSIMP_UPSTREAM_MSG_DATA;
-*/
-/** @} End of TSIMP_UPSTREAM_MSG_DATA */
-
-/** @defgroup TSIMP_CALLBACK_DATA TSIMP_CALLBACK_DATA
-  * @brief Simple BLE service data to inform application.
-  * @{
-  */
-/*
-typedef struct
-{
-    uint8_t                 conn_id;
-    T_SERVICE_CALLBACK_TYPE msg_type;
-    TSIMP_UPSTREAM_MSG_DATA msg_data;
-} TSIMP_CALLBACK_DATA;
 */
 /** @} End of TSIMP_CALLBACK_DATA */
 
