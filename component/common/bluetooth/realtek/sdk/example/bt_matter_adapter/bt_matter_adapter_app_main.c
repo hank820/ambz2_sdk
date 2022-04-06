@@ -241,7 +241,6 @@ int bt_matter_adapter_init(void)
 
 	//Wait BT init complete*
 	do {
-		os_delay(100);
 		le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
 	} while (new_state.gap_init_state != GAP_INIT_STATE_STACK_READY);
 
@@ -272,7 +271,6 @@ bool ble_matter_netmgr_start_adv(void)
     {
         printf("Waiting for ble stack ready...\n");
         do{
-            os_delay(100);
             le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
         }while(new_state.gap_init_state != GAP_INIT_STATE_STACK_READY);
     }
@@ -282,7 +280,6 @@ bool ble_matter_netmgr_start_adv(void)
     {
         printf("Waiting for adv ready \n");
         do{
-            os_delay(100);
             le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
         }while(new_state.gap_adv_state != GAP_ADV_STATE_IDLE);
     }
@@ -293,7 +290,6 @@ bool ble_matter_netmgr_start_adv(void)
         printf("msg send fail \n");
         return false;
     }
-
     return true;
 }
 
@@ -314,7 +310,7 @@ bool ble_matter_netmgr_stop_adv(void)
             return false;
         }
     }
-        return true;
+    return true;
 }
 
 bool ble_matter_netmgr_server_send_data(uint8_t conn_id, T_SERVER_ID service_id, uint16_t attrib_index,

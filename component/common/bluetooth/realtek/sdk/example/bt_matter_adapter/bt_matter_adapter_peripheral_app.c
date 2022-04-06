@@ -90,6 +90,8 @@ int bt_matter_app_handle_upstream_msg(uint16_t subtype, void *pdata)
                         server_send_data(param->conn_id, param->service_id, param->attrib_index, param->p_data, param->data_len, param->type);
                         os_mem_free(param);
                         os_mem_free(param->p_data);
+                        param = NULL;
+                        param->p_data = NULL;
                 }
                 break;
         }
@@ -133,18 +135,35 @@ void bt_matter_handle_callback_msg(T_IO_MSG callback_msg)//receive
     {
         chip_blemgr_callback_func(chip_blemgr_callback_data, callback_msg.u.buf, 0, CB_GAP_MSG_CONN_EVENT);
         os_mem_free(callback_msg.u.buf);
+        callback_msg.u.buf = NULL;
     }
         break;
     case BT_MATTER_SEND_CB_MSG_ALL_GAP_MSG:
         break;
     case BT_MATTER_SEND_CB_MSG_SEND_DATA_COMPLETE:
+    {
+        uint8_t service_id = callback_msg.subtype;
+        chip_blemgr_callback_func(chip_blemgr_callback_data, callback_msg.u.buf, service_id, CB_PROFILE_CALLBACK);
+        os_mem_free(callback_msg.u.buf);
+        callback_msg.u.buf = NULL;
+    }
+        break;
     case BT_MATTER_SEND_CB_MSG_IND_NTF_DISABLE:
     case BT_MATTER_SEND_CB_MSG_IND_NTF_ENABLE:
     case BT_MATTER_SEND_CB_MSG_READ_WRITE_CHAR:
     {
         uint8_t service_id = callback_msg.subtype;
+
         chip_blemgr_callback_func(chip_blemgr_callback_data, callback_msg.u.buf, service_id, CB_PROFILE_CALLBACK);
+
+        TSIMP_CALLBACK_DATA * pp_param = (TSIMP_CALLBACK_DATA *) callback_msg.u.buf;
+        if (pp_param->msg_data.write.len !=0)
+        {
+            os_mem_free(pp_param->msg_data.write.p_value);
+            pp_param->msg_data.write.p_value = NULL;
+        }
         os_mem_free(callback_msg.u.buf);
+        callback_msg.u.buf = NULL;
     }
         break;
     default:
@@ -173,7 +192,6 @@ void bt_matter_adapter_app_handle_dev_state_evt(T_GAP_DEV_STATE new_state, uint1
         if (new_state.gap_init_state == GAP_INIT_STATE_STACK_READY)
         {
             APP_PRINT_INFO0("GAP stack ready");
-	    printf("BT Config Wifi ready\n\r");
         }
     }
 
@@ -188,13 +206,13 @@ void bt_matter_adapter_app_handle_dev_state_evt(T_GAP_DEV_STATE new_state, uint1
             else
             {
                 APP_PRINT_INFO0("GAP adv stopped");
-				printf("ADV stopped\n\r");
+                //printf("ADV stopped\n\r");
             }
         }
         else if (new_state.gap_adv_state == GAP_ADV_STATE_ADVERTISING)
         {
             APP_PRINT_INFO0("GAP adv start");
-			printf("ADV started\n\r");
+            //printf("ADV started\n\r");
         }
     }
 
@@ -235,10 +253,11 @@ void bt_matter_adapter_app_handle_conn_state_evt(uint8_t conn_id, T_GAP_CONN_STA
                 if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_DISCONNECTED, NULL, disconnected)==false)
                 {
                     os_mem_free(disconnected);
+                    disconnected = NULL;
                 }
             }
             else
-	            printf("Malloc failed\r\n");
+                printf("Malloc failed\r\n");
         }
         break;
 
@@ -278,7 +297,7 @@ void bt_matter_adapter_app_handle_conn_state_evt(uint8_t conn_id, T_GAP_CONN_STA
             }
 			//update_connection_time
             APP_PRINT_INFO5("GAP_CONN_STATE_CONNECTED:remote_bd %s, remote_addr_type %d, conn_interval 0x%x, conn_latency 0x%x, conn_supervision_timeout 0x%x",TRACE_BDADDR(remote_bd), remote_bd_type,conn_interval, conn_latency, conn_supervision_timeout);
-			printf("Bluetooth Connection Established\n\r");
+            printf("Bluetooth Connection Established\n\r");
 			
 		//send data to matter
 	        BT_MATTER_CONN_EVENT *connected = os_mem_alloc(0, sizeof(BT_MATTER_CONN_EVENT));
@@ -290,10 +309,11 @@ void bt_matter_adapter_app_handle_conn_state_evt(uint8_t conn_id, T_GAP_CONN_STA
         		if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_CONNECTED, NULL, connected)==false)
         		{
             			os_mem_free(connected);
+                        connected = NULL;
         		}
     		}
-    		else
-        		printf("Malloc failed\r\n");
+            else
+                printf("Malloc failed\r\n");
         }
         break;
 
@@ -573,37 +593,32 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                             p_param->event_data.send_data_result.service_id,
                             p_param->event_data.send_data_result.attrib_idx,
                             p_param->event_data.send_data_result.credits);
-            printf("\n\rPROFILE_EVT_SEND_DATA_COMPLETE: conn_id %d, cause 0x%x, service_id %d, attrib_idx 0x%x, credits %d\r\n",
-                            p_param->event_data.send_data_result.conn_id,
-                            p_param->event_data.send_data_result.cause,
-                            p_param->event_data.send_data_result.service_id,
-                            p_param->event_data.send_data_result.attrib_idx,
-                            p_param->event_data.send_data_result.credits);
+
             if (p_param->event_data.send_data_result.cause == GAP_SUCCESS)
             {
                 APP_PRINT_INFO0("PROFILE_EVT_SEND_DATA_COMPLETE success");
-                printf("PROFILE_EVT_SEND_DATA_COMPLETE success\r\n");
+                //printf("PROFILE_EVT_SEND_DATA_COMPLETE success\r\n");
 
                 //send msg to matter
                 if (p_param->event_data.send_data_result.service_id == bt_matter_adapter_srv_id)
                 {
-	                T_SERVER_APP_CB_DATA *send_data_complete = os_mem_alloc(0, sizeof(T_SERVER_APP_CB_DATA));
-		            if(send_data_complete)
-		            {
-                		memcpy(send_data_complete, p_param, sizeof(T_SERVER_APP_CB_DATA));
-                			if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_SEND_DATA_COMPLETE, service_id, send_data_complete)==false)
-                			{
-                    			os_mem_free(send_data_complete);
-                			}	
-		            }
-		            else
-			            printf("Malloc failed\r\n");
+                    T_SERVER_APP_CB_DATA *send_data_complete = os_mem_alloc(0, sizeof(T_SERVER_APP_CB_DATA));
+                    if(send_data_complete)
+                    {
+                        memcpy(send_data_complete, p_param, sizeof(T_SERVER_APP_CB_DATA));
+                        if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_SEND_DATA_COMPLETE, service_id, send_data_complete)==false)
+                        {
+                            os_mem_free(send_data_complete);
+                            send_data_complete = NULL;
+                        }
+                    }
+                    else
+                        printf("Malloc failed\r\n");
                 }
             }
             else
             {
                 APP_PRINT_ERROR0("PROFILE_EVT_SEND_DATA_COMPLETE failed");
-                printf("PROFILE_EVT_SEND_DATA_COMPLETE failed\r\n");
             }
             break;
         default:
@@ -622,9 +637,9 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                 case SIMP_NOTIFY_INDICATE_V3_ENABLE:
                     {
                         APP_PRINT_INFO0("SIMP_NOTIFY_INDICATE_V3_ENABLE");
-                        printf("\n\rSIMP_NOTIFY_INDICATE_V3_ENABLE\r\n");
                         //send msg to matter
                         TSIMP_CALLBACK_DATA *indication_notification_enable = os_mem_alloc(0, sizeof(TSIMP_CALLBACK_DATA));
+
                         if(indication_notification_enable)
                         {
                             memcpy(indication_notification_enable, p_simp_cb_data, sizeof(TSIMP_CALLBACK_DATA));
@@ -635,7 +650,13 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                             }
                             if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_IND_NTF_ENABLE, service_id, indication_notification_enable)==false)
                             {
+                                if (indication_notification_enable->msg_data.write.len !=0)
+                                {
+                                    os_mem_free(indication_notification_enable->msg_data.write.p_value);
+                                    indication_notification_enable->msg_data.write.p_value = NULL;
+                                }
                                 os_mem_free(indication_notification_enable);
+                                indication_notification_enable = NULL;
                             }
                         }
                         else
@@ -646,7 +667,6 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                 case SIMP_NOTIFY_INDICATE_V3_DISABLE:
                     {
                         APP_PRINT_INFO0("SIMP_NOTIFY_INDICATE_V3_DISABLE");
-                        printf("\n\rSIMP_NOTIFY_INDICATE_V3_DISABLE\r\n");
 
                         //send msg to matter
                         TSIMP_CALLBACK_DATA *indication_notification_disable = os_mem_alloc(0, sizeof(TSIMP_CALLBACK_DATA));
@@ -661,7 +681,13 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
 
                             if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_IND_NTF_DISABLE, service_id, indication_notification_disable)==false)
                             {
+                                if (indication_notification_disable->msg_data.write.len !=0)
+                                {
+                                    os_mem_free(indication_notification_disable->msg_data.write.p_value);
+                                    indication_notification_disable->msg_data.write.p_value = NULL;
+                                }
                                 os_mem_free(indication_notification_disable);
+                                indication_notification_disable = NULL;
                             }
                         }
                         else
@@ -671,13 +697,11 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                 case SIMP_NOTIFY_INDICATE_V4_ENABLE:
                     {
                         APP_PRINT_INFO0("SIMP_NOTIFY_INDICATE_V4_ENABLE");
-                        printf("\n\rSIMP_NOTIFY_INDICATE_V4_ENABLE\r\n");
                     }
                     break;
                 case SIMP_NOTIFY_INDICATE_V4_DISABLE:
                     {
                         APP_PRINT_INFO0("SIMP_NOTIFY_INDICATE_V4_DISABLE");
-                        printf("\n\rSIMP_NOTIFY_INDICATE_V4_DISABLE\r\n");
                     }
                     break;
                 default:
@@ -694,6 +718,8 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                 if(read_write_char_val)
                 {
                     memcpy(read_write_char_val, p_simp_cb_data, sizeof(TSIMP_CALLBACK_DATA));
+
+                    // Make sure malloc size != 0
                     if (read_write_char_val->msg_data.write.len !=0)
                     {
                         read_write_char_val->msg_data.write.p_value = os_mem_alloc(0, read_write_char_val->msg_data.write.len);
@@ -701,11 +727,17 @@ T_APP_RESULT bt_matter_adapter_app_profile_callback(T_SERVER_ID service_id, void
                     }
                     if(bt_matter_adapter_send_callback_msg(BT_MATTER_SEND_CB_MSG_READ_WRITE_CHAR, service_id, read_write_char_val)==false)
                     {
+                        if (read_write_char_val->msg_data.write.len !=0)
+                        {
+                            os_mem_free(read_write_char_val->msg_data.write.p_value);
+                            read_write_char_val->msg_data.write.p_value = NULL;
+                        }
                         os_mem_free(read_write_char_val);
+                        read_write_char_val = NULL;
                     }
                 }
          	    else
-        		    printf("Malloc failed\r\n");
+                    printf("Malloc failed\r\n");
             }
             break;
         default:

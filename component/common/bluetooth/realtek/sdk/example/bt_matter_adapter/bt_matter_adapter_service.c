@@ -18,14 +18,6 @@
 #include <gap.h>
 #include <diag.h>
 #include "platform_stdlib.h"
-//#include "utility.h"
-
-#define SIMPLE_BLE_SERVICE_CHAR_V1_READ_INDEX           0x02
-#define SIMPLE_BLE_SERVICE_CHAR_V2_WRITE_INDEX          0x05
-#define SIMPLE_BLE_SERVICE_CHAR_V3_NOTIFY_INDEX         0x07
-#define SIMPLE_BLE_SERVICE_CHAR_V4_INDICATE_INDEX       0x0a
-#define SIMPLE_BLE_SERVICE_CHAR_NOTIFY_CCCD_INDEX       (SIMPLE_BLE_SERVICE_CHAR_V3_NOTIFY_INDEX + 1)
-#define SIMPLE_BLE_SERVICE_CHAR_INDICATE_CCCD_INDEX     (SIMPLE_BLE_SERVICE_CHAR_V4_INDICATE_INDEX + 1)
 
 #define BT_MATTER_ADAPTER_SERVICE_CHAR_V1_READ_WRITE_INDEX           0x02
 #define BT_MATTER_ADAPTER_SERVICE_C3_INDEX           0x07
@@ -198,24 +190,6 @@ T_APP_RESULT  bt_matter_adapter_service_attr_read_cb(uint8_t conn_id, T_SERVER_I
 
     switch (attrib_index)
     {
-    default:
-        printf("bt_matter_adapter_service_attr_read_cb, Attr not found, index %d", attrib_index);
-        cause = APP_RESULT_ATTR_NOT_FOUND;
-        break;
-    case BT_MATTER_ADAPTER_SERVICE_CHAR_V1_READ_WRITE_INDEX:
-        {
-            TSIMP_CALLBACK_DATA callback_data;
-            callback_data.msg_type = SERVICE_CALLBACK_TYPE_READ_CHAR_VALUE;
-            callback_data.msg_data.read_value_index = BTCONFIG_READ_V1;
-            callback_data.conn_id = conn_id;
-            if (pfn_bt_matter_adapter_service_cb)
-            {
-                pfn_bt_matter_adapter_service_cb(service_id, (void *)&callback_data);
-            }
-            *pp_value = bt_matter_adapter_char_read_value;
-            *p_length = bt_matter_adapter_char_read_len;
-        }
-        break;
     case BT_MATTER_ADAPTER_SERVICE_C3_INDEX:
         {
             TSIMP_CALLBACK_DATA callback_data;
@@ -231,7 +205,10 @@ T_APP_RESULT  bt_matter_adapter_service_attr_read_cb(uint8_t conn_id, T_SERVER_I
             *p_length = callback_data.msg_data.write.len;
         }
         break;
-
+    default:
+        printf("bt_matter_adapter_service_attr_read_cb, Attr not found, index %d", attrib_index);
+        cause = APP_RESULT_ATTR_NOT_FOUND;
+        break;
     }
 
     return (cause);
@@ -318,22 +295,6 @@ void bt_matter_adapter_service_cccd_update_cb(uint8_t conn_id, T_SERVER_ID servi
             is_handled =  true;
         }
         break;
-    case SIMPLE_BLE_SERVICE_CHAR_INDICATE_CCCD_INDEX:
-        {
-            if (cccbits & GATT_CLIENT_CHAR_CONFIG_INDICATE)
-            {
-                // Enable Indication
-                callback_data.msg_data.notification_indification_index = SIMP_NOTIFY_INDICATE_V4_ENABLE;
-            }
-            else
-            {
-                // Disable Indication
-                callback_data.msg_data.notification_indification_index = SIMP_NOTIFY_INDICATE_V4_DISABLE;
-            }
-            is_handled =  true;
-        }
-        break;
-
     default:
         break;
     }
