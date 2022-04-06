@@ -14,6 +14,13 @@ set (matter_config_path $ENV{MATTER_CONFIG_PATH})
 set (matter_enable_rpc $ENV{MATTER_ENABLE_RPC})
 set (matter_enable_ota_requestor $ENV{MATTER_ENABLE_OTA_REQUESTOR})
 set (matter_generate_ota_image $ENV{MATTER_GENERATE_OTA_IMAGE})
+set (amebaz2_gcctooldir "${sdk_root}/component/soc/realtek/8710c/misc/gcc_utility")
+set (amebaz2_tooldir "${sdk_root}/component/soc/realtek/8710c/misc/iar_utility")
+set (amebaz2_bootloaderdir "${sdk_root}/component/soc/realtek/8710c/misc/bsp/image")
+
+# set elf2bin and chksum
+set(ELF2BIN ${amebaz2_gcctooldir}/elf2bin.linux)
+set(CHKSUM ${amebaz2_gcctooldir}/checksum.linux)
 
 set (BUILD_TZ OFF)
 
@@ -44,7 +51,7 @@ endif()
 
 
 ####################
-IF(FALSE)
+IF(true)
 add_custom_target(
 	flash
 
@@ -57,7 +64,7 @@ add_custom_target(
 	COMMAND cp bootloader/boot.bin .
 
 	COMMAND cp ${fw} ./firmware.bin
-	COMMAND ${prj_root}/GCC-RELEASE/elf2bin.exe combine ${target}.bin PTAB=partition.bin,BOOT=boot.bin,FW1=firmware.bin
+    COMMAND ${ELF2BIN} ${target}.bin PTAB=partition.bin,BOOT=boot.bin,FW1=firmware.bin
 
 #	COMMAND cp ${bttrace} ./APP.trace
 

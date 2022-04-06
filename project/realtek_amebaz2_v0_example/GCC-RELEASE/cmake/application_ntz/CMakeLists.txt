@@ -10,15 +10,24 @@ set(prj_root_tmp "${CMAKE_CURRENT_SOURCE_DIR}/../../..")
 set(sdk_root_tmp "${CMAKE_CURRENT_SOURCE_DIR}/../../../../..")
 get_filename_component(prj_root ${prj_root_tmp} REALPATH)
 get_filename_component(sdk_root ${sdk_root_tmp} REALPATH)
-set(km0_image "${prj_root}/GCC-RELEASE/project_lp/asdk/image")
+set(amebaz2_gcctooldir "${sdk_root}/component/soc/realtek/8710c/misc/gcc_utility")
+set(amebaz2_tooldir "${sdk_root}/component/soc/realtek/8710c/misc/iar_utility")
+set(amebaz2_bootloaderdir "${sdk_root}/component/soc/realtek/8710c/misc/bsp/image")
+set(amebaz2_romsymdir "${sdk_root}/component/soc/realtek/8710c/misc/bsp/ROM")
+#set(km0_image "${prj_root}/GCC-RELEASE/project_lp/asdk/image")
 set(prj_hp "${prj_root}/GCC-RELEASE/project_hp")
 set(app_ntz application.ntz)
 set(app_ntz_pure application.ntz_pure)
 set(list app_ntz_sources)
 set(list_inc_path app_ntz_inc)
 set(list_c_flags app_ntz_flags)
-set(list_code2sram code2sram)
-set(list_code2sram_network code2sram_network)
+set(list_code2sram "")
+#set(list_code2sram_network code2sram_network)
+
+# set elf2bin and chksum
+set(ELF2BIN ${amebaz2_gcctooldir}/elf2bin.linux)
+set(CHKSUM ${amebaz2_gcctooldir}/checksum.linux)
+
 
 set(freertos "freertos_v10.2.0")
 set(lwip "lwip_v2.1.2")
@@ -175,6 +184,13 @@ list(
 )
 
 #network - api
+list(
+    APPEND app_ntz_sources
+
+    ${sdk_root}/component/common/api/lwip_netconf.c
+)
+
+#network - api - wifi
 list(
     APPEND app_ntz_sources
 
@@ -601,6 +617,16 @@ list(
     ${sdk_root}/component/common/mbed/targets/hal/rtl8710c/power_mode_api.c
 )
 
+list(
+    APPEND list_code2sram
+
+    ${sdk_root}/component/common/mbed/targets/hal/rtl8710c/flash_api.c
+    ${sdk_root}/component/soc/realtek/8710c/misc/driver/flash_api_ext.c
+    ${sdk_root}/component/soc/realtek/8710c/fwlib/source/ram_ns/hal_flash.c
+    ${sdk_root}/component/soc/realtek/8710c/fwlib/source/ram_ns/hal_spic.c
+    ${sdk_root}/component/common/mbed/targets/hal/rtl8710c/power_mode_api.c
+)
+
 ############################### END Source File List #############################33
 
 #copy_ld_img2(ld/rlx8721d_img2_is.ld) copy_ld_img3
@@ -680,6 +706,7 @@ set(ASDK_TOOLCHAIN "${TOOLCHAINDIR}/linux/newlib")
 target_link_options(
 	${app_ntz}
 	PUBLIC
+	"LINKER:SHELL:-L ${amebaz2_romsymdir}"
 	"LINKER:SHELL:-L ${ASDK_TOOLCHAIN}/lib"
 	"LINKER:SHELL:-L ${sdk_root}/component/common/bluetooth/realtek/sdk/board/amebaz2/lib"
 	"LINKER:SHELL:-L ${sdk_root}/component/soc/realtek/8710c/misc/bsp/lib/common/GCC"
@@ -688,10 +715,77 @@ target_link_options(
 	"LINKER:SHELL:-Map=${app_ntz}.map"
 )
 
+if(true)
+#RENAME CODE2SRAM
+foreach(_file_net ${list_code2sram})
+	string(CONCAT _file_obj ${CMAKE_CURRENT_BINARY_DIR} "/CMakeFiles/${app_ntz}.dir" ${_file_net} ".obj")
+	add_custom_command(TARGET ${app_ntz} PRE_LINK
+        COMMAND ${CMAKE_OBJCOPY} --prefix-alloc-sections=.sram ${_file_obj} ${_file_obj}
+	)
+endforeach()
+endif()
+
 add_custom_command(TARGET ${app_ntz} PRE_LINK
     COMMAND echo "COPY CHIP library ..."
     COMMAND cp -f ${CHIP_OUTPUT}/lib/libCHIP.a ${LIB_ROOT}
 )
+
+add_custom_command(TARGET ${app_ntz} POST_BUILD
+    COMMAND mkdir -p application_is/Debug/obj
+    COMMAND mkdir -p application_is/Debug/bin
+    COMMAND mkdir -p application_is/Debug/info
+    COMMAND mkdir -p bootloader/Debug/bin
+    COMMAND echo ${app_ntz}
+    COMMAND echo $<TARGET_FILE:${app_ntz}>
+    #COMMAND ${CMAKE_NM} $<TARGET_FILE:${app_ntz}> | sort > ${app_ntz}.nm.map
+    COMMAND cp $<TARGET_FILE:${app_ntz}> ${app_ntz}.axf
+    #COMMAND cp ${sdk_root}/component/soc/8735b/fwlib/rtl8735b/lib/source/ram/video/voe_bin/voe.bin voe.bin
+    COMMAND ${CMAKE_OBJECOPY} -j .bluetooth_trace.text -Obinary ${app_ntz}.axf APP.trace
+    COMMAND ${CMAKE_OBJECOPY} -R .bluetooth_trace.text ${app_ntz}.axf
+    COMMAND ${CMAKE_OBJEDUMP} -d $<TARGET_FILE:${app_ntz}> > ${app_ntz}.asm
+
+    COMMAND rm -rf output && mkdir output
+    #COMMAND cp firmware_ntz.bin output
+    #COMMAND cp ${app_ntz}.nm.map output
+    #COMMAND cp ${app_ntz}.map output
+    #COMMAND cp ${app_ntz}.asm output
+    #COMMAND cp ${app_ntz}.axf output
+    #COMMAND cp ${app} ${app}_pure
+    #COMMAND ${CMAKE_STRIP} --strip-unneeded ${app}_pure
+    #COMMAND ${CMAKE_OBJCOPY} -j .rom.vector_tbl -j .rom.ns_vector_tbl -j .rom.text -j .ARM.extab -j .ARM.exidx -j .data_of_rom -j .note.gnu.build-id -j .rom.stubs -j .rom.ns4s_stubs -Obinary ${app}_pure rom.bin
+    #COMMAND ${CMAKE_OBJCOPY} -j .gnu.sgstubs  -Obinary ${app}_pure nsc.bin
+    #COMMAND ${CMAKE_OBJCOPY} -j .ram.func.table -j .ram.img.signature -j .data -j .ram.code_text -j .ram.code_rodata  -Obinary ${app}_pure ram_ld.bin
+    #COMMAND ${CMAKE_OBJCOPY} -j .ram.vector -j .ram.func.table -j .ram.img.signature -j .ram.func.table -j .data -j .ram.code_text -j .ram.code_rodata  -Obinary ${app}_pure ram.bin
+    #COMMAND rm -rf info
+    #COMMAND mkdir info
+    #COMMAND mv *.{i,s} info
+
+    #COMMAND ${prj_root}/GCC-RELEASE/elf2bin.exe convert ${prj_root}/GCC-RELEASE/amebapro2_partition.json PARTITIONTABLE
+
+    COMMAND cp ${prj_root}/GCC-RELEASE/keycfg.json keycfg.json
+    COMMAND cp ${prj_root}/GCC-RELEASE/partition.json partition.json
+    COMMAND cp ${prj_root}/GCC-RELEASE/amebaz2_firmware_is.json amebaz2_firmware_is.json
+    COMMAND cp ${prj_root}/GCC-RELEASE/amebaz2_bootloader.json amebaz2_bootloader.json
+    COMMAND chmod 0773 ${ELF2BIN} ${CHKSUM}
+    COMMAND ${ELF2BIN} keygen keycfg.json
+    COMMAND echo "=================================================TESTING=============================================="
+    COMMAND ${ELF2BIN} convert amebaz2_bootloader.json BOOTLOADER secure_bit=0
+    COMMAND echo "=================================================TESTING=============================================="
+    COMMAND ${ELF2BIN} convert amebaz2_bootloader.json PARTITIONTABLE secure_bit=0
+    COMMAND echo "=================================================TESTING=============================================="
+    COMMAND ${ELF2BIN} convert amebaz2_firmware_is.json FIRMWARE secure_bit=0
+    COMMAND echo "=================================================TESTING=============================================="
+    COMMAND ${CHKSUM} ${matter_output_path}/firmware_is.bin
+    COMMAND echo "=================================================TESTING=============================================="
+    COMMAND ${ELF2BIN} combine ${matter_output_path}/flash_is.bin PTAB=partition.bin,BOOT=${matter_output_path}/bootloader.bin,FW1=${matter_output_path}/firmware_is.bin
+    COMMAND echo "=================================================TESTING=============================================="
+    #COMMAND cp *.a output
+    #COMMAND rm -rf output && mkdir output
+    #COMMAND cp ${boot} output
+    #COMMAND python ../split_binary.py output
+    #COMMAND cd .. && tar zcvf build.tar.gz build/output
+)
+
 
 if(false)
 add_custom_command(TARGET ${app_ntz} POST_BUILD

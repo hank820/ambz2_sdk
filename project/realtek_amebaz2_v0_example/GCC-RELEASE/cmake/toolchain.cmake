@@ -32,7 +32,7 @@ set(CMAKE_SIZE "${TOOL_DIR}/arm-none-eabi-size" )
 set(CMAKE_C_FLAGS "-march=armv8-m.main+dsp -mthumb -mcmse -mfloat-abi=soft -g -gdwarf-3 -Os")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D__ARM_ARCH_8M_MAIN__=1 -ffunction-sections -fstack-usage -fdata-sections")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fdiagnostics-color=always -Wall -Wpointer-arith -Wno-write-strings ")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-maybe-uninitialized --save-temps -c -MMD")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-maybe-uninitialized --save-temps -MMD")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DCONFIG_PLATFORM_8710C -DCONFIG_BUILD_RAM=1 -DV8M_STKOVF")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS} -std=gnu++17 -fno-rtti")
 
