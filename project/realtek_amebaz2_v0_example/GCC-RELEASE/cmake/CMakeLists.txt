@@ -42,7 +42,7 @@ if(BUILD_TZ)
 	add_subdirectory (application_tz)
 else()
 	set(target flash_ntz)
-	set(fw application_ntz/firmware_ntz.bin)
+	set(fw application_ntz/firmware_is.bin)
 #	set(bttrace application_ntz/APP.trace)
 	set(app_dep application_ntz)
 	add_subdirectory (application_ntz)
@@ -61,6 +61,7 @@ add_custom_target(
 #	COMMAND ${prj_root}/GCC-RELEASE/elf2bin.exe keygen keycfg.json
 
 #	COMMAND ${prj_root}/GCC-RELEASE/elf2bin.exe convert amebapro2_partition.json PARTITIONTABLE
+    COMMAND echo "===========================debug 1============================"
 	COMMAND cp bootloader/boot.bin .
 
 	COMMAND cp ${fw} ./firmware.bin

@@ -738,11 +738,11 @@ add_custom_command(TARGET ${app_ntz} POST_BUILD
     COMMAND echo ${app_ntz}
     COMMAND echo $<TARGET_FILE:${app_ntz}>
     #COMMAND ${CMAKE_NM} $<TARGET_FILE:${app_ntz}> | sort > ${app_ntz}.nm.map
-    COMMAND cp $<TARGET_FILE:${app_ntz}> ${matter_output_path}/application_ntz/application_is/Debug/bin/${app_ntz}.axf
+    COMMAND cp $<TARGET_FILE:${app_ntz}> application_is/Debug/bin/application_is.axf
     #COMMAND cp ${sdk_root}/component/soc/8735b/fwlib/rtl8735b/lib/source/ram/video/voe_bin/voe.bin voe.bin
-    COMMAND ${CMAKE_OBJECOPY} -j .bluetooth_trace.text -Obinary ${matter_output_path}/application_ntz/application_is/Debug/bin/${app_ntz}.axf APP.trace
-    COMMAND ${CMAKE_OBJECOPY} -R .bluetooth_trace.text ${matter_output_path}/application_ntz/application_is/Debug/bin/${app_ntz}.axf
-    COMMAND ${CMAKE_OBJEDUMP} -d $<TARGET_FILE:${app_ntz}> > ${matter_output_path}/application_ntz/application_is/Debug/bin/${app_ntz}.asm
+    COMMAND ${CMAKE_OBJECOPY} -j .bluetooth_trace.text -Obinary application_is/Debug/bin/application_is.axf application_is/Debug/bin/APP.trace
+    COMMAND ${CMAKE_OBJECOPY} -R .bluetooth_trace.text application_is/Debug/bin/application_is.axf
+    COMMAND ${CMAKE_OBJEDUMP} -d $<TARGET_FILE:${app_ntz}> > application_is/Debug/bin/application_is.asm
 
     COMMAND cp ${amebaz2_bootloaderdir}/bootloader.axf bootloader/Debug/bin/bootloader.axf
     #COMMAND rm -rf output && mkdir output
@@ -767,12 +767,16 @@ add_custom_command(TARGET ${app_ntz} POST_BUILD
     COMMAND cp ${prj_root}/GCC-RELEASE/partition.json partition.json
     COMMAND cp ${prj_root}/GCC-RELEASE/amebaz2_firmware_is.json amebaz2_firmware_is.json
     COMMAND cp ${prj_root}/GCC-RELEASE/amebaz2_bootloader.json amebaz2_bootloader.json
-    COMMAND chmod 0773 ${ELF2BIN} ${CHKSUM}
+    COMMAND chmod 0774 ${ELF2BIN} ${CHKSUM}
     COMMAND ${ELF2BIN} keygen keycfg.json
     COMMAND ${ELF2BIN} convert amebaz2_bootloader.json BOOTLOADER secure_bit=0
+    COMMAND echo "==============================Debug 1==============================="
     COMMAND ${ELF2BIN} convert amebaz2_bootloader.json PARTITIONTABLE secure_bit=0
+    COMMAND echo "==============================Debug 2==============================="
     COMMAND ${ELF2BIN} convert amebaz2_firmware_is.json FIRMWARE secure_bit=0
-    COMMAND ${CHKSUM} ${matter_output_path}/application_ntz/application_is/Debug/bin/firmware_is.bin
+    COMMAND echo "==============================Debug 3==============================="
+    COMMAND ${CHKSUM} application_is/Debug/bin/firmware_is.bin
+    COMMAND echo "==============================Debug 4==============================="
     COMMAND ${ELF2BIN} combine ${matter_output_path}/application_ntz/application_is/Debug/bin/flash_is.bin PTAB=partition.bin,BOOT=${matter_output_path}/application_ntz/bootloader/Debug/bin/bootloader.bin,FW1=${matter_output_path}/application_ntz/application_is/Debug/bin/firmware_is.bin
     #COMMAND cp *.a output
     #COMMAND rm -rf output && mkdir output
