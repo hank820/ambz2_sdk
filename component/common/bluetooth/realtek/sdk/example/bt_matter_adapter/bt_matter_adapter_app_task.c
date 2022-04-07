@@ -93,7 +93,6 @@ void bt_matter_adapter_send_callback_msg(uint16_t msg_type, uint8_t cb_type, voi
     }
 
     callback_msg.u.buf = arg;
-
     if (bt_matter_callback_queue_handle != NULL) {
         if (os_msg_send(bt_matter_callback_queue_handle, &callback_msg, 0) == false) {
             printf("bt config send msg fail: subtype 0x%x", callback_msg.type);

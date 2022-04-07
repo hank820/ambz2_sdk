@@ -241,6 +241,7 @@ int bt_matter_adapter_init(void)
 
 	//Wait BT init complete*
 	do {
+		os_delay(1);
 		le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
 	} while (new_state.gap_init_state != GAP_INIT_STATE_STACK_READY);
 
@@ -264,53 +265,62 @@ uint16_t ble_att_mtu_z2(uint16_t conn_id)
 
 bool ble_matter_netmgr_start_adv(void)
 {
+    bool cause = false;
     T_GAP_DEV_STATE new_state;
-    //check BLE stack state
-    le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
-    if(new_state.gap_init_state != GAP_INIT_STATE_STACK_READY)
-    {
-        printf("Waiting for ble stack ready...\n");
-        do{
-            le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
-        }while(new_state.gap_init_state != GAP_INIT_STATE_STACK_READY);
-    }
 
-    //check adv state
-    if(new_state.gap_adv_state != GAP_ADV_STATE_IDLE)
-    {
-        printf("Waiting for adv ready \n");
-        do{
-            le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
-        }while(new_state.gap_adv_state != GAP_ADV_STATE_IDLE);
-    }
-
-    //send adv cmd
-    if(bt_matter_adapter_send_msg(BT_MATTER_MSG_START_ADV, NULL) == false)
-    {
-        printf("msg send fail \n");
+    le_get_gap_param(GAP_PARAM_DEV_STATE, &new_state);
+    if (new_state.gap_init_state != GAP_INIT_STATE_STACK_READY) {
+        printf("[%s]: BLE is not running\r\n", __FUNCTION__);
         return false;
     }
-    return true;
+
+    if (new_state.gap_adv_state == GAP_ADV_STATE_ADVERTISING) {
+        printf("[%s]: ADV is already started\r\n", __FUNCTION__);
+        return true;
+    }
+
+    cause = bt_matter_adapter_send_msg(BT_MATTER_MSG_START_ADV, NULL);
+    if (cause == false) {
+        printf("[%s]: send msg BT_MATTER_MSG_START_ADV fail\r\n", __FUNCTION__);
+        return false;
+    } else {
+        do {
+            os_delay(1);
+            le_get_gap_param(GAP_PARAM_DEV_STATE, &new_state);
+        } while (new_state.gap_adv_state != GAP_ADV_STATE_ADVERTISING);
+
+        return true;
+    }
 }
 
 bool ble_matter_netmgr_stop_adv(void)
 {
+    bool cause = false;
     T_GAP_DEV_STATE new_state;
 
-    //check adv state
-    le_get_gap_param(GAP_PARAM_DEV_STATE , &new_state);
-    if(new_state.gap_adv_state != GAP_ADV_STATE_ADVERTISING)
-    {
-        printf("adv not start \n");
-    } else {
-    //send adv cmd
-        if(bt_matter_adapter_send_msg(BT_MATTER_MSG_STOP_ADV, NULL) == false)
-        {
-            printf("msg send fail \n");
-            return false;
-        }
+    le_get_gap_param(GAP_PARAM_DEV_STATE, &new_state);
+    if (new_state.gap_init_state != GAP_INIT_STATE_STACK_READY) {
+        printf("[%s]: BLE is not running\r\n", __FUNCTION__);
+        return false;
     }
-    return true;
+
+    if (new_state.gap_adv_state == GAP_ADV_STATE_IDLE) {
+        printf("[%s]: ADV is already stopped\r\n", __FUNCTION__);
+        return true;
+    }
+
+    cause = bt_matter_adapter_send_msg(BT_MATTER_MSG_STOP_ADV, NULL);
+    if (cause == false) {
+        printf("[%s]: send msg BT_MATTER_MSG_STOP_ADV fail\r\n", __FUNCTION__);
+        return false;
+    } else {
+        do {
+            os_delay(1);
+            le_get_gap_param(GAP_PARAM_DEV_STATE, &new_state);
+        } while (new_state.gap_adv_state != GAP_ADV_STATE_IDLE);
+
+        return true;
+    }
 }
 
 bool ble_matter_netmgr_server_send_data(uint8_t conn_id, T_SERVER_ID service_id, uint16_t attrib_index,
