@@ -237,7 +237,7 @@ GENERATE_NINJA:
 	echo ameba_cc = \"arm-none-eabi-gcc\"   >> $(OUTPUT_DIR)/args.gn
 	echo ameba_cxx = \"arm-none-eabi-c++\"  >> $(OUTPUT_DIR)/args.gn
 	echo ameba_cpu = \"ameba\"               >> $(OUTPUT_DIR)/args.gn
-	echo chip_inet_config_enable_ipv4 = "false" >> $(OUTPUT_DIR)//args.gn
+	echo chip_inet_config_enable_ipv4 = "false" >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_ota_requestor = "true" >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_additional_data_advertising = "true" >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_rotating_device_id = "true" >> $(OUTPUT_DIR)/args.gn
