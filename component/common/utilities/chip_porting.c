@@ -126,9 +126,9 @@ int _vTaskDelay( const TickType_t xTicksToDelay )
    if wear leveling enabled, the total module number is 12 + 2*12 + 3*12 = 36, the size is 288k"
 */
 #define DCT_BEGIN_ADDR_MATTER   DCT_BEGIN_ADDR    /*!< DCT begin address of flash, ex: 0x100000 = 1M */
-#define MODULE_NUM              80                /*!< max number of module */
+#define MODULE_NUM              40                /*!< max number of module */
 #define VARIABLE_NAME_SIZE      32                /*!< max size of the variable name */
-#define VARIABLE_VALUE_SIZE     1860 + 4          /*!< max size of the variable value */
+#define VARIABLE_VALUE_SIZE     64 + 4          /*!< max size of the variable value */
                                                   /*!< max value number in moudle = 4024 / (32 + 1860+4) = 2 */
 
 #define DCT_BEGIN_ADDR_MATTER2  DCT_BEGIN_ADDR2
