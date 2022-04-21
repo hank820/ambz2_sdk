@@ -238,13 +238,14 @@ GENERATE_NINJA:
 	echo ameba_cxx = \"arm-none-eabi-c++\"  >> $(OUTPUT_DIR)/args.gn
 	echo ameba_cpu = \"ameba\"               >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_ota_requestor = "true" >> $(OUTPUT_DIR)/args.gn
+	echo chip_inet_config_enable_ipv4 = "false" >> $(OUTPUT_DIR)//args.gn
 	echo chip_enable_additional_data_advertising = "true" >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_rotating_device_id = "true" >> $(OUTPUT_DIR)/args.gn
 	cd $(CHIPDIR) && PW_ENVSETUP_QUIET=1 . scripts/activate.sh
 	sed -i 's/chip_build_tests\ =\ true/chip_build_tests\ =\ false/g' $(CHIPDIR)/config/ameba/args.gni
 	mkdir -p $(CHIPDIR)/config/ameba/components/chip
 	cd $(CHIPDIR)/config/ameba/components/chip && gn gen --check --fail-on-unused-args $(CHIPDIR)/examples/lighting-app/ameba/build/chip
-	cd $(CHIPDIR)/config/ameba/components/chip ; ninja -C $(CHIPDIR)/examples/lighting-app/ameba/build/chip
+	cd $(CHIPDIR)/config/ameba/components/chip ; ninja -C $(CHIPDIR)/examples/lighting-app/ameba/build/chip :ameba
 	cp -f $(OUTPUT_DIR)/lib/* $(BASEDIR)/../../../component/soc/realtek/8710c/misc/bsp/lib/common/GCC
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #

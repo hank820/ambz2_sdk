@@ -190,7 +190,6 @@ SRC_CPP += $(CHIPDIR)/src/app/util/client-api.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/DataModelHandler.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/esi-management.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
@@ -221,7 +220,10 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/OTARequestor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestorDriver.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ExtendedOTARequestorDriver.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestorStorage.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
@@ -273,6 +275,7 @@ CFLAGS += -DCHIP_PROJECT=1
 CFLAGS += -DCONFIG_ENABLE_OTA_REQUESTOR=1
 CFLAGS += -DCHIP_DEVICE_LAYER_TARGET=Ameba
 CFLAGS += -DMBEDTLS_CONFIG_FILE=\"mbedtls_config.h\"
+CFLAGS += -DCHIP_ADDRESS_RESOLVE_IMPL_INCLUDE_HEADER=\"lib/address_resolve/AddressResolve_DefaultImpl.h\"
 
 CFLAGS += -DLWIP_IPV6_ND=1
 CFLAGS += -DLWIP_IPV6_SCOPES=0
