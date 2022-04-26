@@ -70,6 +70,14 @@ int bt_matter_adapter_init(void);
 
 uint16_t ble_att_mtu_z2(uint16_t conn_id);
 
+bool ble_matter_netmgr_adapter_init_handler(void);
+
+bool ble_matter_netmgr_adv_param_handler(uint16_t adv_int_min, uint16_t adv_int_max, void *advData, uint8_t advData_len);
+
+bool ble_matter_netmgr_adv_start_handler(void);
+
+bool ble_matter_netmgr_adv_stop_handler(void);
+
 bool ble_matter_netmgr_start_adv(void);
 
 bool ble_matter_netmgr_stop_adv(void);

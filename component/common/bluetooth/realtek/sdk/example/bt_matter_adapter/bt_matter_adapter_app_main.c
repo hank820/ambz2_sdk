@@ -263,6 +263,33 @@ uint16_t ble_att_mtu_z2(uint16_t conn_id)
 		return 0;
 }
 
+bool ble_matter_netmgr_adapter_init_handler(void)
+{
+    return bt_matter_adapter_init();
+}
+
+bool ble_matter_netmgr_adv_param_handler(uint16_t adv_int_min, uint16_t adv_int_max, void *advData, uint8_t advData_len)
+{
+    int ret = 0;
+    le_adv_set_param(GAP_PARAM_ADV_INTERVAL_MIN, sizeof(adv_int_min), &adv_int_min);
+    le_adv_set_param(GAP_PARAM_ADV_INTERVAL_MAX, sizeof(adv_int_max), &adv_int_max);
+    le_adv_set_param(GAP_PARAM_ADV_DATA, advData_len, advData); // set advData
+    return ret;
+}
+
+bool ble_matter_netmgr_adv_start_handler(void)
+{
+    //Stop adv before start
+    ble_matter_netmgr_stop_adv();
+    ble_matter_netmgr_start_adv();
+    return 0;
+}
+
+bool ble_matter_netmgr_adv_stop_handler(void)
+{
+    ble_matter_netmgr_stop_adv();
+    return 0;
+}
 bool ble_matter_netmgr_start_adv(void)
 {
     T_GAP_DEV_STATE new_state;
@@ -317,6 +344,7 @@ bool ble_matter_netmgr_stop_adv(void)
     }
 	return true;
 }
+
 
 bool ble_matter_netmgr_server_send_data(uint8_t conn_id, T_SERVER_ID service_id, uint16_t attrib_index,
                       uint8_t *p_data, uint16_t data_len, T_GATT_PDU_TYPE type)
