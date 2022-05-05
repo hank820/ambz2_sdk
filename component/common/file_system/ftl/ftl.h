@@ -18,6 +18,7 @@
 #define _FTL_H_
 
 #include <stdint.h>
+#include <basic_types.h>
 
 #ifdef  __cplusplus
 extern  "C" {

@@ -77,20 +77,17 @@ typedef unsigned long long      __uint64_t;
 #endif
 #endif
 
-// Removed definitions to integrate with Matter
-#if 0
 #define s8                      int8_t
-#define uint8_t                      uint8_t
+#define u8                      uint8_t
 #define s16                     int16_t
-#define uint16_t                     uint16_t
+#define u16                     uint16_t
 #define s32                     int32_t
-#define uint32_t                     uint32_t
+#define u32                     uint32_t
 #define s64                     int64_t
 #define u64                     uint64_t
 #define i8						int8_t
 #define i16						int16_t
 #define i32						int32_t
-#endif
 
 #ifdef CONFIG_MBED_ENABLED
 typedef unsigned int            BOOL;

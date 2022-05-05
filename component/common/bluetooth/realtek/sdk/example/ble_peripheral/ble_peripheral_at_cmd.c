@@ -32,13 +32,20 @@ extern void *ble_scatternet_io_queue_handle;
 	(defined(CONFIG_BT_MESH_SCATTERNET) && CONFIG_BT_MESH_SCATTERNET))
 #if defined(CONFIG_BT_MESH_PROVISIONER_MULTIPLE_PROFILE) && CONFIG_BT_MESH_PROVISIONER_MULTIPLE_PROFILE
 extern T_GAP_DEV_STATE bt_mesh_provisioner_multiple_profile_gap_dev_state;
-#elif defined(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE) && CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFIL
+#elif defined(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE) && CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE
 extern T_GAP_DEV_STATE bt_mesh_device_multiple_profile_gap_dev_state;
 #endif
 extern uint16_t bt_mesh_peripheral_adv_interval;
 #endif
 
-static uint8_t ctoi(char c)
+#if defined(CONFIG_BT_MESH_DEVICE_MATTER) && CONFIG_BT_MESH_DEVICE_MATTER
+#if defined(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE) && CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE
+extern T_GAP_DEV_STATE bt_mesh_device_matter_gap_dev_state;
+extern uint16_t bt_mesh_device_matter_adv_interval;
+#endif
+#endif
+
+static u8 ctoi(char c)
 {
 	if((c >= 'A') && (c <= 'F')) {
 		return (c - 'A' + 0x0A);
@@ -55,7 +62,7 @@ static uint8_t ctoi(char c)
 	return 0xFF;
 }
 
-static int hex_str_to_int(uint32_t str_len, int8_t*str)
+static int hex_str_to_int(u32 str_len, s8*str)
 {
 	int result = 0;
 	unsigned int n = 2;
@@ -99,21 +106,31 @@ void ble_peripheral_at_cmd_send_msg(uint16_t sub_type)
 
 int ble_peripheral_at_cmd_set_adv_int(int argc, char **argv)
 {
-	uint16_t adv_int_max = atoi(argv[1]);
-	uint16_t adv_int_min = atoi(argv[2]);
+	u16 adv_int_max = atoi(argv[1]);
+	u16 adv_int_min = atoi(argv[2]);
 	T_GAP_DEV_STATE new_state = {0};
 
 #if ((defined(CONFIG_BT_MESH_PERIPHERAL) && CONFIG_BT_MESH_PERIPHERAL) || \
 	(defined(CONFIG_BT_MESH_SCATTERNET) && CONFIG_BT_MESH_SCATTERNET))
 #if defined(CONFIG_BT_MESH_PROVISIONER_MULTIPLE_PROFILE) && CONFIG_BT_MESH_PROVISIONER_MULTIPLE_PROFILE
 	new_state = bt_mesh_provisioner_multiple_profile_gap_dev_state;
-#elif defined(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE) && CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFIL
+#elif defined(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE) && CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE
 	new_state = bt_mesh_device_multiple_profile_gap_dev_state;
 #endif
 	if (new_state.gap_init_state) {
 		bt_mesh_peripheral_adv_interval = adv_int_min;
 		return 0;
 	}
+#endif
+
+#if defined(CONFIG_BT_MESH_DEVICE_MATTER) && CONFIG_BT_MESH_DEVICE_MATTER
+#if defined(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE) && CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE
+	new_state = bt_mesh_device_matter_gap_dev_state;
+	if (new_state.gap_init_state) {
+		bt_mesh_device_matter_adv_interval = adv_int_min;
+		return 0;
+	}
+#endif
 #endif
 
 #if ((defined(CONFIG_BT_PERIPHERAL) && CONFIG_BT_PERIPHERAL) || \
@@ -139,8 +156,8 @@ int ble_peripheral_at_cmd_set_adv_int(int argc, char **argv)
 
 int ble_peripheral_at_cmd_auth(int argc, char **argv)
 {
-	uint8_t conn_id;
-	uint32_t passcode;
+	u8 conn_id;
+	u32 passcode;
 	T_GAP_CFM_CAUSE confirm;
 	int ret;
 
@@ -162,14 +179,14 @@ int ble_peripheral_at_cmd_auth(int argc, char **argv)
 		}else{
 			confirm = GAP_CFM_CAUSE_ACCEPT;
 		}
-		int8_t* str = (int8_t *)argv[3];
+		s8* str = (s8 *)argv[3];
 		for(unsigned int i = 0; i < strlen(argv[3]); i ++){
 			if((str[i ++] < '0') || (str[i ++] > '9')){
 				BLE_PRINT("ERROR:input parameter error!\n\r");
 				return -1;
-				}
+			}
 		}
-		//passcode = dec_str_to_int(strlen(argv[3]), argv[3]);
+
 		passcode = atoi(argv[3]);
 		if (passcode > GAP_PASSCODE_MAX)
 		{
@@ -178,17 +195,17 @@ int ble_peripheral_at_cmd_auth(int argc, char **argv)
 		}
 		le_bond_passkey_input_confirm(conn_id, passcode, confirm);
 	}else if(strcmp(argv[1], "MODE") == 0){
-		uint8_t	auth_pair_mode = GAP_PAIRING_MODE_PAIRABLE;
-		uint16_t auth_flags = GAP_AUTHEN_BIT_BONDING_FLAG;
-		uint8_t	auth_io_cap = GAP_IO_CAP_NO_INPUT_NO_OUTPUT;
+		u8	auth_pair_mode = GAP_PAIRING_MODE_PAIRABLE;
+		u16 auth_flags = GAP_AUTHEN_BIT_BONDING_FLAG;
+		u8	auth_io_cap = GAP_IO_CAP_NO_INPUT_NO_OUTPUT;
 #if F_BT_LE_SMP_OOB_SUPPORT
-		uint8_t	oob_enable = false;
+		u8	oob_enable = false;
 #endif
-		uint8_t	auth_sec_req_enable = false;
-		uint16_t auth_sec_req_flags = GAP_AUTHEN_BIT_BONDING_FLAG;
+		u8	auth_sec_req_enable = false;
+		u16 auth_sec_req_flags = GAP_AUTHEN_BIT_BONDING_FLAG;
 
 		if (argc >= 3) {
-			auth_flags = hex_str_to_int(strlen(argv[2]), ( int8_t *)argv[2]);
+			auth_flags = hex_str_to_int(strlen(argv[2]), ( s8 *)argv[2]);
 			auth_sec_req_flags =  auth_flags;
 		}
 		if (argc >= 4) {
@@ -210,8 +227,7 @@ int ble_peripheral_at_cmd_auth(int argc, char **argv)
 		gap_set_param(GAP_PARAM_BOND_OOB_ENABLED, sizeof(uint8_t), &oob_enable);
 #endif
 		le_bond_set_param(GAP_PARAM_BOND_SEC_REQ_ENABLE, sizeof(auth_sec_req_enable), &auth_sec_req_enable);
-		le_bond_set_param(GAP_PARAM_BOND_SEC_REQ_REQUIREMENT, sizeof(auth_sec_req_flags),
-					  &auth_sec_req_flags);
+		le_bond_set_param(GAP_PARAM_BOND_SEC_REQ_REQUIREMENT, sizeof(auth_sec_req_flags), &auth_sec_req_flags);
 		ret = gap_set_pairable_mode();
 
 		if(ret == GAP_CAUSE_SUCCESS)
@@ -229,8 +245,8 @@ int ble_peripheral_at_cmd_auth(int argc, char **argv)
 int ble_peripheral_at_cmd_send_userconf(int argc, char **argv)
 {
 	(void) argc;
-	uint8_t conn_id;
-	uint8_t conf;
+	u8 conn_id;
+	u8 conf;
 	int ret;
 	T_GAP_CFM_CAUSE confirm;
 
@@ -250,11 +266,11 @@ int ble_peripheral_at_cmd_update_conn_request(int argc, char **argv)
 {
 	(void) argc;
 	int ret;
-	uint8_t conn_id = atoi(argv[1]);
-	uint16_t conn_interval_min = hex_str_to_int(strlen(argv[2]),(int8_t *) argv[2]);
-	uint16_t conn_interval_max = hex_str_to_int(strlen(argv[3]), (int8_t *)argv[3]);
-	uint16_t conn_latency = hex_str_to_int(strlen(argv[4]), (int8_t *)argv[4]);
-	uint16_t supervision_timeout = hex_str_to_int(strlen(argv[5]), (int8_t *)argv[5]);
+	u8 conn_id = atoi(argv[1]);
+	u16 conn_interval_min = hex_str_to_int(strlen(argv[2]),(s8 *) argv[2]);
+	u16 conn_interval_max = hex_str_to_int(strlen(argv[3]), (s8 *)argv[3]);
+	u16 conn_latency = hex_str_to_int(strlen(argv[4]), (s8 *)argv[4]);
+	u16 supervision_timeout = hex_str_to_int(strlen(argv[5]), (s8 *)argv[5]);
 
 	ret = le_update_conn_param(conn_id,
 							   conn_interval_min,
@@ -270,11 +286,11 @@ int ble_peripheral_at_cmd_update_conn_request(int argc, char **argv)
 int ble_peripheral_at_cmd_bond_information(int argc, char **argv)
 {
 	(void) argc;
-	//int ret = 0;
+
 	if(strcmp(argv[1],"CLEAR") == 0) {
 		le_bond_clear_all_keys();
 	}else if(strcmp(argv[1], "INFO") == 0){
-		uint8_t i;
+		u8 i;
 		T_LE_KEY_ENTRY *p_entry;
 		for (i = 0; i < bond_storage_num; i++) {
 			p_entry = le_find_key_entry_by_idx(i);
@@ -302,25 +318,34 @@ int ble_peripheral_send_indi_notification(int argc, char **argv)
 {
 	(void) argc;
 
-	uint8_t conn_id = atoi(argv[1]);
-	uint8_t service_id = atoi(argv[2]);
-	uint16_t attrib_index = hex_str_to_int(strlen(argv[3]), (int8_t *) argv[3]);
-	uint8_t type = atoi(argv[4]);
-	int length = hex_str_to_int(strlen(argv[5]), (int8_t *) argv[5]);
+	u8 conn_id = atoi(argv[1]);
+	u8 service_id = atoi(argv[2]);
+	u16 attrib_index = hex_str_to_int(strlen(argv[3]), (s8 *) argv[3]);
+	u8 type = atoi(argv[4]);
+	int length = hex_str_to_int(strlen(argv[5]), (s8 *) argv[5]);
+	int data_count;
 
-	if(length == -1){
+	if (length == -1) {
 		printf("\n\rError:value length should be hexadecimal and start with '0X' or '0x'\r\n");
 		return -1;
+	} else if (length == 0) {
+		printf("\n\rError:value length should larger than 0\r\n");
+		return -1;
 	}
-	uint8_t *data = (uint8_t *)os_mem_alloc(0,length * sizeof(uint8_t));
 
-	for(uint8_t i = 0; i < length; ++ i){
-		data[i] = hex_str_to_int(strlen(argv[i + 6]), (int8_t *)argv[i + 6]);
+	u8 *data = (u8 *)os_mem_alloc(0, length * sizeof(u8));
+
+	data_count = argc - 6;
+	for (u8 i = 0; i < length; ++ i) {
+		if (i < data_count)
+			data[i] = hex_str_to_int(strlen(argv[i + 6]), (s8 *)argv[i + 6]);
+		else
+			data[i] = 0xff;
 	}
 
 	server_send_data(conn_id, service_id, attrib_index, data,length, (T_GATT_PDU_TYPE)type);
-	
-	if(data != NULL)
+
+	if (data != NULL)
 		os_mem_free(data);
 
 	return 0;
