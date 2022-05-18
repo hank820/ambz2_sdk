@@ -37,8 +37,8 @@ LDSCRIPT := ./rtl8710c_ram.ld
 # Matter OTA header information
 VENDORID       := 0xDEAD
 PRODUCTID      := 0xBEEF
-VERSION        := 1
-VERSIONSTRING  := 1.0
+VERSION        := 0
+VERSIONSTRING  := 0.0
 DIGESTALGO     := sha256
 
 
