@@ -213,6 +213,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-comm
 SRC_CPP += $(CHIPDIR)/src/app/clusters/low-power-server/low-power-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/fan-control-server/fan-control-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/test-cluster-server/test-cluster-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/occupancy-sensor-server/occupancy-sensor-server.cpp
