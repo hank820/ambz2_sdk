@@ -166,6 +166,7 @@ INCLUDES += -I$(CHIPDIR)/third_party/nlunit-test/repo/src
 INCLUDES += -I$(CHIPDIR)/src/app/clusters/ota-requestor
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/main/include
+INCLUDES += -I$(CHIPDIR)/examples/platform/ameba/ota
 INCLUDES += -I$(CHIPDIR)/component/soc/realtek/amebad/fwlib/include
 
 # Source file list
@@ -239,6 +240,8 @@ SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/Globals.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/LEDWidget.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/CHIPDeviceManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/DeviceCallbacks.cpp
+
+SRC_CPP += $(CHIPDIR)/examples/platform/ameba/ota/OTAInitializer.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
