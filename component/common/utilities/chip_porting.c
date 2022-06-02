@@ -710,7 +710,6 @@ exit:
 /************************** Matter WiFi Related **************************/
 uint32_t apNum = 0; // no of total AP scanned
 static rtw_scan_result_t matter_userdata[65] = {0};
-static rtw_wifi_setting_t chip_wifi_setting = {0};
 static char *matter_ssid;
 
 chip_connmgr_callback chip_connmgr_callback_func = NULL;
@@ -719,32 +718,6 @@ void chip_connmgr_set_callback_func(chip_connmgr_callback p, void *data)
 {
     chip_connmgr_callback_func = p;
     chip_connmgr_callback_data = data;
-}
-
-
-int CHIP_SetWiFiConfig(rtw_wifi_setting_t *config)
-{
-	if(config)
-		memcpy(&chip_wifi_setting, config, sizeof(chip_wifi_setting));
-	return 0;
-}
-
-int CHIP_GetWiFiConfig(rtw_wifi_setting_t *config)
-{
-	if (config) {
-		if(chip_wifi_setting.mode == 0) {
-			if(rltk_wlan_running(0)) {
-				printf("\r\nNetif is up\r\n");
-				wifi_get_setting((const char*)"wlan0", config);
-			}
-			else
-				printf("\r\nNetif is down\r\n");
-		}
-		else
-			memcpy(config, &chip_wifi_setting, sizeof(chip_wifi_setting));
-	}
-
-	return 0;
 }
 
 void print_matter_scan_result( rtw_scan_result_t* record )
