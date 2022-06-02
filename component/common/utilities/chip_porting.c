@@ -139,7 +139,7 @@ int _vTaskDelay( const TickType_t xTicksToDelay )
 #define ENABLE_BACKUP           0
 #define ENABLE_WEAR_LEVELING    0
 
-const char *matter_domain[18] =
+const char *matter_domain[19] =
 {
     "chip-factory",
     "chip-config",
@@ -157,6 +157,7 @@ const char *matter_domain[18] =
     "chip-failsafe",
     "chip-sessionresumption",
     "chip-deviceinfoprovider",
+    "chip-groupdataprovider",
     "chip-others2",
     "chip-others"
 };
@@ -177,13 +178,17 @@ const char* domainAllocator(const char *domain)
     //chip-counters
     if(strcmp(domain, "chip-counters") == 0)
         return matter_domain[2];
-
     // chip-acl
     if(strncmp(domain+4, "ac", 2) == 0)
         return matter_domain[8];
-    // chip-fabrics
+
     if(domain[0] == 'f')
     {
+        // chip-groupdataprovider
+        if(strncmp(domain+4, "g", 1) == 0)
+            return matter_domain[16];
+
+        // chip-fabrics
         switch(atoi(&domain[2]))
         {
             case 1:
@@ -219,7 +224,7 @@ const char* domainAllocator(const char *domain)
     if(strncmp(domain, "g/fs", 4) == 0)
         return matter_domain[13];
     // chip-sessionresumption
-    if(strncmp(domain, "g/s", 3) == 0)
+    if((strncmp(domain, "g/s", 3) == 0) && strcmp(domain, "g/sri") != 0)
         return matter_domain[14];
     // chip-deviceinfoprovider
     if(strncmp(domain, "g/userlbl", 9) == 0)
@@ -227,10 +232,10 @@ const char* domainAllocator(const char *domain)
     // chip-others2
     // Store KV pairs that can't fit in chip-others (>64bytes)
     if((strcmp(domain, "wifi-pass") == 0) || (strcmp(domain, "g/sri") == 0))
-        return matter_domain[16];
+        return matter_domain[17];
     // chip-others
     // store FabricTable, FailSafeContextKey, GroupFabricList, FabricIndexInfo, IMEventNumber in chip-others
-    return matter_domain[17];
+    return matter_domain[18];
 }
 
 /*
