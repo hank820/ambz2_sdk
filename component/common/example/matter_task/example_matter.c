@@ -11,7 +11,7 @@ extern void ChipTest(void);
 
 static void example_matter_task_thread(void *pvParameters)
 {
-	vTaskDelay(15000);
+	vTaskDelay(5000);
 	ChipTest();
 
     vTaskDelete(NULL);
