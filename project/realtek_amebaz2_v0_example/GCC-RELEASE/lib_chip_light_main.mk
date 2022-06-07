@@ -155,7 +155,7 @@ INCLUDES += -I$(CHIPDIR)/zzz_generated/lighting-app/zap-generated
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/lighting-common
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/main/include
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/build/chip/gen/include
-INCLUDES += -I$(CHIPDIR)/examples/platform/ameba/ota
+INCLUDES += -I$(CHIPDIR)/examples/platform/ameba
 INCLUDES += -I$(CHIPDIR)/src/include
 INCLUDES += -I$(CHIPDIR)/src/lib
 INCLUDES += -I$(CHIPDIR)/src
@@ -298,7 +298,7 @@ CFLAGS += -DCHIP_SYSTEM_CONFIG_USE_LWIP=1
 CFLAGS += -DCHIP_SYSTEM_CONFIG_USE_SOCKETS=0
 CFLAGS += -DCHIP_SYSTEM_CONFIG_USE_NETWORK_FRAMEWORK=0
 CFLAGS += -DCHIP_SYSTEM_CONFIG_POSIX_LOCKING=0
-CFLAGS += -DINET_CONFIG_ENABLE_IPV4=1
+CFLAGS += -DINET_CONFIG_ENABLE_IPV4=0
 
 CFLAGS += -DUSE_ZAP_CONFIG
 CFLAGS += -DCHIP_HAVE_CONFIG_H

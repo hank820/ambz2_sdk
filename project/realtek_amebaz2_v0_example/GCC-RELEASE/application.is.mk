@@ -421,6 +421,7 @@ SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/chachapoly.c
 SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/cipher.c
 SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/cipher_wrap.c
 SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/cmac.c
+SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/constant_time.c
 SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/ctr_drbg.c
 SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/debug.c
 SRC_C += $(CHIPDIR)/third_party/mbedtls/repo/library/des.c

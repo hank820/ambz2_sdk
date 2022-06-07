@@ -373,7 +373,7 @@ exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
 }
 
-bool checkExist(const char *domain, const char *key)
+BOOL checkExist(const char *domain, const char *key)
 {
 	dct_handle_t handle;
 	int32_t ret = -1;

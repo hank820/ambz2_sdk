@@ -153,6 +153,7 @@ INCLUDES += -I$(CHIPDIR)/src/system
 INCLUDES += -I$(CHIPDIR)/src/app
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/main/include
+INCLUDES += -I$(CHIPDIR)/examples/platform/ameba
 INCLUDES += -I$(CHIPDIR)/third_party/mbedtls/repo/include
 INCLUDES += -I$(CHIPDIR)/third_party/mbedtls/repo/include/mbedtls
 INCLUDES += -I$(CHIPDIR)/third_party/nlassert/repo/include
