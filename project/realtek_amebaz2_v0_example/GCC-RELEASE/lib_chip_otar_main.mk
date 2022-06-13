@@ -167,6 +167,7 @@ INCLUDES += -I$(CHIPDIR)/src/app/clusters/ota-requestor
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/main/include
 INCLUDES += -I$(CHIPDIR)/examples/platform/ameba/ota
+INCLUDES += -I$(CHIPDIR)/examples/providers
 INCLUDES += -I$(CHIPDIR)/component/soc/realtek/amebad/fwlib/include
 
 # Source file list
@@ -242,6 +243,7 @@ SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/CHIPDeviceManager.cp
 SRC_CPP += $(CHIPDIR)/examples/ota-requestor-app/ameba/main/DeviceCallbacks.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/platform/ameba/ota/OTAInitializer.cpp
+SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c

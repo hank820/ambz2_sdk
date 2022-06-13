@@ -156,6 +156,7 @@ INCLUDES += -I$(CHIPDIR)/examples/lighting-app/lighting-common
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/main/include
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/platform/ameba
+INCLUDES += -I$(CHIPDIR)/examples/providers
 INCLUDES += -I$(CHIPDIR)/src/include
 INCLUDES += -I$(CHIPDIR)/src/lib
 INCLUDES += -I$(CHIPDIR)/src
@@ -246,6 +247,7 @@ SRC_CPP += $(CHIPDIR)/examples/lighting-app/ameba/main/LEDWidget.cpp
 SRC_CPP += $(CHIPDIR)/examples/lighting-app/ameba/main/DsoHack.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/platform/ameba/ota/OTAInitializer.cpp
+SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
