@@ -24,12 +24,28 @@ extern "C" {
 #include <app_msg.h>
 #include <gap_le.h>
 #include <profile_server.h>
+#include <app_common_flags.h>
 
 /*============================================================================*
  *                              Variables
  *============================================================================*/
 extern T_SERVER_ID bt_matter_adapter_srv_id; /**< Simple ble service id*/
 //extern T_SERVER_ID bas_srv_id;  /**< Battery service id */
+
+/*============================================================================*
+ *                              Constants
+ *============================================================================*/
+/** @addtogroup  PERIPHERAL_APP
+    * @{
+    */
+#if (F_BT_LE_USE_RANDOM_ADDR==1)
+typedef struct
+{
+	uint8_t 	 is_exist;
+	uint8_t 	 reserved;		   /**< remote BD type*/
+	uint8_t 	 bd_addr[GAP_BD_ADDR_LEN];	/**< remote BD */
+} T_APP_STATIC_RANDOM_ADDR;
+#endif
 
 /*============================================================================*
  *                              Functions

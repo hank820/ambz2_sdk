@@ -395,6 +395,44 @@ void bt_matter_adapter_app_le_gap_init_chip(void)
 
     /* register gap message callback */
     le_register_app_cb(bt_matter_adapter_app_gap_callback);
+
+#if (F_BT_LE_USE_RANDOM_ADDR==1)
+    T_APP_STATIC_RANDOM_ADDR random_addr;
+    bool gen_addr = true;
+    uint8_t local_bd_type = GAP_LOCAL_ADDR_LE_RANDOM;
+#if 0
+    if (ble_peripheral_app_load_static_random_address(&random_addr) == 0)
+    {
+        if (random_addr.is_exist == true)
+        {
+            gen_addr = false;
+        }
+    }
+#endif
+    if (gen_addr)
+    {
+        if (le_gen_rand_addr(GAP_RAND_ADDR_STATIC, random_addr.bd_addr) == GAP_CAUSE_SUCCESS)
+        {
+            random_addr.is_exist = true;
+            // Don't save, we use a newly generated random address every boot
+            //ble_peripheral_app_save_static_random_address(&random_addr);
+            printf("bd addr: %02x:%02x:%02x:%02x:%02x:%02x\r\n", 
+                    random_addr.bd_addr[5],
+                    random_addr.bd_addr[4],
+                    random_addr.bd_addr[3],
+                    random_addr.bd_addr[2],
+                    random_addr.bd_addr[1],
+                    random_addr.bd_addr[0]
+                  );
+        }
+    }
+    le_cfg_local_identity_address(random_addr.bd_addr, GAP_IDENT_ADDR_RAND);
+    int ret1 = le_set_gap_param(GAP_PARAM_RANDOM_ADDR, 6, random_addr.bd_addr);
+    //only for peripheral,broadcaster
+    int ret2 = le_adv_set_param(GAP_PARAM_ADV_LOCAL_ADDR_TYPE, sizeof(local_bd_type), &local_bd_type);
+    //only for central,observer
+    //le_scan_set_param(GAP_PARAM_SCAN_LOCAL_ADDR_TYPE, sizeof(local_bd_type), &local_bd_type);
+#endif
 }
 
 int bt_stack_already = 0;

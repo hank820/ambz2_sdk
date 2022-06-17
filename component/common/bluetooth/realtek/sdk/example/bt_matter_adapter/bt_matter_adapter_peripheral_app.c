@@ -43,7 +43,17 @@
 #include "bt_matter_adapter_peripheral_app.h"
 #include "bt_matter_adapter_wifi.h"
 #include "platform_stdlib.h"
+#include "app_common_flags.h"
+#if (F_BT_LE_USE_RANDOM_ADDR==1)
+#include "ftl_app.h"
+#endif
 //#include "BLEManagerImpl.h"
+
+
+#if (F_BT_LE_USE_RANDOM_ADDR==1)
+/** @brief  Define start offset of the flash to save static random address. */
+#define BLE_PERIPHERAL_APP_STATIC_RANDOM_ADDR_OFFSET 0
+#endif
 
 T_SERVER_ID bt_matter_adapter_srv_id; /**< BT Config Wifi service id*/
 T_GAP_DEV_STATE bt_matter_adapter_gap_dev_state = {0, 0, 0, 0, 0};                 /**< GAP device state */
