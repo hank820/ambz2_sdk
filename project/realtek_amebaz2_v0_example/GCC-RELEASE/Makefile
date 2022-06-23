@@ -44,6 +44,11 @@ light: toolchain
 	@$(MAKE) -f lib_chip_light_core.mk all
 	@$(MAKE) -f lib_chip_light_main.mk all
 
+.PHONY: thermostat
+thermostat: toolchain
+	@$(MAKE) -f lib_chip_thermostat_core.mk all
+	@$(MAKE) -f lib_chip_thermostat_main.mk all
+
 .PHONY: otar
 otar: toolchain
 	@$(MAKE) -f lib_chip_otar_core.mk all
