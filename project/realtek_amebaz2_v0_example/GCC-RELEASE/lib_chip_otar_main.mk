@@ -188,7 +188,6 @@ SRC_CPP += $(CHIPDIR)/src/app/util/attribute-size-util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-storage.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-table.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/binding-table.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/client-api.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/DataModelHandler.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
