@@ -67,27 +67,27 @@ int _nanosleep( const struct timespec * rqtp,
 
 int __clock_gettime(struct timespec * tp)
 {
-	unsigned int update_tick = 0;
-	long update_sec = 0, update_usec = 0, current_sec = 0, current_usec = 0;
-	unsigned int current_tick = xTaskGetTickCount();
+    unsigned int update_tick = 0;
+    long update_sec = 0, update_usec = 0, current_sec = 0, current_usec = 0;
+    unsigned int current_tick = xTaskGetTickCount();
 
-	sntp_get_lasttime(&update_sec, &update_usec, &update_tick);
-	//if(update_tick) {
-		long tick_diff_sec, tick_diff_ms;
+    sntp_get_lasttime(&update_sec, &update_usec, &update_tick);
+    //if(update_tick) {
+        long tick_diff_sec, tick_diff_ms;
 
-		tick_diff_sec = (current_tick - update_tick) / configTICK_RATE_HZ;
-		tick_diff_ms = (current_tick - update_tick) % configTICK_RATE_HZ / portTICK_RATE_MS;
-		update_sec += tick_diff_sec;
-		update_usec += (tick_diff_ms * 1000);
+        tick_diff_sec = (current_tick - update_tick) / configTICK_RATE_HZ;
+        tick_diff_ms = (current_tick - update_tick) % configTICK_RATE_HZ / portTICK_RATE_MS;
+        update_sec += tick_diff_sec;
+        update_usec += (tick_diff_ms * 1000);
         current_sec = update_sec + update_usec / 1000000;
         current_usec = update_usec % 1000000;
-	//}
-	//else {
-		//current_sec = current_tick / configTICK_RATE_HZ;
-	//}
-	tp->tv_sec = current_sec;
+    //}
+    //else {
+        //current_sec = current_tick / configTICK_RATE_HZ;
+    //}
+    tp->tv_sec = current_sec;
     tp->tv_nsec = current_usec*1000;
-	//sntp_set_lasttime(update_sec,update_usec,update_tick);
+    //sntp_set_lasttime(update_sec,update_usec,update_tick);
     //printf("update_sec %d update_usec %d update_tick %d tvsec %d\r\n",update_sec,update_usec,update_tick,tp->tv_sec);
 }
 
@@ -115,9 +115,9 @@ time_t _time( time_t * tloc )
 extern void vTaskDelay( const TickType_t xTicksToDelay );
 int _vTaskDelay( const TickType_t xTicksToDelay )
 {
-	vTaskDelay(xTicksToDelay);
+    vTaskDelay(xTicksToDelay);
 
-	return 0;
+    return 0;
 }
 
 /*
@@ -335,39 +335,39 @@ int32_t deleteKey(const char *domain, const char *key)
     uint8_t allocatedRegion = allocateRegion(allocatedDomain);
 
     if (allocatedRegion == 1)
-	{
-	    ret = dct_open_module(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+    {
+        ret = dct_open_module(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_delete_variable(&handle, key);
-	    if(ret == DCT_ERR_NOT_FIND || ret == DCT_SUCCESS)
-	        ret = DCT_SUCCESS;
-	    else
-	        printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_delete_variable(&handle, key);
+        if(ret == DCT_ERR_NOT_FIND || ret == DCT_SUCCESS)
+            ret = DCT_SUCCESS;
+        else
+            printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    dct_close_module(&handle);
-	}
-	else
-	{
-	    ret = dct_open_module2(&handle, allocatedDomain);
-	    if (ret != DCT_SUCCESS){
-	        printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+        dct_close_module(&handle);
+    }
+    else
+    {
+        ret = dct_open_module2(&handle, allocatedDomain);
+        if (ret != DCT_SUCCESS){
+            printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_delete_variable(&handle, key);
-	    if(ret == DCT_ERR_NOT_FIND || ret == DCT_SUCCESS)
-	        ret = DCT_SUCCESS;
-	    else
-	        printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_delete_variable(&handle, key);
+        if(ret == DCT_ERR_NOT_FIND || ret == DCT_SUCCESS)
+            ret = DCT_SUCCESS;
+        else
+            printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    dct_close_module2(&handle);
-	    //dct_unregister_module2(key);
-	}
+        dct_close_module2(&handle);
+        //dct_unregister_module2(key);
+    }
 
 exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
@@ -375,71 +375,71 @@ exit:
 
 BOOL checkExist(const char *domain, const char *key)
 {
-	dct_handle_t handle;
-	int32_t ret = -1;
-	uint16_t len = 0;
-	uint8_t found = 0;
-	uint8_t *str = malloc(sizeof(uint8_t) * VARIABLE_VALUE_SIZE-4);
+    dct_handle_t handle;
+    int32_t ret = -1;
+    uint16_t len = 0;
+    uint8_t found = 0;
+    uint8_t *str = malloc(sizeof(uint8_t) * VARIABLE_VALUE_SIZE-4);
     const char *allocatedDomain = domainAllocator(domain);
     uint8_t allocatedRegion = allocateRegion(allocatedDomain);
 
     if (allocatedRegion == 1)
-	{
-		ret = dct_open_module(&handle, allocatedDomain);
-		if (ret != DCT_SUCCESS){
-			printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-			goto exit;
-		}
+    {
+        ret = dct_open_module(&handle, allocatedDomain);
+        if (ret != DCT_SUCCESS){
+            printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-		if(found == 0)
-		{
-			len = sizeof(uint32_t);
-			ret = dct_get_variable_new(&handle, key, (char *)str, &len);
-			if(ret == DCT_SUCCESS)
-			{
-				printf("checkExist key=%s found.\n", key);
-				found = 1;
-			}
-		}
+        if(found == 0)
+        {
+            len = sizeof(uint32_t);
+            ret = dct_get_variable_new(&handle, key, (char *)str, &len);
+            if(ret == DCT_SUCCESS)
+            {
+                printf("checkExist key=%s found.\n", key);
+                found = 1;
+            }
+        }
 
-		if(found == 0)
-		{
-			len = sizeof(uint64_t);
-			ret = dct_get_variable_new(&handle, key, (char *)str, &len);
-			if(ret == DCT_SUCCESS)
-			{
-				printf("checkExist key=%s found.\n", key);
-				found = 1;
-			}
-		}
+        if(found == 0)
+        {
+            len = sizeof(uint64_t);
+            ret = dct_get_variable_new(&handle, key, (char *)str, &len);
+            if(ret == DCT_SUCCESS)
+            {
+                printf("checkExist key=%s found.\n", key);
+                found = 1;
+            }
+        }
 
-		dct_close_module(&handle);
-	}
-	else
-	{
-		ret = dct_open_module2(&handle, allocatedDomain);
-		if (ret != DCT_SUCCESS){
-			printf("%s : dct_open_module2(%s) failed with error : %d\n" ,__FUNCTION__, allocatedDomain, ret);
-			goto exit;
-		}
+        dct_close_module(&handle);
+    }
+    else
+    {
+        ret = dct_open_module2(&handle, allocatedDomain);
+        if (ret != DCT_SUCCESS){
+            printf("%s : dct_open_module2(%s) failed with error : %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-		len = VARIABLE_VALUE_SIZE-4;
-		ret = dct_get_variable_new2(&handle, key, str, &len);
-		if(ret == DCT_SUCCESS)
-		{
-			printf("checkExist key=%s found.\n", key);
-			found = 1;
-		}
+        len = VARIABLE_VALUE_SIZE-4;
+        ret = dct_get_variable_new2(&handle, key, str, &len);
+        if(ret == DCT_SUCCESS)
+        {
+            printf("checkExist key=%s found.\n", key);
+            found = 1;
+        }
 
-		dct_close_module2(&handle);
-	}
+        dct_close_module2(&handle);
+    }
 
-	if(found == 0)
-		printf("checkExist key=%s not found. ret=%d\n",key ,ret);
+    if(found == 0)
+        printf("checkExist key=%s not found. ret=%d\n",key ,ret);
 
 exit:
-	free(str);
-	return found;
+    free(str);
+    return found;
 }
 
 int32_t setPref_new(const char *domain, const char *key, uint8_t *value, size_t byteCount)
@@ -451,34 +451,34 @@ int32_t setPref_new(const char *domain, const char *key, uint8_t *value, size_t 
 
     if (allocatedRegion == 1)
     {
-	    ret = dct_open_module(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+        ret = dct_open_module(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_set_variable_new(&handle, key, (char *)value, (uint16_t)byteCount);
-	    if (DCT_SUCCESS != ret)
-	        printf("%s : dct_set_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_set_variable_new(&handle, key, (char *)value, (uint16_t)byteCount);
+        if (DCT_SUCCESS != ret)
+            printf("%s : dct_set_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    dct_close_module(&handle);
-	}
-	else
-	{
-	    ret = dct_open_module2(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+        dct_close_module(&handle);
+    }
+    else
+    {
+        ret = dct_open_module2(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
-	    if (DCT_SUCCESS != ret)
-	        printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
+        if (DCT_SUCCESS != ret)
+            printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    dct_close_module2(&handle);
-	}
+        dct_close_module2(&handle);
+    }
 
 exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
@@ -627,39 +627,39 @@ int32_t getPref_str_new(const char *domain, const char *key, char * buf, size_t 
     uint8_t allocatedRegion = allocateRegion(allocatedDomain);
 
     if (allocatedRegion == 1)
-	{
-	    ret = dct_open_module(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module(%s) failed with error: %d\n",__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+    {
+        ret = dct_open_module(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module(%s) failed with error: %d\n",__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_get_variable_new(&handle, key, buf, &_bufSize);
-	    if (DCT_SUCCESS != ret)
-	        printf("%s : dct_get_variable(%s) failed with error: %d\n",__FUNCTION__, key, ret);
+        ret = dct_get_variable_new(&handle, key, buf, &_bufSize);
+        if (DCT_SUCCESS != ret)
+            printf("%s : dct_get_variable(%s) failed with error: %d\n",__FUNCTION__, key, ret);
 
-	    *outLen = _bufSize;
+        *outLen = _bufSize;
 
-	    dct_close_module(&handle);
-	}
-	else
-	{
-	    ret = dct_open_module2(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+        dct_close_module(&handle);
+    }
+    else
+    {
+        ret = dct_open_module2(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_get_variable_new2(&handle, key, buf, &_bufSize);
-	    if (DCT_SUCCESS != ret)
-	        printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_get_variable_new2(&handle, key, buf, &_bufSize);
+        if (DCT_SUCCESS != ret)
+            printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    *outLen = _bufSize;
+        *outLen = _bufSize;
 
-	    dct_close_module2(&handle);
-	}
+        dct_close_module2(&handle);
+    }
 
 exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
@@ -674,39 +674,39 @@ int32_t getPref_bin_new(const char *domain, const char *key, uint8_t * buf, size
     uint8_t allocatedRegion = allocateRegion(allocatedDomain);
 
     if (allocatedRegion == 1)
-	{
-	    ret = dct_open_module(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+    {
+        ret = dct_open_module(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_get_variable_new(&handle, key, (char *)buf, &_bufSize);
-	    if (DCT_SUCCESS != ret)
-	        printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_get_variable_new(&handle, key, (char *)buf, &_bufSize);
+        if (DCT_SUCCESS != ret)
+            printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    *outLen = _bufSize;
+        *outLen = _bufSize;
 
-	    dct_close_module(&handle);
-	}
-	else
-	{
-	    ret = dct_open_module2(&handle, allocatedDomain);
-	    if (DCT_SUCCESS != ret)
-	    {
-	        printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-	        goto exit;
-	    }
+        dct_close_module(&handle);
+    }
+    else
+    {
+        ret = dct_open_module2(&handle, allocatedDomain);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+            goto exit;
+        }
 
-	    ret = dct_get_variable_new2(&handle, key, (char *)buf, &_bufSize);
-	    if (DCT_SUCCESS != ret)
-	        printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+        ret = dct_get_variable_new2(&handle, key, (char *)buf, &_bufSize);
+        if (DCT_SUCCESS != ret)
+            printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-	    *outLen = _bufSize;
+        *outLen = _bufSize;
 
-	    dct_close_module2(&handle);
-	}
+        dct_close_module2(&handle);
+    }
 
 exit:
     return (DCT_SUCCESS == ret ? 1 : 0);
@@ -727,50 +727,53 @@ void chip_connmgr_set_callback_func(chip_connmgr_callback p, void *data)
 
 void print_matter_scan_result( rtw_scan_result_t* record )
 {
-	RTW_API_INFO("%s\t ", ( record->bss_type == RTW_BSS_TYPE_ADHOC ) ? "Adhoc" : "Infra");
-	RTW_API_INFO(MAC_FMT, MAC_ARG(record->BSSID.octet));
-	RTW_API_INFO(" %d\t ", record->signal_strength);
-	RTW_API_INFO(" %d\t  ", record->channel);
-	RTW_API_INFO(" %d\t  ", record->wps_type);
-	RTW_API_INFO("%s\t\t ", ( record->security == RTW_SECURITY_OPEN ) ? "Open" :
-								 ( record->security == RTW_SECURITY_WEP_PSK ) ? "WEP" :
-								 ( record->security == RTW_SECURITY_WPA_TKIP_PSK ) ? "WPA TKIP" :
-								 ( record->security == RTW_SECURITY_WPA_AES_PSK ) ? "WPA AES" :
-								 ( record->security == RTW_SECURITY_WPA_MIXED_PSK ) ? "WPA Mixed" :
-								 ( record->security == RTW_SECURITY_WPA2_AES_PSK ) ? "WPA2 AES" :
-								 ( record->security == RTW_SECURITY_WPA2_TKIP_PSK ) ? "WPA2 TKIP" :
-								 ( record->security == RTW_SECURITY_WPA2_MIXED_PSK ) ? "WPA2 Mixed" :
-								 ( record->security == RTW_SECURITY_WPA_WPA2_TKIP_PSK) ? "WPA/WPA2 TKIP" :
-								 ( record->security == RTW_SECURITY_WPA_WPA2_AES_PSK) ? "WPA/WPA2 AES" :
-								 ( record->security == RTW_SECURITY_WPA_WPA2_MIXED_PSK) ? "WPA/WPA2 Mixed" :
-								 ( record->security == RTW_SECURITY_WPA_TKIP_ENTERPRISE ) ? "WPA TKIP Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA_AES_ENTERPRISE ) ? "WPA AES Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA_MIXED_ENTERPRISE ) ? "WPA Mixed Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA2_TKIP_ENTERPRISE ) ? "WPA2 TKIP Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA2_AES_ENTERPRISE ) ? "WPA2 AES Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA2_MIXED_ENTERPRISE ) ? "WPA2 Mixed Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA_WPA2_TKIP_ENTERPRISE ) ? "WPA/WPA2 TKIP Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA_WPA2_AES_ENTERPRISE ) ? "WPA/WPA2 AES Enterprise" :
-								 ( record->security == RTW_SECURITY_WPA_WPA2_MIXED_ENTERPRISE ) ? "WPA/WPA2 Mixed Enterprise" :
-								 "Unknown");
+    RTW_API_INFO("%s\t ", ( record->bss_type == RTW_BSS_TYPE_ADHOC ) ? "Adhoc" : "Infra");
+    RTW_API_INFO(MAC_FMT, MAC_ARG(record->BSSID.octet));
+    RTW_API_INFO(" %d\t ", record->signal_strength);
+    RTW_API_INFO(" %d\t  ", record->channel);
+    RTW_API_INFO(" %d\t  ", record->wps_type);
+    RTW_API_INFO("%s\t\t ", ( record->security == RTW_SECURITY_OPEN ) ? "Open" :
+                                 ( record->security == RTW_SECURITY_WEP_PSK ) ? "WEP" :
+                                 ( record->security == RTW_SECURITY_WPA_TKIP_PSK ) ? "WPA TKIP" :
+                                 ( record->security == RTW_SECURITY_WPA_AES_PSK ) ? "WPA AES" :
+                                 ( record->security == RTW_SECURITY_WPA_MIXED_PSK ) ? "WPA Mixed" :
+                                 ( record->security == RTW_SECURITY_WPA2_AES_PSK ) ? "WPA2 AES" :
+                                 ( record->security == RTW_SECURITY_WPA2_TKIP_PSK ) ? "WPA2 TKIP" :
+                                 ( record->security == RTW_SECURITY_WPA2_MIXED_PSK ) ? "WPA2 Mixed" :
+                                 ( record->security == RTW_SECURITY_WPA_WPA2_TKIP_PSK) ? "WPA/WPA2 TKIP" :
+                                 ( record->security == RTW_SECURITY_WPA_WPA2_AES_PSK) ? "WPA/WPA2 AES" :
+                                 ( record->security == RTW_SECURITY_WPA_WPA2_MIXED_PSK) ? "WPA/WPA2 Mixed" :
+                                 ( record->security == RTW_SECURITY_WPA_TKIP_ENTERPRISE ) ? "WPA TKIP Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA_AES_ENTERPRISE ) ? "WPA AES Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA_MIXED_ENTERPRISE ) ? "WPA Mixed Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA2_TKIP_ENTERPRISE ) ? "WPA2 TKIP Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA2_AES_ENTERPRISE ) ? "WPA2 AES Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA2_MIXED_ENTERPRISE ) ? "WPA2 Mixed Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA_WPA2_TKIP_ENTERPRISE ) ? "WPA/WPA2 TKIP Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA_WPA2_AES_ENTERPRISE ) ? "WPA/WPA2 AES Enterprise" :
+                                 ( record->security == RTW_SECURITY_WPA_WPA2_MIXED_ENTERPRISE ) ? "WPA/WPA2 Mixed Enterprise" :
+                                 "Unknown");
 
-	RTW_API_INFO(" %s ", record->SSID.val);
-	RTW_API_INFO("\r\n");
+    RTW_API_INFO(" %s ", record->SSID.val);
+    RTW_API_INFO("\r\n");
 }
 
 static rtw_result_t matter_scan_result_handler( rtw_scan_handler_result_t* malloced_scan_result )
 {
-	if (malloced_scan_result->scan_complete != RTW_TRUE)
+    if (malloced_scan_result->scan_complete != RTW_TRUE)
     {
-		rtw_scan_result_t* record = &malloced_scan_result->ap_details;
-		record->SSID.val[record->SSID.len] = 0; /* Ensure the SSID is null terminated */
+        if (malloced_scan_result->ap_details.SSID.len != 0)
+        {
+            rtw_scan_result_t* record = &malloced_scan_result->ap_details;
+            record->SSID.val[record->SSID.len] = 0; /* Ensure the SSID is null terminated */
 
-		RTW_API_INFO("%d\t ", ++apNum);
-		print_matter_scan_result(record);
+            RTW_API_INFO("%d\t ", ++apNum);
+            print_matter_scan_result(record);
 
-		if(malloced_scan_result->user_data)
-			memcpy((void *)((char *)malloced_scan_result->user_data+(apNum-1)*sizeof(rtw_scan_result_t)), (char *)record, sizeof(rtw_scan_result_t));
-	}
+            if(malloced_scan_result->user_data)
+                memcpy((void *)((char *)malloced_scan_result->user_data+(apNum-1)*sizeof(rtw_scan_result_t)), (char *)record, sizeof(rtw_scan_result_t));
+        }
+    }
     else
     {
         if (chip_connmgr_callback_func && chip_connmgr_callback_data)
@@ -781,27 +784,27 @@ static rtw_result_t matter_scan_result_handler( rtw_scan_handler_result_t* mallo
         else
         {
             printf("chip_connmgr_callback_func is NULL\r\n");
-		    apNum = 0;
+            apNum = 0;
             return RTW_ERROR;
         }
-	}
-	return RTW_SUCCESS;
+    }
+    return RTW_SUCCESS;
 }
 
 static rtw_result_t matter_scan_with_ssid_result_handler( rtw_scan_handler_result_t* malloced_scan_result )
 {
-	if (malloced_scan_result->scan_complete != RTW_TRUE)
+    if (malloced_scan_result->scan_complete != RTW_TRUE)
     {
-		rtw_scan_result_t* record = &malloced_scan_result->ap_details;
-		record->SSID.val[record->SSID.len] = 0; /* Ensure the SSID is null terminated */
+        rtw_scan_result_t* record = &malloced_scan_result->ap_details;
+        record->SSID.val[record->SSID.len] = 0; /* Ensure the SSID is null terminated */
 
-		if((malloced_scan_result->user_data) && (!strcmp(matter_ssid, record->SSID.val)))
+        if((malloced_scan_result->user_data) && (!strcmp(matter_ssid, record->SSID.val)))
         {
             RTW_API_INFO("%d\t ", ++apNum);
-			memcpy((void *)((char *)malloced_scan_result->user_data+(apNum-1)*sizeof(rtw_scan_result_t)), (char *)record, sizeof(rtw_scan_result_t));
+            memcpy((void *)((char *)malloced_scan_result->user_data+(apNum-1)*sizeof(rtw_scan_result_t)), (char *)record, sizeof(rtw_scan_result_t));
             print_matter_scan_result(record);
         }
-	}
+    }
     else
     {
         if (chip_connmgr_callback_func && chip_connmgr_callback_data)
@@ -813,36 +816,36 @@ static rtw_result_t matter_scan_with_ssid_result_handler( rtw_scan_handler_resul
         else
         {
             printf("chip_connmgr_callback_func is NULL\r\n");
-		    apNum = 0;
+            apNum = 0;
             vPortFree(matter_ssid);
             return RTW_ERROR;
         }
-	}
-	return RTW_SUCCESS;
+    }
+    return RTW_SUCCESS;
 }
 
 void matter_scan_networks(void)
 {
-	volatile int ret = RTW_SUCCESS;
+    volatile int ret = RTW_SUCCESS;
     apNum = 0; // reset counter at the start of scan
-	if((ret = wifi_scan_networks(matter_scan_result_handler, matter_userdata)) != RTW_SUCCESS)
+    if((ret = wifi_scan_networks(matter_scan_result_handler, matter_userdata)) != RTW_SUCCESS)
     {
-		printf("ERROR: wifi scan failed\n\r");
-	}
+        printf("ERROR: wifi scan failed\n\r");
+    }
 }
 
 void matter_scan_networks_with_ssid(const unsigned char *ssid, size_t length)
 {
-	volatile int ret = RTW_SUCCESS;
+    volatile int ret = RTW_SUCCESS;
     apNum = 0; // reset counter at the start of scan
     matter_ssid = (char*) pvPortMalloc(length+1);
     memset(matter_ssid, 0, length+1);
     memcpy(matter_ssid, ssid, length);
     matter_ssid[length] = '\0';
-	if((ret = wifi_scan_networks(matter_scan_with_ssid_result_handler, matter_userdata)) != RTW_SUCCESS)
+    if((ret = wifi_scan_networks(matter_scan_with_ssid_result_handler, matter_userdata)) != RTW_SUCCESS)
     {
-		printf("ERROR: wifi scan failed\n\r");
-	}
+        printf("ERROR: wifi scan failed\n\r");
+    }
 }
 
 void matter_get_scan_results(rtw_scan_result_t *result_buf, uint8_t scanned_num)
