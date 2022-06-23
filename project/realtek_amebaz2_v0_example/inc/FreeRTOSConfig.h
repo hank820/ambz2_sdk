@@ -99,7 +99,8 @@ extern uint32_t SystemCoreClock;
 #define secureconfigUSE_MALLOC_FAILED_HOOK		1
 
 /* Constants provided for debugging and optimisation assistance. */
-#define configCHECK_FOR_STACK_OVERFLOW			2
+#define configCHECK_FOR_STACK_OVERFLOW			        2
+#define configRECORD_STACK_HIGH_ADDRESS                 1
 
 /* Software timer definitions. */
 #define configUSE_TIMERS							1
