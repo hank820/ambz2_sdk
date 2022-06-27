@@ -6,7 +6,7 @@ SHELL = /bin/bash
 BASEDIR := $(shell pwd)
 AMEBAZ2_TOOLDIR	= $(BASEDIR)/../../../component/soc/realtek/8710c/misc/iar_utility
 CHIPDIR = $(BASEDIR)/../../../third_party/connectedhomeip
-OUTPUT_DIR = $(CHIPDIR)/examples/all-clusters-app/ameba/build/chip
+OUTPUT_DIR = $(CHIPDIR)/examples/heating-cooling-unit/ameba/build/chip
 
 OS := $(shell uname)
 
@@ -150,12 +150,12 @@ INCLUDES += -I$(BASEDIR)/../../../component/os/os_dep/include
 # CHIP Include folder list
 # -------------------------------------------------------------------
 INCLUDES += -I$(CHIPDIR)/zzz_generated/app-common
-INCLUDES += -I$(CHIPDIR)/zzz_generated/all-clusters-app
-INCLUDES += -I$(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated
-INCLUDES += -I$(CHIPDIR)/examples/all-clusters-app/all-clusters-common
-INCLUDES += -I$(CHIPDIR)/examples/all-clusters-app/all-clusters-common/include
-INCLUDES += -I$(CHIPDIR)/examples/all-clusters-app/ameba/main/include
-INCLUDES += -I$(CHIPDIR)/examples/all-clusters-app/ameba/build/chip/gen/include
+INCLUDES += -I$(CHIPDIR)/zzz_generated/heating-cooling-unit
+INCLUDES += -I$(CHIPDIR)/zzz_generated/heating-cooling-unit/zap-generated
+INCLUDES += -I$(CHIPDIR)/examples/heating-cooling-unit/heating-cooling-unit-common
+INCLUDES += -I$(CHIPDIR)/examples/heating-cooling-unit/heating-cooling-unit-common/include
+INCLUDES += -I$(CHIPDIR)/examples/heating-cooling-unit/ameba/main/include
+INCLUDES += -I$(CHIPDIR)/examples/heating-cooling-unit/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/src/include
 INCLUDES += -I$(CHIPDIR)/src/lib
 INCLUDES += -I$(CHIPDIR)/src
@@ -194,55 +194,33 @@ SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
 
-SRC_CPP += $(CHIPDIR)/src/app/clusters/on-off-server/on-off-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/level-control/level-control.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/identify-server/identify-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/barrier-control-server/barrier-control-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/color-control-server/color-control-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/content-launch-server/content-launch-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/media-playback-server/media-playback-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/scenes/scenes.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/basic/basic.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/on-off-server/on-off-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/identify-server/identify-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/bindings.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/BindingManager.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/PendingNotificationMap.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/door-lock-server/door-lock-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ias-zone-server/ias-zone-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/low-power-server/low-power-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/test-cluster-server/test-cluster-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/occupancy-sensor-server/occupancy-sensor-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/pump-configuration-and-control-server/pump-configuration-and-control-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/diagnostic-logs-server/diagnostic-logs-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/ethernet-network-diagnostics-server/ethernet-network-diagnostics-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/software-diagnostics-server/software-diagnostics-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/thread-network-diagnostics-server/thread-network-diagnostics-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/wifi-network-diagnostics-server/wifi-network-diagnostics-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/administrator-commissioning-server/administrator-commissioning-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/window-covering-server/window-covering-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/general-diagnostics-server/general-diagnostics-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/mode-select-server/mode-select-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/application-basic-server/application-basic-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/audio-output-server/audio-output-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/keypad-input-server/keypad-input-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/application-launcher-server/application-launcher-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/channel-server/channel-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/media-input-server/media-input-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/target-navigator-server/target-navigator-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/account-login-server/account-login-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/thermostat-user-interface-configuration-server/thermostat-user-interface-configuration-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/thermostat-server/thermostat-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/power-source-configuration-server/power-source-configuration-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/wake-on-lan-server/wake-on-lan-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
@@ -259,21 +237,18 @@ SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
 SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/records/IP.cpp
 
-SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/callback-stub.cpp
-SRC_CPP += $(CHIPDIR)/zzz_generated/all-clusters-app/zap-generated/IMClusterCommandHandler.cpp
+SRC_CPP += $(CHIPDIR)/zzz_generated/heating-cooling-unit/zap-generated/callback-stub.cpp
+SRC_CPP += $(CHIPDIR)/zzz_generated/heating-cooling-unit/zap-generated/IMClusterCommandHandler.cpp
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
 
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/bridged-actions-stub.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/static-supported-modes-manager.cpp
-
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/chipinterface.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DeviceCallbacks.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/CHIPDeviceManager.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/Globals.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/LEDWidget.cpp
-SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DsoHack.cpp
+SRC_CPP += $(CHIPDIR)/examples/heating-cooling-unit/ameba/main/chipinterface.cpp
+SRC_CPP += $(CHIPDIR)/examples/heating-cooling-unit/ameba/main/DeviceCallbacks.cpp
+SRC_CPP += $(CHIPDIR)/examples/heating-cooling-unit/ameba/main/CHIPDeviceManager.cpp
+SRC_CPP += $(CHIPDIR)/examples/heating-cooling-unit/ameba/main/Globals.cpp
+SRC_CPP += $(CHIPDIR)/examples/heating-cooling-unit/ameba/main/DsoHack.cpp
+SRC_CPP += $(CHIPDIR)/examples/heating-cooling-unit/ameba/main/ThermostatManager.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
