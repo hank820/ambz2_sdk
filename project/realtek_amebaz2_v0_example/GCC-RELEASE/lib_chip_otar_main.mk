@@ -166,7 +166,7 @@ INCLUDES += -I$(CHIPDIR)/third_party/nlunit-test/repo/src
 INCLUDES += -I$(CHIPDIR)/src/app/clusters/ota-requestor
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/ota-requestor-app/ameba/main/include
-INCLUDES += -I$(CHIPDIR)/examples/platform/ameba/ota
+INCLUDES += -I$(CHIPDIR)/examples/platform/ameba
 INCLUDES += -I$(CHIPDIR)/examples/providers
 INCLUDES += -I$(CHIPDIR)/component/soc/realtek/amebad/fwlib/include
 
