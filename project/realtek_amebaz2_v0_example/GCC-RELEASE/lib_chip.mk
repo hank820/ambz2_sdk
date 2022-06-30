@@ -205,8 +205,8 @@ CXXFLAGS += -Wno-deprecated-declarations
 CXXFLAGS += -Wno-unused-parameter
 CXXFLAGS += -Wno-format
 
-CXXFLAGS += -std=gnu++11
-CXXFLAGS += -std=c++14
+CXXFLAGS += -std=gnu++14
+#CXXFLAGS += -std=c++14
 CXXFLAGS += -fno-rtti
 CXXFLAGS += -Wno-format-nonliteral
 CXXFLAGS += -Wno-format-security
