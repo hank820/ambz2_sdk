@@ -245,7 +245,9 @@ SRC_CPP += $(CHIPDIR)/examples/extended-color-light/ameba/main/DeviceCallbacks.c
 SRC_CPP += $(CHIPDIR)/examples/extended-color-light/ameba/main/CHIPDeviceManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/extended-color-light/ameba/main/Globals.cpp
 SRC_CPP += $(CHIPDIR)/examples/extended-color-light/ameba/main/LEDWidget.cpp
+SRC_CPP += $(CHIPDIR)/examples/extended-color-light/ameba/main/ExtendedColorLightManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/extended-color-light/ameba/main/DsoHack.cpp
+
 
 #lib_version
 VER_C += $(TARGET)_version.c
