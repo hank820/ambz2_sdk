@@ -49,6 +49,11 @@ extended-color-light: toolchain
 	@$(MAKE) -f lib_chip_extended-color-light_core.mk all
 	@$(MAKE) -f lib_chip_extended-color-light_main.mk all
 
+.PHONY: hvac
+hvac: toolchain
+	@$(MAKE) -f lib_chip_hvac_core.mk all
+	@$(MAKE) -f lib_chip_hvac_main.mk all
+
 .PHONY: heating-cooling-unit
 heating-cooling-unit: toolchain
 	@$(MAKE) -f lib_chip_heating-cooling-unit_core.mk all
