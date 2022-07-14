@@ -209,6 +209,7 @@ SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/bindings.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/BindingManager.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/PendingNotificationMap.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/door-lock-server/door-lock-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/door-lock-server/door-lock-server-callback.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/low-power-server/low-power-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
