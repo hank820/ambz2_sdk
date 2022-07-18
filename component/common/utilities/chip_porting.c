@@ -167,6 +167,10 @@ const char *matter_domain[19] =
  * needs to be more robust, but currently it gets the job done
  * chip-groupdataproviders is put into their respective chip-fabric-x
  */
+
+/*
+ * domainAllocator allocates key-value data in domain 1
+ */
 const char* domainAllocator(const char *domain)
 {
     //chip-factory
@@ -185,7 +189,7 @@ const char* domainAllocator(const char *domain)
     if(domain[0] == 'f')
     {
         // chip-groupdataprovider
-        if(strncmp(domain+4, "g", 1) == 0)
+        if(strncmp(domain+4, "g", 1) == 0) 
             return matter_domain[16];
 
         // chip-fabrics
@@ -344,25 +348,42 @@ int32_t deleteKey(const char *domain, const char *key)
         }
 
         ret = dct_delete_variable(&handle, key);
-        if(ret == DCT_ERR_NOT_FIND || ret == DCT_SUCCESS)
-            ret = DCT_SUCCESS;
-        else
+        dct_close_module(&handle);
+        if(DCT_SUCCESS != ret)
+        {
             printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-        dct_close_module(&handle);
+            if (DCT_ERR_NOT_FIND == ret) // Only enter here if variable is not found in region1
+            {
+                // Now we search for this variable in chip-others2
+                allocatedDomain = matter_domain[17];
+
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                ret = dct_delete_variable2(&handle, key);
+                if(DCT_SUCCESS != ret)
+                    printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                dct_close_module2(&handle);
+            }
+        }
+
     }
     else
     {
         ret = dct_open_module2(&handle, allocatedDomain);
-        if (ret != DCT_SUCCESS){
+        if (DCT_SUCCESS != ret){
             printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
             goto exit;
         }
 
-        ret = dct_delete_variable(&handle, key);
-        if(ret == DCT_ERR_NOT_FIND || ret == DCT_SUCCESS)
-            ret = DCT_SUCCESS;
-        else
+        ret = dct_delete_variable2(&handle, key);
+        if(DCT_SUCCESS != ret)
             printf("%s : dct_delete_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
         dct_close_module2(&handle);
@@ -370,7 +391,7 @@ int32_t deleteKey(const char *domain, const char *key)
     }
 
 exit:
-    return (DCT_SUCCESS == ret ? 1 : 0);
+    return ret;
 }
 
 BOOL checkExist(const char *domain, const char *key)
@@ -414,6 +435,27 @@ BOOL checkExist(const char *domain, const char *key)
         }
 
         dct_close_module(&handle);
+
+        // Find in chip-others2 if not found
+        if(found == 0)
+        {
+            allocatedDomain = matter_domain[17];
+            ret = dct_open_module2(&handle, allocatedDomain);
+            if (ret != DCT_SUCCESS){
+                printf("%s : dct_open_module2(%s) failed with error : %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                goto exit;
+            }
+
+            len = VARIABLE_VALUE_SIZE-4;
+            ret = dct_get_variable_new2(&handle, key, str, &len);
+            if(ret == DCT_SUCCESS)
+            {
+                printf("checkExist key=%s found.\n", key);
+                found = 1;
+            }
+
+            dct_close_module2(&handle);
+        }
     }
     else
     {
@@ -446,23 +488,45 @@ int32_t setPref_new(const char *domain, const char *key, uint8_t *value, size_t 
 {
     dct_handle_t handle;
     int32_t ret = -1;
-    const char *allocatedDomain = domainAllocator(domain);
-    uint8_t allocatedRegion = allocateRegion(allocatedDomain);
+    const char *allocatedDomain;
+    uint8_t allocatedRegion;
+    allocatedDomain = domainAllocator(domain);
+    allocatedRegion = allocateRegion(allocatedDomain);
 
     if (allocatedRegion == 1)
     {
-        ret = dct_open_module(&handle, allocatedDomain);
-        if (DCT_SUCCESS != ret)
+        if (byteCount > 64) // This is a **new unknown key** that should be stored in chip-others2 inside region2
         {
-            printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-            goto exit;
+            allocatedDomain = matter_domain[17];
+
+            ret = dct_open_module2(&handle, allocatedDomain);
+            if (DCT_SUCCESS != ret)
+            {
+                printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                goto exit;
+            }
+
+            ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
+            if (DCT_SUCCESS != ret)
+                printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+            dct_close_module2(&handle);
         }
+        else
+        {
+            ret = dct_open_module(&handle, allocatedDomain);
+            if (DCT_SUCCESS != ret)
+            {
+                printf("%s : dct_open_module(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                goto exit;
+            }
 
-        ret = dct_set_variable_new(&handle, key, (char *)value, (uint16_t)byteCount);
-        if (DCT_SUCCESS != ret)
-            printf("%s : dct_set_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+            ret = dct_set_variable_new(&handle, key, (char *)value, (uint16_t)byteCount);
+            if (DCT_SUCCESS != ret)
+                printf("%s : dct_set_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-        dct_close_module(&handle);
+            dct_close_module(&handle);
+        }
     }
     else
     {
@@ -503,10 +567,31 @@ int32_t getPref_bool_new(const char *domain, const char *key, uint8_t *val)
 
         len = sizeof(uint8_t);
         ret = dct_get_variable_new(&handle, key, (char *)val, &len);
+        dct_close_module(&handle);
         if (DCT_SUCCESS != ret)
+        {
             printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-        dct_close_module(&handle);
+            if (DCT_ERR_NOT_FIND == ret) // Only enter here if variable is not found in region1
+            {
+                // Now we search for this variable in chip-others2
+                allocatedDomain = matter_domain[17];
+
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                len = sizeof(uint8_t);
+                ret = dct_get_variable_new2(&handle, key, (char *)val, &len);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                dct_close_module2(&handle);
+            }
+        }
     }
     else
     {
@@ -526,7 +611,7 @@ int32_t getPref_bool_new(const char *domain, const char *key, uint8_t *val)
     }
 
 exit:
-    return (DCT_SUCCESS == ret ? 1 : 0);
+    return ret;
 }
 
 int32_t getPref_u32_new(const char *domain, const char *key, uint32_t *val)
@@ -548,10 +633,31 @@ int32_t getPref_u32_new(const char *domain, const char *key, uint32_t *val)
 
         len = sizeof(uint32_t);
         ret = dct_get_variable_new(&handle, key, (char *)val, &len);
+        dct_close_module(&handle);
         if (DCT_SUCCESS != ret)
+        {
             printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-        dct_close_module(&handle);
+            if (DCT_ERR_NOT_FIND == ret) // Only enter here if variable is not found in region1
+            {
+                // Now we search for this variable in chip-others2
+                allocatedDomain = matter_domain[17];
+
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                len = sizeof(uint32_t);
+                ret = dct_get_variable_new2(&handle, key, (char *)val, &len);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                dct_close_module2(&handle);
+            }
+        }
     }
     else
     {
@@ -570,7 +676,7 @@ int32_t getPref_u32_new(const char *domain, const char *key, uint32_t *val)
         dct_close_module2(&handle);
     }
 exit:
-    return (DCT_SUCCESS == ret ? 1 : 0);
+    return ret;
 }
 
 int32_t getPref_u64_new(const char *domain, const char *key, uint64_t *val)
@@ -592,10 +698,31 @@ int32_t getPref_u64_new(const char *domain, const char *key, uint64_t *val)
 
         len = sizeof(uint64_t);
         ret = dct_get_variable_new(&handle, key, (char *)val, &len);
+        dct_close_module(&handle);
         if (DCT_SUCCESS != ret)
+        {
             printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
 
-        dct_close_module(&handle);
+            if (DCT_ERR_NOT_FIND == ret) // Only enter here if variable is not found in region1
+            {
+                // Now we search for this variable in chip-others2
+                allocatedDomain = matter_domain[17];
+
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                len = sizeof(uint64_t);
+                ret = dct_get_variable_new2(&handle, key, (char *)val, &len);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                dct_close_module2(&handle);
+            }
+        }
     }
     else
     {
@@ -615,7 +742,7 @@ int32_t getPref_u64_new(const char *domain, const char *key, uint64_t *val)
     }
 
 exit:
-    return (DCT_SUCCESS == ret ? 1 : 0);
+    return ret;
 }
 
 int32_t getPref_str_new(const char *domain, const char *key, char * buf, size_t bufSize, size_t *outLen)
@@ -636,12 +763,34 @@ int32_t getPref_str_new(const char *domain, const char *key, char * buf, size_t 
         }
 
         ret = dct_get_variable_new(&handle, key, buf, &_bufSize);
-        if (DCT_SUCCESS != ret)
-            printf("%s : dct_get_variable(%s) failed with error: %d\n",__FUNCTION__, key, ret);
-
-        *outLen = _bufSize;
-
         dct_close_module(&handle);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_get_variable(%s) failed with error: %d\n",__FUNCTION__, key, ret);
+            *outLen = _bufSize;
+
+            if (DCT_ERR_NOT_FIND == ret) // Only enter here if variable is not found in region1
+            {
+                // Now we search for this variable in chip-others2
+                allocatedDomain = matter_domain[17];
+
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                ret = dct_get_variable_new2(&handle, key, buf, &_bufSize);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                *outLen = bufSize;
+                dct_close_module2(&handle);
+            }
+        }
+        else
+            *outLen = _bufSize;
     }
     else
     {
@@ -662,7 +811,7 @@ int32_t getPref_str_new(const char *domain, const char *key, char * buf, size_t 
     }
 
 exit:
-    return (DCT_SUCCESS == ret ? 1 : 0);
+    return ret;
 }
 
 int32_t getPref_bin_new(const char *domain, const char *key, uint8_t * buf, size_t bufSize, size_t *outLen)
@@ -683,12 +832,34 @@ int32_t getPref_bin_new(const char *domain, const char *key, uint8_t * buf, size
         }
 
         ret = dct_get_variable_new(&handle, key, (char *)buf, &_bufSize);
-        if (DCT_SUCCESS != ret)
-            printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
-
-        *outLen = _bufSize;
-
         dct_close_module(&handle);
+        if (DCT_SUCCESS != ret)
+        {
+            printf("%s : dct_get_variable(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+            *outLen = _bufSize;
+
+            if (DCT_ERR_NOT_FIND == ret) // Only enter here if variable is not found in region1
+            {
+                // Now we search for this variable in chip-others2
+                allocatedDomain = matter_domain[17];
+
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                ret = dct_get_variable_new2(&handle, key, buf, &_bufSize);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                *outLen = bufSize;
+                dct_close_module2(&handle);
+            }
+        }
+        else
+            *outLen = _bufSize;
     }
     else
     {
@@ -709,7 +880,7 @@ int32_t getPref_bin_new(const char *domain, const char *key, uint8_t * buf, size
     }
 
 exit:
-    return (DCT_SUCCESS == ret ? 1 : 0);
+    return ret;
 }
 
 /************************** Matter WiFi Related **************************/
