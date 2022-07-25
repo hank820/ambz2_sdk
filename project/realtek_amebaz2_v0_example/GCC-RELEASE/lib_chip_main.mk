@@ -276,8 +276,10 @@ SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/CHIPDeviceManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/Globals.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/LEDWidget.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DsoHack.cpp
+SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/BindingHandler.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/platform/ameba/ota/OTAInitializer.cpp
+SRC_CPP += $(CHIPDIR)/examples/platform/ameba/shell/launch_shell.cpp
 SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
 
 #lib_version
@@ -313,6 +315,7 @@ CFLAGS += -DV8M_STKOVF
 # -------------------------------------------------------------------
 CFLAGS += -DCHIP_PROJECT=1
 CFLAGS += -DCONFIG_ENABLE_OTA_REQUESTOR=1
+CFLAGS += -DCONFIG_ENABLE_CHIP_SHELL=1
 CFLAGS += -DCHIP_DEVICE_LAYER_TARGET=Ameba
 CFLAGS += -DMBEDTLS_CONFIG_FILE=\"mbedtls_config.h\"
 CFLAGS += -DCHIP_ADDRESS_RESOLVE_IMPL_INCLUDE_HEADER=\"lib/address_resolve/AddressResolve_DefaultImpl.h\"
