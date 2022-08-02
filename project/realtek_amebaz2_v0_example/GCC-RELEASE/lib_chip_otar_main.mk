@@ -194,6 +194,7 @@ SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
+SRC_CPP += $(CHIPDIR)/src/app/util/privilege-storage.cpp
 
 SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/responders/IP.cpp
 
