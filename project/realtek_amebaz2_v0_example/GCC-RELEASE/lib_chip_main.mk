@@ -194,6 +194,7 @@ SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
+SRC_CPP += $(CHIPDIR)/src/app/util/privilege-storage.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/clusters/on-off-server/on-off-server.cpp
 SRC_CPP += $(CHIPDIR)/src/app/clusters/level-control/level-control.cpp
@@ -271,6 +272,7 @@ SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/bridged-
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/all-clusters-common/src/static-supported-modes-manager.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/chipinterface.cpp
+SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/BindingHandler.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DeviceCallbacks.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/CHIPDeviceManager.cpp
 SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/Globals.cpp
@@ -279,6 +281,7 @@ SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/DsoHack.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/platform/ameba/ota/OTAInitializer.cpp
 SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
+SRC_CPP += $(CHIPDIR)/examples/platform/ameba/shell/launch_shell.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
