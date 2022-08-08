@@ -298,11 +298,13 @@ uint8_t hal_timer_group_get_rists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
  *
  *  @returns The interrupt pending status
  */
+#if 0
 __STATIC_INLINE
 uint8_t hal_timer_get_int_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tg_ba->ists_b.ists & (1 << ptimer_adp->tid);
 }
+#endif
 
 /**
  *  @brief To get the interrupt pending status (without mask).
@@ -311,11 +313,13 @@ uint8_t hal_timer_get_int_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns The interrupt pending status
  */
+#if 0
 __STATIC_INLINE
 uint8_t hal_timer_get_rint_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tg_ba->raw_ists_b.rists & (1 << ptimer_adp->tid);
 }
+#endif
 
 /**
  *  @brief To set the reload value for timer operation mode.
@@ -378,11 +382,13 @@ void hal_timer_write_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t tc)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_write_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp, uint16_t psc)
 {
     ptimer_adp->tmr_ba->pc_b.pc = psc;
 }
+#endif
 
 /**
  *  @brief To read the timer pre-scale counter value
@@ -405,12 +411,14 @@ uint16_t hal_timer_read_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_prescal_rtl8710c (phal_timer_adapter_t ptimer_adp, uint16_t psrc)
 {
 //    ptimer_adp->pre_scaler = psrc;
     ptimer_adp->tmr_ba->pr_b.pr = psrc;
 }
+#endif
 
 /**
  *  @brief To enable/start the timer.
@@ -446,11 +454,13 @@ void hal_timer_disable_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_imr_rtl8710c (phal_timer_adapter_t ptimer_adp, uint8_t imr)
 {
     ptimer_adp->tmr_ba->ctrl_b.imr = imr;
 }
+#endif
 
 /**
  *  @brief To set the timer operation mode: timer (reload) mode or counter (one shot) mode
@@ -460,11 +470,13 @@ void hal_timer_set_imr_rtl8710c (phal_timer_adapter_t ptimer_adp, uint8_t imr)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_opmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_op_mode_t op_mode)
 {
     ptimer_adp->tmr_ba->ctrl_b.mod = op_mode;
 }
+#endif
 
 /**
  *  @brief To set the timer countting mode. (up counter/ down counter)
@@ -474,11 +486,13 @@ void hal_timer_set_opmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_op_mo
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_cntmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_cnt_mode_t cnt_mode)
 {
     ptimer_adp->tmr_ba->ctrl_b.cnt_mod = cnt_mode;
 }
+#endif
 
 /**
  *  @brief To read the interrupt status.
