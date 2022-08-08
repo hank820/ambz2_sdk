@@ -198,35 +198,7 @@ SRC_CPP += $(CHIPDIR)/src/app/util/privilege-storage.cpp
 
 SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/responders/IP.cpp
 
-SRC_CPP += $(CHIPDIR)/src/app/clusters/administrator-commissioning-server/administrator-commissioning-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/basic/basic.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/bindings.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/BindingManager.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/PendingNotificationMap.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/diagnostic-logs-server/diagnostic-logs-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ethernet-network-diagnostics-server/ethernet-network-diagnostics-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/thread-network-diagnostics-server/thread-network-diagnostics-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/wifi-network-diagnostics-server/wifi-network-diagnostics-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/software-diagnostics-server/software-diagnostics-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/general-diagnostics-server/general-diagnostics-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/BDXDownloader.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestor.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestorDriver.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ExtendedOTARequestorDriver.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestorStorage.cpp
-SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
+SRC_CPP += $(shell cat $(BASEDIR)/cluster-file.txt)
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 

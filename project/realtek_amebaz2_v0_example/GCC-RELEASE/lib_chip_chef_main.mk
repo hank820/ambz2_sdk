@@ -194,11 +194,12 @@ SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
 
+SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
+
 SRC_CPP += $(CHIPDIR)/src/lib/dnssd/minimal_mdns/responders/IP.cpp
 
 SRC_CPP += $(shell cat $(BASEDIR)/cluster-file.txt)
 
-SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
