@@ -244,10 +244,12 @@ static inline void spic_disable_rtl8710c(SPIC_Type *spic_dev)
  *
  *   \return void.
  */
+#if 0
 static inline void spic_set_ctrl1_rtl8710c(SPIC_Type *spic_dev, uint32_t length)
 {
     spic_dev->ctrlr1_b.ndf = length;
 }
+#endif
 
 /** \brief Description of spic_set_baudr_rtl8710c
  *

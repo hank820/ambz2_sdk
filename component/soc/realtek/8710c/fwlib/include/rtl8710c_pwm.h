@@ -275,11 +275,13 @@ void hal_pwm_update_ctrl_rtl8710c (hal_pwm_adapter_t *ppwm_adp)
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_size_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t duty_ticks)
 {
     ppwm_adp->base_addr->ctrl_b.duty = duty_ticks;
 }
+#endif
 
 /**
  *  \brief To set the start offset of the PWM on duty.
@@ -289,11 +291,13 @@ void hal_pwm_set_duty_size_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t duty_
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_onduty_start_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t start_ticks)
 {
     ppwm_adp->base_addr->timing_ctrl_b.duty_start = start_ticks;
 }
+#endif
 
 /**
  *  \brief To set the period time of a PWM cycle.
@@ -303,11 +307,13 @@ void hal_pwm_set_onduty_start_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t st
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_period_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t period_ticks)
 {
     ppwm_adp->base_addr->timing_ctrl_b.period = period_ticks;
 }
+#endif
 
 /**
  *  \brief To pause a PWM out. When pausing a PWM, the PWM HW will stop at the end of
@@ -318,11 +324,13 @@ void hal_pwm_set_period_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t period_t
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_pause_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOL pause_ctrl)
 {
     ppwm_adp->base_addr->ctrl_b.pause = pause_ctrl;
 }
+#endif
 
 /**
  *  \brief To get the status of the PWM pause state.
@@ -346,11 +354,13 @@ uint8_t hal_pwm_get_run_sts_rtl8710c (hal_pwm_adapter_t *ppwm_adp)
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_period_ie_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOL int_en)
 {
     ppwm_adp->base_addr->ctrl_b.period_ie = int_en;
 }
+#endif
 
 /**
  *  \brief To set the duty size up-limit of the duty auto-adjustment.
@@ -360,11 +370,13 @@ void hal_pwm_set_period_ie_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOL int_en)
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_max_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_tick)
 {
     ppwm_adp->base_addr->auto_adj_limit_b.duty_adj_up_lim = max_duty_tick;
 }
+#endif
 
 /**
  *  \brief To set the duty size down-limit of the duty auto-adjustment.
@@ -374,11 +386,13 @@ void hal_pwm_set_max_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t max_du
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_min_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_tick)
 {
     ppwm_adp->base_addr->auto_adj_limit_b.duty_adj_dn_lim = min_duty_tick;
 }
+#endif
 
 /**
  *  \brief To set the increasing step size of the PWM duty auto-adjustment.
@@ -388,11 +402,13 @@ void hal_pwm_set_min_duty_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t min_du
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_inc_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t inc_step_ticks)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_inc_step = inc_step_ticks;
 }
+#endif
 
 /**
  *  \brief To set the decreasing step size of the PWM duty auto-adjustment.
@@ -402,11 +418,13 @@ void hal_pwm_set_duty_inc_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t i
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_dec_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t dec_step_ticks)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_dec_step = dec_step_ticks;
 }
+#endif
 
 /**
  *  \brief To set the time period (number of PWM period) to do a PWM duty auto-adjustment
@@ -416,11 +434,13 @@ void hal_pwm_set_duty_dec_step_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t d
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_adj_cycle_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t cycle_cnt)
 {
     ppwm_adp->base_addr->auto_adj_cycle_b.adj_cycles = cycle_cnt;
 }
+#endif
 
 /**
  *  \brief To enable or disable the PWM duty auto-adjustment HW.
@@ -430,11 +450,13 @@ void hal_pwm_set_duty_adj_cycle_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint32_t 
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_adj_en_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOLEAN enable)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.adj_en = enable;
 }
+#endif
 
 /**
  *  \brief To set the PWM duty auto-adjustment direction, increase or decreas.
@@ -444,11 +466,13 @@ void hal_pwm_set_duty_adj_en_rtl8710c (hal_pwm_adapter_t *ppwm_adp, BOOLEAN enab
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_adj_dir_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_duty_adj_dir_t dir)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.adj_dir = dir;
 }
+#endif
 
 /**
  *  \brief To set the PWM duty auto-adjustment loop mode.
@@ -458,11 +482,13 @@ void hal_pwm_set_duty_adj_dir_rtl8710c (hal_pwm_adapter_t *ppwm_adp, pwm_duty_ad
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_duty_loop_mode_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t loop_en)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.adj_loop_en = loop_en;
 }
+#endif
 
 /**
  *  \brief To enable or disable the interrupt of the adjusted duty meet the up-limit.
@@ -472,11 +498,13 @@ void hal_pwm_set_duty_loop_mode_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t l
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_max_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t int_en)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_up_lim_ie = int_en;
 }
+#endif
 
 /**
  *  \brief To enable or disable the interrupt of the adjusted duty meet the down-limit.
@@ -486,11 +514,13 @@ void hal_pwm_set_max_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t int
  *
  *  \returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_pwm_set_min_duty_int_rtl8710c (hal_pwm_adapter_t *ppwm_adp, uint8_t int_en)
 {
     ppwm_adp->base_addr->auto_adj_ctrl_b.duty_dn_lim_ie = int_en;
 }
+#endif
 
 void hal_pwm_comm_irq_reg_rtl8710c (irq_handler_t irq_handler);
 void hal_pwm_comm_irq_unreg_rtl8710c (void);

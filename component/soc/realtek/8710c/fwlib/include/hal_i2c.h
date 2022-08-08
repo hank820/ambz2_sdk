@@ -125,6 +125,7 @@ static inline void hal_i2c_slv_clear_for_mst_rd_cmd (hal_i2c_adapter_t *phal_i2c
  *   \param[in] uint8_t retry_en:           0: disable, 1: enable.
  *   \return void
  */
+#if 0
 static inline void hal_i2c_mst_addr_retry_ctrl (hal_i2c_adapter_t *phal_i2c_adapter, uint8_t retry_en)
 {
     if (retry_en) {
@@ -133,6 +134,7 @@ static inline void hal_i2c_mst_addr_retry_ctrl (hal_i2c_adapter_t *phal_i2c_adap
         phal_i2c_adapter->mst_spe_func &= (~I2CAddressRetry);
     }
 }
+#endif
 
 /** \brief Description of hal_i2c_mst_restr_sw_ctrl
  *
@@ -144,6 +146,7 @@ static inline void hal_i2c_mst_addr_retry_ctrl (hal_i2c_adapter_t *phal_i2c_adap
  *   \param[in] uint8_t restr_en:                RESTART is enable/disable.
  *   \return void
  */
+#if 0
 static inline void hal_i2c_mst_restr_sw_ctrl (hal_i2c_adapter_t *phal_i2c_adapter, uint8_t restr_en)
 {
     if (restr_en) {
@@ -152,6 +155,7 @@ static inline void hal_i2c_mst_restr_sw_ctrl (hal_i2c_adapter_t *phal_i2c_adapte
         phal_i2c_adapter->mst_spe_func &= (~I2CMasterRestart);
     }
 }
+#endif
 
 /** \brief Description of hal_i2c_set_slv_ack_addr
  *
@@ -162,6 +166,7 @@ static inline void hal_i2c_mst_restr_sw_ctrl (hal_i2c_adapter_t *phal_i2c_adapte
  *   \param[in] uint32_t ack_addr:                  ack address.
  *   \return void
  */
+#if 0
 static inline void hal_i2c_set_slv_ack_addr (hal_i2c_adapter_t *phal_i2c_adapter, uint8_t addr_idx, uint32_t ack_addr)
 {
     if (!addr_idx) {
@@ -172,6 +177,7 @@ static inline void hal_i2c_set_slv_ack_addr (hal_i2c_adapter_t *phal_i2c_adapter
         phal_i2c_adapter->init_dat.reg_base->sar1 = ack_addr;
     }
 }
+#endif
 
 uint8_t hal_i2c_timeout_chk (hal_i2c_adapter_t *phal_i2c_adapter, uint32_t start_cnt);
 uint8_t hal_i2c_chk_mod (hal_i2c_adapter_t *phal_i2c_adapter);
