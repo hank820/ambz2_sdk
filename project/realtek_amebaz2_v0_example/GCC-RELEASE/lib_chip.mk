@@ -238,6 +238,7 @@ GENERATE_NINJA:
 	echo ameba_cxx = \"arm-none-eabi-c++\"  >> $(OUTPUT_DIR)/args.gn
 	echo ameba_cpu = \"ameba\"               >> $(OUTPUT_DIR)/args.gn
 	echo chip_enable_ota_requestor = "true" >> $(OUTPUT_DIR)/args.gn
+	echo chip_build_libshell = "true" >> $(OUTPUT_DIR)/args.gn
 	echo chip_inet_config_enable_ipv4 = "false" >> $(OUTPUT_DIR)/args.gn
 	echo chip_support_enable_storage_api_audit = "false" >> $(OUTPUT_DIR)/args.gn
 	sed -i 's/chip_build_tests\ =\ true/chip_build_tests\ =\ false/g' $(CHIPDIR)/config/ameba/args.gni
