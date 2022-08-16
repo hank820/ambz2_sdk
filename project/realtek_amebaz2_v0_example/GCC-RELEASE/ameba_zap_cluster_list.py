@@ -18,12 +18,13 @@ SERVER_CLUSTERS: typing.Dict[str, typing.List[str]] = {
     'APPLICATION_BASIC_CLUSTER': ['application-basic-server'],
     'APPLICATION_LAUNCHER_CLUSTER': ['application-launcher-server'],
     'AUDIO_OUTPUT_CLUSTER': ['audio-output-server'],
+    'BALLAST_CONFIGURATION_CLUSTER': [],
     'BARRIER_CONTROL_CLUSTER': ['barrier-control-server'],
     'BASIC_CLUSTER': ['basic'],
     'BINARY_INPUT_BASIC_CLUSTER': [],
     'BINDING_CLUSTER': ['bindings'],
     'BOOLEAN_STATE_CLUSTER': [],
-    'BRIDGED_ACTIONS_CLUSTER': [],
+    'ACTIONS_CLUSTER': [],
     'BRIDGED_DEVICE_BASIC_CLUSTER': ['bridged-device-basic-information-server'],
     'CHANNEL_CLUSTER': ['channel-server'],
     'COLOR_CONTROL_CLUSTER': ['color-control-server'],
@@ -42,7 +43,7 @@ SERVER_CLUSTERS: typing.Dict[str, typing.List[str]] = {
     'GENERAL_DIAGNOSTICS_CLUSTER': ['general-diagnostics-server'],
     'GROUP_KEY_MANAGEMENT_CLUSTER': ['group-key-mgmt-server'],
     'GROUPS_CLUSTER': ['groups-server'],
-    'IAS_ZONE_CLUSTER': ['ias-zone-server'],
+    'IAS_ZONE_CLUSTER': [],
     'IDENTIFY_CLUSTER': ['identify-server'],
     'ILLUMINANCE_MEASUREMENT_CLUSTER': [],
     'KEYPAD_INPUT_CLUSTER': ['keypad-input-server'],
@@ -101,12 +102,13 @@ CLIENT_CLUSTERS: typing.Dict[str, typing.List[str]] = {
     'APPLICATION_BASIC_CLUSTER': [],
     'APPLICATION_LAUNCHER_CLUSTER': [],
     'AUDIO_OUTPUT_CLUSTER': [],
+    'BALLAST_CONFIGURATION_CLUSTER': [],
     'BARRIER_CONTROL_CLUSTER': [],
     'BASIC_CLUSTER': [],
     'BINARY_INPUT_BASIC_CLUSTER': [],
     'BINDING_CLUSTER': [],
     'BOOLEAN_STATE_CLUSTER': [],
-    'BRIDGED_ACTIONS_CLUSTER': [],
+    'ACTIONS_CLUSTER': [],
     'BRIDGED_DEVICE_BASIC_CLUSTER': [],
     'CHANNEL_CLUSTER': [],
     'COLOR_CONTROL_CLUSTER': [],
@@ -125,7 +127,7 @@ CLIENT_CLUSTERS: typing.Dict[str, typing.List[str]] = {
     'GENERAL_DIAGNOSTICS_CLUSTER': [],
     'GROUP_KEY_MANAGEMENT_CLUSTER': [],
     'GROUPS_CLUSTER': [],
-    'IAS_ZONE_CLUSTER': ['ias-zone-client'],
+    'IAS_ZONE_CLUSTER': [],
     'IDENTIFY_CLUSTER': [],
     'ILLUMINANCE_MEASUREMENT_CLUSTER': [],
     'KEYPAD_INPUT_CLUSTER': [],
@@ -181,7 +183,6 @@ def get_cluster_sources(clusters: typing.Set[str],
                         source_map: typing.Dict[str,
                                                 typing.List[str]], side: str):
     """Returns a list of cluster source directories for the given clusters.
-
     Returns:
       The set of source directories to build.
     """
@@ -200,7 +201,6 @@ def get_cluster_sources(clusters: typing.Set[str],
 
 def dump_zapfile_clusters(zap_file_path: pathlib.Path):
     """Prints all of the source directories to build for a given ZAP file.
-
     Arguments:
       zap_file_path - Path to the ZAP input file.
     """
