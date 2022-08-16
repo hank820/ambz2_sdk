@@ -4,6 +4,8 @@
 #include "basic_types.h"
 #include "platform_opts.h"
 #include "section_config.h"
+#include "wifi_constants.h"
+#include <wifi/wifi_conf.h>
 
 #if defined(CONFIG_EXAMPLE_MATTER) && CONFIG_EXAMPLE_MATTER
 
@@ -11,8 +13,13 @@ extern void ChipTest(void);
 
 static void example_matter_task_thread(void *pvParameters)
 {
-	vTaskDelay(5000);
-	ChipTest();
+    //vTaskDelay(5000);
+
+    while(!(wifi_is_up(RTW_STA_INTERFACE) || wifi_is_up(RTW_AP_INTERFACE))) {
+        //waiting for Wifi to be initialized
+    }
+
+    ChipTest();
 
     vTaskDelete(NULL);
     return;
