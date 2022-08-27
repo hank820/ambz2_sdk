@@ -184,7 +184,13 @@ const char* domainAllocator(const char *domain)
         return matter_domain[2];
     // chip-acl
     if(strncmp(domain+4, "ac", 2) == 0)
+    {
+        // acl extension
+        if(strncmp(domain+7, "1", 1) == 0)
+            return matter_domain[17];
+
         return matter_domain[8];
+    }
 
     if(domain[0] == 'f')
     {
