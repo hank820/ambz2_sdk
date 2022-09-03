@@ -2579,20 +2579,6 @@
 #endif
 
 /**
- * LWIP_ND6_SUPPORT_RIO: Support route information options in nd6 packets.
- */
-#if !defined LWIP_ND6_SUPPORT_RIO || defined __DOXYGEN__
-#define LWIP_ND6_SUPPORT_RIO            LWIP_IPV6
-#endif
-
-/**
- * LWIP_ND6_NUM_ROUTES: number of entries in IPv6 route list.
- */
-#if !defined LWIP_ND6_NUM_ROUTES || defined __DOXYGEN__
-#define LWIP_ND6_NUM_ROUTES             5
-#endif
-
-/**
  * LWIP_ND6_NUM_ROUTERS: number of entries in IPv6 default router cache
  */
 #if !defined LWIP_ND6_NUM_ROUTERS || defined __DOXYGEN__
