@@ -240,9 +240,7 @@ struct route_option {
   PACK_STRUCT_FLD_8(u8_t prefix_length);
   PACK_STRUCT_FLD_8(u8_t preference);
   PACK_STRUCT_FIELD(u32_t route_lifetime);
-  /* The prefix is formatted like a packed address, but is of a variable length
-     large enough to contain prefix_length bits. See RFC 4191 section 2.3. */
-  PACK_STRUCT_FLD_S(u8_t prefix[1]);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t prefix);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
