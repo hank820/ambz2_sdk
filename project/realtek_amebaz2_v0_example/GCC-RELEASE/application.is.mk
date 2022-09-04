@@ -101,6 +101,7 @@ INCLUDES += -I../../../component/common/network/lwip/lwip_v2.1.2/src/include
 INCLUDES += -I../../../component/common/network/lwip/lwip_v2.1.2/src/include/lwip
 INCLUDES += -I../../../component/common/network/lwip/lwip_v2.1.2/port/realtek
 INCLUDES += -I../../../component/common/network/lwip/lwip_v2.1.2/port/realtek/freertos
+INCLUDES += -I../../../component/common/network/lwip/lwip_v2.1.2/port/realtek/include
 #INCLUDES += -I../../../component/common/network/ssl/mbedtls-2.4.0/include
 INCLUDES += -I../../../component/common/network/ssl/ssl_ram_map/rom
 INCLUDES += -I../../../component/common/drivers/wlan/realtek/include
@@ -397,6 +398,7 @@ SRC_C += ../../../component/common/network/lwip/lwip_v2.1.2/src/netif/ethernet.c
 SRC_C += ../../../component/common/network/lwip/lwip_v2.1.2/port/realtek/freertos/ethernetif.c
 SRC_C += ../../../component/common/drivers/wlan/realtek/src/osdep/lwip_intf.c
 SRC_C += ../../../component/common/network/lwip/lwip_v2.1.2/port/realtek/freertos/sys_arch.c
+SRC_C += ../../../component/common/network/lwip/lwip_v2.1.2/port/realtek/hooks/lwip_default_hooks.c
 
 #network - mdns
 SRC_C += ../../../component/common/network/mDNS/mDNSPlatform.c

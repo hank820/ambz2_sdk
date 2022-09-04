@@ -179,6 +179,9 @@ a lot of data that needs to be copied, this should be set high. */
 /* ---------- SO_REUSE options --------- */
 #define SO_REUSE                        1
 
+/* ---------- Hook options --------- */
+#define LWIP_HOOK_FILENAME              "lwip_default_hooks.h"
+
 /* Support Multicast */
 #define LWIP_IGMP                   1
 #define LWIP_RAND()                 rand()
