@@ -288,6 +288,8 @@ CPPFLAGS += -Wno-format
 CPPFLAGS += -std=c++14
 CPPFLAGS += -fno-rtti
 
+CPPFLAGS += $(CHEF_FLAGS)
+
 include toolchain.mk
 
 # Compile
