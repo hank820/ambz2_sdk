@@ -1,12 +1,13 @@
-
 SHELL = /bin/bash
+
+include project_include.mk
 
 # Initialize tool chain
 # -------------------------------------------------------------------
 BASEDIR := $(shell pwd)
 AMEBAZ2_TOOLDIR	= $(BASEDIR)/../../../component/soc/realtek/8710c/misc/iar_utility
 CHIPDIR = $(BASEDIR)/../../../third_party/connectedhomeip
-OUTPUT_DIR = $(CHIPDIR)/examples/lighting-app/ameba/build/chip
+OUTPUT_DIR = $(CHIPDIR)/examples/chef/ameba/build/chip
 
 OS := $(shell uname)
 
@@ -150,11 +151,10 @@ INCLUDES += -I$(BASEDIR)/../../../component/os/os_dep/include
 # CHIP Include folder list
 # -------------------------------------------------------------------
 INCLUDES += -I$(CHIPDIR)/zzz_generated/app-common
-INCLUDES += -I$(CHIPDIR)/examples/chef/out/lighting-app
-INCLUDES += -I$(CHIPDIR)/examples/chef/out/lighting-app/zap-generated
-INCLUDES += -I$(CHIPDIR)/examples/lighting-app/lighting-common
-INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/main/include
-INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/build/chip/gen/include
+INCLUDES += -I$(CHIPDIR)/examples/chef/out/$(SAMPLE_NAME)
+INCLUDES += -I$(CHIPDIR)/examples/chef/out/$(SAMPLE_NAME)/zap-generated
+INCLUDES += -I$(CHIPDIR)/examples/chef/ameba/main/include
+INCLUDES += -I$(CHIPDIR)/examples/chef/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/platform/ameba
 INCLUDES += -I$(CHIPDIR)/examples/providers
 INCLUDES += -I$(CHIPDIR)/src/include
@@ -186,13 +186,13 @@ SRC_CPP += $(CHIPDIR)/src/app/util/attribute-size-util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-storage.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/attribute-table.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/binding-table.cpp
-SRC_CPP += $(CHIPDIR)/src/app/util/client-api.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/DataModelHandler.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-compatibility-functions.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/ember-print.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/message.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/util.cpp
 SRC_CPP += $(CHIPDIR)/src/app/util/error-mapping.cpp
+SRC_CPP += $(CHIPDIR)/src/app/util/privilege-storage.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
@@ -204,8 +204,8 @@ SRC_CPP += $(shell cat $(BASEDIR)/cluster-file.txt)
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
 
-SRC_CPP += $(CHIPDIR)/examples/chef/out/lighting-app/zap-generated/callback-stub.cpp
-SRC_CPP += $(CHIPDIR)/examples/chef/out/lighting-app/zap-generated/IMClusterCommandHandler.cpp
+SRC_CPP += $(CHIPDIR)/examples/chef/out/$(SAMPLE_NAME)/zap-generated/callback-stub.cpp
+SRC_CPP += $(CHIPDIR)/examples/chef/out/$(SAMPLE_NAME)/zap-generated/IMClusterCommandHandler.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/chef/ameba/main/chipinterface.cpp
 SRC_CPP += $(CHIPDIR)/examples/chef/ameba/main/DeviceCallbacks.cpp

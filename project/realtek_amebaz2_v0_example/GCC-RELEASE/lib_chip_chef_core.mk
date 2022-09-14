@@ -1,12 +1,13 @@
-
 SHELL = /bin/bash
+
+include project_include.mk
 
 # Initialize tool chain
 # -------------------------------------------------------------------
 BASEDIR := $(shell pwd)
 AMEBAZ2_TOOLDIR	= $(BASEDIR)/../../../component/soc/realtek/8710c/misc/iar_utility
 CHIPDIR = $(BASEDIR)/../../../third_party/connectedhomeip
-OUTPUT_DIR = $(CHIPDIR)/examples/lighting-app/ameba/build/chip
+OUTPUT_DIR = $(CHIPDIR)/examples/chef/ameba/build/chip
 
 OS := $(shell uname)
 
@@ -207,9 +208,11 @@ CXXFLAGS += -Wno-format
 CXXFLAGS += -Wno-format-nonliteral
 CXXFLAGS += -Wno-format-security
 
-CXXFLAGS += -std=gnu++11
-CXXFLAGS += -std=c++14
+CXXFLAGS += -std=gnu++14
+#CXXFLAGS += -std=c++14
 CXXFLAGS += -fno-rtti
+CXXFLAGS += -Wno-format-nonliteral
+CXXFLAGS += -Wno-format-security
 
 CHIP_CFLAGS = $(CFLAGS)
 CHIP_CFLAGS += $(INCLUDES)
@@ -241,8 +244,8 @@ GENERATE_NINJA:
 	echo chip_inet_config_enable_ipv4 = "false" >> $(OUTPUT_DIR)/args.gn
 	sed -i 's/chip_build_tests\ =\ true/chip_build_tests\ =\ false/g' $(CHIPDIR)/config/ameba/args.gni
 	mkdir -p $(CHIPDIR)/config/ameba/components/chip
-	cd $(CHIPDIR)/config/ameba/components/chip && gn gen --check --fail-on-unused-args $(CHIPDIR)/examples/lighting-app/ameba/build/chip
-	cd $(CHIPDIR)/config/ameba/components/chip ; ninja -C $(CHIPDIR)/examples/lighting-app/ameba/build/chip :ameba
+	cd $(CHIPDIR)/config/ameba/components/chip && gn gen --check --fail-on-unused-args $(CHIPDIR)/examples/chef/ameba/build/chip
+	cd $(CHIPDIR)/config/ameba/components/chip ; ninja -C $(CHIPDIR)/examples/chef/ameba/build/chip :ameba
 	cp -f $(OUTPUT_DIR)/lib/* $(BASEDIR)/../../../component/soc/realtek/8710c/misc/bsp/lib/common/GCC
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
