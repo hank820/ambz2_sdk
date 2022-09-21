@@ -145,7 +145,7 @@ HeapRegion_t xHeapRegions[] =
 	{ ucHeap, sizeof(ucHeap) }, 		// Defines a block from ucHeap
 #if 0
 	{ (uint8_t*)0x301b5000, 300*1024 }, // SDRAM heap
-#endif        
+#endif
 	{ NULL, 0 } 							// Terminates the array.
 };
 #elif (defined CONFIG_PLATFORM_8711B)
@@ -155,9 +155,9 @@ HeapRegion_t xHeapRegions[] =
 {
 	{ 0, 0},	// Image1 reserved ,length will be corrected in pvPortMalloc()
 	{ ucHeap, sizeof(ucHeap) }, 	// Defines a block from ucHeap
-#if (CONFIG_ENABLE_RDP == 0)	
+#if (CONFIG_ENABLE_RDP == 0)
 	{ (uint8_t*)0x1003f000, 0x1000},	// RDP reserved
-#endif	
+#endif
 	{ NULL, 0 } 					// Terminates the array.
 };
 #elif (defined CONFIG_PLATFORM_8710C)
@@ -173,7 +173,7 @@ extern uint32_t RAM_STACK$$Base[];
 extern uint8_t EramEnd[];
 extern uint8_t ERAM_BSS$$Limit[];
 
-#undef configTOTAL_HEAP_SIZE 
+#undef configTOTAL_HEAP_SIZE
 #undef configTOTAL_HEAP_ext_SIZE
 
 #define configTOTAL_HEAP0_SIZE ((uint32_t)RAM_STACK$$Base - ((uint32_t)RAM_BSS$$Limit))
@@ -184,7 +184,7 @@ extern uint8_t ERAM_BSS$$Limit[];
 
 #elif defined(__GNUC__)
 
-#undef configTOTAL_HEAP_SIZE 
+#undef configTOTAL_HEAP_SIZE
 #undef configTOTAL_HEAP_ext_SIZE
 
 extern uint8_t __sram_end__[];
@@ -296,8 +296,8 @@ void *pvReturn = NULL;
 						xWantedSize )
 					{
 						xWantedSize += ( portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK ) );
-					} 
-					else 
+					}
+					else
 					{
 						xWantedSize = 0;
 					}
@@ -491,6 +491,30 @@ size_t xPortGetFreeHeapSize( void )
 size_t xPortGetMinimumEverFreeHeapSize( void )
 {
 	return xMinimumEverFreeBytesRemaining;
+}
+/*-----------------------------------------------------------*/
+
+size_t xPortGetTotalHeapSize( void )
+{
+	if(hal_get_flash_port_cfg() != FLASH_PORTB){ // not a flash MCM package, so PSRAM on B port is possible
+		if(hal_lpcram_is_valid() == HAL_OK){
+			return configTOTAL_HEAP0_SIZE + configTOTAL_HEAP1_SIZE;
+		}
+	}
+	else
+	{
+		return configTOTAL_HEAP0_SIZE;
+	}
+}
+/*-----------------------------------------------------------*/
+
+void xPortResetHeapMinimumEverFreeHeapSize(void)
+{
+    taskENTER_CRITICAL();
+    {
+        xMinimumEverFreeBytesRemaining = xFreeBytesRemaining;
+    }
+    taskEXIT_CRITICAL();
 }
 /*-----------------------------------------------------------*/
 

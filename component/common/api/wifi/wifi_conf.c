@@ -248,7 +248,7 @@ static int wifi_connect_local(rtw_network_info_t *pWifi)
 static int wifi_connect_bssid_local(rtw_network_info_t *pWifi)
 {
 	int ret = 0;
-	u8 bssid[12] = {0};
+	uint8_t bssid[12] = {0};
 	
 	if(is_promisc_enabled())
 		promisc_set(0, NULL, 0);
@@ -399,31 +399,31 @@ static void rx_mgnt_hdl( char* buf, int buf_len, int flags, void* userdata)
 
 	/* buf detail: mgnt frame*/
 
-	u16 status_code;
-	u8 subframe_type;
+	uint16_t status_code;
+	uint8_t subframe_type;
 
-	subframe_type = (u8)(*(u8 *)buf) & 0xfc;
+	subframe_type = (uint8_t)(*(uint8_t *)buf) & 0xfc;
 
 	switch(subframe_type)
 	{
 		case 0x10:
 			//Assoc frame: MAC_hdr(24) + Cap_info(2) + status_code(2)
-			status_code = (u16)(*(u16 *)(buf + 24 + 2));
+			status_code = (uint16_t)(*(uint16_t *)(buf + 24 + 2));
 			printf("Recv AssocRsp with status_code=%d\n",status_code);
 			break;
 		case 0xa0:
 			//Disassoc frame: MAC_hdr(24) + status_code(2)
-			status_code = (u16)(*(u16 *)(buf + 24));
+			status_code = (uint16_t)(*(uint16_t *)(buf + 24));
 			printf("Recv Disassoc with status_code=%d\n",status_code);
 			break;
 		case 0xb0:
 			//Auth frame: MAC_hdr(24) + Auth_algo(2) + Auth_seq(2) + status_code(2)
-			status_code = (u16)(*(u16 *)(buf + 24 + 2 + 2));
+			status_code = (uint16_t)(*(uint16_t *)(buf + 24 + 2 + 2));
 			printf("Recv Auth with status_code=%d\n",status_code);
 			break;
 		case 0xc0:
 			//Deauth frame: MAC_hdr(24) + status_code(2)
-			status_code = (u16)(*(u16 *)(buf + 24));
+			status_code = (uint16_t)(*(uint16_t *)(buf + 24));
 			printf("Recv Deauth with status_code=%d\n",status_code);
 			break;
 		default:
@@ -469,11 +469,13 @@ static void wifi_disconn_hdl( char* buf, int buf_len, int flags, void* userdata)
 	( void ) flags;
 	( void ) userdata;
 #define REASON_4WAY_HNDSHK_TIMEOUT 15
-	u16 disconn_reason;
+	uint16_t disconn_reason;
+        signed char cnnctfail_reason = 0;
 	/* buf detail: mac addr + disconn_reason, buf_len = ETH_ALEN+2*/
-	disconn_reason =*(u16*)(buf+6);
+	disconn_reason =*(uint16_t*)(buf+6);
+        cnnctfail_reason = *(signed char*)(buf+6+2);
 
-	extern u32 rltk_wlan_get_link_err(void);
+	extern uint32_t rltk_wlan_get_link_err(void);
 	DBG_8710C("wifi link err:%08x\r\n", rltk_wlan_get_link_err());
 
 	if(join_user_data != NULL){
@@ -482,13 +484,34 @@ static void wifi_disconn_hdl( char* buf, int buf_len, int flags, void* userdata)
 			if(rtw_join_status & JOIN_NO_NETWORKS)
 				error_flag = RTW_NONE_NETWORK;
 
+			else if(rtw_join_status == JOIN_CONNECTING)
+			{
+				if(-1 == cnnctfail_reason)
+					{error_flag = RTW_AUTH_FAIL;}
+				else if(-4 == cnnctfail_reason)
+					{error_flag = RTW_ASSOC_FAIL;}
+				else if(-2 == cnnctfail_reason)
+					{error_flag = RTW_DEAUTH_DEASSOC;}
+				else
+					{error_flag = RTW_CONNECT_FAIL;}
+			}
+
 		}else if(join_user_data->network_info.security_type == RTW_SECURITY_WEP_PSK){
 
 			if(rtw_join_status & JOIN_NO_NETWORKS)
 				error_flag = RTW_NONE_NETWORK;
 
 			else if(rtw_join_status == JOIN_CONNECTING)
-		 		error_flag = RTW_CONNECT_FAIL;
+			{
+				if(-1 == cnnctfail_reason)
+					{error_flag = RTW_AUTH_FAIL;}
+				else if(-4 == cnnctfail_reason)
+					{error_flag = RTW_ASSOC_FAIL;}
+				else if(-2 == cnnctfail_reason)
+					{error_flag = RTW_DEAUTH_DEASSOC;}
+				else
+					{error_flag = RTW_CONNECT_FAIL;}
+			}
 
 		}else if(join_user_data->network_info.security_type == RTW_SECURITY_WPA2_AES_PSK ||
 		         join_user_data->network_info.security_type == RTW_SECURITY_WPA2_TKIP_PSK ||
@@ -509,8 +532,16 @@ static void wifi_disconn_hdl( char* buf, int buf_len, int flags, void* userdata)
 				error_flag = RTW_NONE_NETWORK;
 
 			else if(rtw_join_status == JOIN_CONNECTING)
-		 		error_flag = RTW_CONNECT_FAIL;
-
+			{
+				if(-1 == cnnctfail_reason)
+					{error_flag = RTW_AUTH_FAIL;}
+				else if(-4 == cnnctfail_reason)
+					{error_flag = RTW_ASSOC_FAIL;}
+				else if(-2 == cnnctfail_reason)
+					{error_flag = RTW_DEAUTH_DEASSOC;}
+				else
+					{error_flag = RTW_CONNECT_FAIL;}
+			}
 			else if(rtw_join_status == (JOIN_COMPLETE | JOIN_SECURITY_COMPLETE | JOIN_ASSOCIATED | JOIN_AUTHENTICATED | JOIN_LINK_READY | JOIN_CONNECTING))
 			{
 				if(disconn_reason == REASON_4WAY_HNDSHK_TIMEOUT)
@@ -554,13 +585,13 @@ static void wifi_disconn_hdl( char* buf, int buf_len, int flags, void* userdata)
 #define WLAN0_NAME	      "wlan0"
 
 #if defined(CONFIG_FAST_DHCP) && CONFIG_FAST_DHCP
-u8 is_the_same_ap = 0;
+uint8_t is_the_same_ap = 0;
 
 void check_is_the_same_ap()
 {
 	flash_t		flash;
 	struct wlan_fast_reconnect data;
-	u8 *ifname[1] = {WLAN0_NAME};
+	uint8_t *ifname[1] = {WLAN0_NAME};
 	rtw_wifi_setting_t setting;
 
 	if(wifi_get_setting((const char*)ifname[0],&setting) || setting.mode == RTW_MODE_AP){
@@ -582,9 +613,9 @@ void check_is_the_same_ap()
 
 void restore_wifi_info_to_flash(uint32_t offer_ip, uint32_t server_ip)
 {
-	u32 channel = 0;
-	u8 index = 0;
-	u8 *ifname[1] = {(u8 *)WLAN0_NAME};
+	uint32_t channel = 0;
+	uint8_t index = 0;
+	uint8_t *ifname[1] = {(uint8_t *)WLAN0_NAME};
 	rtw_wifi_setting_t setting;
 	struct wlan_fast_reconnect wifi_data_to_flash;
 	//struct security_priv *psecuritypriv = &padapter->securitypriv;
@@ -654,7 +685,7 @@ void restore_wifi_info_to_flash(uint32_t offer_ip, uint32_t server_ip)
 		wifi_data_to_flash.server_ip = server_ip;
 #endif
 		//call callback function in user program
-		p_write_reconnect_ptr((u8 *)&wifi_data_to_flash, sizeof(struct wlan_fast_reconnect));
+		p_write_reconnect_ptr((uint8_t *)&wifi_data_to_flash, sizeof(struct wlan_fast_reconnect));
 
 	}
 }
@@ -673,8 +704,8 @@ int wifi_connect(
 {
 	_sema join_semaphore;
 	rtw_result_t result = RTW_SUCCESS;
-	u8 wep_hex = 0;
-	u8 wep_pwd[14] = {0};
+	uint8_t wep_hex = 0;
+	uint8_t wep_pwd[14] = {0};
 
 	if(rtw_join_status & JOIN_CONNECTING){
 		if(wifi_disconnect() < 0){
@@ -723,21 +754,21 @@ int wifi_connect(
 			if(password_len == 10) {
 
 				unsigned int p[5] = {0};
-				u8 i = 0; 
+				uint8_t i = 0; 
 				sscanf((const char*)password, "%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4]);
 				for(i=0; i< 5; i++)
-					wep_pwd[i] = (u8)p[i];
+					wep_pwd[i] = (uint8_t)p[i];
 				wep_pwd[5] = '\0';
 				password_len = 5;
 				wep_hex = 1;
 			} else if (password_len == 26) {
 				unsigned int p[13] = {0};
-				u8 i = 0;
+				uint8_t i = 0;
 				sscanf((const char*)password, "%02x%02x%02x%02x%02x%02x%02x"\
 					 "%02x%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4],\
 					  &p[5], &p[6], &p[7], &p[8], &p[9], &p[10], &p[11], &p[12]);
 				for(i=0; i< 13; i++)
-					wep_pwd[i] = (u8)p[i];
+					wep_pwd[i] = (uint8_t)p[i];
 				wep_pwd[13] = '\0';
 				password_len = 13;
 				wep_hex = 1;
@@ -867,7 +898,7 @@ error:
 		rtw_free_sema( &join_semaphore);
 	}
 	join_user_data = NULL;
-	rtw_free((u8*)join_result);
+	rtw_free((uint8_t*)join_result);
 	wifi_unreg_event_handler(WIFI_EVENT_CONNECT, wifi_connected_hdl);
 	wifi_unreg_event_handler(WIFI_EVENT_NO_NETWORK,wifi_no_network_hdl);
 	wifi_unreg_event_handler(WIFI_EVENT_FOURWAY_HANDSHAKE_DONE, wifi_handshake_done_hdl);
@@ -888,8 +919,8 @@ int wifi_connect_bssid(
 {
 	_sema join_semaphore;
 	rtw_result_t result = RTW_SUCCESS;
-	u8 wep_hex = 0;
-	u8 wep_pwd[14] = {0};
+	uint8_t wep_hex = 0;
+	uint8_t wep_pwd[14] = {0};
 	
 	if(rtw_join_status & JOIN_CONNECTING){
 		if(wifi_disconnect() < 0){
@@ -944,22 +975,22 @@ int wifi_connect_bssid(
 	} else {
 
 		if(password_len == 10) {
-			u32 p[5] = {0};
-			u8 i = 0; 
+			uint32_t p[5] = {0};
+			uint8_t i = 0; 
 			sscanf((const char*)password, "%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4]);
 			for(i=0; i< 5; i++)
-				wep_pwd[i] = (u8)p[i];
+				wep_pwd[i] = (uint8_t)p[i];
 			wep_pwd[5] = '\0';
 			password_len = 5;
 			wep_hex = 1;
 		} else if (password_len == 26) {
-			u32 p[13] = {0};
-			u8 i = 0;
+			uint32_t p[13] = {0};
+			uint8_t i = 0;
 			sscanf((const char*)password, "%02x%02x%02x%02x%02x%02x%02x"\
 				 "%02x%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4],\
 				  &p[5], &p[6], &p[7], &p[8], &p[9], &p[10], &p[11], &p[12]);
 			for(i=0; i< 13; i++)
-				wep_pwd[i] = (u8)p[i];
+				wep_pwd[i] = (uint8_t)p[i];
 			wep_pwd[13] = '\0';
 			password_len = 13;
 			wep_hex = 1;
@@ -1007,7 +1038,7 @@ int wifi_connect_bssid(
 			if(password_len) {
 				rtw_free(join_result->network_info.password);
 			}
-			rtw_free((u8*)join_result);
+			rtw_free((uint8_t*)join_result);
 			rtw_free_sema( &join_semaphore);
 			result = RTW_TIMEOUT;
 			goto error;
@@ -1016,7 +1047,7 @@ int wifi_connect_bssid(
 			if(join_result->network_info.password_len) {
 				rtw_free(join_result->network_info.password);
 			}
-			rtw_free((u8*)join_result);
+			rtw_free((uint8_t*)join_result);
 			if( wifi_is_connected_to_ap( ) != RTW_SUCCESS) {
 				result = RTW_ERROR;
 				goto error;
@@ -1309,8 +1340,8 @@ int wifi_get_channel_plan(uint8_t *channel_plan)
 }
 
 //----------------------------------------------------------------------------//
-extern int rltk_wlan_get_sta_max_data_rate(u8 *inidata_rate);
-int wifi_get_sta_max_data_rate(OUT u8 * inidata_rate)
+extern int rltk_wlan_get_sta_max_data_rate(uint8_t *inidata_rate);
+int wifi_get_sta_max_data_rate(OUT uint8_t * inidata_rate)
 {
 	return rltk_wlan_get_sta_max_data_rate(inidata_rate);
 }
@@ -1340,7 +1371,7 @@ int wifi_set_channel(int channel)
 
 int wifi_get_channel(int *channel)
 {
-	return wext_get_channel(WLAN0_NAME, (u8*)channel);
+	return wext_get_channel(WLAN0_NAME, (uint8_t*)channel);
 }
 
 //----------------------------------------------------------------------------//
@@ -1570,7 +1601,7 @@ int wifi_set_mode(rtw_mode_t mode)
 #ifdef CONFIG_WLAN_SWITCH_MODE
 	rtw_mode_t curr_mode, next_mode;
 #if defined(CONFIG_AUTO_RECONNECT) && CONFIG_AUTO_RECONNECT
-	u8 autoreconnect_mode;
+	uint8_t autoreconnect_mode;
 #endif
 #endif
 	device_mutex_lock(RT_DEV_LOCK_WLAN);
@@ -1876,14 +1907,14 @@ int wifi_start_ap(
 		case RTW_SECURITY_WEP_PSK:
 			ret = wext_set_auth_param(ifname, IW_AUTH_80211_AUTH_ALG, IW_AUTH_ALG_OPEN_SYSTEM);
 			if(ret == 0)
-				ret = wext_set_key_ext(ifname, IW_ENCODE_ALG_WEP, NULL, 0, 1, 0, 0, (u8*)password, password_len); 
+				ret = wext_set_key_ext(ifname, IW_ENCODE_ALG_WEP, NULL, 0, 1, 0, 0, (uint8_t*)password, password_len); 
 			break;
 		case RTW_SECURITY_WPA2_TKIP_PSK:
 			ret = wext_set_auth_param(ifname, IW_AUTH_80211_AUTH_ALG, IW_AUTH_ALG_OPEN_SYSTEM);
 			if(ret == 0)
 				ret = wext_set_key_ext(ifname, IW_ENCODE_ALG_TKIP, NULL, 0, 0, 0, 0, NULL, 0);
 			if(ret == 0)
-				ret = wext_set_passphrase(ifname, (u8*)password, password_len);
+				ret = wext_set_passphrase(ifname, (uint8_t*)password, password_len);
 			break;
 #endif
 		case RTW_SECURITY_WPA2_AES_PSK:
@@ -1891,7 +1922,7 @@ int wifi_start_ap(
 			if(ret == 0)
 				ret = wext_set_key_ext(ifname, IW_ENCODE_ALG_CCMP, NULL, 0, 0, 0, 0, NULL, 0);
 			if(ret == 0)
-				ret = wext_set_passphrase(ifname, (u8*)password, password_len);
+				ret = wext_set_passphrase(ifname, (uint8_t*)password, password_len);
 			break;
 #ifdef CONFIG_IEEE80211W
 		case RTW_SECURITY_WPA2_AES_CMAC:
@@ -1899,7 +1930,7 @@ int wifi_start_ap(
 			if(ret == 0)
 				ret = wext_set_key_ext(ifname, IW_ENCODE_ALG_AES_CMAC, NULL, 0, 0, 0, 0, NULL, 0);
 			if(ret == 0)
-				ret = wext_set_passphrase(ifname, (u8*)password, password_len);
+				ret = wext_set_passphrase(ifname, (uint8_t*)password, password_len);
 			break;
 #endif
 		default:
@@ -1909,7 +1940,7 @@ int wifi_start_ap(
 	}
 	if(ret < 0) goto exit;
 
-	ret = wext_set_ap_ssid(ifname, (u8*)ssid, ssid_len);
+	ret = wext_set_ap_ssid(ifname, (uint8_t*)ssid, ssid_len);
 #if defined(CONFIG_ENABLE_WPS_AP) && CONFIG_ENABLE_WPS_AP
 	wpas_wps_init(ifname);
 #endif	
@@ -1928,7 +1959,7 @@ exit:
 	return ret;
 }
 
-extern int set_hidden_ssid(const char * ifname, u8 value);
+extern int set_hidden_ssid(const char * ifname, uint8_t value);
 int wifi_start_ap_with_hidden_ssid(
 	char 				*ssid,
 	rtw_security_t		security_type,
@@ -2002,7 +2033,7 @@ int wifi_start_ap_with_hidden_ssid(
 			if(ret == 0)
 				ret = wext_set_key_ext(ifname, IW_ENCODE_ALG_CCMP, NULL, 0, 0, 0, 0, NULL, 0);
 			if(ret == 0)
-				ret = wext_set_passphrase(ifname, (u8*)password, password_len);
+				ret = wext_set_passphrase(ifname, (uint8_t*)password, password_len);
 			break;
 		default:
 			ret = -1;
@@ -2014,7 +2045,7 @@ int wifi_start_ap_with_hidden_ssid(
 	ret = set_hidden_ssid(ifname, 1);
 	if(ret < 0) goto exit;
 
-	ret = wext_set_ap_ssid(ifname, (u8*)ssid, ssid_len);
+	ret = wext_set_ap_ssid(ifname, (uint8_t*)ssid, ssid_len);
 #if defined(CONFIG_ENABLE_WPS_AP) && CONFIG_ENABLE_WPS_AP
 	wpas_wps_init(ifname);
 #endif
@@ -2131,7 +2162,7 @@ int wifi_scan(rtw_scan_type_t                    scan_type,
 {
 	int ret;
 	scan_buf_arg * pscan_buf;
-	u16 flags = scan_type | (bss_type << 8);
+	uint16_t flags = scan_type | (bss_type << 8);
 	if(result_ptr != NULL){
 		pscan_buf = (scan_buf_arg *)result_ptr;
 		ret = wext_set_scan(scan_interface, (char*)pscan_buf->buf, pscan_buf->buf_len, flags);
@@ -2156,7 +2187,7 @@ int wifi_scan(rtw_scan_type_t                    scan_type,
 }
 
 int wifi_scan_networks_with_ssid(int (results_handler)(char*buf, int buflen, char *ssid, void *user_data), 
-	OUT void* user_data, IN int scan_buflen, IN char* ssid, IN int ssid_len)
+	OUT void* user_data, int scan_buflen, char* ssid, int ssid_len)
 {
 	int scan_cnt = 0, add_cnt = 0;
 	scan_buf_arg scan_buf;
@@ -2185,7 +2216,7 @@ int wifi_scan_networks_with_ssid(int (results_handler)(char*buf, int buflen, cha
 				int len, rssi, ssid_len, i, security_mode;
 				int wps_password_id;
 				char *mac, *ssid;
-				//u8 *security_mode;
+				//uint8_t *security_mode;
 				RTW_API_INFO("\n\r");
 				// len
 				len = (int)*(scan_buf.buf + plen);
@@ -2196,7 +2227,7 @@ int wifi_scan_networks_with_ssid(int (results_handler)(char*buf, int buflen, cha
 				mac = scan_buf.buf + plen + 1;
 				RTW_API_INFO("mac = ");
 				for(i=0; i<6; i++)
-					RTW_API_INFO("%02x ", (u8)*(mac+i));
+					RTW_API_INFO("%02x ", (uint8_t)*(mac+i));
 				RTW_API_INFO(",\t");
 				// rssi
 				rssi = *(int*)(scan_buf.buf + plen + 1 + 6);
@@ -2259,7 +2290,7 @@ int wifi_scan_networks_with_ssid(int (results_handler)(char*buf, int buflen, cha
 #endif
 
 int wifi_scan_networks_with_ssid_by_extended_security(int (results_handler)(char*buf, int buflen, char *ssid, void *user_data), 
-	OUT void* user_data, IN int scan_buflen, IN char* ssid, IN int ssid_len)
+	OUT void* user_data, int scan_buflen, char* ssid, int ssid_len)
 {
 	int scan_cnt = 0, add_cnt = 0;
 	scan_buf_arg scan_buf;
@@ -2306,7 +2337,7 @@ int wifi_scan_networks_with_ssid_by_extended_security(int (results_handler)(char
 				mac = scan_buf.buf + plen + BUFLEN_LEN;
 				RTW_API_INFO("mac = ");
 				for(i=0; i<6; i++)
-					RTW_API_INFO("%02x ", (u8)*(mac+i));
+					RTW_API_INFO("%02x ", (uint8_t)*(mac+i));
 				RTW_API_INFO(",\t");
 				// rssi
 				rssi = *(int*)(scan_buf.buf + plen + BUFLEN_LEN + MAC_LEN);
@@ -2526,11 +2557,11 @@ int wifi_scan_networks(rtw_scan_result_handler_t results_handler, void* user_dat
 	return RTW_SUCCESS;
 
 error1_with_result_ptr:
-	rtw_free((u8*)scan_result_handler_ptr.pap_details);
+	rtw_free((uint8_t*)scan_result_handler_ptr.pap_details);
 	scan_result_handler_ptr.pap_details = NULL;
 	
 error2_with_result_ptr:
-	rtw_free((u8*)scan_result_handler_ptr.ap_details);
+	rtw_free((uint8_t*)scan_result_handler_ptr.ap_details);
 	scan_result_handler_ptr.ap_details = NULL;
 
 err_exit:
@@ -3018,10 +3049,10 @@ void wifi_autoreconnect_hdl(rtw_security_t security_type,
 
 	if(wifi_autoreconnect_task.task != NULL){
 		dhcp_stop(&xnetif[0]);
-		u32 start_tick = rtw_get_current_time();
+		uint32_t start_tick = rtw_get_current_time();
 		while(1){
 			rtw_msleep_os(2);		
-			u32 passing_tick = rtw_get_current_time() - start_tick;
+			uint32_t passing_tick = rtw_get_current_time() - start_tick;
 			if(rtw_systime_to_sec(passing_tick) >= 2){
 				RTW_API_INFO("\r\n Create wifi_autoreconnect_task timeout \r\n");
 				return;
@@ -3064,9 +3095,9 @@ int wifi_get_autoreconnect(__u8 *mode)
 
 #if defined( CONFIG_ENABLE_AP_POLLING_CLIENT_ALIVE )&&( CONFIG_ENABLE_AP_POLLING_CLIENT_ALIVE == 1 )
 extern void (*p_ap_polling_sta_hdl)(void *);
-extern void (*p_ap_polling_sta_int_hdl)(void *, u16, u32 );
+extern void (*p_ap_polling_sta_int_hdl)(void *, uint16_t, uint32_t );
 extern void ap_polling_sta_hdl(void *);
-extern void ap_polling_sta_int_hdl(void *, u16, u32 );
+extern void ap_polling_sta_int_hdl(void *, uint16_t, uint32_t );
 
 void  wifi_set_ap_polling_sta(__u8 enabled)
 {
@@ -3087,11 +3118,11 @@ void  wifi_set_ap_polling_sta(__u8 enabled)
 /*
  * Example for custom ie
  *
- * u8 test_1[] = {221, 2, 2, 2};
- * u8 test_2[] = {221, 2, 1, 1};
+ * uint8_t test_1[] = {221, 2, 2, 2};
+ * uint8_t test_2[] = {221, 2, 1, 1};
  * rtw_custom_ie_t buf[2] = {{test_1, PROBE_REQ},
  *		 {test_2, PROBE_RSP | BEACON}};
- * u8 buf_test2[] = {221, 2, 1, 3} ;
+ * uint8_t buf_test2[] = {221, 2, 1, 3} ;
  * rtw_custom_ie_t buf_update = {buf_test2, PROBE_REQ};
  *
  * add ie list 
@@ -3133,13 +3164,13 @@ int wifi_del_custom_ie()
 
 #ifdef CONFIG_PROMISC
 extern void promisc_init_packet_filter(void);
-extern int promisc_add_packet_filter(u8 filter_id, rtw_packet_filter_pattern_t *patt, rtw_packet_filter_rule_t rule);
-extern int promisc_enable_packet_filter(u8 filter_id);
-extern int promisc_disable_packet_filter(u8 filter_id);
-extern int promisc_remove_packet_filter(u8 filter_id);
-extern int promisc_filter_retransmit_pkt(u8 enable, u8 filter_interval_ms);
-extern void promisc_filter_by_ap_and_phone_mac(u8 enable, void *ap_mac, void *phone_mac);
-extern int promisc_ctrl_packet_rpt(u8 enable);
+extern int promisc_add_packet_filter(uint8_t filter_id, rtw_packet_filter_pattern_t *patt, rtw_packet_filter_rule_t rule);
+extern int promisc_enable_packet_filter(uint8_t filter_id);
+extern int promisc_disable_packet_filter(uint8_t filter_id);
+extern int promisc_remove_packet_filter(uint8_t filter_id);
+extern int promisc_filter_retransmit_pkt(uint8_t enable, uint8_t filter_interval_ms);
+extern void promisc_filter_by_ap_and_phone_mac(uint8_t enable, void *ap_mac, void *phone_mac);
+extern int promisc_ctrl_packet_rpt(uint8_t enable);
 
 void wifi_init_packet_filter()
 {
@@ -3166,17 +3197,17 @@ int wifi_remove_packet_filter(unsigned char filter_id)
 	return promisc_remove_packet_filter(filter_id);
 }
 
-int wifi_retransmit_packet_filter(u8 enable, u8 filter_interval_ms)
+int wifi_retransmit_packet_filter(uint8_t enable, uint8_t filter_interval_ms)
 {
 	return promisc_filter_retransmit_pkt(enable, filter_interval_ms);
 }
 
-void wifi_filter_by_ap_and_phone_mac(u8 enable, void *ap_mac, void *phone_mac)
+void wifi_filter_by_ap_and_phone_mac(uint8_t enable, void *ap_mac, void *phone_mac)
 {
 	promisc_filter_by_ap_and_phone_mac(enable,ap_mac,phone_mac);
 }
 
-int wifi_promisc_ctrl_packet_rpt(u8 enable)
+int wifi_promisc_ctrl_packet_rpt(uint8_t enable)
 {
 	return promisc_ctrl_packet_rpt(enable);
 }
@@ -3271,7 +3302,7 @@ void wifi_suspend_softap_beacon(void)
 #endif
 
 #ifdef CONFIG_SW_MAILBOX_EN
-int mailbox_to_wifi(u8 *data, u8 len)
+int mailbox_to_wifi(uint8_t *data, uint8_t len)
 {
 	return wext_mailbox_to_wifi(WLAN0_NAME, data, len);
 }
@@ -3511,7 +3542,7 @@ int wifi_rf_contrl(uint32_t new_status)
   * @param	port: wifi port 0/1.
   * @retval	TSF[63:0]
   */
-u32 wifi_get_tsf_low(u32 port)
+uint32_t wifi_get_tsf_low(uint32_t port)
 {
 #ifdef CONFIG_APP_CTRL_RF_ONOFF
 	return rtw_get_tsf(port);
@@ -3522,7 +3553,7 @@ u32 wifi_get_tsf_low(u32 port)
 
 #if WIFI_LOGO_CERTIFICATION_CONFIG
 #ifdef CONFIG_IEEE80211W
-u32 wifi_set_pmf(unsigned char pmf_mode){
+uint32_t wifi_set_pmf(unsigned char pmf_mode){
 	int ret;
 	ret = rltk_set_pmf(pmf_mode);
 	return ret;

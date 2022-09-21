@@ -118,7 +118,7 @@ void rtc_write(time_t t);
   *            - 1: success
   *            - Others: failure
   */
-u32 rtc_set_alarm(alarm_t *alrm, alarm_irq_handler alarmHandler);
+uint32_t rtc_set_alarm(alarm_t *alrm, alarm_irq_handler alarmHandler);
 
 /**
   * @brief  Disable RTC Alarm and function.

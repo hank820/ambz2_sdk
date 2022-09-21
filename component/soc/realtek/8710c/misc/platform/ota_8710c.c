@@ -75,7 +75,7 @@ int update_ota_erase_upg_region(uint32_t img_len, uint32_t NewFWLen, uint32_t Ne
 			printf("\n\r[%s] Size INVALID", __FUNCTION__);
 			return -1;
 		}
-	}	
+	}
 
 	return NewFWLen;
 }
@@ -97,7 +97,7 @@ int update_ota_signature(unsigned char* sig_backup, uint32_t NewFWAddr){
 	}
 	flash_stream_read(&flash_ota, NewFWAddr, 32, sig_readback);
 	device_mutex_unlock(RT_DEV_LOCK_FLASH);
-	
+
 	printf("\n\r[%s] signature:\n\r", __FUNCTION__);
 	for(int i=0;i<32;i++){
 		printf(" %02X", sig_readback[i]);
@@ -123,7 +123,7 @@ static void update_ota_local_task(void *param)
 	_file_checksum file_checksum;
 	file_checksum.u = 0;
 #endif
-        
+
 #if defined(configENABLE_TRUSTZONE) && (configENABLE_TRUSTZONE == 1)
 	rtw_create_secure_context(configMINIMAL_SECURE_STACK_SIZE);
 #endif
@@ -144,7 +144,7 @@ static void update_ota_local_task(void *param)
 	if(NewFWAddr == -1){
 		goto update_ota_exit;
 	}
-	
+
 	// Get file size from server.
 	memset(file_info, 0, sizeof(file_info));
 	if(file_info[0] == 0){
@@ -164,7 +164,7 @@ static void update_ota_local_task(void *param)
 			goto update_ota_exit;
 		}
 	}
-	
+
 	curr_fw_idx = sys_update_ota_get_curr_fw_idx();
         printf("\n\r[%s] Current firmware index is %d\r\n", __FUNCTION__, curr_fw_idx);
         fw_len = file_info[2];
@@ -172,7 +172,7 @@ static void update_ota_local_task(void *param)
 	if(NewFWLen == -1){
 		goto update_ota_exit;
 	}
-	
+
 	// Write New FW sector
 	if(NewFWAddr != ~0x0){
 		address = NewFWAddr;
@@ -180,10 +180,10 @@ static void update_ota_local_task(void *param)
 		while(1){
 			int rest_len = NewFWLen - idx;
 			int recv_len = rest_len > BUF_SIZE?BUF_SIZE:rest_len;
-				
+
 			memset(buf, 0, BUF_SIZE);
 			read_bytes = 0;
-			
+
 			while(read_bytes < recv_len){
 				read_bytes += read(server_socket, &buf[read_bytes], recv_len-read_bytes);
 				if(read_bytes < 0){
@@ -191,31 +191,31 @@ static void update_ota_local_task(void *param)
 					goto update_ota_exit;
 				}
 			}
-			if(read_bytes == 0) 
+			if(read_bytes == 0)
 				break; // Read end
-			
+
 			printf(".");
 
 			if((idx + read_bytes) > NewFWLen){
 				printf("\n\r[%s] Redundant bytes received", __FUNCTION__);
 				read_bytes = NewFWLen - idx;
 			}
-			
+
 			// back up signature and only write it to flash till the end of OTA
 			if(idx < 32){
 				memcpy(sig_backup + idx, buf, (idx + read_bytes > 32 ? (32 - idx) : read_bytes));
 				memset(buf, 0xFF, (idx + read_bytes > 32 ? (32 - idx) : read_bytes));
 				printf("\n\r[%s] sig_backup for %d bytes from index %d\n\r", __FUNCTION__, (idx + read_bytes > 32 ? (32 - idx) : read_bytes), idx);
 			}
-			
+
 			device_mutex_lock(RT_DEV_LOCK_FLASH);
 			if(flash_burst_write(&flash_ota, address + idx, read_bytes, buf) < 0){
 				printf("\n\r[%s] Write stream failed", __FUNCTION__);
 				device_mutex_unlock(RT_DEV_LOCK_FLASH);
 				goto update_ota_exit;
-			}		
+			}
 			device_mutex_unlock(RT_DEV_LOCK_FLASH);
-                        
+
 #if USE_CHECKSUM
 			// checksum attached at file end
 			if(idx + read_bytes > NewFWLen - 4){
@@ -225,7 +225,7 @@ static void update_ota_local_task(void *param)
 				file_checksum.c[3] = buf[read_bytes - 1];
 			}
 #endif
-                        
+
 			idx += read_bytes;
 
 			if(idx == NewFWLen)
@@ -250,13 +250,13 @@ static void update_ota_local_task(void *param)
 		}
 
 		printf("\n\rflash checksum 0x%8x attached checksum 0x%8x", flash_checksum, file_checksum.u);
-		
+
 		if(file_checksum.u != flash_checksum){
 			printf("\n\r[%s] The checksume is wrong!\n\r", __FUNCTION__);
 			goto update_ota_exit;
 		}
 #endif
-                
+
 		// update ota signature at the end of OTA process
 		ret = update_ota_signature(sig_backup, NewFWAddr);
 		if(ret == -1){
@@ -266,25 +266,25 @@ static void update_ota_local_task(void *param)
 	}
 update_ota_exit:
 	if(buf)
-		update_free(buf);	
+		update_free(buf);
 	if(server_socket >= 0)
 		close(server_socket);
 	if(param)
 		update_free(param);
 	TaskOTA = NULL;
-	printf("\n\r[%s] Update task exit", __FUNCTION__);	
+	printf("\n\r[%s] Update task exit", __FUNCTION__);
 	if(!ret){
-		printf("\n\r[%s] Ready to reboot", __FUNCTION__);	
+		printf("\n\r[%s] Ready to reboot", __FUNCTION__);
 		osDelay(100);
 		ota_platform_reset();
 	}
-	vTaskDelete(NULL);	
+	vTaskDelete(NULL);
 	return;
 }
 
 int update_ota_local(char *ip, int port){
 	update_cfg_local_t *pUpdateCfg;
-	
+
 	if(TaskOTA){
 		printf("\n\r[%s] Update task has created.", __FUNCTION__);
 		return 0;
@@ -296,7 +296,7 @@ int update_ota_local(char *ip, int port){
 	}
 	pUpdateCfg->ip_addr = inet_addr(ip);
 	pUpdateCfg->port = ntohs(port);
-		
+
 	if(xTaskCreate(update_ota_local_task, "OTA_server", STACK_SIZE, pUpdateCfg, TASK_PRIORITY, &TaskOTA) != pdPASS){
 	  	update_free(pUpdateCfg);
 		printf("\n\r[%s] Create update task failed", __FUNCTION__);
@@ -315,7 +315,7 @@ void cmd_update(int argc, char **argv){
 }
 
 // choose the activated image. 0: default image / 1: upgrade image
-void cmd_ota_image(bool cmd){
+void cmd_ota_image(BOOL cmd){
 	if(cmd == 1)
 		sys_recover_ota_signature();
 	else
@@ -355,14 +355,14 @@ int  parser_url( char *url, char *host, uint16_t *port, char *resource)
 		}
 		printf("server: %s\n\r", host);
 		printf("port: %d\n\r", *port);
-		
+
 		memset(resource, 0, redirect_len);
 		pos = strstr(url, "/");
 		if(pos){
 			memcpy(resource, pos + 1, strlen(pos + 1));
 		}
 		printf("resource: %s\n\r", resource);
-		
+
 		return 0;
 	}
 	return -1;
@@ -381,7 +381,7 @@ int  parser_url( char *url, char *host, uint16_t *port, char *resource)
 int update_ota_http_connect_server(int server_socket, char *host, int port){
 	struct sockaddr_in server_addr;
     struct hostent *server;
-	
+
 	server_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if(server_socket < 0){
 		printf("\n\r[%s] Create socket failed", __FUNCTION__);
@@ -389,16 +389,16 @@ int update_ota_http_connect_server(int server_socket, char *host, int port){
 	}
 
     server = gethostbyname(host);
-    if(server == NULL){ 
+    if(server == NULL){
         printf("[ERROR] Get host ip failed\n");
 		return -1;
     }
-    
+
     memset(&server_addr,0,sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     memcpy(&server_addr.sin_addr.s_addr,server->h_addr,4);
-    
+
     if (connect(server_socket,(struct sockaddr *)&server_addr, sizeof(server_addr)) < 0){
 		printf("\n\r[%s] Socket connect failed", __FUNCTION__);
 		return -1;
@@ -414,7 +414,7 @@ int update_ota_http_connect_server(int server_socket, char *host, int port){
 **					response_len: The length of http response
 **					result		: The struct that store the usful infor about the http response
 ** Return         : Parse OK:	1 -> Only got the status code
-**								3 -> Got the status code and content_length, but didn't get the full header							
+**								3 -> Got the status code and content_length, but didn't get the full header
 **								4 -> Got all the information needed
 **					Failed:		-1
 *******************************************************************************************************************/
@@ -431,7 +431,7 @@ int parse_http_response(uint8_t *response, uint32_t response_len, http_response_
 				++m;
 				if (1 == m) {//after HTTP/1.1
 					p = i;
-				} 
+				}
 				else if (2 == m) {//after status code
 					q = i;
 					break;
@@ -447,11 +447,11 @@ int parse_http_response(uint8_t *response, uint32_t response_len, http_response_
 			result->parse_status = 1;
 		else if(result->status_code == 302)
 		{
-			char *tmp=NULL; 
+			char *tmp=NULL;
 			const uint8_t *location1 = (uint8_t *)"LOCATION";
 			const uint8_t *location2 = (uint8_t *)"Location";
 			printf("response 302:%s \r\n", response);
-		
+
 			if((tmp =strstr((char const*)response, (char const*)location1)) ||(tmp=strstr((char const*)response, (char const*)location2)))
 			{
 				redirect_len = strlen(tmp+10);
@@ -513,7 +513,7 @@ int parse_http_response(uint8_t *response, uint32_t response_len, http_response_
 				break;
 			}
 		}
-		if (3 == result->parse_status) {//Still didn't receive the full header	
+		if (3 == result->parse_status) {//Still didn't receive the full header
 			result->header_bak = update_malloc(HEADER_BAK_LEN + 1);
 			memset(result->header_bak, 0, strlen((char const*)result->header_bak));
 			memcpy(result->header_bak, response + response_len - HEADER_BAK_LEN, HEADER_BAK_LEN);
@@ -526,7 +526,7 @@ int parse_http_response(uint8_t *response, uint32_t response_len, http_response_
 		const uint8_t *content_length_buf2 = (uint8_t *)"Content-Length";
 		const uint32_t content_length_buf_len = strlen((char const*)content_length_buf1);
 		p = q = 0;
-		
+
 		for (i = 0; i < response_len; ++i) {
 			if (response[i] == '\r' && response[i+1] == '\n') {
 				q = i;//the end of the line
@@ -550,14 +550,14 @@ int parse_http_response(uint8_t *response, uint32_t response_len, http_response_
 					result->header_len = header_end;
 					result->body = response + header_end;
 				}
-				else {//there are no content length in header	
+				else {//there are no content length in header
 					printf("\n\r[%s] No Content-Length in header", __FUNCTION__);
 					return -1;
 				}
 				break;
-			}	
+			}
 		}
-		
+
 		if (1 == result->parse_status) {//didn't get the content length and the full header
 			result->header_bak = update_malloc(HEADER_BAK_LEN + 1);
 			memset(result->header_bak, 0, strlen((char const*)result->header_bak));
@@ -592,10 +592,10 @@ int http_update_ota(char *host, int port, char *resource)
 	_file_checksum file_checksum;
 	file_checksum.u = 0;
 #endif
-	
+
 restart_http_ota:
 	redirect_server_port = 0;
-	
+
 	buf = update_malloc(BUF_SIZE);
 	if(!buf){
 		printf("\n\r[%s] Alloc buffer failed", __FUNCTION__);
@@ -612,15 +612,15 @@ restart_http_ota:
 	if(NewFWAddr == -1){
 		goto update_ota_exit;
 	}
-	
+
 	// Write New FW sector
 	if(NewFWAddr != ~0x0){
 		uint32_t idx = 0;
 		int data_len = 0;
 		printf("\n\r");
-		
+
 		//send http request
-		request = (unsigned char *) update_malloc(strlen("GET /") + strlen(resource) + strlen(" HTTP/1.1\r\nHost: ") 
+		request = (unsigned char *) update_malloc(strlen("GET /") + strlen(resource) + strlen(" HTTP/1.1\r\nHost: ")
 			+ strlen(host) + strlen("\r\n\r\n") + 1);
 		sprintf((char*)request, "GET /%s HTTP/1.1\r\nHost: %s\r\n\r\n", resource, host);
 
@@ -637,7 +637,7 @@ restart_http_ota:
 					printf("\n\r[%s] Read socket failed", __FUNCTION__);
 					goto update_ota_exit;
 				}
-	
+
 				idx = read_bytes;
 				memset(&rsp_result, 0, sizeof(rsp_result));
 				if(parse_http_response(buf, idx, &rsp_result) == -1){
@@ -655,7 +655,7 @@ restart_http_ota:
 					printf("\n\r[%s] Read socket failed", __FUNCTION__);
 					goto update_ota_exit;
 				}
-	
+
 				idx = read_bytes + HEADER_BAK_LEN;
 
 				if(parse_http_response(buf, read_bytes + HEADER_BAK_LEN, &rsp_result) == -1){
@@ -663,17 +663,17 @@ restart_http_ota:
 				}
 			}
 		}
-		
+
 		if (0 == rsp_result.body_len){
 			printf("\n\r[%s] New firmware size = 0 !", __FUNCTION__);
 			goto update_ota_exit;
 		}
 		else
 			printf("\n\r[%s] Download new firmware begin, total size : %d\n\r", __FUNCTION__, rsp_result.body_len);
-		
-		
+
+
 		curr_fw_idx = sys_update_ota_get_curr_fw_idx();
-		printf("\n\r[%s] Current firmware index is %d\r\n", __FUNCTION__, curr_fw_idx);	
+		printf("\n\r[%s] Current firmware index is %d\r\n", __FUNCTION__, curr_fw_idx);
 		fw_len = rsp_result.body_len;
 		address = NewFWAddr;
                 printf("\n\r[%s] fw size %d, NewFWAddr %08X\n\r",  __FUNCTION__, fw_len, address);
@@ -681,7 +681,7 @@ restart_http_ota:
 		if(NewFWLen == -1){
 			goto update_ota_exit;
 		}
-		
+
 		read_bytes = idx - rsp_result.header_len;
 		idx = 0;
 		if(read_bytes > 0){
@@ -689,7 +689,7 @@ restart_http_ota:
 			memset(buf + read_bytes, 0, BUF_SIZE - read_bytes);
 			goto skip_read;
 		}
-		
+
 		while (idx < NewFWLen){
 			printf(".");
 			data_len = NewFWLen - idx;
@@ -698,7 +698,7 @@ restart_http_ota:
 
 			memset(buf, 0, BUF_SIZE);
 			read_bytes = 0;
-                        
+
 			while(read_bytes < data_len){
 				read_rtn = read(server_socket, &buf[read_bytes], data_len-read_bytes);
 				if(read_rtn <= 0){
@@ -713,7 +713,7 @@ skip_read:
 				printf("\n\r[%s] Redundant bytes received", __FUNCTION__);
 				read_bytes = NewFWLen - idx;
 			}
-			
+
 			// back up signature
 			if(idx < 32){
 				memcpy(sig_backup + idx, buf, (idx + read_bytes > 32 ? (32 - idx) : read_bytes));
@@ -739,7 +739,7 @@ skip_read:
 			}
 #endif
 
-			idx += read_bytes;			
+			idx += read_bytes;
 		}
 		printf("\n\r[%s] Download new firmware %d bytes completed\n\r", __FUNCTION__, idx);
 
@@ -760,7 +760,7 @@ skip_read:
 		}
 
 		printf("\n\rflash checksum 0x%8x attached checksum 0x%8x", flash_checksum, file_checksum.u);
-		
+
 		if(file_checksum.u != flash_checksum){
 			printf("\n\r[%s] The checksume is wrong!\n\r", __FUNCTION__);
 			goto update_ota_exit;
@@ -781,7 +781,7 @@ update_ota_exit:
 		update_free(request);
 	if(server_socket >= 0)
 		close(server_socket);
-	
+
 	// redirect_server_port != 0 means there is redirect URL can be downloaded
 	if(redirect_server_port != 0){
 		host = redirect_server_host;
@@ -790,14 +790,14 @@ update_ota_exit:
 		printf("\n\r[%s] OTA redirect host: %s, port: %d, resource: %s", __FUNCTION__, host, port, resource);
 		goto restart_http_ota;
 	}
-	
+
 	if(redirect)
 		update_free(redirect);
 	if(redirect_server_host)
 		update_free(redirect_server_host);
 	if(redirect_resource)
 		update_free(redirect_resource);
-	
+
 	return ret;
 }
 #endif

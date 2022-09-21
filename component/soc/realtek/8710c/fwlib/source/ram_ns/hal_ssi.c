@@ -58,29 +58,29 @@ extern hal_status_t hal_xip_get_phy_addr (uint32_t vaddr, uint32_t *ppaddr, uint
  *    hal_ssi_pin_ctl is used to enable and select pins for the target SPI device.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 ctl:      A control bit to decide to enable or disable the pinmux of the device.
+ *   \param uint8_t ctl:      A control bit to decide to enable or disable the pinmux of the device.
  *
  *   \return hal_status_t.
  */
-hal_status_t hal_ssi_pin_ctl(phal_ssi_adaptor_t phal_ssi_adaptor, u8 ctl)
+hal_status_t hal_ssi_pin_ctl(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t ctl)
 {
-    u8 index;
+    uint8_t index;
     hal_status_t ret;
     pspi_pin_sel_t pspi_pin = &(phal_ssi_adaptor->spi_pin);
 
     if (ctl == ENABLE) {       
         for (index = 0; index < 4; index++) {
-            ret = hal_pinmux_register(*(((u8 *)pspi_pin) + index), PID_SPI0);
+            ret = hal_pinmux_register(*(((uint8_t *)pspi_pin) + index), PID_SPI0);
             if (ret != HAL_OK) {
-                DBG_SSI_ERR("PIN %x cannot be registered.\r\n", *(((u8 *)pspi_pin) + index));
+                DBG_SSI_ERR("PIN %x cannot be registered.\r\n", *(((uint8_t *)pspi_pin) + index));
                 return ret;
             }
         }
     } else {
         for (index = 0; index < 4; index++) {
-            ret = hal_pinmux_unregister(*(((u8 *)pspi_pin) + index), PID_SPI0);
+            ret = hal_pinmux_unregister(*(((uint8_t *)pspi_pin) + index), PID_SPI0);
             if (ret != HAL_OK) {
-                DBG_SSI_ERR("PIN %x cannot be unregistered.\r\n", *(((u8 *)pspi_pin) + index));
+                DBG_SSI_ERR("PIN %x cannot be unregistered.\r\n", *(((uint8_t *)pspi_pin) + index));
                 return ret;
             }
         }
@@ -96,7 +96,7 @@ hal_status_t hal_ssi_pin_ctl(phal_ssi_adaptor_t phal_ssi_adaptor, u8 ctl)
  *    hal_ssi_init is used to initialize the SPI device through ROM code. The pinmux selection is also registered here.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 index:      The index of the SPI device.
+ *   \param uint8_t index:      The index of the SPI device.
  *   \param spi_pin_sel_t pin_sel:      The pinmux selection of the SPI device.
  *
  *   \return hal_status_t.
@@ -116,9 +116,9 @@ hal_status_t hal_ssi_init(phal_ssi_adaptor_t phal_ssi_adaptor)
     }
 }
 
-void hal_ssi_toggle_between_frame(phal_ssi_adaptor_t phal_ssi_adaptor, u8 ctl)
+void hal_ssi_toggle_between_frame(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t ctl)
 {
-    u8 sclk_phase = phal_ssi_adaptor->sclk_phase;
+    uint8_t sclk_phase = phal_ssi_adaptor->sclk_phase;
     SSI0_Type *spi_dev = (SSI0_Type *) phal_ssi_adaptor->spi_dev;
 
     if (sclk_phase == ScphToggleInMiddle) {
@@ -135,12 +135,12 @@ void hal_ssi_toggle_between_frame(phal_ssi_adaptor_t phal_ssi_adaptor, u8 ctl)
  *    The SPI mode number is transformed  into clock phase and clock polarity before setting these values to registers through ROM code functions.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 bits:      The size of frame, only 8 bits and 16 bits are supported.
- *   \param u8 mode:      The SPI mode, mode 0~3 are supported.
+ *   \param uint8_t bits:      The size of frame, only 8 bits and 16 bits are supported.
+ *   \param uint8_t mode:      The SPI mode, mode 0~3 are supported.
  *
  *   \return void.
  */
-void hal_spi_format(phal_ssi_adaptor_t phal_ssi_adaptor, u8 bits, u8 mode)
+void hal_spi_format(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t bits, uint8_t mode)
 {
     phal_ssi_adaptor->data_frame_size = bits;
     phal_ssi_adaptor->data_frame_format = FrfMotorolaSpi;
@@ -395,27 +395,27 @@ hal_status_t hal_ssi_rx_gdma_deinit(phal_ssi_adaptor_t phal_ssi_adaptor)
  *    At the end of this function, the transfer begins.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 *ptx_data:      The source address.
- *   \param u32 length:      The total data length.
+ *   \param uint8_t *ptx_data:      The source address.
+ *   \param uint32_t length:      The total data length.
  *
  *   \return hal_status_t.
  */
-hal_status_t hal_ssi_dma_send(phal_ssi_adaptor_t phal_ssi_adaptor, u8  *ptx_data, u32 length)
+hal_status_t hal_ssi_dma_send(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t  *ptx_data, uint32_t length)
 {
     phal_gdma_adaptor_t phal_gdma_adaptor;
-    u32 is_encry;
-    u32 *phy_src;
+    uint32_t is_encry;
+    uint32_t *phy_src;
     
     phal_gdma_adaptor = (phal_gdma_adaptor_t) phal_ssi_adaptor->ptx_gdma_adaptor;
 
-    if ((((u32)(ptx_data)) >> 24) == 0x9B) {
-        hal_xip_get_phy_addr((u32) ptx_data, (u32 *)&phy_src, &is_encry);
+    if ((((uint32_t)(ptx_data)) >> 24) == 0x9B) {
+        hal_xip_get_phy_addr((uint32_t) ptx_data, (uint32_t *)&phy_src, &is_encry);
         
         if (is_encry) {
             DBG_GDMA_ERR("Source address should not be on the encryted remapping region!\r\n");
             return HAL_ERR_MEM;
         } else {
-            ptx_data = (u8 *)phy_src;
+            ptx_data = (uint8_t *)phy_src;
         }
     }
     
@@ -433,12 +433,12 @@ hal_status_t hal_ssi_dma_send(phal_ssi_adaptor_t phal_ssi_adaptor, u8  *ptx_data
  *    At the end of this function, the transfer begins.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 *ptx_data:      The source address.
- *   \param u32 length:      The total data length.
+ *   \param uint8_t *ptx_data:      The source address.
+ *   \param uint32_t length:      The total data length.
  *
  *   \return hal_status_t.
  */
-hal_status_t hal_ssi_dma_recv(phal_ssi_adaptor_t phal_ssi_adaptor, u8  *prx_data, u32 length)
+hal_status_t hal_ssi_dma_recv(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t  *prx_data, uint32_t length)
 {
     phal_gdma_adaptor_t phal_gdma_adaptor;
     phal_gdma_adaptor = (phal_gdma_adaptor_t) phal_ssi_adaptor->prx_gdma_adaptor;

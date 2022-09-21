@@ -215,7 +215,7 @@ extern void restore_flags(void);
 #if 0
 struct  sk_buff_head {
 	struct list_head	*next, *prev;
-	u32			qlen;
+	uint32_t			qlen;
 };
 
 struct sk_buff {
@@ -451,15 +451,15 @@ int dev_alloc_name(struct net_device *net_dev, const char *ifname);
 // Timer Operation
 //----- ------------------------------------------------------------------
 void init_timer(struct timer_list *timer);
-void mod_timer(struct timer_list *timer, u32 delay_time_ms);
+void mod_timer(struct timer_list *timer, uint32_t delay_time_ms);
 void  cancel_timer_ex(struct timer_list * timer);
 void del_timer_sync(struct timer_list * timer);
 void init_timer_wrapper(void);
 void deinit_timer_wrapper(void);
 
 void	rtw_init_timer(_timer *ptimer, void *adapter, TIMER_FUN pfunc,void* cntx, const char *name);
-void	rtw_set_timer(_timer *ptimer,u32 delay_time);
-u8		rtw_cancel_timer(_timer *ptimer);
+void	rtw_set_timer(_timer *ptimer,uint32_t delay_time);
+uint8_t		rtw_cancel_timer(_timer *ptimer);
 void	rtw_del_timer(_timer *ptimer);
 
 #endif //__WRAPPER_H__

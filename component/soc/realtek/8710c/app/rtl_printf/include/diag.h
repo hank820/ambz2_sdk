@@ -42,9 +42,9 @@ extern log_buf_type_t debug_log;
 #endif
 
 #if defined(ROM_REGION)
-extern u32 ConfigDebugErr;
-extern u32 ConfigDebugInfo;
-extern u32 ConfigDebugWarn;
+extern uint32_t ConfigDebugErr;
+extern uint32_t ConfigDebugInfo;
+extern uint32_t ConfigDebugWarn;
 #else
 #define ConfigDebugErr          (*(utility_stubs.config_debug_err))
 #define ConfigDebugWarn         (*(utility_stubs.config_debug_warn))
@@ -665,8 +665,8 @@ typedef enum _DBG_CFG_TYPE_ {
 } DBG_CFG_TYPE;
 
 typedef struct _DBG_CFG_CMD_ {
-	u8 cmd_name[16];
-	u32	cmd_type;
+	uint8_t cmd_name[16];
+	uint32_t	cmd_type;
 } DBG_CFG_CMD, *PDBG_CFG_CMD;
 
 #endif

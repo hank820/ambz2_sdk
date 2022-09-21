@@ -46,19 +46,33 @@
 /******************************************************************************/
 
 /**
-* For common flash usage  
+* For common flash usage
 */
 #define FLASH_BAKEUP_SECTOR		(0x3000)
-#define FAST_RECONNECT_DATA		(0x200000 - 0x1000)
-#define BT_FTL_PHY_ADDR0		(0x200000 - 0x2000)
-#define BT_FTL_PHY_ADDR1		(0x200000 - 0x3000)
-#define BT_FTL_BKUP_ADDR		(0x200000 - 0x4000)
-#define UART_SETTING_SECTOR		(0x200000 - 0x5000)
-#define DCT_BEGIN_ADDR			(0x200000 - 0x29000) /*!< DCT begin address of flash, ex: 0x200000 = 2M, the default size of DCT is 24K; ; if backup enabled, the size is 48k; if wear leveling enabled, the size is 144k*/
+#if 0 
+// Default layout, Do not delete, for reference
+#define FAST_RECONNECT_DATA		(0x200000 - 0x1000)  // 0x1FF000
+#define BT_FTL_PHY_ADDR0		(0x200000 - 0x2000)  // 0x1FE000
+#define BT_FTL_PHY_ADDR1		(0x200000 - 0x3000)  // 0x1FD000
+#define BT_FTL_BKUP_ADDR		(0x200000 - 0x4000)  // 0x1FC000
+#define UART_SETTING_SECTOR		(0x200000 - 0x5000)  // 0x1FB000
+#define DCT_BEGIN_ADDR			(0x200000 - 0x1D000) // 0x1E3000 ~ 0x1FB000 : 96K /* !< DCT begin address of flash, ex: 0x200000 = 2M
 #define FLASH_APP_BASE			(0x200000 - 0xA9000) /*!< FATFS begin address, default size used is 512KB (can be adjusted based on user requirement)*/
 #define BT_WHITELIST_BASE_1		(0x200000 - 0xA000)
 #define BT_WHITELIST_PAGE_SIZE		(0x1000)
 #define BT_WHITELIST_BASE_2		(BT_WHITELIST_BASE_1 + BT_WHITELIST_PAGE_SIZE)
+#else 
+
+// Matter layout
+#define FAST_RECONNECT_DATA		(0x400000 - 0x1000)  // 0x3FF000
+#define BT_FTL_PHY_ADDR0		(0x400000 - 0x2000)  // 0x3FE000
+#define BT_FTL_PHY_ADDR1		(0x400000 - 0x3000)  // 0x3FD000
+#define BT_FTL_BKUP_ADDR		(0x400000 - 0x4000)  // 0x3FC000
+#define UART_SETTING_SECTOR		(0x400000 - 0x5000)  // 0x3FB000
+#define DCT_BEGIN_ADDR			(0x400000 - 0x13000) // 0x3ED000 ~ 0x3FB000 : 56K 
+#define DCT_BEGIN_ADDR2         (0x400000 - 0x1A000) // 0x3E6000 ~ 0x3ED000 : 24K
+#endif
+
 /**
  * For Wlan configurations
  */
@@ -98,7 +112,7 @@
 #define CONFIG_WIFI_IND_USE_THREAD	1
 #endif
 #if (CONFIG_ENABLE_P2P && ((CONFIG_ENABLE_WPS_AP == 0) || (CONFIG_ENABLE_WPS == 0)))
-#error "If CONFIG_ENABLE_P2P, need to define CONFIG_ENABLE_WPS_AP 1" 
+#error "If CONFIG_ENABLE_P2P, need to define CONFIG_ENABLE_WPS_AP 1"
 #endif
 
 /* For Simple Link */
@@ -108,7 +122,7 @@
 #ifdef PLATFORM_OHOS
 #define CONFIG_EXAMPLE_WLAN_FAST_CONNECT	0
 #else
-#define CONFIG_EXAMPLE_WLAN_FAST_CONNECT	1
+#define CONFIG_EXAMPLE_WLAN_FAST_CONNECT	0
 #endif
 #if CONFIG_EXAMPLE_WLAN_FAST_CONNECT
 #define CONFIG_FAST_DHCP 1
@@ -121,7 +135,7 @@
 
 #define CONFIG_GAGENT			0
 /*Disable CONFIG_EXAMPLE_WLAN_FAST_CONNECT when CONFIG_GAGENT is enabled,because
-	reconnect to previous AP is not suitable when re-configuration. 
+	reconnect to previous AP is not suitable when re-configuration.
 */
 #if CONFIG_GAGENT
 #define CONFIG_EXAMPLE_WLAN_FAST_CONNECT 0
@@ -165,26 +179,16 @@
 
 #endif
 
-/* For Azure Examples */
-#define CONFIG_USE_AZURE_EMBEDDED_C        1
-#if CONFIG_USE_AZURE_EMBEDDED_C
-/* For Azure embedded iot examples*/
-#define CONFIG_EXAMPLE_AZURE   0
-#if CONFIG_EXAMPLE_AZURE
-#undef WAIT_FOR_ACK
-#define WAIT_FOR_ACK
-#endif
-#else
 /* For Azure iot hub telemetry example*/
 #define CONFIG_EXAMPLE_AZURE_IOTHUB_TELEMETRY      0
+
 /* For Azure iot hub x509 example*/
 #define CONFIG_EXAMPLE_AZURE_IOTHUB_X509     0
-#endif
 
 /* for CoAP example*/
 #define CONFIG_EXAMPLE_COAP              0
 
-/* for lib CoAP example*/ 
+/* for lib CoAP example*/
 #define CONFIG_EXAMPLE_COAP_SERVER       0
 #define CONFIG_EXAMPLE_COAP_CLIENT       0
 
@@ -193,9 +197,12 @@
 
 /* For WIFI MAC MONITOR example */
 #define CONFIG_EXAMPLE_WIFI_MAC_MONITOR  0
-   
+
 /* For HTTP CLIENT example */
 #define CONFIG_EXAMPLE_HTTP_CLIENT  0
+
+/* For MDNS example */
+#define CONFIG_EXAMPLE_MDNS		0
 
 /* For MQTT example */
 #define CONFIG_EXAMPLE_MQTT				0
@@ -315,7 +322,7 @@
 /* For wifi scenarios example (Wi-Fi, WPS enrollee, P2P GO) */
 // also need to enable WPS and P2P
 #define CONFIG_EXAMPLE_WLAN_SCENARIO	0
-	 
+
 /* For broadcast example */
 #define CONFIG_EXAMPLE_BCAST			0
 
@@ -349,7 +356,7 @@
 #if CONFIG_ENABLE_WPS
 #define WPS_CONNECT_RETRY_COUNT		4
 #define WPS_CONNECT_RETRY_INTERVAL	5000 // in ms
-#endif 
+#endif
 
 #define AUTO_RECONNECT_COUNT	8
 #define AUTO_RECONNECT_INTERVAL	5 // in sec
@@ -361,7 +368,7 @@
 #define CONFIG_EXAMPLE_AMAZON_FREERTOS 0
 
 #define CONFIG_EXAMPLE_AMAZON_AFQP_TESTS 0
-   
+
 #if (defined(CONFIG_EXAMPLE_AMAZON_FREERTOS) && CONFIG_EXAMPLE_AMAZON_FREERTOS) || \
     (defined(CONFIG_EXAMPLE_AMAZON_AFQP_TESTS) && CONFIG_EXAMPLE_AMAZON_AFQP_TESTS)
 #undef CONFIG_INCLUDE_SIMPLE_CONFIG
@@ -399,5 +406,7 @@
 #if (SUPPORT_MP_MODE && CONFIG_MIIO)
 #define CONFIG_MIIO_MP		0 //miio mp test and rw private data
 #endif
+
+#define CONFIG_EXAMPLE_MATTER 1
 
 #endif

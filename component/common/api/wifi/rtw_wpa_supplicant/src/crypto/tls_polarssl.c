@@ -21,8 +21,8 @@ struct tls_connection {
 	struct buf_BIO *buf_in;
 	struct buf_BIO *buf_out;
 
-	u8 client_random[32];
-	u8 server_random[32];
+	uint8_t client_random[32];
+	uint8_t server_random[32];
 	int  (*tls_prf)(const unsigned char *, size_t, const char *,
                     const unsigned char *, size_t,
                     unsigned char *, size_t);
@@ -303,7 +303,7 @@ int tls_global_set_verify(void *tls_ctx, int check_crl)
 
 int tls_connection_set_verify(void *tls_ctx, struct tls_connection *conn,
 			      int verify_peer, unsigned int flags,
-			      const u8 *session_ctx, size_t session_ctx_len)
+			      const uint8_t *session_ctx, size_t session_ctx_len)
 {
 	wpa_printf(MSG_DEBUG, "TLS: tls_connection_set_verify");
 	return -1;
@@ -330,7 +330,7 @@ int tls_connection_get_random(void *tls_ctx, struct tls_connection *conn,
 // return 0: success
 int tls_connection_prf(void *tls_ctx, struct tls_connection *conn,
 		       const char *label, int server_random_first,
-		       int skip_keyblock, u8 *out, size_t out_len)
+		       int skip_keyblock, uint8_t *out, size_t out_len)
 {
 	//wpa_printf(MSG_DEBUG, "TLS: tls_connection_prf");
 	ssl_context *ssl = tls_ctx;
@@ -874,7 +874,7 @@ int tls_global_set_verify(void *tls_ctx, int check_crl)
 
 int tls_connection_set_verify(void *tls_ctx, struct tls_connection *conn,
 				int verify_peer, unsigned int flags,
-				const u8 *session_ctx, size_t session_ctx_len)
+				const uint8_t *session_ctx, size_t session_ctx_len)
 {
 	/* To avoid gcc warnings */
 	( void ) tls_ctx;
@@ -909,7 +909,7 @@ int tls_connection_get_random(void *tls_ctx, struct tls_connection *conn,
 // return 0: success
 int tls_connection_prf(void *tls_ctx, struct tls_connection *conn,
 			const char *label, int server_random_first,
-			int skip_keyblock, u8 *out, size_t out_len)
+			int skip_keyblock, uint8_t *out, size_t out_len)
 {	
 	/* To avoid gcc warnings */
 	( void ) server_random_first;
@@ -1157,7 +1157,7 @@ int tls_connection_resumed(void *tls_ctx, struct tls_connection *conn)
 
 
 int tls_connection_set_cipher_list(void *tls_ctx, struct tls_connection *conn,
-				   u8 *ciphers)
+				   uint8_t *ciphers)
 {
 	/* To avoid gcc warnings */
 	( void ) conn;
@@ -1210,7 +1210,7 @@ int tls_connection_enable_workaround(void *tls_ctx,
 
 
 int tls_connection_client_hello_ext(void *tls_ctx, struct tls_connection *conn,
-				    int ext_type, const u8 *data,
+				    int ext_type, const uint8_t *data,
 				    size_t data_len)
 {
 	/* To avoid gcc warnings */

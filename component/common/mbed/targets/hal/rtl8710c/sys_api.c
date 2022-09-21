@@ -375,7 +375,7 @@ void sys_uart_download_mode(void)
   * @brief  Enter system download mode.
   * @retval none
   */
-void sys_download_mode(u8 mode)
+void sys_download_mode(uint8_t mode)
 {
 	sys_log_uart_off();
 	sys_disable_fast_boot();
@@ -389,7 +389,7 @@ void sys_download_mode(u8 mode)
 	}
 	__enable_irq();
 #endif
-	extern void system_download_mode(u8 mode);
+	extern void system_download_mode(uint8_t mode);
 	system_download_mode(mode);
 }
 

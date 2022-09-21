@@ -34,7 +34,7 @@
 #define LEAVE_ACK_EARLY   1
 
 #if (CONFIG_LWIP_LAYER == 0)
-extern u32 _ntohl(u32 n);
+extern uint32_t _ntohl(uint32_t n);
 #endif
 
 #if LWIP_VERSION_MAJOR >= 2
@@ -60,7 +60,7 @@ int fixed_channel_num;
 unsigned char g_ssid[33];
 int g_ssid_len;
 
-extern int promisc_get_fixed_channel( void *, u8 *, int* );
+extern int promisc_get_fixed_channel( void *, uint8_t *, int* );
 extern struct netif xnetif[NET_IF_NUM];
 
 #if CONFIG_EXAMPLE_WLAN_FAST_CONNECT
@@ -72,12 +72,12 @@ extern int wlan_init_done_callback(void);
 struct rtk_test_sc;
 static enum sc_result promisc_mode_ret = SC_SUCCESS;
 static int is_need_connect_to_AP = 0;
-static u8 mac_addr[6];
+static uint8_t mac_addr[6];
 
 extern int get_sc_profile_fmt(void);
 extern int get_sc_profile_info(void *fmt_info_t);
 extern int get_sc_dsoc_info(void *dsoc_info_t);
-extern int rtl_dsoc_parse(u8 *mac_addr, u8 *buf, void *userdata, unsigned int *len);
+extern int rtl_dsoc_parse(uint8_t *mac_addr, uint8_t *buf, void *userdata, unsigned int *len);
 void filter1_add_enable(void);
 extern void remove_filter(void);
 void remove1_filter(void);
@@ -91,8 +91,8 @@ int ssid_hidden;
 
 #if SC_SOFTAP_EN
 SC_softAP_decode_ctx *softAP_decode_ctx = NULL;
-static u8 simple_config_softAP_onAuth = 0;
-static u8 simple_config_softAP_channel = 6;
+static uint8_t simple_config_softAP_onAuth = 0;
+static uint8_t simple_config_softAP_channel = 6;
 static int softAP_socket = -1;
 #ifdef NOT_SUPPORT_5G
 static int simple_config_promisc_channel_tbl[] = {1,2,3,4,5,6,7,8,9,10,11,1,2,3,4,5,6,7,8,9,10,11,1};
@@ -310,7 +310,7 @@ void SC_set_ack_content(void)
 	memset(ack_content->device_name, 0, 64);
 }
 
-int SC_send_simple_config_ack(u8 round)
+int SC_send_simple_config_ack(uint8_t round)
 {
 #if CONFIG_LWIP_LAYER
 	int ack_transmit_round, ack_num_each_sec;
@@ -318,7 +318,7 @@ int SC_send_simple_config_ack(u8 round)
 	//int sended_data = 0;
 	struct sockaddr_in to_addr;
 #if LEAVE_ACK_EARLY
-	u8 check_phone_ack = 0;
+	uint8_t check_phone_ack = 0;
 #endif
 	SC_set_ack_content();
 	
@@ -446,7 +446,7 @@ static int SC_softAP_find_ap_from_scan_buf(char*buf, int buflen, char *target_ss
 	int plen = 0;
 	
 	while(plen < buflen){
-		u8 len, ssid_len, security_mode;
+		uint8_t len, ssid_len, security_mode;
 		char *ssid;
 
 		// len offset = 0
@@ -463,7 +463,7 @@ static int SC_softAP_find_ap_from_scan_buf(char*buf, int buflen, char *target_ss
 			// channel offset = 13
 			pwifi->channel = *(buf + plen + 13);
 			// security_mode offset = 11
-			security_mode = (u8)*(buf + plen + 11);
+			security_mode = (uint8_t)*(buf + plen + 11);
 			if(security_mode == IW_ENCODE_ALG_NONE)
 				pwifi->security_type = RTW_SECURITY_OPEN;
 			else if(security_mode == IW_ENCODE_ALG_WEP)
@@ -477,10 +477,10 @@ static int SC_softAP_find_ap_from_scan_buf(char*buf, int buflen, char *target_ss
 	return 0;
 }
 
-static int SC_softAP_get_ap_security_mode(IN char * ssid, OUT rtw_security_t *security_mode)
+static int SC_softAP_get_ap_security_mode(char * ssid, OUT rtw_security_t *security_mode)
 {
 	rtw_wifi_setting_t wifi;
-	u32 scan_buflen = 1000;
+	uint32_t scan_buflen = 1000;
 
 	memset(&wifi, 0, sizeof(wifi));
 
@@ -634,23 +634,23 @@ ssid_set_done:
 	{
 		if(wifi->password_len == 10)
 		{
-			u32 p[5] = {0};
-			u8 pwd[6], i = 0; 
+			uint32_t p[5] = {0};
+			uint8_t pwd[6], i = 0; 
 			sscanf((const char*)backup_sc_ctx->password, "%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4]);
 			for(i=0; i< 5; i++)
-				pwd[i] = (u8)p[i];
+				pwd[i] = (uint8_t)p[i];
 			pwd[5] = '\0';
 			memset(backup_sc_ctx->password, 0, 65);
 			strcpy((char*)backup_sc_ctx->password, (char*)pwd);
 			wifi->password_len = 5;
 		}else if(wifi->password_len == 26){
-			u32 p[13] = {0};
-			u8 pwd[14], i = 0;
+			uint32_t p[13] = {0};
+			uint8_t pwd[14], i = 0;
 			sscanf((const char*)backup_sc_ctx->password, "%02x%02x%02x%02x%02x%02x%02x"\
 				"%02x%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4],\
 				&p[5], &p[6], &p[7], &p[8], &p[9], &p[10], &p[11], &p[12]);
 			for(i=0; i< 13; i++)
-				pwd[i] = (u8)p[i];
+				pwd[i] = (uint8_t)p[i];
 			pwd[13] = '\0';
 			memset(backup_sc_ctx->password, 0, 64);
 			strcpy((char*)backup_sc_ctx->password, (char*)pwd);
@@ -671,12 +671,12 @@ ssid_set_done:
 
 #pragma pack(1)
 struct scan_with_ssid_result {
-	u8 len; /* len of a memory area store ap info */
-	u8 mac[ETH_ALEN];
+	uint8_t len; /* len of a memory area store ap info */
+	uint8_t mac[ETH_ALEN];
 	int rssi;
-	u8 sec_mode;
-	u8 password_id;
-	u8 channel;
+	uint8_t sec_mode;
+	uint8_t password_id;
+	uint8_t channel;
 	//char ssid[65];
 };
 
@@ -687,7 +687,7 @@ struct sc_ap_info {
 
 };
 
-rtw_security_t	SC_translate_iw_security_mode(u8 security_type) {
+rtw_security_t	SC_translate_iw_security_mode(uint8_t security_type) {
 
 	rtw_security_t security_mode = RTW_SECURITY_UNKNOWN;
 
@@ -728,10 +728,10 @@ enum sc_result SC_parse_scan_result_and_connect(scan_buf_arg* scan_buf, rtw_netw
 	char ssid[65];
 	int ssid_len = 0 ;
 	int parsed_len = 0;
-	u8 scan_channel = 0;
+	uint8_t scan_channel = 0;
 	int i = 0;
 	enum sc_result ret;
-	u8 pscan_config = PSCAN_ENABLE | PSCAN_SIMPLE_CONFIG;
+	uint8_t pscan_config = PSCAN_ENABLE | PSCAN_SIMPLE_CONFIG;
 
 	memset((void*)&scan_result, 0, sizeof(struct scan_with_ssid_result));
 
@@ -770,23 +770,23 @@ enum sc_result SC_parse_scan_result_and_connect(scan_buf_arg* scan_buf, rtw_netw
 				{
 					if(wifi->password_len == 10)
 					{
-						u32 p[5] = {0};
-						u8 pwd[6], i = 0;
+						uint32_t p[5] = {0};
+						uint8_t pwd[6], i = 0;
 						sscanf((const char*)backup_sc_ctx->password, "%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4]);
 						for(i=0; i< 5; i++)
-							pwd[i] = (u8)p[i];
+							pwd[i] = (uint8_t)p[i];
 						pwd[5] = '\0';
 						memset(backup_sc_ctx->password, 0, 65);
 						strcpy((char*)backup_sc_ctx->password, (char*)pwd);
 						wifi->password_len = 5;
 					}else if(wifi->password_len == 26){
-						u32 p[13] = {0};
-						u8 pwd[14], i = 0;
+						uint32_t p[13] = {0};
+						uint8_t pwd[14], i = 0;
 						sscanf((const char*)backup_sc_ctx->password, "%02x%02x%02x%02x%02x%02x%02x"\
 							"%02x%02x%02x%02x%02x%02x", &p[0], &p[1], &p[2], &p[3], &p[4],\
 							&p[5], &p[6], &p[7], &p[8], &p[9], &p[10], &p[11], &p[12]);
 						for(i=0; i< 13; i++)
-							pwd[i] = (u8)p[i];
+							pwd[i] = (uint8_t)p[i];
 						pwd[13] = '\0';
 						memset(backup_sc_ctx->password, 0, 64);
 						strcpy((char*)backup_sc_ctx->password, (char*)pwd);
@@ -893,7 +893,7 @@ int  SC_connect_to_candidate_AP (rtw_network_info_t *wifi){
 	return ret;
 }
 
-rtw_security_t SC_translate_security(u8 security_type)
+rtw_security_t SC_translate_security(uint8_t security_type)
 {
 
 	rtw_security_t security_mode = RTW_SECURITY_UNKNOWN;
@@ -990,8 +990,8 @@ int sc_set_val2(rtw_network_info_t *wifi)
 enum sc_result SC_connect_to_AP(void)
 {
 	enum sc_result ret = SC_ERROR;
-	u8 scan_channel;
-	u8 pscan_config;
+	uint8_t scan_channel;
+	uint8_t pscan_config;
 	int max_retry = 5, retry = 0;
 	rtw_security_t security_mode;
 	rtw_network_info_t wifi = {0};
@@ -1881,8 +1881,8 @@ enum sc_result simple_config_test(rtw_network_info_t *wifi)
 //add another filter for bcast, {0xff, 0xff, 0xff, 0xff}
 #define MASK_SIZE 3
 void filter_add_enable(void){
-	u8 mask[MASK_SIZE]={0xFF,0xFF,0xFF};
-	u8 pattern[MASK_SIZE]={0x01,0x00,0x5e};
+	uint8_t mask[MASK_SIZE]={0xFF,0xFF,0xFF};
+	uint8_t pattern[MASK_SIZE]={0x01,0x00,0x5e};
 	
 	rtw_packet_filter_pattern_t packet_filter;
 	rtw_packet_filter_rule_t rule;
@@ -1908,12 +1908,12 @@ void remove_filter(void){
 #define MASK2_SIZE 18
 
 void filter1_add_enable(void){
-	u8 mask1[MASK1_SIZE]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-	u8 pattern[MASK1_SIZE]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5]};
-	u8 pattern2[MASK1_SIZE]={mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5],mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5]};
+	uint8_t mask1[MASK1_SIZE]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+	uint8_t pattern[MASK1_SIZE]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5]};
+	uint8_t pattern2[MASK1_SIZE]={mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5],mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5]};
 
-	u8 mask2[MASK2_SIZE]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-	u8 pattern3[MASK2_SIZE]={mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5],0x00,0x00,0x00,0x00,0x00,0x00,mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5]};
+	uint8_t mask2[MASK2_SIZE]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+	uint8_t pattern3[MASK2_SIZE]={mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5],0x00,0x00,0x00,0x00,0x00,0x00,mac_addr[0],mac_addr[1],mac_addr[2],mac_addr[3],mac_addr[4],mac_addr[5]};
 	
 	rtw_packet_filter_pattern_t packet_filter, packet_filter2, packet_filter3;
 	rtw_packet_filter_rule_t rule;

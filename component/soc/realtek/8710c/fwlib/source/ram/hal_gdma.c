@@ -110,17 +110,17 @@ void hal_gdma_memcpy_deinit(phal_gdma_adaptor_t phal_gdma_adaptor)
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
  *   \param void *pdest     :      The destination address.
  *   \param void *psrc      :      The source address.
- *   \param u32 len         :      The transfer length, the unit is byte.
+ *   \param uint32_t len         :      The transfer length, the unit is byte.
  *
  *   \return hal_status_t.
  */
-hal_status_t hal_gdma_memcpy(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, u32 len)
+hal_status_t hal_gdma_memcpy(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, uint32_t len)
 {
-    u32 is_encry;
-    u32 *phy_src;
+    uint32_t is_encry;
+    uint32_t *phy_src;
 
-    if ((((u32)(psrc)) >> 24) == 0x9B) {
-        hal_xip_get_phy_addr((u32) psrc, (u32 *)&phy_src, &is_encry);
+    if ((((uint32_t)(psrc)) >> 24) == 0x9B) {
+        hal_xip_get_phy_addr((uint32_t) psrc, (uint32_t *)&phy_src, &is_encry);
         
         if (is_encry) {
             DBG_GDMA_ERR("Source address should not be on the encryted remapping region!\r\n");
@@ -160,13 +160,13 @@ hal_status_t hal_gdma_memcpy(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest,
  *    If no one occupies this channel, the target channel is registered so that others cannot use this one.
  *    The GDMA clock is enabled and the reset is released if target GDMA has not been used before(GDMA is off).
  *
- *   \param u8 gdma_index:      The target GDMA, could be GDMA0 or GDMA1.
- *   \param u8 chnl_num:      The target GDMA channel, could be 0~5.
+ *   \param uint8_t gdma_index:      The target GDMA, could be GDMA0 or GDMA1.
+ *   \param uint8_t chnl_num:      The target GDMA channel, could be 0~5.
  *
  *   \return hal_status_t.
  */
 SECTION_NS_ENTRY_FUNC
-hal_status_t NS_ENTRY hal_gdma_chnl_register_ns(u8 gdma_index, u8 chnl_num)
+hal_status_t NS_ENTRY hal_gdma_chnl_register_ns(uint8_t gdma_index, uint8_t chnl_num)
 {
     return hal_gdma_chnl_register(gdma_index,chnl_num);
 }
@@ -204,7 +204,7 @@ hal_status_t NS_ENTRY hal_gdma_chnl_unregister_ns(phal_gdma_adaptor_t phal_gdma_
  *    hal_gdma_chnl_alloc is used to allocate a channel for the current GDMA transfer.
  *
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
- *   \param u8 multi_blk_en:      A control bit to determine whether this transfer
+ *   \param uint8_t multi_blk_en:      A control bit to determine whether this transfer
  *                                requires a channel supporting multiblock mode.
  *
  *   \return hal_status_t.

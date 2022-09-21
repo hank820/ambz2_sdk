@@ -143,7 +143,7 @@ typedef void (*shell_printer_t) (const char *fmt,...);
 /**
   \brief  The callback function type of a shell command. 
 */
-typedef s32 (*shell_program_t) (u32, char **);
+typedef int32_t (*shell_program_t) (uint32_t, char **);
 
 #if 0
 /**
@@ -223,8 +223,8 @@ void _shell_set_cmd_list(shell_command_t *pshell_cmd, shell_command_entry_t *cmd
 BOOL _shell_register(shell_command_t *pshell_cmd, shell_program_t program,
                     const char *cmd_string, const char *help_string);
 void _shell_unregister_all(shell_command_t *pshell_cmd);
-s32 _shell_task(shell_command_t *pshell_cmd);
-s32 _shell_parse_one_cmd(shell_command_t *pshell_cmd);
+int32_t _shell_task(shell_command_t *pshell_cmd);
+int32_t _shell_parse_one_cmd(shell_command_t *pshell_cmd);
 
 /** @} */ /* End of group util_shell_rom_func */
 
@@ -245,8 +245,8 @@ typedef struct cmd_shell_func_stubs_s {
     BOOL (*shell_register)(shell_command_t *pshell_cmd, shell_program_t program, 
                             const char *cmd_string, const char *help_string);
     void (*shell_unregister_all)(shell_command_t *pshell_cmd);
-    s32  (*shell_task)(shell_command_t *pshell_cmd);
-    s32  (*shell_parse_one_cmd)(shell_command_t *pshell_cmd);
+    int32_t  (*shell_task)(shell_command_t *pshell_cmd);
+    int32_t  (*shell_parse_one_cmd)(shell_command_t *pshell_cmd);
     
     const shell_command_entry_t *rom_cmd_table;
     uint32_t reserved[8];  // reserved space for next ROM code version function table extending.
@@ -260,8 +260,8 @@ void shell_set_cmd_table(const shell_command_entry_t *cmd_table);
 void shell_set_cmd_list(shell_command_entry_t *cmd_list, unsigned int list_size);
 BOOL shell_register(shell_program_t program, const char *cmd_string, const char *help_string);
 void shell_unregister_all(void);
-s32 shell_task(void);
-s32 shell_parse_one_cmd(void);
+int32_t shell_task(void);
+int32_t shell_parse_one_cmd(void);
 
 /** @} */ /* End of group util_shell */
 

@@ -207,7 +207,7 @@ int hal_crypto_engine_deinit(void);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_md5(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_md5(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the MD5 function.
@@ -232,8 +232,8 @@ int hal_crypto_md5_init(void);
  *  @return      value < 0      fail(Refer to ERRNO))
  */
 int hal_crypto_md5_process(
-    IN const u8 *message, IN const u32 msglen,
-    OUT u8 *pDigest);
+    const uint8_t *message, const uint32_t msglen,
+    OUT uint8_t *pDigest);
 
 /**
  *  @brief Update MD5 with new buffer(Sequential hash to process buffer).\n
@@ -254,7 +254,7 @@ int hal_crypto_md5_process(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_md5_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_md5_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get MD5 sequential hash final result.\n
@@ -268,7 +268,7 @@ int hal_crypto_md5_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_md5_final(OUT u8 *pDigest);
+int hal_crypto_md5_final(OUT uint8_t *pDigest);
 
 // SHA1
 /**
@@ -285,7 +285,7 @@ int hal_crypto_md5_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha1(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_sha1(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the SHA1 function.
@@ -310,8 +310,8 @@ int hal_crypto_sha1_init(void);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_sha1_process(
-    IN const u8 *message, IN const u32 msglen,
-    OUT u8 *pDigest);
+    const uint8_t *message, const uint32_t msglen,
+    OUT uint8_t *pDigest);
 
 /**
  *  @brief Update SHA1 with new buffer(Sequential hash to process buffer).\n
@@ -332,7 +332,7 @@ int hal_crypto_sha1_process(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha1_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_sha1_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get SHA1 sequential hash final result.\n
@@ -346,7 +346,7 @@ int hal_crypto_sha1_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha1_final(OUT u8 *pDigest);
+int hal_crypto_sha1_final(OUT uint8_t *pDigest);
 
 // SHA2-224
 /**
@@ -363,7 +363,7 @@ int hal_crypto_sha1_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha2_224(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_sha2_224(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the SHA2_224 function.
@@ -388,8 +388,8 @@ int hal_crypto_sha2_224_init(void);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_sha2_224_process(
-    IN const u8 *message, IN const u32 msglen,
-    OUT u8 *pDigest);
+    const uint8_t *message, const uint32_t msglen,
+    OUT uint8_t *pDigest);
 
 /**
  *  @brief Update SHA2_224 with new buffer(Sequential hash to process buffer).\n
@@ -410,7 +410,7 @@ int hal_crypto_sha2_224_process(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha2_224_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_sha2_224_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get SHA2_224 sequential hash final result.\n
@@ -424,7 +424,7 @@ int hal_crypto_sha2_224_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha2_224_final(OUT u8 *pDigest);
+int hal_crypto_sha2_224_final(OUT uint8_t *pDigest);
 
 // SHA2-256
 /**
@@ -441,7 +441,7 @@ int hal_crypto_sha2_224_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha2_256(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_sha2_256(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the SHA2_256 function.
@@ -466,8 +466,8 @@ int hal_crypto_sha2_256_init(void);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_sha2_256_process(
-    IN const u8 *message, IN const u32 msglen,
-    OUT u8 *pDigest);
+    const uint8_t *message, const uint32_t msglen,
+    OUT uint8_t *pDigest);
 
 /**
  *  @brief Update SHA2_256 with new buffer(Sequential hash to process buffer).\n
@@ -488,7 +488,7 @@ int hal_crypto_sha2_256_process(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha2_256_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_sha2_256_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get SHA2_256 sequential hash final result.\n
@@ -502,7 +502,7 @@ int hal_crypto_sha2_256_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_sha2_256_final(OUT u8 *pDigest);
+int hal_crypto_sha2_256_final(OUT uint8_t *pDigest);
 
 // HMAC-md5
 /**
@@ -523,8 +523,8 @@ int hal_crypto_sha2_256_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_md5(IN const u8 *message, IN const u32 msglen,
-			IN const u8 *key, IN const u32 keylen, OUT u8 *pDigest);
+int hal_crypto_hmac_md5(const uint8_t *message, const uint32_t msglen,
+			const uint8_t *key, const uint32_t keylen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the HMAC-MD5 function.
@@ -538,7 +538,7 @@ int hal_crypto_hmac_md5(IN const u8 *message, IN const u32 msglen,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_md5_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_hmac_md5_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief HMAC-MD5 process buffer.
@@ -554,7 +554,7 @@ int hal_crypto_hmac_md5_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_md5_process(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_hmac_md5_process(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Update HMAC-MD5 with new buffer(Sequential hash to process buffer).\n
@@ -575,7 +575,7 @@ int hal_crypto_hmac_md5_process(IN const u8 *message, IN const u32 msglen, OUT u
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_md5_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_hmac_md5_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get HMAC-MD5 sequential hash final result.\n
@@ -589,7 +589,7 @@ int hal_crypto_hmac_md5_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_md5_final(OUT u8 *pDigest);
+int hal_crypto_hmac_md5_final(OUT uint8_t *pDigest);
 
 // HMAC-sha1
 /**
@@ -610,8 +610,8 @@ int hal_crypto_hmac_md5_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha1(IN const u8 *message, IN const u32 msglen,
-			IN const u8 *key, IN const u32 keylen, OUT u8 *pDigest);
+int hal_crypto_hmac_sha1(const uint8_t *message, const uint32_t msglen,
+			const uint8_t *key, const uint32_t keylen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the HMAC-SHA1 function.
@@ -625,7 +625,7 @@ int hal_crypto_hmac_sha1(IN const u8 *message, IN const u32 msglen,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO))
  */
-int hal_crypto_hmac_sha1_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_hmac_sha1_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief HMAC-SHA1 process buffer.
@@ -641,7 +641,7 @@ int hal_crypto_hmac_sha1_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha1_process(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_hmac_sha1_process(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Update HMAC-SHA1 with new buffer(Sequential hash to process buffer).\n
@@ -662,7 +662,7 @@ int hal_crypto_hmac_sha1_process(IN const u8 *message, IN const u32 msglen, OUT 
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha1_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_hmac_sha1_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get HMAC-SHA1 sequential hash final result.\n
@@ -676,7 +676,7 @@ int hal_crypto_hmac_sha1_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha1_final(OUT u8 *pDigest);
+int hal_crypto_hmac_sha1_final(OUT uint8_t *pDigest);
 
 // HMAC-sha2
 // -- 224
@@ -698,8 +698,8 @@ int hal_crypto_hmac_sha1_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_224( IN const u8 *message, IN const u32 msglen,
-            IN const u8 *key, IN const u32 keylen, OUT u8 *pDigest);
+int hal_crypto_hmac_sha2_224( const uint8_t *message, const uint32_t msglen,
+            const uint8_t *key, const uint32_t keylen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the HMAC-SHA2-224 function.
@@ -713,7 +713,7 @@ int hal_crypto_hmac_sha2_224( IN const u8 *message, IN const u32 msglen,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_224_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_hmac_sha2_224_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief HMAC-SHA2-224 process buffer.
@@ -729,7 +729,7 @@ int hal_crypto_hmac_sha2_224_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_224_process(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_hmac_sha2_224_process(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Update HMAC-SHA2-224 with new buffer(Sequential hash to process buffer).\n
@@ -750,7 +750,7 @@ int hal_crypto_hmac_sha2_224_process(IN const u8 *message, IN const u32 msglen, 
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_224_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_hmac_sha2_224_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get HMAC-SHA2-224 sequential hash final result.\n
@@ -764,7 +764,7 @@ int hal_crypto_hmac_sha2_224_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_224_final(OUT u8 *pDigest);
+int hal_crypto_hmac_sha2_224_final(OUT uint8_t *pDigest);
 
 // -- 256
 /**
@@ -785,8 +785,8 @@ int hal_crypto_hmac_sha2_224_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_256( IN const u8 *message, IN const u32 msglen,
-            IN const u8 *key, IN const u32 keylen, OUT u8 *pDigest);
+int hal_crypto_hmac_sha2_256( const uint8_t *message, const uint32_t msglen,
+            const uint8_t *key, const uint32_t keylen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the HMAC-SHA2-256 function.
@@ -800,7 +800,7 @@ int hal_crypto_hmac_sha2_256( IN const u8 *message, IN const u32 msglen,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO))
  */
-int hal_crypto_hmac_sha2_256_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_hmac_sha2_256_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief HMAC-SHA2-256 process buffer.
@@ -816,7 +816,7 @@ int hal_crypto_hmac_sha2_256_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_256_process(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_hmac_sha2_256_process(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 /**
  *  @brief Update HMAC-SHA2-256 with new buffer(Sequential hash to process buffer).\n
@@ -837,7 +837,7 @@ int hal_crypto_hmac_sha2_256_process(IN const u8 *message, IN const u32 msglen, 
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_256_update(IN const u8 *message, IN const u32 msglen);
+int hal_crypto_hmac_sha2_256_update(const uint8_t *message, const uint32_t msglen);
 
 /**
  *  @brief Get HMAC-SHA2-256 sequential hash final result.\n
@@ -851,7 +851,7 @@ int hal_crypto_hmac_sha2_256_update(IN const u8 *message, IN const u32 msglen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_hmac_sha2_256_final(OUT u8 *pDigest);
+int hal_crypto_hmac_sha2_256_final(OUT uint8_t *pDigest);
 
 // AES-CBC
 /**
@@ -866,7 +866,7 @@ int hal_crypto_hmac_sha2_256_final(OUT u8 *pDigest);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_cbc_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_cbc_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-CBC buffer encryption.
@@ -888,9 +888,9 @@ int hal_crypto_aes_cbc_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_cbc_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 /**
  *  @brief AES-CBC buffer decryption.
@@ -913,9 +913,9 @@ int hal_crypto_aes_cbc_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_cbc_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 // AES-ECB
 /**
@@ -930,7 +930,7 @@ int hal_crypto_aes_cbc_decrypt(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_ecb_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_ecb_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-ECB buffer encryption.
@@ -951,9 +951,9 @@ int hal_crypto_aes_ecb_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ecb_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 /**
  *  @brief AES-ECB buffer decryption.
@@ -974,9 +974,9 @@ int hal_crypto_aes_ecb_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ecb_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 // AES-CTR
 /**
@@ -991,7 +991,7 @@ int hal_crypto_aes_ecb_decrypt(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_ctr_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_ctr_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-CTR buffer encryption.
@@ -1013,9 +1013,9 @@ int hal_crypto_aes_ctr_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ctr_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 /**
  *  @brief AES-CTR buffer decryption.
@@ -1038,9 +1038,9 @@ int hal_crypto_aes_ctr_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ctr_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 // AES-CFB
 /**
@@ -1055,7 +1055,7 @@ int hal_crypto_aes_ctr_decrypt(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_cfb_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_cfb_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-CFB buffer encryption.
@@ -1077,9 +1077,9 @@ int hal_crypto_aes_cfb_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_cfb_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 /**
  *  @brief AES-CFB buffer decryption.
@@ -1102,9 +1102,9 @@ int hal_crypto_aes_cfb_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_cfb_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 // AES-OFB
 /**
@@ -1119,7 +1119,7 @@ int hal_crypto_aes_cfb_decrypt(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_ofb_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_ofb_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-OFB buffer encryption.
@@ -1141,9 +1141,9 @@ int hal_crypto_aes_ofb_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ofb_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 /**
  *  @brief AES-OFB buffer decryption.
@@ -1166,9 +1166,9 @@ int hal_crypto_aes_ofb_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ofb_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, 		IN const u32 ivlen,
-    OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, 		const uint32_t ivlen,
+    OUT uint8_t *pResult);
 
 //AES-GHASH
 /**
@@ -1189,9 +1189,9 @@ int hal_crypto_aes_ofb_decrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_ghash(
-    IN const u8 *message, IN const u32 msglen,
-    IN const u8 *key, IN const u32 keylen,
-    OUT u8 *pDigest);
+    const uint8_t *message, const uint32_t msglen,
+    const uint8_t *key, const uint32_t keylen,
+    OUT uint8_t *pDigest);
 
 /**
  *  @brief Initializes the AES-GHASH function with a secret key.
@@ -1205,7 +1205,7 @@ int hal_crypto_aes_ghash(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_ghash_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_ghash_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-GHASH process buffer.
@@ -1220,7 +1220,7 @@ int hal_crypto_aes_ghash_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_ghash_process(IN const u8 *message, IN const u32 msglen, OUT u8 *pDigest);
+int hal_crypto_aes_ghash_process(const uint8_t *message, const uint32_t msglen, OUT uint8_t *pDigest);
 
 //AES-GMAC
 /**
@@ -1248,10 +1248,10 @@ int hal_crypto_aes_ghash_process(IN const u8 *message, IN const u32 msglen, OUT 
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_gmac(
-    IN const u8 *message, IN const u32 msglen,
-    IN const u8 *key, IN const u32 keylen,
-    IN const u8 *iv,
-    IN const u8 *aad, IN const u32 aadlen, OUT u8 *pTag);
+    const uint8_t *message, const uint32_t msglen,
+    const uint8_t *key, const uint32_t keylen,
+    const uint8_t *iv,
+    const uint8_t *aad, const uint32_t aadlen, OUT uint8_t *pTag);
 
 /**
  *  @brief Initializes the AES-GMAC function with a secret key.
@@ -1265,7 +1265,7 @@ int hal_crypto_aes_gmac(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_gmac_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_gmac_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-GMAC process buffer.
@@ -1288,8 +1288,8 @@ int hal_crypto_aes_gmac_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_gmac_process(
-    IN const u8 *message, IN const u32 msglen,
-    IN const u8 *iv, IN const u8 *aad, IN const u32 aadlen, OUT u8 *pTag);
+    const uint8_t *message, const uint32_t msglen,
+    const uint8_t *iv, const uint8_t *aad, const uint32_t aadlen, OUT uint8_t *pTag);
 
 //AES-GCTR
 /**
@@ -1304,7 +1304,7 @@ int hal_crypto_aes_gmac_process(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_gctr_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_gctr_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-GCTR buffer encryption.
@@ -1324,8 +1324,8 @@ int hal_crypto_aes_gctr_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_gctr_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, OUT uint8_t *pResult);
 
 /**
  *  @brief AES-GCTR buffer decryption.
@@ -1346,8 +1346,8 @@ int hal_crypto_aes_gctr_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_gctr_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv, OUT u8 *pResult);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv, OUT uint8_t *pResult);
 
 // AES-GCM
 /**
@@ -1362,7 +1362,7 @@ int hal_crypto_aes_gctr_decrypt(
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_aes_gcm_init(IN const u8 *key, IN const u32 keylen);
+int hal_crypto_aes_gcm_init(const uint8_t *key, const uint32_t keylen);
 
 /**
  *  @brief AES-GCM buffer encryption.
@@ -1389,10 +1389,10 @@ int hal_crypto_aes_gcm_init(IN const u8 *key, IN const u32 keylen);
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_gcm_encrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv,
-    IN const u8 *aad,		IN const u32 aadlen,
-    OUT u8 *pResult, OUT u8 *pTag);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv,
+    const uint8_t *aad,		const uint32_t aadlen,
+    OUT uint8_t *pResult, OUT uint8_t *pTag);
 
 /**
  *  @brief AES-GCM buffer decryption.
@@ -1420,10 +1420,10 @@ int hal_crypto_aes_gcm_encrypt(
  *  @return      value < 0      fail(Refer to ERRNO)
  */
 int hal_crypto_aes_gcm_decrypt(
-    IN const u8 *message, 	IN const u32 msglen,
-    IN const u8 *iv,
-    IN const u8 *aad,		IN const u32 aadlen,
-    OUT u8 *pResult, OUT u8 *pTag);
+    const uint8_t *message, 	const uint32_t msglen,
+    const uint8_t *iv,
+    const uint8_t *aad,		const uint32_t aadlen,
+    OUT uint8_t *pResult, OUT uint8_t *pTag);
 
 #if defined(CONFIG_BUILD_NONSECURE)
 //
@@ -1457,7 +1457,7 @@ int hal_crypto_crc_setting(int order, unsigned long polynom, unsigned long crcin
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_crc32_cmd(IN const u8 *message, IN const u32 msglen, OUT u32 *pCrc);
+int hal_crypto_crc32_cmd(const uint8_t *message, const uint32_t msglen, OUT uint32_t *pCrc);
 
 /**
  *  @brief      Calculate CRC32 value using DMA mode.
@@ -1474,7 +1474,7 @@ int hal_crypto_crc32_cmd(IN const u8 *message, IN const u32 msglen, OUT u32 *pCr
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_crc32_dma(IN const u8 *message, IN const u32 msglen, OUT u32 *pCrc);
+int hal_crypto_crc32_dma(const uint8_t *message, const uint32_t msglen, OUT uint32_t *pCrc);
 
 /**
  *  @brief      Calculate CRC value using command mode.
@@ -1489,7 +1489,7 @@ int hal_crypto_crc32_dma(IN const u8 *message, IN const u32 msglen, OUT u32 *pCr
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_crc_cmd(IN const u8 *message, IN const u32 msglen, OUT u32 *pCrc);
+int hal_crypto_crc_cmd(const uint8_t *message, const uint32_t msglen, OUT uint32_t *pCrc);
 
 /**
  *  @brief      Calculate CRC value using DMA mode.
@@ -1506,7 +1506,7 @@ int hal_crypto_crc_cmd(IN const u8 *message, IN const u32 msglen, OUT u32 *pCrc)
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_crc_dma(IN const u8 *message, IN const u32 msglen, OUT u32 *pCrc);
+int hal_crypto_crc_dma(const uint8_t *message, const uint32_t msglen, OUT uint32_t *pCrc);
 #endif
 
 //MIX-MODE
@@ -1529,9 +1529,9 @@ int hal_crypto_crc_dma(IN const u8 *message, IN const u32 msglen, OUT u32 *pCrc)
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_mix_mode_init(IN const u32 cipher_type, IN const u32 auth_type, 
-                             IN const u8 *cipher_key, IN const u32 cipher_keylen,
-                             IN const u8 *auth_key, IN const u32 auth_keylen);
+int hal_crypto_mix_mode_init(const uint32_t cipher_type, const uint32_t auth_type, 
+                             const uint8_t *cipher_key, const uint32_t cipher_keylen,
+                             const uint8_t *auth_key, const uint32_t auth_keylen);
 
 /**
  *  @brief Mix-mode SSH buffer encryption and authentication.
@@ -1560,12 +1560,12 @@ int hal_crypto_mix_mode_init(IN const u32 cipher_type, IN const u32 auth_type,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_mix_ssh_encrypt(IN const u32 cipher_type,
-                               IN const u8 *message, IN const u32 msglen,
-                               IN const u8 *iv, IN const u32 ivlen,
-                               IN const u8 *aad, IN const u32 aadlen,
-                               IN const u32 auth_type,
-                               OUT u8 *pResult, OUT u8 *pTag);
+int hal_crypto_mix_ssh_encrypt(const uint32_t cipher_type,
+                               const uint8_t *message, const uint32_t msglen,
+                               const uint8_t *iv, const uint32_t ivlen,
+                               const uint8_t *aad, const uint32_t aadlen,
+                               const uint32_t auth_type,
+                               OUT uint8_t *pResult, OUT uint8_t *pTag);
 
 /**
  *  @brief Mix-mode SSH buffer decryption and authentication.
@@ -1595,12 +1595,12 @@ int hal_crypto_mix_ssh_encrypt(IN const u32 cipher_type,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_mix_ssh_decrypt(IN const u32 cipher_type,
-                               IN const u8 *message, IN const u32 msglen,
-                               IN const u8 *iv, IN const u32 ivlen,
-                               IN const u8 *aad, IN const u32 aadlen,
-                               IN const u32 auth_type,
-                               OUT u8 *pResult, OUT u8 *pTag);
+int hal_crypto_mix_ssh_decrypt(const uint32_t cipher_type,
+                               const uint8_t *message, const uint32_t msglen,
+                               const uint8_t *iv, const uint32_t ivlen,
+                               const uint8_t *aad, const uint32_t aadlen,
+                               const uint32_t auth_type,
+                               OUT uint8_t *pResult, OUT uint8_t *pTag);
 
 /**
  *  @brief Mix-mode ESP buffer encryption and authentication.
@@ -1629,12 +1629,12 @@ int hal_crypto_mix_ssh_decrypt(IN const u32 cipher_type,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_mix_esp_encrypt(IN const u32 cipher_type,
-                               IN const u8 *message, IN const u32 msglen,
-                               IN const u8 *iv, IN const u32 ivlen,
-                               IN const u8 *aad, IN const u32 aadlen,
-                               IN const u32 auth_type,
-                               OUT u8 *pResult, OUT u8 *pTag);
+int hal_crypto_mix_esp_encrypt(const uint32_t cipher_type,
+                               const uint8_t *message, const uint32_t msglen,
+                               const uint8_t *iv, const uint32_t ivlen,
+                               const uint8_t *aad, const uint32_t aadlen,
+                               const uint32_t auth_type,
+                               OUT uint8_t *pResult, OUT uint8_t *pTag);
 
 /**
  *  @brief Mix-mode ESP buffer decryption and authentication.
@@ -1664,12 +1664,12 @@ int hal_crypto_mix_esp_encrypt(IN const u32 cipher_type,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_mix_esp_decrypt(IN const u32 cipher_type,
-                               IN const u8 *message, IN const u32 msglen,
-                               IN const u8 *iv, IN const u32 ivlen,
-                               IN const u8 *aad, IN const u32 aadlen,
-                               IN const u32 auth_type,
-                               OUT u8 *pResult, OUT u8 *pTag);
+int hal_crypto_mix_esp_decrypt(const uint32_t cipher_type,
+                               const uint8_t *message, const uint32_t msglen,
+                               const uint8_t *iv, const uint32_t ivlen,
+                               const uint8_t *aad, const uint32_t aadlen,
+                               const uint32_t auth_type,
+                               OUT uint8_t *pResult, OUT uint8_t *pTag);
 
 /**
  *  @brief Mix-mode SSL_TLS buffer encryption.
@@ -1696,18 +1696,18 @@ int hal_crypto_mix_esp_decrypt(IN const u32 cipher_type,
  *  @return      value == 0     success
  *  @return      value < 0      fail(Refer to ERRNO)
  */
-int hal_crypto_mix_ssl_tls_encrypt(IN const u32 cipher_type,
-                                   IN const u8 *message, IN const u32 msglen,
-                                   IN const u8 *iv, IN const u32 ivlen,
-                                   IN const u8 *aad, IN const u32 aadlen,
-                                   IN const u32 auth_type,
-                                   OUT u8 *pResult);
+int hal_crypto_mix_ssl_tls_encrypt(const uint32_t cipher_type,
+                                   const uint8_t *message, const uint32_t msglen,
+                                   const uint8_t *iv, const uint32_t ivlen,
+                                   const uint8_t *aad, const uint32_t aadlen,
+                                   const uint32_t auth_type,
+                                   OUT uint8_t *pResult);
 
 #if (CHIP_VER == CHIP_A_CUT) && (defined(CONFIG_BUILD_RAM))
-int hal_crypto_auth_update_rtl8710c_patch(hal_crypto_adapter_t *pcrypto_adapter, IN const u32 auth_type,
-                                          IN const u8 *message, IN const u32 msglen);
+int hal_crypto_auth_update_rtl8710c_patch(hal_crypto_adapter_t *pcrypto_adapter, const uint32_t auth_type,
+                                          const uint8_t *message, const uint32_t msglen);
 
-int hal_crypto_auth_final_rtl8710c_patch(hal_crypto_adapter_t *pcrypto_adapter, IN const u32 auth_type, OUT u8 *pDigest);
+int hal_crypto_auth_final_rtl8710c_patch(hal_crypto_adapter_t *pcrypto_adapter, const uint32_t auth_type, OUT uint8_t *pDigest);
 #endif
 
 /** @} */ /* End of group hs_hal_crypto */

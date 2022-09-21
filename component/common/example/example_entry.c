@@ -350,6 +350,10 @@
 #include <amazon_freertos/example_amazon_freertos.h>
 #endif
 
+#if defined(CONFIG_EXAMPLE_MATTER) && CONFIG_EXAMPLE_MATTER
+#include <matter_task/example_matter.h>
+#endif
+
 /*
 	Preprocessor of example
 */
@@ -815,5 +819,9 @@ example_hilink();
 #if defined(CONFIG_LINKKIT_AWSS) && (CONFIG_LINKKIT_AWSS == 1)
 	extern void example_ali_awss();
 	example_ali_awss();
+#endif
+
+#if defined(CONFIG_EXAMPLE_MATTER) && CONFIG_EXAMPLE_MATTER
+    example_matter_task();
 #endif
 }

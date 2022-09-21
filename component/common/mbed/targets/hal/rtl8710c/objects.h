@@ -131,7 +131,7 @@ struct gdma_s {
 
 struct flash_s {
     hal_spic_adaptor_t *phal_spic_adaptor;
-    u8 flash_pin_sel;
+    uint8_t flash_pin_sel;
 };
 
 #ifdef CONFIG_SGPIO_EN
@@ -146,13 +146,13 @@ struct sgpio_s {
 struct spi_s {
     hal_ssi_adaptor_t hal_ssi_adaptor;
 
-    volatile u32 state;
-    u32 irq_handler;
-    u32 irq_id;
-    u32 bus_tx_done_handler;
-    u32 bus_tx_done_irq_id;
-    u32 dma_en;
-    u32 sclk;
+    volatile uint32_t state;
+    uint32_t irq_handler;
+    uint32_t irq_id;
+    uint32_t bus_tx_done_handler;
+    uint32_t bus_tx_done_irq_id;
+    uint32_t dma_en;
+    uint32_t sclk;
 #ifdef CONFIG_GDMA_EN
     hal_gdma_adaptor_t spi_gdma_adp_tx;
     hal_gdma_adaptor_t spi_gdma_adp_rx;

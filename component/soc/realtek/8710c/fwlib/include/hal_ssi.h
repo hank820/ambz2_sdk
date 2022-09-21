@@ -73,17 +73,17 @@ void hal_ssi_read_interrupt_rtl8710c_unfix_size_patch(phal_ssi_adaptor_t phal_ss
 #endif
 
 #if ((CHIP_VER == CHIP_A_CUT) || (CHIP_VER == CHIP_B_CUT)) && (defined(CONFIG_BUILD_RAM))
-hal_status_t hal_ssi_set_sclk_rtl8710c_patch(phal_ssi_adaptor_t phal_ssi_adaptor, u32 clk_rate);
+hal_status_t hal_ssi_set_sclk_rtl8710c_patch(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t clk_rate);
 #endif
 /** \brief Description of hal_ssi_clock_ctl
  *
  *    hal_ssi_clock_ctl is used to enable IP and turn on the clock for the target SPI device.
  *
- *   \param u8 ctl:      A control bit to decide to enable or disable the device.
+ *   \param uint8_t ctl:      A control bit to decide to enable or disable the device.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_clock_ctl (u8 ctl)
+__STATIC_INLINE hal_status_t hal_ssi_clock_ctl (uint8_t ctl)
 {
     return hal_ssi_stubs.hal_ssi_clock_ctl (ctl);
 }
@@ -228,11 +228,11 @@ __STATIC_INLINE hal_status_t hal_ssi_interrupt_disable (phal_ssi_adaptor_t phal_
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *   \param void *rx_data:      The destination address of data. Data will be moved from the the SPI FIFO to the destination address by CPU.
- *   \param u32 length:      Total transfer length.
+ *   \param uint32_t length:      Total transfer length.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_interrupt_init_read (phal_ssi_adaptor_t phal_ssi_adaptor, void *rx_data, u32 length)
+__STATIC_INLINE hal_status_t hal_ssi_interrupt_init_read (phal_ssi_adaptor_t phal_ssi_adaptor, void *rx_data, uint32_t length)
 {
     return hal_ssi_stubs.hal_ssi_interrupt_init_read (phal_ssi_adaptor, rx_data, length);
 }
@@ -246,11 +246,11 @@ __STATIC_INLINE hal_status_t hal_ssi_interrupt_init_read (phal_ssi_adaptor_t pha
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *   \param void *tx_data:      The source address of data. Data will be moved from the source address to the SPI FIFO.
- *   \param u32 length:      Total transfer length.
+ *   \param uint32_t length:      Total transfer length.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_interrupt_init_write (phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_data, u32 length)
+__STATIC_INLINE hal_status_t hal_ssi_interrupt_init_write (phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_data, uint32_t length)
 {
     return hal_ssi_stubs.hal_ssi_interrupt_init_write (phal_ssi_adaptor, tx_data, length);
 }
@@ -263,11 +263,11 @@ __STATIC_INLINE hal_status_t hal_ssi_interrupt_init_write (phal_ssi_adaptor_t ph
  *    SPI 0 Master : 25MHz, Slave : 5MHz
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 clk_rate:      The target speed of the SPI device. For the slave device, this parameter can be used to check if it is valid.
+ *   \param uint32_t clk_rate:      The target speed of the SPI device. For the slave device, this parameter can be used to check if it is valid.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_sclk (phal_ssi_adaptor_t phal_ssi_adaptor, u32 clk_rate)
+__STATIC_INLINE hal_status_t hal_ssi_set_sclk (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t clk_rate)
 {
 #if ((CHIP_VER == CHIP_A_CUT) || (CHIP_VER == CHIP_B_CUT)) && (defined(CONFIG_BUILD_RAM))
     return hal_ssi_set_sclk_rtl8710c_patch(phal_ssi_adaptor, clk_rate);
@@ -307,11 +307,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_microwire (phal_ssi_adaptor_t phal_ssi_
  *    hal_ssi_set_sclk_polarity is used to set clock polarity of SPI mode.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 sclk_polarity:      The clock polarity.
+ *   \param uint8_t sclk_polarity:      The clock polarity.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_sclk_polarity (phal_ssi_adaptor_t phal_ssi_adaptor, u8 sclk_polarity)
+__STATIC_INLINE hal_status_t hal_ssi_set_sclk_polarity (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t sclk_polarity)
 {
     return hal_ssi_stubs.hal_ssi_set_sclk_polarity (phal_ssi_adaptor, sclk_polarity);
 }
@@ -321,11 +321,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_sclk_polarity (phal_ssi_adaptor_t phal_
  *    hal_ssi_set_sclk_phase is used to set clock phase of SPI mode.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 sclk_phase:      The clock phase.
+ *   \param uint8_t sclk_phase:      The clock phase.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_sclk_phase (phal_ssi_adaptor_t phal_ssi_adaptor, u8 sclk_phase)
+__STATIC_INLINE hal_status_t hal_ssi_set_sclk_phase (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t sclk_phase)
 {
     return hal_ssi_stubs.hal_ssi_set_sclk_phase (phal_ssi_adaptor, sclk_phase);
 }
@@ -335,11 +335,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_sclk_phase (phal_ssi_adaptor_t phal_ssi
  *    hal_ssi_set_data_frame_number is used to set the number of data frame in receive only mode so that the SPI master knows when to deassert CS line.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 length:      Data length expected to receive.
+ *   \param uint32_t length:      Data length expected to receive.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_data_frame_number (phal_ssi_adaptor_t phal_ssi_adaptor, u32 length)
+__STATIC_INLINE hal_status_t hal_ssi_set_data_frame_number (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t length)
 {
     return hal_ssi_stubs.hal_ssi_set_data_frame_number (phal_ssi_adaptor, length);
 }
@@ -349,11 +349,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_data_frame_number (phal_ssi_adaptor_t p
  *    hal_ssi_set_interrupt_mask is used to set the interrupt mask value to the register.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 imr_value:      The interrupt mask setting.
+ *   \param uint8_t imr_value:      The interrupt mask setting.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_interrupt_mask (phal_ssi_adaptor_t phal_ssi_adaptor, u8 imr_value)
+__STATIC_INLINE hal_status_t hal_ssi_set_interrupt_mask (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t imr_value)
 {
     return hal_ssi_stubs.hal_ssi_set_interrupt_mask (phal_ssi_adaptor, imr_value);
 }
@@ -365,11 +365,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_interrupt_mask (phal_ssi_adaptor_t phal
  *    SPI 2 can only be a master while SPI 3 can only be a slave.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 role:      The role of the SPI device.
+ *   \param uint32_t role:      The role of the SPI device.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_device_role (phal_ssi_adaptor_t phal_ssi_adaptor, u32 role)
+__STATIC_INLINE hal_status_t hal_ssi_set_device_role (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t role)
 {
     return hal_ssi_stubs.hal_ssi_set_device_role (phal_ssi_adaptor, role);
 }
@@ -380,11 +380,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_device_role (phal_ssi_adaptor_t phal_ss
  *    When transmit FIFO entries <= the threshold, the transmit FIFO empty interrupt is triggered.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 txftlr_value:      The threshold value of transmit FIFO.
+ *   \param uint32_t txftlr_value:      The threshold value of transmit FIFO.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_txfifo_threshold (phal_ssi_adaptor_t phal_ssi_adaptor, u32 txftlr_value)
+__STATIC_INLINE hal_status_t hal_ssi_set_txfifo_threshold (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t txftlr_value)
 {
     return hal_ssi_stubs.hal_ssi_set_txfifo_threshold (phal_ssi_adaptor, txftlr_value);
 }
@@ -395,11 +395,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_txfifo_threshold (phal_ssi_adaptor_t ph
  *    When receive FIFO entries >= the threshold+1, the receive FIFO full interrupt is triggered.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 rxftlr_value:      The threshold value of receive FIFO.
+ *   \param uint32_t rxftlr_value:      The threshold value of receive FIFO.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_rxfifo_threshold (phal_ssi_adaptor_t phal_ssi_adaptor,u32 rxftlr_value)
+__STATIC_INLINE hal_status_t hal_ssi_set_rxfifo_threshold (phal_ssi_adaptor_t phal_ssi_adaptor,uint32_t rxftlr_value)
 {
     return hal_ssi_stubs.hal_ssi_set_rxfifo_threshold (phal_ssi_adaptor, rxftlr_value);
 }
@@ -410,11 +410,11 @@ __STATIC_INLINE hal_status_t hal_ssi_set_rxfifo_threshold (phal_ssi_adaptor_t ph
  *    Only one slave (value = 0) can be selected for SPI master.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 slave_index:      The target SPI slave index, should be 0.
+ *   \param uint32_t slave_index:      The target SPI slave index, should be 0.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_set_slave_enable (phal_ssi_adaptor_t phal_ssi_adaptor, u32 slave_index)
+__STATIC_INLINE hal_status_t hal_ssi_set_slave_enable (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t slave_index)
 {
     return hal_ssi_stubs.hal_ssi_set_slave_enable (phal_ssi_adaptor, slave_index);
 }
@@ -425,9 +425,9 @@ __STATIC_INLINE hal_status_t hal_ssi_set_slave_enable (phal_ssi_adaptor_t phal_s
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: the number of data frames in receive FIFO.
+ *   \return uint32_t: the number of data frames in receive FIFO.
  */
-__STATIC_INLINE u32 hal_ssi_get_rxfifo_level (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_rxfifo_level (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_rxfifo_level (phal_ssi_adaptor);
 }
@@ -438,9 +438,9 @@ __STATIC_INLINE u32 hal_ssi_get_rxfifo_level (phal_ssi_adaptor_t phal_ssi_adapto
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: the number of data frames in transmit FIFO.
+ *   \return uint32_t: the number of data frames in transmit FIFO.
  */
-__STATIC_INLINE u32 hal_ssi_get_txfifo_level (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_txfifo_level (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_txfifo_level (phal_ssi_adaptor);
 }
@@ -451,9 +451,9 @@ __STATIC_INLINE u32 hal_ssi_get_txfifo_level (phal_ssi_adaptor_t phal_ssi_adapto
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: the value of the status register.
+ *   \return uint32_t: the value of the status register.
  */
-__STATIC_INLINE u32 hal_ssi_get_status (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_status (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_status (phal_ssi_adaptor);
 }
@@ -464,9 +464,9 @@ __STATIC_INLINE u32 hal_ssi_get_status (phal_ssi_adaptor_t phal_ssi_adaptor)
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: 1: busy, 0: idle or disable
+ *   \return uint32_t: 1: busy, 0: idle or disable
  */
-__STATIC_INLINE u32 hal_ssi_get_busy (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_busy (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_busy (phal_ssi_adaptor);
 }
@@ -477,9 +477,9 @@ __STATIC_INLINE u32 hal_ssi_get_busy (phal_ssi_adaptor_t phal_ssi_adaptor)
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: interrupt mask value.
+ *   \return uint32_t: interrupt mask value.
  */
-__STATIC_INLINE u32 hal_ssi_get_interrupt_mask (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_interrupt_mask (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_interrupt_mask (phal_ssi_adaptor);
 }
@@ -490,9 +490,9 @@ __STATIC_INLINE u32 hal_ssi_get_interrupt_mask (phal_ssi_adaptor_t phal_ssi_adap
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: interrupt status.
+ *   \return uint32_t: interrupt status.
  */
-__STATIC_INLINE u32 hal_ssi_get_interrupt_status (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_interrupt_status (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_interrupt_status (phal_ssi_adaptor);
 }
@@ -504,9 +504,9 @@ __STATIC_INLINE u32 hal_ssi_get_interrupt_status (phal_ssi_adaptor_t phal_ssi_ad
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: raw interrupt status.
+ *   \return uint32_t: raw interrupt status.
  */
-__STATIC_INLINE u32 hal_ssi_get_raw_interrupt_status (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_raw_interrupt_status (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_raw_interrupt_status (phal_ssi_adaptor);
 }
@@ -517,9 +517,9 @@ __STATIC_INLINE u32 hal_ssi_get_raw_interrupt_status (phal_ssi_adaptor_t phal_ss
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: 0.
+ *   \return uint32_t: 0.
  */
-__STATIC_INLINE u32 hal_ssi_get_slave_enable_register (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_get_slave_enable_register (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_get_slave_enable_register (phal_ssi_adaptor);
 }
@@ -531,9 +531,9 @@ __STATIC_INLINE u32 hal_ssi_get_slave_enable_register (phal_ssi_adaptor_t phal_s
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: 1: transmit FIFO is available, 0: transmit FIFO is full.
+ *   \return uint32_t: 1: transmit FIFO is available, 0: transmit FIFO is full.
  */
-__STATIC_INLINE u32 hal_ssi_writable (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_writable (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_writable (phal_ssi_adaptor);
 }
@@ -545,9 +545,9 @@ __STATIC_INLINE u32 hal_ssi_writable (phal_ssi_adaptor_t phal_ssi_adaptor)
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: 1: receive FIFO can be read, 0: receive FIFO is empty.
+ *   \return uint32_t: 1: receive FIFO can be read, 0: receive FIFO is empty.
  */
-__STATIC_INLINE u32 hal_ssi_readable (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_readable (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_readable (phal_ssi_adaptor);
 }
@@ -557,11 +557,11 @@ __STATIC_INLINE u32 hal_ssi_readable (phal_ssi_adaptor_t phal_ssi_adaptor)
  *    hal_ssi_write is used to push one data into transmit FIFO.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u32 value:      The data.
+ *   \param uint32_t value:      The data.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_write (phal_ssi_adaptor_t phal_ssi_adaptor, u32 value)
+__STATIC_INLINE hal_status_t hal_ssi_write (phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t value)
 {
     return hal_ssi_stubs.hal_ssi_write (phal_ssi_adaptor, value);
 }
@@ -572,9 +572,9 @@ __STATIC_INLINE hal_status_t hal_ssi_write (phal_ssi_adaptor_t phal_ssi_adaptor,
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
  *
- *   \return u32: data read from receive FIFO.
+ *   \return uint32_t: data read from receive FIFO.
  */
-__STATIC_INLINE u32 hal_ssi_read (phal_ssi_adaptor_t phal_ssi_adaptor)
+__STATIC_INLINE uint32_t hal_ssi_read (phal_ssi_adaptor_t phal_ssi_adaptor)
 {
     return hal_ssi_stubs.hal_ssi_read (phal_ssi_adaptor);
 }
@@ -680,12 +680,12 @@ __STATIC_INLINE hal_status_t hal_ssi_rx_gdma_init_setting (phal_ssi_adaptor_t ph
  *    hal_ssi_dma_send_init is used to configure a transfer to send data from memory to SPI FIFO by GDMA.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 *ptx_data:      The source address of data(on memory).
- *   \param u32 length:     Total transfer length.
+ *   \param uint8_t *ptx_data:      The source address of data(on memory).
+ *   \param uint32_t length:     Total transfer length.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_dma_send_init (phal_ssi_adaptor_t phal_ssi_adaptor, u8 *ptx_data, u32 length)
+__STATIC_INLINE hal_status_t hal_ssi_dma_send_init (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t *ptx_data, uint32_t length)
 {
     return hal_ssi_stubs.hal_ssi_dma_send_init (phal_ssi_adaptor, ptx_data, length);
 }
@@ -695,27 +695,27 @@ __STATIC_INLINE hal_status_t hal_ssi_dma_send_init (phal_ssi_adaptor_t phal_ssi_
  *    hal_ssi_dma_recv_init is used to configure a transfer to move data from SPI FIFO to memory by GDMA.
  *
  *   \param phal_ssi_adaptor_t phal_ssi_adaptor:      The pointer of SPI adaptor.
- *   \param u8 *prx_data:      The destination address of data(on memory).
- *   \param u32 length:     Total transfer length.
+ *   \param uint8_t *prx_data:      The destination address of data(on memory).
+ *   \param uint32_t length:     Total transfer length.
  *
  *   \return hal_status_t.
  */
-__STATIC_INLINE hal_status_t hal_ssi_dma_recv_init (phal_ssi_adaptor_t phal_ssi_adaptor, u8 *prx_data, u32 length)
+__STATIC_INLINE hal_status_t hal_ssi_dma_recv_init (phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t *prx_data, uint32_t length)
 {
     return hal_ssi_stubs.hal_ssi_dma_recv_init (phal_ssi_adaptor, prx_data, length);
 }
 
-hal_status_t hal_ssi_pin_ctl(phal_ssi_adaptor_t phal_ssi_adaptor, u8 ctl);
+hal_status_t hal_ssi_pin_ctl(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t ctl);
 hal_status_t hal_ssi_init(phal_ssi_adaptor_t phal_ssi_adaptor);
-void hal_spi_format(phal_ssi_adaptor_t phal_ssi_adaptor, u8 bits, u8 mode);
-void hal_ssi_irq_hook(phal_ssi_adaptor_t phal_ssi_adaptor, u32 tx_handler, u32 rx_handler);
+void hal_spi_format(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t bits, uint8_t mode);
+void hal_ssi_irq_hook(phal_ssi_adaptor_t phal_ssi_adaptor, uint32_t tx_handler, uint32_t rx_handler);
 hal_status_t hal_ssi_deinit(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_tx_gdma_init(phal_ssi_adaptor_t phal_ssi_adaptor, phal_gdma_adaptor_t phal_gdma_adaptor);
 hal_status_t hal_ssi_rx_gdma_init(phal_ssi_adaptor_t phal_ssi_adaptor, phal_gdma_adaptor_t phal_gdma_adaptor);
 hal_status_t hal_ssi_tx_gdma_deinit(phal_ssi_adaptor_t phal_ssi_adaptor);
 hal_status_t hal_ssi_rx_gdma_deinit(phal_ssi_adaptor_t phal_ssi_adaptor);
-hal_status_t hal_ssi_dma_send(phal_ssi_adaptor_t phal_ssi_adaptor, u8  *ptx_data, u32 length);
-hal_status_t hal_ssi_dma_recv(phal_ssi_adaptor_t phal_ssi_adaptor, u8  *prx_data, u32 length);
+hal_status_t hal_ssi_dma_send(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t  *ptx_data, uint32_t length);
+hal_status_t hal_ssi_dma_recv(phal_ssi_adaptor_t phal_ssi_adaptor, uint8_t  *prx_data, uint32_t length);
 void hal_ssi_callback_hook(phal_ssi_adaptor_t phal_ssi_adaptor, void *tx_handler, void *rx_handler);
 
 /** *@} */ /* End of group hs_hal_ssi_ram_func */

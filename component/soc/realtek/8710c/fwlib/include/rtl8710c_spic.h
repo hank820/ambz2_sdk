@@ -112,22 +112,22 @@ typedef uint8_t spic_clk_sel_t;
   \brief  The data struct of calibration setting
 */
 typedef struct _spic_init_para_s {
-    u8  baud_rate;                      //!< Valid baud rate setting
-    u8  rd_dummy_cycle;                 //!< Valid flash controller's dummy cycle setting
-    u8  delay_line;                     //!< Valid DPHY delay setting
-    u8  valid;                          //!< Indicate data stored in the struct is valid or not
+    uint8_t  baud_rate;                      //!< Valid baud rate setting
+    uint8_t  rd_dummy_cycle;                 //!< Valid flash controller's dummy cycle setting
+    uint8_t  delay_line;                     //!< Valid DPHY delay setting
+    uint8_t  valid;                          //!< Indicate data stored in the struct is valid or not
 }spic_init_para_t, *pspic_init_para_t;
 
 /**
   \brief  The data struct of flash pins selected by users
 */
 typedef struct _flash_pin_sel_s {
-    u8 pin_cs;                          //!< flash chip select pin
-    u8 pin_clk;                         //!< flash clock pin
-    u8 pin_d0;                          //!< flash data pin 0
-    u8 pin_d1;                          //!< flash data pin 1
-    u8 pin_d2;                          //!< flash data pin 2
-    u8 pin_d3;                          //!< flash data pin 3
+    uint8_t pin_cs;                          //!< flash chip select pin
+    uint8_t pin_clk;                         //!< flash clock pin
+    uint8_t pin_d0;                          //!< flash data pin 0
+    uint8_t pin_d1;                          //!< flash data pin 1
+    uint8_t pin_d2;                          //!< flash data pin 2
+    uint8_t pin_d3;                          //!< flash data pin 3
 } flash_pin_sel_t, *pflash_pin_sel_t;
 
 /**
@@ -145,34 +145,34 @@ typedef struct _hal_spic_adaptor_s {
     void (*tx_done_callback)(void *para);                   //!< Reserved
     void *tx_done_cb_para;                                  //!< Reserved
     void *tx_data;                                          //!< Reserved
-    u32  interrupt_priority;                                //!< Reserved
-    u32  rx_length;                                         //!< Reserved
-    u32  rx_threshold_level;                                //!< Reserved
-    u32  tx_length;                                         //!< Reserved
-    u32  tx_threshold_level;                                //!< Reserved
+    uint32_t  interrupt_priority;                                //!< Reserved
+    uint32_t  rx_length;                                         //!< Reserved
+    uint32_t  rx_threshold_level;                                //!< Reserved
+    uint32_t  tx_length;                                         //!< Reserved
+    uint32_t  tx_threshold_level;                                //!< Reserved
     flash_pin_sel_t flash_pin_sel;                         //!< Pinmux selection
-    u8   read_cmd;                                          //!< Flash read command for current IO mode
-    u8   quad_pin_sel;                                      //!< Record if the quad IO pins are used
-    u8   interrupt_mask;                                    //!< Reserved
-    u8   flash_id[3];                                       //!< Flash ID
-    u8   flash_type;                                        //!< Flash type
-    u8   cmd_byte_num;                                      //!< The byte number of command phase
-    u8   addr_byte_num;                                     //!< The byte number of address phase
-    u8   spic_bit_mode;                                     //!< Current IO mode used by the adaptor
-    u8   spic_send_cmd_mode;                                //!< IO mode to send flash commands
-    u8   cmd_chnl;                                          //!< The channel number of command phase used by SPIC
-    u8   addr_chnl;                                         //!< The channel number of address phase used by SPIC
-    u8   data_chnl;                                         //!< The channel number of data phase used by SPIC
+    uint8_t   read_cmd;                                          //!< Flash read command for current IO mode
+    uint8_t   quad_pin_sel;                                      //!< Record if the quad IO pins are used
+    uint8_t   interrupt_mask;                                    //!< Reserved
+    uint8_t   flash_id[3];                                       //!< Flash ID
+    uint8_t   flash_type;                                        //!< Flash type
+    uint8_t   cmd_byte_num;                                      //!< The byte number of command phase
+    uint8_t   addr_byte_num;                                     //!< The byte number of address phase
+    uint8_t   spic_bit_mode;                                     //!< Current IO mode used by the adaptor
+    uint8_t   spic_send_cmd_mode;                                //!< IO mode to send flash commands
+    uint8_t   cmd_chnl;                                          //!< The channel number of command phase used by SPIC
+    uint8_t   addr_chnl;                                         //!< The channel number of address phase used by SPIC
+    uint8_t   data_chnl;                                         //!< The channel number of data phase used by SPIC
 }hal_spic_adaptor_t, *phal_spic_adaptor_t;
 
 /**
   \brief  The data struct of valid windows for flash calibration
 */
 typedef struct _valid_windows_s {
-    u16 baud_rate;                      //!< Temporarily baud rate setting for calibration
-    u16 auto_length;                    //!< Temporarily dummy cycle setting for calibration
-    u32 dly_line_sp;                    //!< Temporarily available window of DPHY delay line starting point
-    u32 dly_line_ep;                    //!< Temporarily available window of DPHY delay line ending point
+    uint16_t baud_rate;                      //!< Temporarily baud rate setting for calibration
+    uint16_t auto_length;                    //!< Temporarily dummy cycle setting for calibration
+    uint32_t dly_line_sp;                    //!< Temporarily available window of DPHY delay line starting point
+    uint32_t dly_line_ep;                    //!< Temporarily available window of DPHY delay line ending point
 }valid_windows_t, *pvalid_windows_t;
 
 /**
@@ -180,18 +180,18 @@ typedef struct _valid_windows_s {
 */
 typedef struct hal_spic_func_stubs_s {
     void (*spic_load_default_setting) (pspic_init_para_t pspic_init_data);
-    u8 (*spic_query_system_clk) (void);
-    void (*spic_clock_ctrl) (u8 ctl);
-    void (*spic_pin_ctrl) (u8 io_pin_sel, u8 ctl);
-    hal_status_t (*spic_init_setting) (phal_spic_adaptor_t phal_spic_adaptor, u8 spic_bit_mode);
+    uint8_t (*spic_query_system_clk) (void);
+    void (*spic_clock_ctrl) (uint8_t ctl);
+    void (*spic_pin_ctrl) (uint8_t io_pin_sel, uint8_t ctl);
+    hal_status_t (*spic_init_setting) (phal_spic_adaptor_t phal_spic_adaptor, uint8_t spic_bit_mode);
     void (*spic_config_auto_mode) (phal_spic_adaptor_t phal_spic_adaptor);
     void (*spic_config_user_mode) (phal_spic_adaptor_t phal_spic_adaptor);
     BOOL (*spic_verify_calibration_para) (void);
     void (*spic_set_chnl_num) (phal_spic_adaptor_t phal_spic_adaptor);
-    void (*spic_set_delay_line) (u8 delay_line);
-    void (*spic_rx_cmd) (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata);
-    void (*spic_tx_cmd_no_check) (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata);
-    void (*spic_tx_cmd) (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata);
+    void (*spic_set_delay_line) (uint8_t delay_line);
+    void (*spic_rx_cmd) (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata);
+    void (*spic_tx_cmd_no_check) (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata);
+    void (*spic_tx_cmd) (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata);
     void (*spic_wait_ready) (SPIC_Type *spic_dev);
     void (*spic_flush_fifo) (SPIC_Type *spic_dev);
     uint32_t reserved[10];  // reserved space for next ROM code version function table extending.
@@ -240,14 +240,16 @@ static inline void spic_disable_rtl8710c(SPIC_Type *spic_dev)
  *    The flash controller should be disabled to set the register correctly.
  *
  *   \param SPIC_Type *spic_dev:      The pointer of the flash controller register base.
- *   \param u32 length:      data length, the unit is byte.
+ *   \param uint32_t length:      data length, the unit is byte.
  *
  *   \return void.
  */
-static inline void spic_set_ctrl1_rtl8710c(SPIC_Type *spic_dev, u32 length)
+#if 0
+static inline void spic_set_ctrl1_rtl8710c(SPIC_Type *spic_dev, uint32_t length)
 {
     spic_dev->ctrlr1_b.ndf = length;
 }
+#endif
 
 /** \brief Description of spic_set_baudr_rtl8710c
  *
@@ -255,11 +257,11 @@ static inline void spic_set_ctrl1_rtl8710c(SPIC_Type *spic_dev, u32 length)
  *    The flash controller should be disabled to set the register correctly.
  *
  *   \param SPIC_Type *spic_dev:      The pointer of the flash controller register base.
- *   \param u8 baudr:      The value of baud rate divider.
+ *   \param uint8_t baudr:      The value of baud rate divider.
  *
  *   \return void.
  */
-static inline void spic_set_baudr_rtl8710c(SPIC_Type *spic_dev, u8 baudr)
+static inline void spic_set_baudr_rtl8710c(SPIC_Type *spic_dev, uint8_t baudr)
 {
     spic_dev->baudr_b.sckdv = baudr;
 }
@@ -270,11 +272,11 @@ static inline void spic_set_baudr_rtl8710c(SPIC_Type *spic_dev, u8 baudr)
  *    The flash controller should be disabled to set the register correctly.
  *
  *   \param SPIC_Type *spic_dev:      The pointer of the flash controller register base.
- *   \param u8 fbaudr:      The value of baud rate divider.
+ *   \param uint8_t fbaudr:      The value of baud rate divider.
  *
  *   \return void.
  */
-static inline void spic_set_fbaudr_rtl8710c(SPIC_Type *spic_dev, u8 fbaudr)
+static inline void spic_set_fbaudr_rtl8710c(SPIC_Type *spic_dev, uint8_t fbaudr)
 {
     spic_dev->fbaudr_b.fsckdv = fbaudr;
 }
@@ -287,13 +289,13 @@ static inline void spic_set_fbaudr_rtl8710c(SPIC_Type *spic_dev, u8 fbaudr)
  *    The flash controller should be disabled to set the register correctly.
  *
  *   \param SPIC_Type *spic_dev:      The pointer of the flash controller register base.
- *   \param u8 dummy_cycle:      The level of dummy cycles, can be up to MAX_AUTO_LENGTH.
+ *   \param uint8_t dummy_cycle:      The level of dummy cycles, can be up to MAX_AUTO_LENGTH.
  *
  *   \return void.
  */
-static inline void spic_set_dummy_cycle_rtl8710c(SPIC_Type *spic_dev, u8 dummy_cycle)
+static inline void spic_set_dummy_cycle_rtl8710c(SPIC_Type *spic_dev, uint8_t dummy_cycle)
 {
-    spic_dev->auto_length_b.rd_dummy_length = (u16)dummy_cycle;
+    spic_dev->auto_length_b.rd_dummy_length = (uint16_t)dummy_cycle;
 }
 
 /** \brief Description of spic_get_baudr_rtl8710c
@@ -302,13 +304,13 @@ static inline void spic_set_dummy_cycle_rtl8710c(SPIC_Type *spic_dev, u8 dummy_c
  *
  *   \param SPIC_Type *spic_dev:      The pointer of the flash controller register base.
  *
- *   \return u8: value of baud rate divider.
+ *   \return uint8_t: value of baud rate divider.
  */
-static inline u8 spic_get_baudr_rtl8710c(SPIC_Type *spic_dev)
+static inline uint8_t spic_get_baudr_rtl8710c(SPIC_Type *spic_dev)
 {
-    u8 baudr = 0;
+    uint8_t baudr = 0;
 
-    baudr = (u8)spic_dev->baudr;
+    baudr = (uint8_t)spic_dev->baudr;
     return baudr;
 }
 
@@ -318,28 +320,28 @@ static inline u8 spic_get_baudr_rtl8710c(SPIC_Type *spic_dev)
  *
  *   \param SPIC_Type *spic_dev:      The pointer of the flash controller register base.
  *
- *   \return u8: value of baud rate divider.
+ *   \return uint8_t: value of baud rate divider.
  */
-static inline u8 spic_get_fbaudr_rtl8710c(SPIC_Type *spic_dev)
+static inline uint8_t spic_get_fbaudr_rtl8710c(SPIC_Type *spic_dev)
 {
-    u8 fbaudr = 0;
+    uint8_t fbaudr = 0;
 
-    fbaudr = (u8)spic_dev->fbaudr;
+    fbaudr = (uint8_t)spic_dev->fbaudr;
     return fbaudr;
 }
 
 void spic_load_default_setting_rtl8710c(pspic_init_para_t pspic_init_data);
-u8 spic_query_system_clk_rtl8710c(void);
-void spic_clock_ctrl_rtl8710c(u8 ctl);
-hal_status_t spic_init_setting_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, u8 spic_bit_mode);
+uint8_t spic_query_system_clk_rtl8710c(void);
+void spic_clock_ctrl_rtl8710c(uint8_t ctl);
+hal_status_t spic_init_setting_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, uint8_t spic_bit_mode);
 void spic_config_auto_mode_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor);
 void spic_config_user_mode_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor);
 BOOL spic_verify_calibration_para_rtl8710c(void);
 void spic_set_chnl_num_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor);
-void spic_set_delay_line_rtl8710c(u8 delay_line);
-void spic_rx_cmd_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata);
-void spic_tx_cmd_no_check_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata);
-void spic_tx_cmd_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data_phase_len, u8 *pdata);
+void spic_set_delay_line_rtl8710c(uint8_t delay_line);
+void spic_rx_cmd_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata);
+void spic_tx_cmd_no_check_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata);
+void spic_tx_cmd_rtl8710c(phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data_phase_len, uint8_t *pdata);
 void spic_wait_ready_rtl8710c(SPIC_Type *spic_dev);
 void spic_flush_fifo_rtl8710c(SPIC_Type *spic_dev);
 

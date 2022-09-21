@@ -15,7 +15,7 @@
 #define DEVICE_MUTEX_SET_INIT(device)	(mutex_init |= (1<<device))
 #define DEVICE_MUTEX_CLR_INIT(device)	(mutex_init &= (~(1<<device)))
 
-static u32 mutex_init = 0;
+static uint32_t mutex_init = 0;
 static _mutex device_mutex[RT_DEV_LOCK_MAX];
 
 //======================================================

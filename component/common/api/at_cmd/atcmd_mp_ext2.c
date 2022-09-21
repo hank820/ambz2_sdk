@@ -38,13 +38,13 @@ extern void bt_uart_bridge_set(uint32_t baudrate_0, uint32_t baudrate_1, uint8_t
 extern void bt_uart_bridge_close(void);
 extern void bt_uart_bridge_open(PinName tx, PinName rx);
 extern void console_reinit_uart(void);
-extern bool bte_init(void);
+extern BOOL bte_init(void);
 extern void bte_deinit(void);
-extern bool bt_trace_init(void);
-extern bool bt_trace_uninit(void);
+extern BOOL bt_trace_init(void);
+extern BOOL bt_trace_uninit(void);
 
 #if defined(CONFIG_BT) && CONFIG_BT
-static bool open_flag = 0;
+static BOOL open_flag = 0;
 #endif
 static int mp_ext2_uart_bridge(void **argv, int argc)
 {

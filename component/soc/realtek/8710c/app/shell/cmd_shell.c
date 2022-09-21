@@ -208,12 +208,12 @@ void shell_unregister_all(void)
  * @return   0: wait for a command input or no match command was found for the input string.
  * @return   other: the return value from the command handler function.
  */
-s32 shell_task(void)
+int32_t shell_task(void)
 {
     return cmd_shell_stubs.shell_task(&shell_cmd_hdl);
 }
 
-s32 shell_parse_one_cmd(void)
+int32_t shell_parse_one_cmd(void)
 {
     return cmd_shell_stubs.shell_parse_one_cmd(&shell_cmd_hdl);
 }
@@ -294,7 +294,7 @@ void __attribute__((cmse_nonsecure_entry)) shell_unregister_all_ns(void)
     shell_unregister_all();
 }
 
-s32 __attribute__((cmse_nonsecure_entry)) shell_task_ns(void) 
+int32_t __attribute__((cmse_nonsecure_entry)) shell_task_ns(void) 
 {
     return shell_task();
 }

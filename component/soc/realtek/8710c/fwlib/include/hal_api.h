@@ -34,24 +34,24 @@ extern "C" {
 #include "basic_types.h"
 
 #define HAL_READ32(base, addr)            \
-        rtk_le32_to_cpu(*((volatile u32*)(base + addr)))
+        rtk_le32_to_cpu(*((volatile uint32_t*)(base + addr)))
     
 #define HAL_WRITE32(base, addr, value32)  \
-        ((*((volatile u32*)(base + addr))) = rtk_cpu_to_le32(value32))
+        ((*((volatile uint32_t*)(base + addr))) = rtk_cpu_to_le32(value32))
 
 
 #define HAL_READ16(base, addr)            \
-        rtk_le16_to_cpu(*((volatile u16*)(base + addr)))
+        rtk_le16_to_cpu(*((volatile uint16_t*)(base + addr)))
         
 #define HAL_WRITE16(base, addr, value)  \
-        ((*((volatile u16*)(base + addr))) = rtk_cpu_to_le16(value))
+        ((*((volatile uint16_t*)(base + addr))) = rtk_cpu_to_le16(value))
     
 
 #define HAL_READ8(base, addr)            \
-        (*((volatile u8*)(base + addr)))
+        (*((volatile uint8_t*)(base + addr)))
             
 #define HAL_WRITE8(base, addr, value)  \
-        ((*((volatile u8*)(base + addr))) = value)
+        ((*((volatile uint8_t*)(base + addr))) = value)
 
 #define HAL_WAIT_FOREVER            (0xFFFFFFFF)
 #define HAL_OK              (0x00)

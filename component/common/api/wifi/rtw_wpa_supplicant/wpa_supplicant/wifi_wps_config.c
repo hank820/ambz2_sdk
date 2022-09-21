@@ -23,23 +23,23 @@ int wps_max_cred_count = 10;
  * @brief  struct wps_credential - WPS Credential
  */
 struct dev_credential {
-	u8 ssid[32]; 			/**< SSID */
+	uint8_t ssid[32]; 			/**< SSID */
 	size_t ssid_len;		/**< Length of SSID */
-	u16 auth_type;		/**< Authentication Type (WPS_AUTH_OPEN, .. flags) */
-	u16 encr_type;		/**< Encryption Type (WPS_ENCR_NONE, .. flags) */
-	u8 key_idx;			/**< Key index */
-	u8 key[65];			/**< Key */
+	uint16_t auth_type;		/**< Authentication Type (WPS_AUTH_OPEN, .. flags) */
+	uint16_t encr_type;		/**< Encryption Type (WPS_ENCR_NONE, .. flags) */
+	uint8_t key_idx;			/**< Key index */
+	uint8_t key[65];			/**< Key */
 	size_t key_len;		/**< Key length in octets */
-	u8 mac_addr[6];		/**< MAC address of the Credential receiver */
-	const u8 *cred_attr;	/**< Unparsed Credential attribute data (used only in cred_cb()).
+	uint8_t mac_addr[6];		/**< MAC address of the Credential receiver */
+	const uint8_t *cred_attr;	/**< Unparsed Credential attribute data (used only in cred_cb()).
 							This may be NULL, if not used. */
 	size_t cred_attr_len;	/**< Length of cred_attr in octets */
-	u16 ap_channel;		/**< AP channel */
+	uint16_t ap_channel;		/**< AP channel */
 };
 
 typedef struct {
 	char *target_ssid;
-	u16 config_method;
+	uint16_t config_method;
 	_sema scan_sema;
 	int isoverlap;
 	int isoverlap_5G;
@@ -73,26 +73,26 @@ typedef struct {
 #define 	SCAN_BUFFER_LENGTH	(4096)
 
 #if defined(CONFIG_ENABLE_P2P) && CONFIG_ENABLE_P2P
-extern void _wifi_p2p_wps_success(const u8 *peer_addr, int registrar);
+extern void _wifi_p2p_wps_success(const uint8_t *peer_addr, int registrar);
 extern void _wifi_p2p_wps_failed();
 #endif
 #if defined(CONFIG_ENABLE_WPS_AP) && CONFIG_ENABLE_WPS_AP
-extern u32 _wps_registrar_process_msg(void *priv, u32 op_code, const void *pmsg);
-extern void * _wps_registrar_get_msg(void *priv, u32 *op_code);
+extern uint32_t _wps_registrar_process_msg(void *priv, uint32_t op_code, const void *pmsg);
+extern void * _wps_registrar_get_msg(void *priv, uint32_t *op_code);
 extern void * _wps_registrar_init(void *priv, const void* pcfg);
 extern void _wps_registrar_deinit(void *priv);
 extern void *_wps_registrar_alloc();
-extern int _wps_registrar_add_pin(void *priv, const u8 *addr,
-			  const u8 *uuid, const u8 *pin, size_t pin_len,
+extern int _wps_registrar_add_pin(void *priv, const uint8_t *addr,
+			  const uint8_t *uuid, const uint8_t *pin, size_t pin_len,
 			  int timeout);
 extern int _wps_registrar_button_pushed(void *priv,
-				const u8 *p2p_dev_addr);
+				const uint8_t *p2p_dev_addr);
 extern int _wps_registrar_wps_cancel(void *priv);
-extern void _wpas_wsc_ap_send_eap_reqidentity(void *priv, u8 *rx_buf);
-extern void _wpas_wsc_ap_check_eap_rspidentity(void *priv, u8 *rx_buf);
+extern void _wpas_wsc_ap_send_eap_reqidentity(void *priv, uint8_t *rx_buf);
+extern void _wpas_wsc_ap_check_eap_rspidentity(void *priv, uint8_t *rx_buf);
 extern void _wpas_wsc_registrar_send_eap_fail(void *priv);
-extern void _wpas_wsc_registrar_handle_recvd(void *priv, u8 *rx_buf);
-extern void * _eap_wsc_server_process_hdl(void *priv, void* req, u8 id);
+extern void _wpas_wsc_registrar_handle_recvd(void *priv, uint8_t *rx_buf);
+extern void * _eap_wsc_server_process_hdl(void *priv, void* req, uint8_t id);
 extern void _eap_wsc_server_reset(void *priv);
 #endif
 extern void wpas_wsc_sta_wps_start_hdl(char *buf, int buf_len, int flags, void *userdata);
@@ -100,7 +100,7 @@ extern void wpas_wsc_wps_finish_hdl(char *buf, int buf_len, int flags, void *use
 extern void wpas_wsc_server_wps_finish_hdl(char *buf, int buf_len, int flags, void *userdata);
 extern void wpas_wsc_eapol_recvd_hdl(char *buf, int buf_len, int flags, void *userdata);
 
-void wifi_p2p_wps_success(const u8 *peer_addr, int registrar)
+void wifi_p2p_wps_success(const uint8_t *peer_addr, int registrar)
 {
 	/* To avoid gcc warnnings */
 		( void ) peer_addr;
@@ -147,7 +147,7 @@ void *wps_registrar_alloc(void)
 #endif
 }
 
-u32 wps_registrar_process_msg(void *priv, u32 op_code, const void *pmsg)
+uint32_t wps_registrar_process_msg(void *priv, uint32_t op_code, const void *pmsg)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -160,7 +160,7 @@ u32 wps_registrar_process_msg(void *priv, u32 op_code, const void *pmsg)
 #endif
 }
 
-void * wps_registrar_get_msg(void *priv, u32 *op_code)
+void * wps_registrar_get_msg(void *priv, uint32_t *op_code)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -173,8 +173,8 @@ void * wps_registrar_get_msg(void *priv, u32 *op_code)
 }
 
 
-int wps_registrar_add_pin(void *priv, const u8 *addr,
-			  const u8 *uuid, const u8 *pin, size_t pin_len,
+int wps_registrar_add_pin(void *priv, const uint8_t *addr,
+			  const uint8_t *uuid, const uint8_t *pin, size_t pin_len,
 			  int timeout)
 {
 	/* To avoid gcc warnnings */
@@ -192,7 +192,7 @@ int wps_registrar_add_pin(void *priv, const u8 *addr,
 }
 
 int wps_registrar_button_pushed(void *priv,
-				const u8 *p2p_dev_addr)
+				const uint8_t *p2p_dev_addr)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -216,7 +216,7 @@ int wps_registrar_wps_cancel(void *priv)
 
 }
 
-void wpas_wsc_ap_send_eap_reqidentity(void *priv, u8 *rx_buf)
+void wpas_wsc_ap_send_eap_reqidentity(void *priv, uint8_t *rx_buf)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -226,7 +226,7 @@ void wpas_wsc_ap_send_eap_reqidentity(void *priv, u8 *rx_buf)
 #endif
 }
 
-void wpas_wsc_ap_check_eap_rspidentity(void *priv, u8 *rx_buf)
+void wpas_wsc_ap_check_eap_rspidentity(void *priv, uint8_t *rx_buf)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -245,7 +245,7 @@ void wpas_wsc_registrar_send_eap_fail(void *priv)
 #endif
 }
 
-void wpas_wsc_registrar_handle_recvd(void *priv, u8 *rx_buf)
+void wpas_wsc_registrar_handle_recvd(void *priv, uint8_t *rx_buf)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -255,7 +255,7 @@ void wpas_wsc_registrar_handle_recvd(void *priv, u8 *rx_buf)
 #endif
 }
 
-void * eap_wsc_server_process_hdl(void *priv, void* req, u8 id)
+void * eap_wsc_server_process_hdl(void *priv, void* req, uint8_t id)
 {
 	/* To avoid gcc warnnings */
 	( void ) priv;
@@ -280,8 +280,8 @@ void eap_wsc_server_reset(void *priv)
 #if CONFIG_ENABLE_WPS
 xqueue_handle_t queue_for_credential;
 char wps_pin_code[32];
-u16 config_method;
-u8 wps_password_id;
+uint16_t config_method;
+uint8_t wps_password_id;
 static TaskHandle_t ap_wps_task = NULL;
 static unsigned char wps_stop_notified = 0;
 
@@ -428,7 +428,7 @@ static int wps_connect_to_AP_by_open_system(char *target_ssid)
 
 static void process_wps_scan_result( rtw_scan_result_t* record, void * user_data )
 {
-	u8 zero_mac[ETH_ALEN] = {0};
+	uint8_t zero_mac[ETH_ALEN] = {0};
 	internal_wps_scan_handler_arg_t *wps_arg = (internal_wps_scan_handler_arg_t *)user_data;
 
 	if ((record->wps_type != 0xff) && (record->channel != 0) && 
@@ -439,7 +439,7 @@ static void process_wps_scan_result( rtw_scan_result_t* record, void * user_data
 		}
 		else {
 			int i;
-			u8 is_hidden_ssid = 1;
+			uint8_t is_hidden_ssid = 1;
 
 			for(i = 0; i < record->SSID.len; i ++) {
 				if(record->SSID.val[i] != 0) {
@@ -533,7 +533,7 @@ static void update_discovered_ssids(char *ssid)
 	}
 }
 
-static int start_discovery_phase(u16 wps_config)
+static int start_discovery_phase(uint16_t wps_config)
 {
 	struct dev_credential *dev_cred;
 	rtw_network_info_t wifi = {0};
@@ -649,7 +649,7 @@ static rtw_result_t wps_scan_result_handler( rtw_scan_handler_result_t* malloced
 extern void wifi_scan_each_report_hdl( char* buf, int buf_len, int flags, void* userdata);
 extern void wifi_scan_done_hdl( char* buf, int buf_len, int flags, void* userdata);
 
-static int wps_find_out_triger_wps_AP(char *target_ssid, u16 config_method)
+static int wps_find_out_triger_wps_AP(char *target_ssid, uint16_t config_method)
 {
 	int isoverlap = -1;
 	internal_wps_scan_handler_arg_t wps_arg = {0};
@@ -686,9 +686,9 @@ exit:
 	return isoverlap;
 }
 
-static u8 wps_scan_cred_ssid(struct dev_credential *dev_cred)
+static uint8_t wps_scan_cred_ssid(struct dev_credential *dev_cred)
 {
-	u8 ssid_found = 0;
+	uint8_t ssid_found = 0;
 	scan_buf_arg scan_buf;
 
 	scan_buf.buf_len = 1000;
@@ -735,8 +735,8 @@ static u8 wps_scan_cred_ssid(struct dev_credential *dev_cred)
 
 static void wps_filter_cred_by_scan(struct dev_credential *dev_cred, int cred_cnt)
 {
-	u8 ssid_found_count = 0;
-	u8 *ssid_found_flags = (u8 *) malloc(cred_cnt);
+	uint8_t ssid_found_count = 0;
+	uint8_t *ssid_found_flags = (uint8_t *) malloc(cred_cnt);
 
 	if(ssid_found_flags) {
 		int i, times;
@@ -765,18 +765,18 @@ static void wps_filter_cred_by_scan(struct dev_credential *dev_cred, int cred_cn
 	}
 }
 
-int wps_start(u16 wps_config, char *pin, u8 channel, char *ssid)
+int wps_start(uint16_t wps_config, char *pin, uint8_t channel, char *ssid)
 {
 	struct dev_credential *dev_cred;
 	rtw_network_info_t wifi = {0}; 
 	char target_ssid[64];
 	int is_overlap = -1;
-	u32 start_time = rtw_get_current_time();
+	uint32_t start_time = rtw_get_current_time();
 	int ret = 0;
 	// for multiple credentials
 	int cred_cnt = 0;
 	int select_index = 0;
-	u32 select_security = 0;
+	uint32_t select_security = 0;
 	uint8_t pscan_config = PSCAN_ENABLE | PSCAN_FAST_SURVEY;
 
 	if(wps_max_cred_count < 1 || wps_max_cred_count > 10){
@@ -892,7 +892,7 @@ int wps_start(u16 wps_config, char *pin, u8 channel, char *ssid)
 
 	// check got credentials and select the most secure one to connect
 	for(int cur_index = 0; cur_index < cred_cnt; cur_index++){
-		u32 cur_security = 0;
+		uint32_t cur_security = 0;
 		//printf("\r\nWPS: check %d th cred\n", cur_index+1);
 		if(dev_cred[cur_index].ssid_len == 0)
 			continue;
@@ -976,11 +976,11 @@ void wps_stop(void)
 }
 
 #if defined(CONFIG_ENABLE_WPS_AP) && CONFIG_ENABLE_WPS_AP
-static int ap_wps_start(u16 wps_config, char *pin)
+static int ap_wps_start(uint16_t wps_config, char *pin)
 {
-	u8 authorized_mac[ETH_ALEN];
+	uint8_t authorized_mac[ETH_ALEN];
 	int ret = 0;
-	u32 pin_val = 0;
+	uint32_t pin_val = 0;
 
 	if (queue_for_credential != NULL) {
 		os_xqueue_delete(queue_for_credential);
@@ -1044,7 +1044,7 @@ static void wifi_start_ap_wps_thread_hdl( void *param)
 	vTaskDelete(NULL);
 }
 
-void wifi_start_ap_wps_thread(u16 config_methods, char *pin)
+void wifi_start_ap_wps_thread(uint16_t config_methods, char *pin)
 {
 	if((config_methods != WPS_CONFIG_PUSHBUTTON) 
 		&& (config_methods != WPS_CONFIG_DISPLAY)

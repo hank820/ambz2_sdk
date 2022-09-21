@@ -144,7 +144,7 @@ __STATIC_INLINE BOOL hal_uart_writeable (phal_uart_adapter_t puart_adapter)
  *
  *  @returns    void.
  */
-__STATIC_INLINE void hal_uart_putc (phal_uart_adapter_t puart_adapter, u8 tx_data)
+__STATIC_INLINE void hal_uart_putc (phal_uart_adapter_t puart_adapter, uint8_t tx_data)
 {
     puart_adapter->base_addr->thr = tx_data;
 }
@@ -158,7 +158,7 @@ __STATIC_INLINE void hal_uart_putc (phal_uart_adapter_t puart_adapter, u8 tx_dat
  *  @returns    void.
  */
 __STATIC_INLINE
-void hal_uart_wputc (phal_uart_adapter_t puart_adapter, u8 tx_data)
+void hal_uart_wputc (phal_uart_adapter_t puart_adapter, uint8_t tx_data)
 {
     hal_uart_stubs.hal_uart_wputc(puart_adapter, tx_data);
 }
@@ -188,7 +188,7 @@ __STATIC_INLINE void hal_uart_wait_tx_done (phal_uart_adapter_t puart_adapter, u
  *
  *  @returns    The length of data in byte has been sent.
  */
-__STATIC_INLINE uint32_t hal_uart_send (phal_uart_adapter_t puart_adapter, u8 *ptx_buf, u32 len, u32 timeout_ms)
+__STATIC_INLINE uint32_t hal_uart_send (phal_uart_adapter_t puart_adapter, uint8_t *ptx_buf, uint32_t len, uint32_t timeout_ms)
 {
     return hal_uart_stubs.hal_uart_send (puart_adapter, ptx_buf, len, timeout_ms);
 }
@@ -206,7 +206,7 @@ __STATIC_INLINE uint32_t hal_uart_send (phal_uart_adapter_t puart_adapter, u8 *p
  *  @return     HAL_BUSY: UART TX is in busy state, previous transmission is not finished yet.
  *  @return     HAL_ERR_PARA: Input arguments are invalid.
  */
-__STATIC_INLINE hal_status_t hal_uart_int_send (phal_uart_adapter_t puart_adapter, u8 *ptx_buf, u32 len)
+__STATIC_INLINE hal_status_t hal_uart_int_send (phal_uart_adapter_t puart_adapter, uint8_t *ptx_buf, uint32_t len)
 {
     return hal_uart_stubs.hal_uart_int_send (puart_adapter, ptx_buf, len);
 }
@@ -278,7 +278,7 @@ __STATIC_INLINE int hal_uart_rgetc (phal_uart_adapter_t puart_adapter, char *dat
  *  @returns     The length, in byte, of data has been received. Return 0 for the case of
  *               UART RX state is busy (previous receiving not didn't finished yet)
  */
-__STATIC_INLINE uint32_t hal_uart_recv (phal_uart_adapter_t puart_adapter, u8 *prx_buf, u32 len, u32 timeout_ms)
+__STATIC_INLINE uint32_t hal_uart_recv (phal_uart_adapter_t puart_adapter, uint8_t *prx_buf, uint32_t len, uint32_t timeout_ms)
 {
     return hal_uart_stubs.hal_uart_recv (puart_adapter, prx_buf, len, timeout_ms);
 }
@@ -296,7 +296,7 @@ __STATIC_INLINE uint32_t hal_uart_recv (phal_uart_adapter_t puart_adapter, u8 *p
  *  @return     HAL_BUSY: UART RX is in busy state, previous receiving is not finished yet.
  *  @return     HAL_ERR_PARA: Input arguments are invalid.
  */
-__STATIC_INLINE hal_status_t hal_uart_int_recv (phal_uart_adapter_t puart_adapter, u8 *prx_buf, u32 len)
+__STATIC_INLINE hal_status_t hal_uart_int_recv (phal_uart_adapter_t puart_adapter, uint8_t *prx_buf, uint32_t len)
 {
     return hal_uart_stubs.hal_uart_int_recv (puart_adapter, prx_buf, len);
 }
@@ -314,7 +314,7 @@ __STATIC_INLINE uint32_t hal_uart_recv_abort (phal_uart_adapter_t puart_adapter)
     return hal_uart_stubs.hal_uart_recv_abort (puart_adapter);
 }
 
-//u8 hal_uart_get_imr (phal_uart_adapter_t puart_adapter);
+//uint8_t hal_uart_get_imr (phal_uart_adapter_t puart_adapter);
 //void hal_uart_set_imr (phal_uart_adapter_t puart_adapter);
 
 /**
