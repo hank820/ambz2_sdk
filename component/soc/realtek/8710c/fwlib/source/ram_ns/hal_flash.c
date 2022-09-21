@@ -148,12 +148,12 @@ void hal_flash_set_write_enable (phal_spic_adaptor_t phal_spic_adaptor)
  *    The function will check if flash is ready after setting the status register.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 cmd:      The instruction of write status register command.
- *   \param u8 data:     The value is going to be set in status register.
+ *   \param uint8_t cmd:      The instruction of write status register command.
+ *   \param uint8_t data:     The value is going to be set in status register.
  *
  *   \return void.
  */
-void hal_flash_set_status (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data)
+void hal_flash_set_status (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data)
 {
     hal_flash_stubs.hal_flash_set_status(phal_spic_adaptor, cmd, data);
 }
@@ -166,12 +166,12 @@ void hal_flash_set_status (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 dat
  *    The function will NOT check if flash is ready after setting the status register.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 cmd:      The instruction of write status register command.
- *   \param u8 data:     The value is going to be set in status register.
+ *   \param uint8_t cmd:      The instruction of write status register command.
+ *   \param uint8_t data:     The value is going to be set in status register.
  *
  *   \return void.
  */
-void hal_flash_set_status_no_check (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 data)
+void hal_flash_set_status_no_check (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t data)
 {
     hal_flash_stubs.hal_flash_set_status_no_check(phal_spic_adaptor, cmd, data);
 }
@@ -185,13 +185,13 @@ void hal_flash_set_status_no_check (phal_spic_adaptor_t phal_spic_adaptor, u8 cm
  *    The function will check if flash is ready after setting the status register.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 cmd:      The instruction of write status register command.
- *   \param u8 addr:     The address of write status register command.
- *   \param u8 data:     The value is going to be set in status register.
+ *   \param uint8_t cmd:      The instruction of write status register command.
+ *   \param uint8_t addr:     The address of write status register command.
+ *   \param uint8_t data:     The value is going to be set in status register.
  *
  *   \return void.
  */
-void hal_flash_set_status_with_addr (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 addr, u8 data)
+void hal_flash_set_status_with_addr (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t addr, uint8_t data)
 {
     hal_flash_stubs.hal_flash_set_status_with_addr(phal_spic_adaptor, cmd, addr, data);
 }
@@ -205,11 +205,11 @@ void hal_flash_set_status_with_addr (phal_spic_adaptor_t phal_spic_adaptor, u8 c
  *    Some flashes cannot support this feature, please refer to flash data sheets.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 data:     The fourth address byte.
+ *   \param uint8_t data:     The fourth address byte.
  *
  *   \return void.
  */
-void hal_flash_set_extended_addr (phal_spic_adaptor_t phal_spic_adaptor, u8 data)
+void hal_flash_set_extended_addr (phal_spic_adaptor_t phal_spic_adaptor, uint8_t data)
 {
     hal_flash_stubs.hal_flash_set_extended_addr(phal_spic_adaptor, data);
 }
@@ -223,11 +223,11 @@ void hal_flash_set_extended_addr (phal_spic_adaptor_t phal_spic_adaptor, u8 data
  *    Please refer to flash data sheet for more details
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 mode:     The block protect control parameter.
+ *   \param uint8_t mode:     The block protect control parameter.
  *
  *   \return void.
  */
-void hal_flash_set_write_protect_mode (phal_spic_adaptor_t phal_spic_adaptor, u8 mode)
+void hal_flash_set_write_protect_mode (phal_spic_adaptor_t phal_spic_adaptor, uint8_t mode)
 {
     hal_flash_stubs.hal_flash_set_write_protect_mode(phal_spic_adaptor, mode);
 }
@@ -239,11 +239,11 @@ void hal_flash_set_write_protect_mode (phal_spic_adaptor_t phal_spic_adaptor, u8
  *    Please refer to flash data sheet for more details
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 cmd:     The instruction of read status register command.
+ *   \param uint8_t cmd:     The instruction of read status register command.
  *
- *   \return u8: the value of the status register.
+ *   \return uint8_t: the value of the status register.
  */
-u8 hal_flash_get_status (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd)
+uint8_t hal_flash_get_status (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd)
 {
     return hal_flash_stubs.hal_flash_get_status(phal_spic_adaptor, cmd);
 }
@@ -256,12 +256,12 @@ u8 hal_flash_get_status (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd)
  *    Please refer to flash data sheet for more details
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u8 cmd:     The instruction of read status register command.
- *   \param u8 addr:    The address byte of read status register command.
+ *   \param uint8_t cmd:     The instruction of read status register command.
+ *   \param uint8_t addr:    The address byte of read status register command.
  *
- *   \return u8: the value of the status register.
+ *   \return uint8_t: the value of the status register.
  */
-u8 hal_flash_get_status_with_addr (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd, u8 addr)
+uint8_t hal_flash_get_status_with_addr (phal_spic_adaptor_t phal_spic_adaptor, uint8_t cmd, uint8_t addr)
 {
     return hal_flash_stubs.hal_flash_get_status_with_addr(phal_spic_adaptor, cmd, addr);
 }
@@ -274,9 +274,9 @@ u8 hal_flash_get_status_with_addr (phal_spic_adaptor_t phal_spic_adaptor, u8 cmd
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
  *
- *   \return u8: the value of the extended addr register.
+ *   \return uint8_t: the value of the extended addr register.
  */
-u8 hal_flash_get_extended_addr (phal_spic_adaptor_t phal_spic_adaptor)
+uint8_t hal_flash_get_extended_addr (phal_spic_adaptor_t phal_spic_adaptor)
 {
     return hal_flash_stubs.hal_flash_get_extended_addr(phal_spic_adaptor);
 }
@@ -316,11 +316,11 @@ void hal_flash_chip_erase (phal_spic_adaptor_t phal_spic_adaptor)
  *    The address is aligned to 64K byte boundaries.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 address:      The target address to be erased.
+ *   \param uint32_t address:      The target address to be erased.
  *
  *   \return void.
  */
-void hal_flash_64k_block_erase (phal_spic_adaptor_t phal_spic_adaptor, u32 address)
+void hal_flash_64k_block_erase (phal_spic_adaptor_t phal_spic_adaptor, uint32_t address)
 {
     hal_flash_stubs.hal_flash_64k_block_erase(phal_spic_adaptor, address);
 }
@@ -332,11 +332,11 @@ void hal_flash_64k_block_erase (phal_spic_adaptor_t phal_spic_adaptor, u32 addre
  *    The address is aligned to 32K byte boundaries.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 address:      The target address to be erased.
+ *   \param uint32_t address:      The target address to be erased.
  *
  *   \return void.
  */
-void hal_flash_32k_block_erase (phal_spic_adaptor_t phal_spic_adaptor, u32 address)
+void hal_flash_32k_block_erase (phal_spic_adaptor_t phal_spic_adaptor, uint32_t address)
 {
     hal_flash_stubs.hal_flash_32k_block_erase(phal_spic_adaptor, address);
 }
@@ -348,11 +348,11 @@ void hal_flash_32k_block_erase (phal_spic_adaptor_t phal_spic_adaptor, u32 addre
  *    The address is aligned to 4K byte boundaries.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 address:      The target address to be erased.
+ *   \param uint32_t address:      The target address to be erased.
  *
  *   \return void.
  */
-void hal_flash_sector_erase (phal_spic_adaptor_t phal_spic_adaptor, u32 address)
+void hal_flash_sector_erase (phal_spic_adaptor_t phal_spic_adaptor, uint32_t address)
 {
     hal_flash_stubs.hal_flash_sector_erase(phal_spic_adaptor, address);
 }
@@ -364,11 +364,11 @@ void hal_flash_sector_erase (phal_spic_adaptor_t phal_spic_adaptor, u32 address)
  *    Please refer to flash data sheets for more details.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 address:      The target address to query write protect state.
+ *   \param uint32_t address:      The target address to query write protect state.
  *
- *   \return u8: the write protect status.
+ *   \return uint8_t: the write protect status.
  */
-u8 hal_flash_query_sector_protect_state(phal_spic_adaptor_t phal_spic_adaptor, u32 address)
+uint8_t hal_flash_query_sector_protect_state(phal_spic_adaptor_t phal_spic_adaptor, uint32_t address)
 {
     return hal_flash_stubs.hal_flash_query_sector_protect_state(phal_spic_adaptor, address);
 }
@@ -381,11 +381,11 @@ u8 hal_flash_query_sector_protect_state(phal_spic_adaptor_t phal_spic_adaptor, u
  *    Please refer to flash data sheets for more details.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 address:      The target address to enable write protect.
+ *   \param uint32_t address:      The target address to enable write protect.
  *
  *   \return void.
  */
-void hal_flash_protect_sector (phal_spic_adaptor_t phal_spic_adaptor, u32 address)
+void hal_flash_protect_sector (phal_spic_adaptor_t phal_spic_adaptor, uint32_t address)
 {
     hal_flash_stubs.hal_flash_protect_sector(phal_spic_adaptor, address);
 }
@@ -398,11 +398,11 @@ void hal_flash_protect_sector (phal_spic_adaptor_t phal_spic_adaptor, u32 addres
  *    Please refer to flash data sheets for more details.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 address:      The target address to disable write protect.
+ *   \param uint32_t address:      The target address to disable write protect.
  *
  *   \return void.
  */
-void hal_flash_unprotect_sector (phal_spic_adaptor_t phal_spic_adaptor, u32 address)
+void hal_flash_unprotect_sector (phal_spic_adaptor_t phal_spic_adaptor, uint32_t address)
 {
     hal_flash_stubs.hal_flash_unprotect_sector(phal_spic_adaptor, address);
 }
@@ -466,9 +466,9 @@ void hal_flash_set_dummy_cycle (phal_spic_adaptor_t phal_spic_adaptor)
 void hal_flash_set_quad_enable (phal_spic_adaptor_t phal_spic_adaptor)
 {
     pflash_cmd_t cmd = phal_spic_adaptor->cmd;
-    u8 flash_type = phal_spic_adaptor->flash_type;
-    u8 status_value = 0;
-    u8 data[2];
+    uint8_t flash_type = phal_spic_adaptor->flash_type;
+    uint8_t status_value = 0;
+    uint8_t data[2];
 
     switch (flash_type) {
         case FLASH_TYPE_WINBOND:
@@ -514,9 +514,9 @@ void hal_flash_set_quad_enable (phal_spic_adaptor_t phal_spic_adaptor)
 void hal_flash_unset_quad_enable (phal_spic_adaptor_t phal_spic_adaptor)
 {
     pflash_cmd_t cmd = phal_spic_adaptor->cmd;
-    u8 flash_type = phal_spic_adaptor->flash_type;
-    u8 status_value = 0;
-    u8 data[2];
+    uint8_t flash_type = phal_spic_adaptor->flash_type;
+    uint8_t status_value = 0;
+    uint8_t data[2];
 
     switch (flash_type) {
         case FLASH_TYPE_WINBOND:         
@@ -585,9 +585,9 @@ void hal_flash_return_spi (phal_spic_adaptor_t phal_spic_adaptor)
     spic_init_para_t spic_init_data;
     pspic_init_para_t pspic_init_data = &spic_init_data;
     SPIC_Type *spic_dev  = phal_spic_adaptor->spic_dev;
-    u8 spic_send_cmd_mode = phal_spic_adaptor->spic_send_cmd_mode;
-    u8 spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
-    u8 cpu_type = spic_query_system_clk();
+    uint8_t spic_send_cmd_mode = phal_spic_adaptor->spic_send_cmd_mode;
+    uint8_t spic_bit_mode = phal_spic_adaptor->spic_bit_mode;
+    uint8_t cpu_type = spic_query_system_clk();
 
     if (phal_spic_adaptor->spic_init_data[SpicOneIOMode][cpu_type].valid) {
         pspic_init_data = &(phal_spic_adaptor->spic_init_data[SpicOneIOMode][cpu_type]);
@@ -665,13 +665,13 @@ hal_status_t hal_flash_release_from_power_down (phal_spic_adaptor_t phal_spic_ad
  *    hal_flash_stream_read is used to read sequential data with auto mode.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 length:      The transfer length.
- *   \param u32 addr:      The starting read address in flash.
- *   \param u8 *data:      The destination address in memory to store data.
+ *   \param uint32_t length:      The transfer length.
+ *   \param uint32_t addr:      The starting read address in flash.
+ *   \param uint8_t *data:      The destination address in memory to store data.
  *
  *   \return void.
  */
-void hal_flash_stream_read (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u32 addr, u8 *data)
+void hal_flash_stream_read (phal_spic_adaptor_t phal_spic_adaptor, uint32_t length, uint32_t addr, uint8_t *data)
 {
     hal_flash_stubs.hal_flash_stream_read(phal_spic_adaptor, length, addr, data);
 }
@@ -681,13 +681,13 @@ void hal_flash_stream_read (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u
  *    hal_flash_stream_write is used to program sequential data with auto mode.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 length:      The transfer length.
- *   \param u32 addr:      The starting program address in flash.
- *   \param u8 *data:      The address of data. Data stored in ram is about to be programmed to the flash.
+ *   \param uint32_t length:      The transfer length.
+ *   \param uint32_t addr:      The starting program address in flash.
+ *   \param uint8_t *data:      The address of data. Data stored in ram is about to be programmed to the flash.
  *
  *   \return void.
  */
-void hal_flash_stream_write (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u32 addr, u8 *data)
+void hal_flash_stream_write (phal_spic_adaptor_t phal_spic_adaptor, uint32_t length, uint32_t addr, uint8_t *data)
 {
     hal_flash_stubs.hal_flash_stream_write(phal_spic_adaptor, length, addr, data);
 }
@@ -697,13 +697,13 @@ void hal_flash_stream_write (phal_spic_adaptor_t phal_spic_adaptor, u32 length, 
  *    hal_flash_burst_read is used to read sequential data with user mode.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 length:      The transfer length.
- *   \param u32 addr:      The starting read address in flash.
- *   \param u8 *data:      The destination address in memory to store data.
+ *   \param uint32_t length:      The transfer length.
+ *   \param uint32_t addr:      The starting read address in flash.
+ *   \param uint8_t *data:      The destination address in memory to store data.
  *
  *   \return void.
  */
-void hal_flash_burst_read (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u32 addr, u8 *data)
+void hal_flash_burst_read (phal_spic_adaptor_t phal_spic_adaptor, uint32_t length, uint32_t addr, uint8_t *data)
 {
     hal_flash_stubs.hal_flash_burst_read(phal_spic_adaptor, length, addr, data);
 }
@@ -713,33 +713,33 @@ void hal_flash_burst_read (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u3
  *    hal_flash_burst_write is used to program sequential data with user mode.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 length:      The transfer length.
- *   \param u32 addr:      The starting program address in flash.
- *   \param u8 *data:      The address of data. Data stored in ram or flash is about to be programmed to the flash.
+ *   \param uint32_t length:      The transfer length.
+ *   \param uint32_t addr:      The starting program address in flash.
+ *   \param uint8_t *data:      The address of data. Data stored in ram or flash is about to be programmed to the flash.
  *
  *   \return void.
  */
-void hal_flash_burst_write (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u32 addr, u8 *data)
+void hal_flash_burst_write (phal_spic_adaptor_t phal_spic_adaptor, uint32_t length, uint32_t addr, uint8_t *data)
 {
-    u32 existed_data_size;
-    u32 program_size;
-    u32 page_size;
-    u32 is_encry;
-    u32 phy_src;
+    uint32_t existed_data_size;
+    uint32_t program_size;
+    uint32_t page_size;
+    uint32_t is_encry;
+    uint32_t phy_src;
 
-    if ((((u32)(data)) >> 24) == 0x9B) {
-        hal_xip_get_phy_addr((u32) data, (u32 *)&phy_src, &is_encry);
+    if ((((uint32_t)(data)) >> 24) == 0x9B) {
+        hal_xip_get_phy_addr((uint32_t) data, (uint32_t *)&phy_src, &is_encry);
         
         if (is_encry) {
             DBG_SPIF_ERR("Source address should not be on the encryted remapping region!\r\n");
             return;
         } else {
-            data = (u8 *)phy_src;
+            data = (uint8_t *)phy_src;
         }
     }
 
-    if (((u32)data >> 24) == 0x98) {       
-        data = (u8*)((u32)data & 0xFFFFFF);
+    if (((uint32_t)data >> 24) == 0x98) {       
+        data = (uint8_t*)((uint32_t)data & 0xFFFFFF);
         page_size = 256;
         existed_data_size = addr & 0xFF;
         
@@ -784,13 +784,13 @@ void hal_flash_burst_write (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u
  *    Please refer to flash data sheets about page program command for more details.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 length:      The transfer length.
- *   \param u32 addr:      The starting program address in flash.
- *   \param u8 *data:      The address of data. Data stored in ram is about to be programmed to the flash.
+ *   \param uint32_t length:      The transfer length.
+ *   \param uint32_t addr:      The starting program address in flash.
+ *   \param uint8_t *data:      The address of data. Data stored in ram is about to be programmed to the flash.
  *
  *   \return void.
  */
-void hal_flash_page_program (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u32 addr, u8 *data)
+void hal_flash_page_program (phal_spic_adaptor_t phal_spic_adaptor, uint32_t length, uint32_t addr, uint8_t *data)
 {
     hal_flash_stubs.hal_flash_page_program(phal_spic_adaptor, length, addr, data);
 }
@@ -801,29 +801,29 @@ void hal_flash_page_program (phal_spic_adaptor_t phal_spic_adaptor, u32 length, 
  *    The source address and the destination address must be in the flash.
  *
  *   \param void *adaptor:      The pointer of the flash adaptor.
- *   \param u32 length:      The transfer length.
- *   \param u32 addr:      The starting program address in flash.
- *   \param u8 *data:      The address of data. Data stored in flash is about to be programmed to the other address in flash.
+ *   \param uint32_t length:      The transfer length.
+ *   \param uint32_t addr:      The starting program address in flash.
+ *   \param uint8_t *data:      The address of data. Data stored in flash is about to be programmed to the other address in flash.
  *
  *   \return void.
  */
-void hal_flash_read_write_flash (phal_spic_adaptor_t phal_spic_adaptor, u32 length, u32 addr, u8 *data)
+void hal_flash_read_write_flash (phal_spic_adaptor_t phal_spic_adaptor, uint32_t length, uint32_t addr, uint8_t *data)
 {
     SPIC_Type *spic_dev  = phal_spic_adaptor->spic_dev;
     pflash_cmd_t cmd = phal_spic_adaptor->cmd;
     spic_ctrlr0_t ctrlr0;
-    u32 occu_size;
-    u32 program_length;
-    u32 page_size;
-    u32 tmp;
-    u8 addr_byte[4];
-    u8 index;
-    u8 spic_send_cmd_mode;
-    u8 addr_byte_num;
-    u8 buffer[256];
-    u8* ptr = &buffer[0];
+    uint32_t occu_size;
+    uint32_t program_length;
+    uint32_t page_size;
+    uint32_t tmp;
+    uint8_t addr_byte[4];
+    uint8_t index;
+    uint8_t spic_send_cmd_mode;
+    uint8_t addr_byte_num;
+    uint8_t buffer[256];
+    uint8_t* ptr = &buffer[0];
 
-    hal_flash_stream_read(phal_spic_adaptor, length, (u32)data, buffer);
+    hal_flash_stream_read(phal_spic_adaptor, length, (uint32_t)data, buffer);
     
     addr_byte_num = phal_spic_adaptor->addr_byte_num;
     spic_send_cmd_mode = phal_spic_adaptor->spic_send_cmd_mode;
@@ -904,7 +904,7 @@ void hal_flash_read_write_flash (phal_spic_adaptor_t phal_spic_adaptor, u32 leng
     index = 0;
 
     while (program_length > 4) {
-        spic_dev->dr_word = (u32)*((u32 *)ptr);
+        spic_dev->dr_word = (uint32_t)*((uint32_t *)ptr);
         program_length -= 4;
         ptr += 4;
         index += 4;
@@ -918,13 +918,13 @@ void hal_flash_read_write_flash (phal_spic_adaptor_t phal_spic_adaptor, u32 leng
     spic_enable_rtl8710c(spic_dev);
 
     while (program_length >= 4) {
-        spic_dev->dr_word = (u32)*((u32 *)ptr);
+        spic_dev->dr_word = (uint32_t)*((uint32_t *)ptr);
         program_length -= 4;
         ptr += 4;
     }
 
     while (program_length > 0) {
-        spic_dev->dr_byte = (u8) (*ptr);
+        spic_dev->dr_byte = (uint8_t) (*ptr);
         program_length--;
         ptr++;
     }
@@ -972,7 +972,7 @@ void hal_flash_reset_to_spi (phal_spic_adaptor_t phal_spic_adaptor)
  */
 void hal_flash_support_new_type (phal_spic_adaptor_t phal_spic_adaptor)
 {
-    u8 flash_id = phal_spic_adaptor->flash_id[0];
+    uint8_t flash_id = phal_spic_adaptor->flash_id[0];
 
     switch (flash_id) {
         case 0xC8:
@@ -1019,13 +1019,13 @@ void hal_flash_support_new_type (phal_spic_adaptor_t phal_spic_adaptor)
  *    
  *   \param void *adaptor:      The pointer of the flash adaptor.
  *
- *   \return u8: the density of the flash, unit is Mbit.
+ *   \return uint8_t: the density of the flash, unit is Mbit.
  */
-u8 hal_flash_get_size (phal_spic_adaptor_t phal_spic_adaptor)
+uint8_t hal_flash_get_size (phal_spic_adaptor_t phal_spic_adaptor)
 {
-    u8 efuse_value;
-    u8 size_id = phal_spic_adaptor->flash_id[2];
-    u32 size = 0;
+    uint8_t efuse_value;
+    uint8_t size_id = phal_spic_adaptor->flash_id[2];
+    uint32_t size = 0;
 
     size = ((1 << size_id) >> 20) * 8;
 

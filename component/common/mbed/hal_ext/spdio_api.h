@@ -60,19 +60,19 @@ enum spdio_tx_data_t{
 
 struct spdio_buf_t{
 	void *priv; //priv data from user
-	u32 buf_allocated; //The spdio buffer allocated address
-	u16 size_allocated; //The actual allocated size
-	u32 buf_addr; //The spdio buffer physical address, it must be 4-bytes aligned
-	u16 buf_size;
-	u8 type; //The type of the data which this buffer carries, spdio_rx_data_t and spdio_tx_data_t
-	u8 reserved;
+	uint32_t buf_allocated; //The spdio buffer allocated address
+	uint16_t size_allocated; //The actual allocated size
+	uint32_t buf_addr; //The spdio buffer physical address, it must be 4-bytes aligned
+	uint16_t buf_size;
+	uint8_t type; //The type of the data which this buffer carries, spdio_rx_data_t and spdio_tx_data_t
+	uint8_t reserved;
 };
 
 struct spdio_t {
 	void *priv; //not used by user
-	u32 tx_bd_num; //for spdio send data to host, 2 bd for one packet, so this value must be rounded to 2
-	u32 rx_bd_num; //for spdio receive data from host
-	u32 rx_bd_bufsz; //buffer size = desired packet length + 24(spdio header info), must be rounded to 64
+	uint32_t tx_bd_num; //for spdio send data to host, 2 bd for one packet, so this value must be rounded to 2
+	uint32_t rx_bd_num; //for spdio receive data from host
+	uint32_t rx_bd_bufsz; //buffer size = desired packet length + 24(spdio header info), must be rounded to 64
 	struct spdio_buf_t *rx_buf; //buffer array for spdio receive assigned by user, rx_bd_bufsz * rx_bd_num
 
 	/**
@@ -85,7 +85,7 @@ struct spdio_t {
 	 *@param type: the received packet type, spdio_rx_data_t
 	 *@retval SUCCESS or FAIL
 	 */
-	char (*rx_done_cb)(void *priv, void* pbuf, u8 *pdata, u16 size, u8 type); 
+	char (*rx_done_cb)(void *priv, void* pbuf, uint8_t *pdata, uint16_t size, uint8_t type); 
 	
 	/**
 	 *@brief pointer to callback function defined by user, 
@@ -129,7 +129,7 @@ void spdio_deinit(struct spdio_t *obj);
   * @param  pbuf: a pointer to spdio_buf_t structure which carries the payload
   * @retval SUCCESS or FAIL
   */
-s8 spdio_tx(struct spdio_t *obj, struct spdio_buf_t *pbuf);
+int8_t spdio_tx(struct spdio_t *obj, struct spdio_buf_t *pbuf);
 
 /**
   * @brief  an obj which will be used to initialize sdio interface

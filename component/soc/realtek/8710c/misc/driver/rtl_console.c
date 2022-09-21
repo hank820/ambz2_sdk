@@ -54,7 +54,7 @@ extern xSemaphoreHandle log_rx_interrupt_sema;
 char cmd_history[CMD_HISTORY_LEN][LOG_SERVICE_BUFLEN];
 static unsigned int cmd_history_count = 0;
 
-void uart_put_char(u8 c){
+void uart_put_char(uint8_t c){
         stdio_port_putc(c);
 }
 
@@ -67,7 +67,7 @@ void uart_send_string(char *str)
 	}
 }
 
-void uart_send_buf(u8 *buf, u32 len)
+void uart_send_buf(uint8_t *buf, uint32_t len)
 {
 	unsigned char *st_p=buf;
 	if(!len || (!buf)){
@@ -82,7 +82,7 @@ void uart_send_buf(u8 *buf, u32 len)
 
 _WEAK void uart_set_dbgmon_pending(void){}
 
-static void uart_irq(u32 id,u32 event)
+static void uart_irq(uint32_t id,uint32_t event)
 {
 	unsigned char rc=0;
 	static unsigned char temp_buf[LOG_SERVICE_BUFLEN] = "\0";
@@ -184,7 +184,7 @@ static void uart_irq(u32 id,u32 event)
 extern void log_service_init(void);
 extern void console_reinit_uart(void);
 #if defined(configUSE_TICKLESS_IDLE) && (configUSE_TICKLESS_IDLE > 0)
-u32 rtl8710c_loguart_suspend(u32 sleep_mode, void *param)
+uint32_t rtl8710c_loguart_suspend(uint32_t sleep_mode, void *param)
 {
 	sys_log_uart_off();
 	gpio_irq_init(&loguart_rx_as_wakeup_pin, (PinName)log_uart.rx_pin, NULL, (uint32_t)&loguart_rx_as_wakeup_pin);
@@ -193,9 +193,9 @@ u32 rtl8710c_loguart_suspend(u32 sleep_mode, void *param)
 	return TRUE;
 }
 
-u32 rtl8710c_loguart_resume(u32 sleep_mode, void *param)
+uint32_t rtl8710c_loguart_resume(uint32_t sleep_mode, void *param)
 {
-	u32 wake_event = HAL_READ32(0x40000000, 0x108);
+	uint32_t wake_event = HAL_READ32(0x40000000, 0x108);
 	gpio_irq_deinit(&loguart_rx_as_wakeup_pin);
 	sys_log_uart_on();
 	console_reinit_uart();

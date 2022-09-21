@@ -29,17 +29,17 @@ write_reconnect_ptr p_write_reconnect_ptr;
 uint32_t offer_ip = 0;
 uint32_t server_ip = 0;
 #endif
-#define WIFI_RETRYCOUNT 5
+#define WIFI_RETRYCOUNT 1
 /*
 * Usage:
 *       wifi connection indication trigger this function to save current
 *       wifi profile in flash
 *
-* Condition: 
+* Condition:
 *       CONFIG_EXAMPLE_WLAN_FAST_CONNECT flag is set
 */
 
-int wlan_write_reconnect_data_to_flash(u8 *data, uint32_t len)
+int wlan_write_reconnect_data_to_flash(uint8_t *data, uint32_t len)
 {
 	flash_t flash;
 	struct wlan_fast_reconnect read_data = {0};
@@ -47,7 +47,7 @@ int wlan_write_reconnect_data_to_flash(u8 *data, uint32_t len)
 		return -1;
 
 	device_mutex_lock(RT_DEV_LOCK_FLASH);
-	flash_stream_read(&flash, FAST_RECONNECT_DATA, sizeof(struct wlan_fast_reconnect), (u8 *) &read_data);
+	flash_stream_read(&flash, FAST_RECONNECT_DATA, sizeof(struct wlan_fast_reconnect), (uint8_t *) &read_data);
 
 #if ATCMD_VER == ATVER_2
 	struct wlan_fast_reconnect *copy_data = (struct wlan_fast_reconnect *) data;
@@ -55,7 +55,7 @@ int wlan_write_reconnect_data_to_flash(u8 *data, uint32_t len)
 #endif
 
 	//wirte it to flash if different content: SSID, Passphrase, Channel, Security type
-	if(memcmp(data, (u8 *) &read_data, sizeof(struct wlan_fast_reconnect)) != 0) {
+	if(memcmp(data, (uint8_t *) &read_data, sizeof(struct wlan_fast_reconnect)) != 0) {
 #if defined(CONFIG_FAST_DHCP) && CONFIG_FAST_DHCP
 		printf("\r\n %s():not the same ssid/passphrase/channel/offer_ip, write new profile to flash", __func__);
 #else
@@ -75,7 +75,7 @@ int wlan_write_reconnect_data_to_flash(u8 *data, uint32_t len)
 *
 *       This function read previous saved wlan profile in flash and execute connection.
 *
-* Condition: 
+* Condition:
 *       CONFIG_EXAMPLE_WLAN_FAST_CONNECT flag is set
 */
 int wlan_init_done_callback(void)

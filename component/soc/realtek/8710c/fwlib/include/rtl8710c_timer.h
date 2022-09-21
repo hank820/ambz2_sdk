@@ -172,12 +172,12 @@ typedef struct hal_timer_adapter_s {
     TM0_Type *tmr_ba;      /*!< The timer register base address */
     TG0_Type *tg_ba;      /*!< The timer group register base address */
     hal_timer_group_adapter_t *ptg_adp;   /*!< The timer group adapter for this timer adapter belong to */
-    u32 tick_us; /*! the period time of a tick, in us */
-    u32 tick_r_ns; /*! the after zero point of period time of a tick, in ns */
-    u16 pre_scaler; /*! the pre-scaler value */
+    uint32_t tick_us; /*! the period time of a tick, in us */
+    uint32_t tick_r_ns; /*! the after zero point of period time of a tick, in ns */
+    uint16_t pre_scaler; /*! the pre-scaler value */
     timer_id_t tid;   /*! The timer index */
     timer_app_mode_t reload_mode;    /* timer counter reload mode, one shot or periodical */
-    u32 overflow_fired;     /* the timer counter overflow/inderflow hit count */
+    uint32_t overflow_fired;     /* the timer counter overflow/inderflow hit count */
     timer_callback_t timeout_callback;      /*! User callback function for timeout indication */
     void *to_cb_para;   /*! the argument for user timeout callback function */
     timer_callback_t me_callback[4];      /*! User callback function for counter value match event 0 ~ 3 */
@@ -186,7 +186,7 @@ typedef struct hal_timer_adapter_s {
     void (*enter_critical)(void);   /*! the function for entering timer critical state */
     void (*exit_critical)(void);    /*! the function for exit timer critical state */
 
-    u32 reserved[4];      // reserved
+    uint32_t reserved[4];      // reserved
 } hal_timer_adapter_t, *phal_timer_adapter_t;
 
 /**
@@ -197,8 +197,8 @@ struct hal_timer_group_adapter_s {
     TG0_Type *tg_ba;      /*!< The timer group register base address */
     hal_timer_adapter_t *timer_adapter[MAX_TIMER_NUM_IN_A_GROUP];   /*!< All the timer adapter belong to this timer group */
     timer_source_clk_t  sclk_idx;  /*!< the source clock index. Default 32K (index 0) */
-    u8  tmr_in_use; /*!< the indication of timer is allocated by someone, bit 0 ~ 7 map to timer 0 ~ 7 */
-    u8  tgid;   /*!< the timer group ID */
+    uint8_t  tmr_in_use; /*!< the indication of timer is allocated by someone, bit 0 ~ 7 map to timer 0 ~ 7 */
+    uint8_t  tgid;   /*!< the timer group ID */
 };
 
 /**
@@ -207,18 +207,18 @@ struct hal_timer_group_adapter_s {
 typedef struct hal_timer_func_stubs_s {
     phal_timer_group_adapter_t *pptimer_group0;
     phal_timer_group_adapter_t *pptimer_group1;
-    u32 (*hal_timer_convert_ticks_to_us) (u32 ticks, u8 sclk_idx);
-    u32 (*hal_timer_convert_us_to_ticks) (u32 time_us, u8 sclk_idx);
-    u64 (*hal_timer_convert_ticks_to_us64)  (u64 ticks, u8 sclk_idx);
-    u64 (*hal_timer_convert_us_to_ticks64)  (u64 time_us, u8 sclk_idx);
+    uint32_t (*hal_timer_convert_ticks_to_us) (uint32_t ticks, uint8_t sclk_idx);
+    uint32_t (*hal_timer_convert_us_to_ticks) (uint32_t time_us, uint8_t sclk_idx);
+    uint64_t (*hal_timer_convert_ticks_to_us64)  (uint64_t ticks, uint8_t sclk_idx);
+    uint64_t (*hal_timer_convert_us_to_ticks64)  (uint64_t time_us, uint8_t sclk_idx);
     void (*hal_timer_irq_handler) (void *hid, uint8_t tmr_num);
-    void (*hal_timer_me_ctrl) (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, u8 enable);
-    void (*hal_timer_set_me_counter) (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, u32 counter);
+    void (*hal_timer_me_ctrl) (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, uint8_t enable);
+    void (*hal_timer_set_me_counter) (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, uint32_t counter);
     void (*hal_timer_group_en_ctrl) (uint32_t tgid, BOOL en);
     void (*hal_timer_group_pclk_ctrl) (uint32_t tgid, BOOL en);
     void (*hal_timer_group_sclk_ctrl) (uint32_t tgid, BOOL en);
     void (*hal_timer_group_intclk_sel) (uint32_t tgid, timer_interrupt_clk_t clk_sel);
-    void (*hal_timer_group_sclk_sel) (hal_timer_group_adapter_t *ptg_adp, u32 sclk_freq);
+    void (*hal_timer_group_sclk_sel) (hal_timer_group_adapter_t *ptg_adp, uint32_t sclk_freq);
     void (*hal_timer_group_init) (hal_timer_group_adapter_t *ptg_adp, uint32_t tgid);
     void (*hal_timer_group_deinit) (hal_timer_group_adapter_t *ptg_adp);
     hal_status_t (*hal_timer_bare_init) (phal_timer_adapter_t ptimer_adp, timer_id_t tid);
@@ -226,34 +226,34 @@ typedef struct hal_timer_func_stubs_s {
     void (*hal_timer_group_reg_irq) (hal_timer_group_adapter_t *ptg_adp, irq_handler_t irq_handler);
     void (*hal_timer_reg_toirq) (phal_timer_adapter_t ptimer_adp, timer_callback_t callback, void *phid);
     void (*hal_timer_unreg_toirq) (phal_timer_adapter_t ptimer_adp);
-    void (*hal_timer_reg_meirq) (phal_timer_adapter_t ptimer_adp, u8 match_ev, timer_callback_t callback, void *phid);
-    void (*hal_timer_unreg_meirq) (phal_timer_adapter_t ptimer_adp, u8 match_ev);
-    u32 (*hal_timer_set_tick_time) (phal_timer_adapter_t ptimer_adp, u32 tick_ns);
-    void (*hal_timer_init_free_run) (phal_timer_adapter_t ptimer_adp, timer_id_t tid, timer_cnt_mode_t cnt_mode, u32 tick_us);
-    u32 (*hal_timer_indir_read) (phal_timer_adapter_t ptimer_adp);
-    u64 (*hal_timer_read_us) (phal_timer_adapter_t ptimer_adp);
-    u64 (*hal_timer_read_us64) (phal_timer_adapter_t ptimer_adp);
+    void (*hal_timer_reg_meirq) (phal_timer_adapter_t ptimer_adp, uint8_t match_ev, timer_callback_t callback, void *phid);
+    void (*hal_timer_unreg_meirq) (phal_timer_adapter_t ptimer_adp, uint8_t match_ev);
+    uint32_t (*hal_timer_set_tick_time) (phal_timer_adapter_t ptimer_adp, uint32_t tick_ns);
+    void (*hal_timer_init_free_run) (phal_timer_adapter_t ptimer_adp, timer_id_t tid, timer_cnt_mode_t cnt_mode, uint32_t tick_us);
+    uint32_t (*hal_timer_indir_read) (phal_timer_adapter_t ptimer_adp);
+    uint64_t (*hal_timer_read_us) (phal_timer_adapter_t ptimer_adp);
+    uint64_t (*hal_timer_read_us64) (phal_timer_adapter_t ptimer_adp);
     hal_status_t (*hal_timer_init)(phal_timer_adapter_t ptimer_adp, timer_id_t tid);
-    u32 (*hal_timer_set_timeout) (phal_timer_adapter_t ptimer_adp, u32 time_us, u32 res_us);
+    uint32_t (*hal_timer_set_timeout) (phal_timer_adapter_t ptimer_adp, uint32_t time_us, uint32_t res_us);
     void (*hal_timer_start) (phal_timer_adapter_t ptimer_adp, timer_app_mode_t reload_mode);
-    hal_status_t (*hal_timer_enable_match_event) (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, u32 time_us);
-    void (*hal_timer_start_one_shot) (phal_timer_adapter_t ptimer_adp, u32 time_us,
+    hal_status_t (*hal_timer_enable_match_event) (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, uint32_t time_us);
+    void (*hal_timer_start_one_shot) (phal_timer_adapter_t ptimer_adp, uint32_t time_us,
                                        timer_callback_t callback, void *phid);
-    void (*hal_timer_start_periodical) (phal_timer_adapter_t ptimer_adp, u32 time_us,
+    void (*hal_timer_start_periodical) (phal_timer_adapter_t ptimer_adp, uint32_t time_us,
                                         timer_callback_t callback, void *phid);
-    timer_id_t (*hal_timer_allocate) (u8 *timer_list);
-    timer_id_t (*hal_timer_event_init) (phal_timer_adapter_t ptimer_adp, u32 *ptick_us, timer_id_t *timer_list);
+    timer_id_t (*hal_timer_allocate) (uint8_t *timer_list);
+    timer_id_t (*hal_timer_event_init) (phal_timer_adapter_t ptimer_adp, uint32_t *ptick_us, timer_id_t *timer_list);
     void (*hal_timer_event_deinit) (timer_id_t tid);
 
     // hal_misc timer related API
     phal_timer_adapter_t *ppsys_timer;
-    u64 (*hal_read_systime) (void);
-    u32 (*hal_read_curtime) (void);
+    uint64_t (*hal_read_systime) (void);
+    uint32_t (*hal_read_curtime) (void);
     void (*hal_start_systimer) (phal_timer_adapter_t ptimer_adp, uint32_t tmr_id,
                                      timer_cnt_mode_t cnt_md, uint32_t tick_us);
-    void (*hal_delay_us) (u32 time_us);
+    void (*hal_delay_us) (uint32_t time_us);
 
-    BOOLEAN (*hal_is_timeout) (u32 start_us, u32 timeout_us);
+    BOOLEAN (*hal_is_timeout) (uint32_t start_us, uint32_t timeout_us);
 
     uint32_t reserved[16];  // reserved space for next ROM code version function table extending.
 } hal_timer_func_stubs_t;
@@ -273,7 +273,7 @@ typedef struct hal_timer_func_stubs_s {
  *  @returns The interrupt pending status
  */
 __STATIC_INLINE
-u8 hal_timer_group_get_ists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
+uint8_t hal_timer_group_get_ists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
 {
     return ptg_adp->tg_ba->ists_b.ists;
 }
@@ -286,7 +286,7 @@ u8 hal_timer_group_get_ists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
  *  @returns The interrupt pending status
  */
 __STATIC_INLINE
-u8 hal_timer_group_get_rists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
+uint8_t hal_timer_group_get_rists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
 {
     return ptg_adp->tg_ba->raw_ists_b.rists;
 }
@@ -298,11 +298,13 @@ u8 hal_timer_group_get_rists_rtl8710c (hal_timer_group_adapter_t *ptg_adp)
  *
  *  @returns The interrupt pending status
  */
+#if 0
 __STATIC_INLINE
-u8 hal_timer_get_int_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
+uint8_t hal_timer_get_int_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tg_ba->ists_b.ists & (1 << ptimer_adp->tid);
 }
+#endif
 
 /**
  *  @brief To get the interrupt pending status (without mask).
@@ -311,11 +313,13 @@ u8 hal_timer_get_int_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns The interrupt pending status
  */
+#if 0
 __STATIC_INLINE
-u8 hal_timer_get_rint_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
+uint8_t hal_timer_get_rint_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tg_ba->raw_ists_b.rists & (1 << ptimer_adp->tid);
 }
+#endif
 
 /**
  *  @brief To set the reload value for timer operation mode.
@@ -326,7 +330,7 @@ u8 hal_timer_get_rint_pending_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *  @returns void
  */
 __STATIC_INLINE
-void hal_timer_set_reload_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 reload)
+void hal_timer_set_reload_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t reload)
 {
     ptimer_adp->tmr_ba->lc = reload;
 }
@@ -339,10 +343,10 @@ void hal_timer_set_reload_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 reload)
  *  @returns The timer counter value
  */
 __STATIC_INLINE
-u32 hal_timer_read_rtl8710c (phal_timer_adapter_t ptimer_adp)
+uint32_t hal_timer_read_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
 #if 1
-    u32 cnt;
+    uint32_t cnt;
 
     do {
         cnt = ptimer_adp->tmr_ba->tc;
@@ -365,7 +369,7 @@ u32 hal_timer_read_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *  @returns void
  */
 __STATIC_INLINE
-void hal_timer_write_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 tc)
+void hal_timer_write_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t tc)
 {
     ptimer_adp->tmr_ba->tc = tc;
 }
@@ -378,11 +382,13 @@ void hal_timer_write_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 tc)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
-void hal_timer_write_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp, u16 psc)
+void hal_timer_write_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp, uint16_t psc)
 {
     ptimer_adp->tmr_ba->pc_b.pc = psc;
 }
+#endif
 
 /**
  *  @brief To read the timer pre-scale counter value
@@ -392,7 +398,7 @@ void hal_timer_write_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp, u16 
  *  @returns The pre-scaler current counter value
  */
 __STATIC_INLINE
-u16 hal_timer_read_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp)
+uint16_t hal_timer_read_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tmr_ba->pc_b.pc;
 }
@@ -405,12 +411,14 @@ u16 hal_timer_read_prescal_cnt_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
-void hal_timer_set_prescal_rtl8710c (phal_timer_adapter_t ptimer_adp, u16 psrc)
+void hal_timer_set_prescal_rtl8710c (phal_timer_adapter_t ptimer_adp, uint16_t psrc)
 {
 //    ptimer_adp->pre_scaler = psrc;
     ptimer_adp->tmr_ba->pr_b.pr = psrc;
 }
+#endif
 
 /**
  *  @brief To enable/start the timer.
@@ -446,11 +454,13 @@ void hal_timer_disable_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
-void hal_timer_set_imr_rtl8710c (phal_timer_adapter_t ptimer_adp, u8 imr)
+void hal_timer_set_imr_rtl8710c (phal_timer_adapter_t ptimer_adp, uint8_t imr)
 {
     ptimer_adp->tmr_ba->ctrl_b.imr = imr;
 }
+#endif
 
 /**
  *  @brief To set the timer operation mode: timer (reload) mode or counter (one shot) mode
@@ -460,11 +470,13 @@ void hal_timer_set_imr_rtl8710c (phal_timer_adapter_t ptimer_adp, u8 imr)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_opmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_op_mode_t op_mode)
 {
     ptimer_adp->tmr_ba->ctrl_b.mod = op_mode;
 }
+#endif
 
 /**
  *  @brief To set the timer countting mode. (up counter/ down counter)
@@ -474,11 +486,13 @@ void hal_timer_set_opmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_op_mo
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_cntmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_cnt_mode_t cnt_mode)
 {
     ptimer_adp->tmr_ba->ctrl_b.cnt_mod = cnt_mode;
 }
+#endif
 
 /**
  *  @brief To read the interrupt status.
@@ -488,7 +502,7 @@ void hal_timer_set_cntmode_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_cnt_
  *  @returns The interrupt status
  */
 __STATIC_INLINE
-u32 hal_timer_read_isr_rtl8710c (phal_timer_adapter_t ptimer_adp)
+uint32_t hal_timer_read_isr_rtl8710c (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tmr_ba->isr;
 }
@@ -502,23 +516,23 @@ u32 hal_timer_read_isr_rtl8710c (phal_timer_adapter_t ptimer_adp)
  *  @returns void
  */
 __STATIC_INLINE
-void hal_timer_clear_isr_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 int_ev)
+void hal_timer_clear_isr_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t int_ev)
 {
     ptimer_adp->tmr_ba->isr = int_ev;
 }
 
-u32 hal_timer_convert_ticks_to_us_rtl8710c  (u32 ticks, u8 sclk_idx);
-u32 hal_timer_convert_us_to_ticks_rtl8710c  (u32 time_us, u8 sclk_idx);
-u64 hal_timer_convert_ticks_to_us64_rtl8710c  (u64 ticks, u8 sclk_idx);
-u64 hal_timer_convert_us_to_ticks64_rtl8710c  (u64 time_us, u8 sclk_idx);
+uint32_t hal_timer_convert_ticks_to_us_rtl8710c  (uint32_t ticks, uint8_t sclk_idx);
+uint32_t hal_timer_convert_us_to_ticks_rtl8710c  (uint32_t time_us, uint8_t sclk_idx);
+uint64_t hal_timer_convert_ticks_to_us64_rtl8710c  (uint64_t ticks, uint8_t sclk_idx);
+uint64_t hal_timer_convert_us_to_ticks64_rtl8710c  (uint64_t time_us, uint8_t sclk_idx);
 void hal_timer_irq_handler_rtl8710c (void *hid, uint8_t tmr_num);
-void hal_timer_me_ctrl_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, u8 enable);
-void hal_timer_set_me_counter_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, u32 counter);
+void hal_timer_me_ctrl_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, uint8_t enable);
+void hal_timer_set_me_counter_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, uint32_t counter);
 void hal_timer_group_en_ctrl_rtl8710c (uint32_t tgid, BOOL en);
 void hal_timer_group_pclk_ctrl_rtl8710c (uint32_t tgid, BOOL en);
 void hal_timer_group_sclk_ctrl_rtl8710c (uint32_t tgid, BOOL en);
 void hal_timer_group_intclk_sel_rtl8710c (uint32_t tgid, timer_interrupt_clk_t clk_sel);
-void hal_timer_group_sclk_sel_rtl8710c (hal_timer_group_adapter_t *ptg_adp, u32 sclk_freq);
+void hal_timer_group_sclk_sel_rtl8710c (hal_timer_group_adapter_t *ptg_adp, uint32_t sclk_freq);
 void hal_timer_group_init_rtl8710c (hal_timer_group_adapter_t *ptg_adp, uint32_t tgid);
 void hal_timer_group_deinit_rtl8710c (hal_timer_group_adapter_t *ptg_adp);
 hal_status_t hal_timer_bare_init_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_id_t tid);
@@ -526,26 +540,26 @@ void hal_timer_deinit_rtl8710c (phal_timer_adapter_t ptimer_adp);
 void hal_timer_group_reg_irq_rtl8710c (hal_timer_group_adapter_t *ptg_adp, irq_handler_t irq_handler);
 void hal_timer_reg_toirq_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_callback_t callback, void *phid);
 void hal_timer_unreg_toirq_rtl8710c (phal_timer_adapter_t ptimer_adp);
-void hal_timer_reg_meirq_rtl8710c (phal_timer_adapter_t ptimer_adp, u8 match_ev,
+void hal_timer_reg_meirq_rtl8710c (phal_timer_adapter_t ptimer_adp, uint8_t match_ev,
                                      timer_callback_t callback, void *phid);
-void hal_timer_unreg_meirq_rtl8710c (phal_timer_adapter_t ptimer_adp, u8 match_ev);
-u32 hal_timer_set_tick_time_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 tick_ns);
+void hal_timer_unreg_meirq_rtl8710c (phal_timer_adapter_t ptimer_adp, uint8_t match_ev);
+uint32_t hal_timer_set_tick_time_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t tick_ns);
 void hal_timer_init_free_run_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_id_t tid,
-                                         timer_cnt_mode_t cnt_mode, u32 tick_us);
-u32 hal_timer_indir_read_rtl8710c (phal_timer_adapter_t ptimer_adp);
-u64 hal_timer_read_us_rtl8710c (phal_timer_adapter_t ptimer_adp);
-u64 hal_timer_read_us64_rtl8710c (phal_timer_adapter_t ptimer_adp);
+                                         timer_cnt_mode_t cnt_mode, uint32_t tick_us);
+uint32_t hal_timer_indir_read_rtl8710c (phal_timer_adapter_t ptimer_adp);
+uint64_t hal_timer_read_us_rtl8710c (phal_timer_adapter_t ptimer_adp);
+uint64_t hal_timer_read_us64_rtl8710c (phal_timer_adapter_t ptimer_adp);
 hal_status_t hal_timer_init_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_id_t tid);
-u32 hal_timer_set_timeout_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 time_us, u32 res_us);
+uint32_t hal_timer_set_timeout_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t time_us, uint32_t res_us);
 void hal_timer_start_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_app_mode_t reload_mode);
-hal_status_t hal_timer_enable_match_event_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, u32 time_us);
-void hal_timer_start_one_shot_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 time_us,
+hal_status_t hal_timer_enable_match_event_rtl8710c (phal_timer_adapter_t ptimer_adp, timer_match_event_t match_ev, uint32_t time_us);
+void hal_timer_start_one_shot_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t time_us,
                                            timer_callback_t callback, void *phid);
-void hal_timer_start_periodical_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 time_us,
+void hal_timer_start_periodical_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t time_us,
                                             timer_callback_t callback, void *phid);
-timer_id_t hal_timer_allocate_rtl8710c (u8 *timer_list);
+timer_id_t hal_timer_allocate_rtl8710c (uint8_t *timer_list);
 
-timer_id_t hal_timer_event_init_rtl8710c (phal_timer_adapter_t ptimer_adp, u32 *ptick_us, timer_id_t *timer_list);
+timer_id_t hal_timer_event_init_rtl8710c (phal_timer_adapter_t ptimer_adp, uint32_t *ptick_us, timer_id_t *timer_list);
 
 void hal_timer_event_deinit_rtl8710c (timer_id_t tid);
 

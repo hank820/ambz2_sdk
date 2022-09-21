@@ -36,9 +36,9 @@
 
 #define EFUSE_SSLOCK_OFFSET     0x1B0
 
-int efuse_otp_read(u8 offset, u8 len, u8 *buf)
+int efuse_otp_read(uint8_t offset, uint8_t len, uint8_t *buf)
 {
-    u8 content[32];	// the OTP max length is 32
+    uint8_t content[32];	// the OTP max length is 32
 	
 	if ((offset+len) > 32) {
 		return -1;
@@ -49,9 +49,9 @@ int efuse_otp_read(u8 offset, u8 len, u8 *buf)
 	return 0;
 }
 
-int efuse_otp_write(u8 offset, u8 len, u8 *buf)
+int efuse_otp_write(uint8_t offset, uint8_t len, uint8_t *buf)
 {
-    u8 content[32];	// the OTP max length is 32
+    uint8_t content[32];	// the OTP max length is 32
 	
 	if ((offset+len) > 32) {
 		return -1;
@@ -63,7 +63,7 @@ int efuse_otp_write(u8 offset, u8 len, u8 *buf)
 	return 0;
 }
 
-int efuse_sec_key_write(u8 *buf, u8 key_num)
+int efuse_sec_key_write(uint8_t *buf, uint8_t key_num)
 {
     if (hal_sec_key_write(buf, key_num) == _FALSE) {
         return -1;
@@ -71,7 +71,7 @@ int efuse_sec_key_write(u8 *buf, u8 key_num)
     return 0;
 }
 
-int efuse_susec_key_write(u8 *buf)
+int efuse_susec_key_write(uint8_t *buf)
 {
     if (hal_susec_key_write(buf) == _FALSE) {
         return -1;
@@ -79,7 +79,7 @@ int efuse_susec_key_write(u8 *buf)
     return 0;
 }
 
-int efuse_s_jtag_key_write(u8 *buf)
+int efuse_s_jtag_key_write(uint8_t *buf)
 {
     if (hal_s_jtag_key_write(buf) == _FALSE) {
         return -1;
@@ -87,7 +87,7 @@ int efuse_s_jtag_key_write(u8 *buf)
     return 0;
 }
 
-int efuse_ns_jtag_key_write(u8 *buf)
+int efuse_ns_jtag_key_write(uint8_t *buf)
 {
     if (hal_ns_jtag_key_write(buf) == _FALSE) {
         return -1;

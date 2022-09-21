@@ -151,7 +151,7 @@ void flash_reset_status(flash_t * obj);
   * @param  data: Pointer to a byte array that is to be written.
   * @retval 1: Success
   */
-int flash_burst_write(flash_t * obj, uint32_t address, uint32_t Length, uint8_t * data);
+int flash_burst_write(flash_t * obj, uint32_t address, uint32_t Length, const uint8_t * data);
 
 /**
   * @brief   It is the same with flash_stream_read function which is used to read a stream of data from specified address

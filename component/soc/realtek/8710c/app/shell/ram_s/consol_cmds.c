@@ -34,18 +34,18 @@
 #include <string.h>
 #include <stdlib.h>
 
-//extern u32 strtoul (const char *nptr, char **endptr, int base);
+//extern uint32_t strtoul (const char *nptr, char **endptr, int base);
 
-s32 cmd_dump_byte(u32 argc, u8 *argv[]);
-s32 cmd_dump_helfword(u32 argc, u8 *argv[]);
-s32 cmd_dump_word(u32 argc, u8 *argv[]);
-s32 cmd_write_byte(u32 argc, u8 *argv[]);
-s32 cmd_write_word(u32 argc, u8 *argv[]);
+int32_t cmd_dump_byte(uint32_t argc, uint8_t *argv[]);
+int32_t cmd_dump_helfword(uint32_t argc, uint8_t *argv[]);
+int32_t cmd_dump_word(uint32_t argc, uint8_t *argv[]);
+int32_t cmd_write_byte(uint32_t argc, uint8_t *argv[]);
+int32_t cmd_write_word(uint32_t argc, uint8_t *argv[]);
 
-s32 cmd_dump_byte(u32 argc, u8 *argv[])
+int32_t cmd_dump_byte(uint32_t argc, uint8_t *argv[])
 {
-    u32 src;
-    u32 len;
+    uint32_t src;
+    uint32_t len;
 
     if(argc<1) {    
         dbg_printf ("Wrong argument number!\r\n");
@@ -60,16 +60,16 @@ s32 cmd_dump_byte(u32 argc, u8 *argv[])
         len = strtoul((const char*)(argv[1]), (char **)NULL, 10);
     }
 
-    dump_bytes((u8 *)src,(u8)len);
+    dump_bytes((uint8_t *)src,(uint8_t)len);
 
     return _TRUE ;
 }
 
-s32 cmd_dump_helfword(u32 argc, u8  *argv[])
+int32_t cmd_dump_helfword(uint32_t argc, uint8_t  *argv[])
 {
-    u32 src;
-    u32 len;
-    u32 i;
+    uint32_t src;
+    uint32_t len;
+    uint32_t i;
 
     if(argc<1) {
         dbg_printf ("Wrong argument number!\r\n");
@@ -95,20 +95,20 @@ s32 cmd_dump_helfword(u32 argc, u8  *argv[])
 
     for(i = 0; i < len; i+=4, src+=16) {   
         dbg_printf("%08X:  %04X    %04X    %04X    %04X    %04X    %04X    %04X    %04X\r\n",
-        src, *(u16 *)(src), *(u16 *)(src+2), 
-        *(u16 *)(src+4), *(u16 *)(src+6),
-        *(u16 *)(src+8), *(u16 *)(src+10),
-        *(u16 *)(src+12), *(u16 *)(src+14));
+        src, *(uint16_t *)(src), *(uint16_t *)(src+2), 
+        *(uint16_t *)(src+4), *(uint16_t *)(src+6),
+        *(uint16_t *)(src+8), *(uint16_t *)(src+10),
+        *(uint16_t *)(src+12), *(uint16_t *)(src+14));
     }
     return _TRUE;
 
 }
 
-s32 cmd_dump_word(u32 argc, u8  *argv[])
+int32_t cmd_dump_word(uint32_t argc, uint8_t  *argv[])
 {
-    u32 src;
-    u32 len;
-    u32 i;
+    uint32_t src;
+    uint32_t len;
+    uint32_t i;
 
     if(argc<1) {    
         dbg_printf("Wrong argument number!\r\n");
@@ -134,34 +134,34 @@ s32 cmd_dump_word(u32 argc, u8  *argv[])
 
     dbg_printf ("\r\n");
     for(i = 0; i < len; i+=4, src+=16) {   
-        dbg_printf("%08X:    %08X", src, *(u32 *)(src));
-        dbg_printf("    %08X", *(u32 *)(src+4));
-        dbg_printf("    %08X", *(u32 *)(src+8));
-        dbg_printf("    %08X\r\n", *(u32 *)(src+12));
+        dbg_printf("%08X:    %08X", src, *(uint32_t *)(src));
+        dbg_printf("    %08X", *(uint32_t *)(src+4));
+        dbg_printf("    %08X", *(uint32_t *)(src+8));
+        dbg_printf("    %08X\r\n", *(uint32_t *)(src+12));
     }
     return _TRUE;
 }
 
-s32 cmd_write_byte(u32 argc, u8  *argv[])
+int32_t cmd_write_byte(uint32_t argc, uint8_t  *argv[])
 {
-    u32 src;
-    u8 value,i;
+    uint32_t src;
+    uint8_t value,i;
 
     src = strtoul((const char*)(argv[0]), (char **)NULL, 16);       
 
     for(i=0;i<argc-1;i++,src++) {
         value= strtoul((const char*)(argv[i+1]), (char **)NULL, 16);    
         dbg_printf("0x%08X = 0x%02X\r\n", src, value);
-        *(volatile u8 *)(src) = value;
+        *(volatile uint8_t *)(src) = value;
     }
 
     return 0;
 }
 
-s32 cmd_write_word(u32 argc, u8  *argv[])
+int32_t cmd_write_word(uint32_t argc, uint8_t  *argv[])
 {
-    u32 src;
-    u32 value,i;
+    uint32_t src;
+    uint32_t value,i;
     
     src = strtoul((const char*)(argv[0]), (char **)NULL, 16);       
     while ( (src) & 0x03) {
@@ -171,7 +171,7 @@ s32 cmd_write_word(u32 argc, u8  *argv[])
     for(i = 0; i < (argc - 1); i++,src+=4) {
         value= strtoul((const char*)(argv[i+1]), (char **)NULL, 16);
         dbg_printf("0x%08X = 0x%08X\r\n", src, value);
-        *(volatile u32 *)(src) = value;
+        *(volatile uint32_t *)(src) = value;
     }
     
     return 0;
@@ -180,31 +180,31 @@ s32 cmd_write_word(u32 argc, u8  *argv[])
 #if !defined(CONFIG_BUILD_BOOT) && defined(CONFIG_BUILD_SECURE)
 
 SECTION_NS_ENTRY_FUNC
-s32 NS_ENTRY cmd_dump_byte_s(u32 argc, u8 *argv[])
+int32_t NS_ENTRY cmd_dump_byte_s(uint32_t argc, uint8_t *argv[])
 {
     return cmd_dump_byte(argc, argv);
 }
 
 SECTION_NS_ENTRY_FUNC
-s32 NS_ENTRY cmd_dump_helfword_s(u32 argc, u8 *argv[])
+int32_t NS_ENTRY cmd_dump_helfword_s(uint32_t argc, uint8_t *argv[])
 {
     return cmd_dump_helfword(argc, argv);
 }
 
 SECTION_NS_ENTRY_FUNC
-s32 NS_ENTRY cmd_dump_word_s(u32 argc, u8 *argv[])
+int32_t NS_ENTRY cmd_dump_word_s(uint32_t argc, uint8_t *argv[])
 {
     return cmd_dump_word(argc, argv);
 }
 
 SECTION_NS_ENTRY_FUNC
-s32 NS_ENTRY cmd_write_byte_s(u32 argc, u8 *argv[])
+int32_t NS_ENTRY cmd_write_byte_s(uint32_t argc, uint8_t *argv[])
 {
     return cmd_write_byte(argc, argv);
 }
 
 SECTION_NS_ENTRY_FUNC
-s32 NS_ENTRY cmd_write_word_s(u32 argc, u8 *argv[])
+int32_t NS_ENTRY cmd_write_word_s(uint32_t argc, uint8_t *argv[])
 {
     return cmd_write_word(argc, argv);
 }

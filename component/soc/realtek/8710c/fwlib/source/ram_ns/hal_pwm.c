@@ -112,7 +112,7 @@ void hal_pwm_comm_tick_source_list (uint8_t *timer_list)
  *  @return     HAL_ERR_PARA:  Input arguments are invalid.
  *  @return     HAL_NOT_READY: Error with data not ready.
  */
-hal_status_t hal_pwm_init (hal_pwm_adapter_t *ppwm_adp, pin_name_t pin_name, u16 duty_res_us)
+hal_status_t hal_pwm_init (hal_pwm_adapter_t *ppwm_adp, pin_name_t pin_name, uint16_t duty_res_us)
 {
     hal_status_t ret;
     uint8_t pwm_id;
@@ -137,7 +137,7 @@ void hal_pwm_deinit (hal_pwm_adapter_t *ppwm_adp)
 {
     #if 1
     hal_pwm_adapter_t *ptmp_pwm_adp;
-    u8 pwm_id;
+    uint8_t pwm_id;
     hal_pwm_comm_adapter_t *ppwm_comm_adapter = *(hal_pwm_stubs.pppwm_comm_adp);
     if ((ppwm_adp->pwm_clk_sel != PwmClkSrc_None) && (ppwm_adp->pwm_clk_sel != PwmClkSrc_SClk)) {
         // a G-timer has been assign to this PWM already, we should free this timer and reallocate a new timer
@@ -187,7 +187,7 @@ BOOLEAN hal_pwm_enable_sts (hal_pwm_adapter_t *ppwm_adp)
  *
  *  @returns void
  */
-void hal_pwm_comm_enable (u32 en_ctrl)
+void hal_pwm_comm_enable (uint32_t en_ctrl)
 {
     hal_pwm_stubs.hal_pwm_comm_enable (en_ctrl);
 }
@@ -199,7 +199,7 @@ void hal_pwm_comm_enable (u32 en_ctrl)
  *
  *  @returns void
  */
-void hal_pwm_comm_disable (u32 dis_ctrl)
+void hal_pwm_comm_disable (uint32_t dis_ctrl)
 {
     hal_pwm_stubs.hal_pwm_comm_disable (dis_ctrl);
 }
@@ -263,7 +263,7 @@ void hal_pwm_wait_ctrl_ready (hal_pwm_adapter_t *ppwm_adp)
  *  @returns HAL_BUSY: Busy.
  *  @returns HAL_NOT_READY: Error with data not ready.
  */
-hal_status_t hal_pwm_set_tick_time (hal_pwm_adapter_t *ppwm_adp, u32 tick_p5us)
+hal_status_t hal_pwm_set_tick_time (hal_pwm_adapter_t *ppwm_adp, uint32_t tick_p5us)
 {
     return hal_pwm_stubs.hal_pwm_set_tick_time (ppwm_adp, tick_p5us);
 }
@@ -279,8 +279,8 @@ hal_status_t hal_pwm_set_tick_time (hal_pwm_adapter_t *ppwm_adp, u32 tick_p5us)
  *  @returns HAL_OK: Setting succeed.
  *  @returns HAL_NOT_READY: Error with data not ready.
  */
-hal_status_t hal_pwm_set_duty (hal_pwm_adapter_t *ppwm_adp, u32 period_us,
-                                u32 duty_us, u32 start_offset_us)
+hal_status_t hal_pwm_set_duty (hal_pwm_adapter_t *ppwm_adp, uint32_t period_us,
+                                uint32_t duty_us, uint32_t start_offset_us)
 {
     return hal_pwm_stubs.hal_pwm_set_duty (ppwm_adp, period_us, duty_us, start_offset_us);
 }
@@ -296,8 +296,8 @@ hal_status_t hal_pwm_set_duty (hal_pwm_adapter_t *ppwm_adp, u32 period_us,
  *  @returns HAL_OK: Setting succeed.
  *  @returns HAL_NOT_READY: Error with data not ready.
  */
-hal_status_t hal_pwm_set_duty_ns (hal_pwm_adapter_t *ppwm_adp, u32 period_ns,
-                                u32 duty_ns, u32 start_offset_ns)
+hal_status_t hal_pwm_set_duty_ns (hal_pwm_adapter_t *ppwm_adp, uint32_t period_ns,
+                                uint32_t duty_ns, uint32_t start_offset_ns)
 {
     return hal_pwm_stubs.hal_pwm_set_duty_ns (ppwm_adp, period_ns, duty_ns, start_offset_ns);
 }
@@ -309,7 +309,7 @@ hal_status_t hal_pwm_set_duty_ns (hal_pwm_adapter_t *ppwm_adp, u32 period_ns,
  *
  *  @returns The PWM on duty duration, unit is us
  */
-u32 hal_pwm_read_duty (hal_pwm_adapter_t *ppwm_adp)
+uint32_t hal_pwm_read_duty (hal_pwm_adapter_t *ppwm_adp)
 {
     return hal_pwm_stubs.hal_pwm_read_duty (ppwm_adp);
 }
@@ -322,7 +322,7 @@ u32 hal_pwm_read_duty (hal_pwm_adapter_t *ppwm_adp)
  *
  *  @returns void
  */
-void hal_pwm_change_duty (hal_pwm_adapter_t *ppwm_adp, u32 duty_us)
+void hal_pwm_change_duty (hal_pwm_adapter_t *ppwm_adp, uint32_t duty_us)
 {
     hal_pwm_stubs.hal_pwm_change_duty (ppwm_adp, duty_us);
 }
@@ -338,7 +338,7 @@ void hal_pwm_change_duty (hal_pwm_adapter_t *ppwm_adp, u32 duty_us)
  *  @returns HAL_OK: Setting succeed.
  *  @returns HAL_ERR_PARA: Error with invaild parameters.
  */
-hal_status_t hal_pwm_set_duty_limit (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us, u32 min_duty_us)
+hal_status_t hal_pwm_set_duty_limit (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us, uint32_t min_duty_us)
 {
     return hal_pwm_stubs.hal_pwm_set_duty_limit (ppwm_adp, max_duty_us, min_duty_us);
 }
@@ -381,8 +381,8 @@ void hal_pwm_auto_duty_en (hal_pwm_adapter_t *ppwm_adp, BOOLEAN enable)
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_ERR_PARA:  Error with invaild parameters.
  */
-hal_status_t hal_pwm_set_auto_duty_inc (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us,
-                                        u32 step_sz_us, u32 step_period_cnt)
+hal_status_t hal_pwm_set_auto_duty_inc (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us,
+                                        uint32_t step_sz_us, uint32_t step_period_cnt)
 {
     return hal_pwm_stubs.hal_pwm_set_auto_duty_inc (ppwm_adp, max_duty_us, step_sz_us, step_period_cnt);
 }
@@ -398,8 +398,8 @@ hal_status_t hal_pwm_set_auto_duty_inc (hal_pwm_adapter_t *ppwm_adp, u32 max_dut
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_ERR_PARA:  Error with invaild parameters.
  */
-hal_status_t hal_pwm_set_auto_duty_dec (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us,
-                                        u32 step_sz_us, u32 step_period_cnt)
+hal_status_t hal_pwm_set_auto_duty_dec (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_us,
+                                        uint32_t step_sz_us, uint32_t step_period_cnt)
 {
     return hal_pwm_stubs.hal_pwm_set_auto_duty_dec (ppwm_adp, min_duty_us, step_sz_us, step_period_cnt);
 }
@@ -415,7 +415,7 @@ hal_status_t hal_pwm_set_auto_duty_dec (hal_pwm_adapter_t *ppwm_adp, u32 min_dut
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_ERR_PARA:  Error with invaild parameters.
  */
-hal_status_t hal_pwm_set_auto_duty_loop (hal_pwm_adapter_t *ppwm_adp, u8 ini_dir, u32 loop_cnt)
+hal_status_t hal_pwm_set_auto_duty_loop (hal_pwm_adapter_t *ppwm_adp, uint8_t ini_dir, uint32_t loop_cnt)
 {
     return hal_pwm_stubs.hal_pwm_set_auto_duty_loop (ppwm_adp, ini_dir, loop_cnt);
 }
@@ -431,7 +431,7 @@ hal_status_t hal_pwm_set_auto_duty_loop (hal_pwm_adapter_t *ppwm_adp, u8 ini_dir
  *
  *  @returns void
  */
-void hal_pwm_set_period_int (hal_pwm_adapter_t *ppwm_adp, pwm_period_callback_t callback, void *arg, u8 int_en)
+void hal_pwm_set_period_int (hal_pwm_adapter_t *ppwm_adp, pwm_period_callback_t callback, void *arg, uint8_t int_en)
 {
     hal_pwm_stubs.hal_pwm_set_period_int (ppwm_adp, callback, arg, int_en);
 }
@@ -448,7 +448,7 @@ void hal_pwm_set_period_int (hal_pwm_adapter_t *ppwm_adp, pwm_period_callback_t 
  *  @returns void
  */
 void hal_pwm_set_autoadj_int (hal_pwm_adapter_t *ppwm_adp, pwm_lim_callback_t callback,
-                                void *arg, u8 int_en)
+                                void *arg, uint8_t int_en)
 {
     hal_pwm_stubs.hal_pwm_set_autoadj_int (ppwm_adp, callback, arg, int_en);
 }
@@ -479,8 +479,8 @@ void hal_pwm_set_autoadj_loop_int (hal_pwm_adapter_t *ppwm_adp, pwm_lo_callback_
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_BUSY:  BUSY.
  */
-hal_status_t hal_pwm_auto_duty_inc (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us,
-                                    u32 step_sz_us, u32 step_period_cnt)
+hal_status_t hal_pwm_auto_duty_inc (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_us,
+                                    uint32_t step_sz_us, uint32_t step_period_cnt)
 {
     return hal_pwm_stubs.hal_pwm_auto_duty_inc (ppwm_adp, max_duty_us, step_sz_us, step_period_cnt);
 }
@@ -496,8 +496,8 @@ hal_status_t hal_pwm_auto_duty_inc (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_us
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_BUSY:  BUSY.
  */
-hal_status_t hal_pwm_auto_duty_dec (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us,
-                                    u32 step_sz_us, u32 step_period_cnt)
+hal_status_t hal_pwm_auto_duty_dec (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_us,
+                                    uint32_t step_sz_us, uint32_t step_period_cnt)
 {
     return hal_pwm_stubs.hal_pwm_auto_duty_dec (ppwm_adp, min_duty_us, step_sz_us, step_period_cnt);
 }
@@ -515,7 +515,7 @@ hal_status_t hal_pwm_auto_duty_dec (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_us
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_BUSY:  BUSY.
  */
-hal_status_t hal_pwm_auto_duty_loop (hal_pwm_adapter_t *ppwm_adp, u32 ini_duty_us, u8 ini_dir, u32 loop_cnt)
+hal_status_t hal_pwm_auto_duty_loop (hal_pwm_adapter_t *ppwm_adp, uint32_t ini_duty_us, uint8_t ini_dir, uint32_t loop_cnt)
 {
     return hal_pwm_stubs.hal_pwm_auto_duty_loop (ppwm_adp, ini_duty_us, ini_dir, loop_cnt);
 }
@@ -528,7 +528,7 @@ hal_status_t hal_pwm_auto_duty_loop (hal_pwm_adapter_t *ppwm_adp, u32 ini_duty_u
  *
  *  @returns void
  */
-void hal_pwm_stop_duty_loop (hal_pwm_adapter_t *ppwm_adp, u8 stop_now)
+void hal_pwm_stop_duty_loop (hal_pwm_adapter_t *ppwm_adp, uint8_t stop_now)
 {
     hal_pwm_stubs.hal_pwm_stop_duty_loop (ppwm_adp, stop_now);
 }
@@ -544,8 +544,8 @@ void hal_pwm_stop_duty_loop (hal_pwm_adapter_t *ppwm_adp, u8 stop_now)
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_BUSY:  BUSY.
  */
-hal_status_t hal_pwm_auto_duty_ns_inc (hal_pwm_adapter_t *ppwm_adp, u32 max_duty_ns,
-                                    u32 step_sz_ns, u32 step_period_cnt)
+hal_status_t hal_pwm_auto_duty_ns_inc (hal_pwm_adapter_t *ppwm_adp, uint32_t max_duty_ns,
+                                    uint32_t step_sz_ns, uint32_t step_period_cnt)
 {
     return  hal_pwm_stubs.hal_pwm_auto_duty_ns_inc (ppwm_adp, max_duty_ns, step_sz_ns, step_period_cnt);
 }
@@ -561,8 +561,8 @@ hal_status_t hal_pwm_auto_duty_ns_inc (hal_pwm_adapter_t *ppwm_adp, u32 max_duty
  *  @return     HAL_OK:  Setting succeed.
  *  @return     HAL_BUSY:  BUSY.
  */
-hal_status_t hal_pwm_auto_duty_ns_dec (hal_pwm_adapter_t *ppwm_adp, u32 min_duty_ns,
-                                    u32 step_sz_ns, u32 step_period_cnt)
+hal_status_t hal_pwm_auto_duty_ns_dec (hal_pwm_adapter_t *ppwm_adp, uint32_t min_duty_ns,
+                                    uint32_t step_sz_ns, uint32_t step_period_cnt)
 {
     return  hal_pwm_stubs.hal_pwm_auto_duty_ns_dec (ppwm_adp, min_duty_ns, step_sz_ns, step_period_cnt);
 }

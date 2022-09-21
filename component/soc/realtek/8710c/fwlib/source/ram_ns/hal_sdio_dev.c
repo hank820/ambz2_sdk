@@ -885,7 +885,7 @@ __hal_sdio_dev_init_err:
         for (i = 0; i < SDIO_RX_PKT_NUM; i++) {
             prx_pkt = g_sdio_adp->prx_pkt_handler + i;
             if (prx_pkt->prx_desc != 0) {
-                rtw_mfree ((u8 *)prx_pkt->prx_desc, sizeof(sdiod_rx_desc_t));
+                rtw_mfree ((uint8_t *)prx_pkt->prx_desc, sizeof(sdiod_rx_desc_t));
                 prx_pkt->prx_desc = 0;
             }
         }
@@ -944,7 +944,7 @@ void hal_sdio_dev_deinit (void)
         for (i = 0; i < SDIO_RX_PKT_NUM; i++) {
             prx_pkt = g_sdio_adp->prx_pkt_handler + i;
             if (prx_pkt->prx_desc != 0) {
-                rtw_mfree ((u8 *)prx_pkt->prx_desc, sizeof(sdiod_rx_desc_t));
+                rtw_mfree ((uint8_t *)prx_pkt->prx_desc, sizeof(sdiod_rx_desc_t));
                 prx_pkt->prx_desc = 0;
             }
         }
@@ -1017,7 +1017,7 @@ void hal_sdio_dev_send_c2h_iomsg (uint32_t c2h_msg)
 
 #if CONFIG_INIC_EN
 #if defined(configUSE_WAKELOCK_PMU) && (configUSE_WAKELOCK_PMU == 1)
-u32 hal_sdio_dev_sleepcg_condition_match (void);
+uint32_t hal_sdio_dev_sleepcg_condition_match (void);
 
 /**
  *  @brief If the SDIO device works as an INIC device, this function is a
@@ -1029,7 +1029,7 @@ u32 hal_sdio_dev_sleepcg_condition_match (void);
  *                         the application).
  *  @return     always return 0.
  */
-u32 hal_sdio_dev_pre_sleep_callback (u32 expected_idle_time, void *param_ptr)
+uint32_t hal_sdio_dev_pre_sleep_callback (uint32_t expected_idle_time, void *param_ptr)
 {
     SDIO_DEV_Type *sdio_dev = SDIO_DEV;
 
@@ -1052,7 +1052,7 @@ u32 hal_sdio_dev_pre_sleep_callback (u32 expected_idle_time, void *param_ptr)
  *                         the application).
  *  @return     always return 0.
  */
-u32 hal_sdio_dev_post_sleep_callback (u32 expected_idle_time, void *param_ptr)
+uint32_t hal_sdio_dev_post_sleep_callback (uint32_t expected_idle_time, void *param_ptr)
 {
 	/* Indicate the Host system that the TX/RX is ready */
     SDIO_DEV->sys_ind_b.sys_cpu_rdy_ind = 1;
@@ -1066,7 +1066,7 @@ u32 hal_sdio_dev_post_sleep_callback (u32 expected_idle_time, void *param_ptr)
  *  @return     _TRUE  the SDIO device is ready to enter the sleep mode.
  *  @return     _FALSE  the SDIO device is unavailable to enter the sleep mode now.
  */
-u32 hal_sdio_dev_sleepcg_condition_match (void)
+uint32_t hal_sdio_dev_sleepcg_condition_match (void)
 {
     SDIO_DEV_Type *sdio_dev = SDIO_DEV;
 
@@ -1336,7 +1336,7 @@ int8_t hal_sdio_dev_msg_handler (hal_sdio_dev_adapter_t *psdio_adp, sdiod_msg_bl
             ret = hal_sdio_dev_rx_pkt_enqueue (g_sdio_adp, ppkt);
             if (HAL_OK != ret) {
                 // failed to send this packet to the host, drop it
-                rtw_mfree ((u8 *)pmblk->pmsg_buf, pmblk->para0 + pmblk->msg_len);
+                rtw_mfree ((uint8_t *)pmblk->pmsg_buf, pmblk->para0 + pmblk->msg_len);
             }
     		break;
 

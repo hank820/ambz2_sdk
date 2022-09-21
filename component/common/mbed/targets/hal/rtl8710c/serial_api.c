@@ -162,7 +162,7 @@ int serial_getc(serial_t *obj)
 void serial_putc(serial_t *obj, int c)
 {
     while (!serial_writable(obj));
-    hal_uart_putc (&obj->uart_adp, (u8)c);
+    hal_uart_putc (&obj->uart_adp, (uint8_t)c);
     if ((obj->irq_en & SERIAL_TX_IRQ_EN) != 0) {        
         obj->uart_adp.base_addr->ier_b.etbei = 1;
     }

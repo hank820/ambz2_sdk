@@ -37,23 +37,23 @@ extern "C"
 #endif
 
 typedef struct command_address_s {
-    u8 ca[6];
+    uint8_t ca[6];
 } command_address_t, *pcommand_address_t;
 
 typedef struct lpcram_timing_s {
-    u32 tpu_ns;
-    u32 tcem_ns;
-    u32 tcph_ns;
-    u32 speed_MHz;
+    uint32_t tpu_ns;
+    uint32_t tcem_ns;
+    uint32_t tcph_ns;
+    uint32_t speed_MHz;
 } lpcram_timing_t, *plpcram_timing_t;
 
 typedef struct lpcramc_latency_s {
-    u8 dfi_cs_wr_dly;
-    u8 dfi_cs_rd_dly;
-    u8 tphy_wrdata;
-    u8 fix_tphy_lat;
-    u8 tphy_rddata_en;
-    u8 dfi_path_dly;                                                              
+    uint8_t dfi_cs_wr_dly;
+    uint8_t dfi_cs_rd_dly;
+    uint8_t tphy_wrdata;
+    uint8_t fix_tphy_lat;
+    uint8_t tphy_rddata_en;
+    uint8_t dfi_path_dly;                                                              
 } lpcramc_latency_t, *plpcramc_latency_t;
 
 enum lpcram_burst_length_e {
@@ -146,20 +146,20 @@ enum lpcram_dpdri_e {
 typedef uint8_t lpcram_dpdr_index_t;
 
 void hal_lpcram_resume_memory_access(VOID);
-void hal_lpcram_reg_write(pcommand_address_t ca_bytes, u16 data);
-u16 hal_lpcram_reg_read(pcommand_address_t ca_bytes);
-void hal_lpcram_deep_power_down_ctrl(u8 en);
-void hal_lpcram_hybrid_sleep_ctrl(u8 en);
+void hal_lpcram_reg_write(pcommand_address_t ca_bytes, uint16_t data);
+uint16_t hal_lpcram_reg_read(pcommand_address_t ca_bytes);
+void hal_lpcram_deep_power_down_ctrl(uint8_t en);
+void hal_lpcram_hybrid_sleep_ctrl(uint8_t en);
 void hal_lpcram_write_cr0(lpcram_mr0_t cr0);
 void hal_lpcram_write_cr1(lpcram_mr1_t cr1);
-u16 hal_lpcram_read_cr0(VOID);
-u16 hal_lpcram_read_cr1(VOID);
-void hal_lpcram_set_cr0(u8 burst_len, u8 burst_type, u8 fix_laten_en, u8 ini_laten, u8 drive_stren);
-void hal_lpcram_set_cr1(u8 pasr, u8 refresh_rate);
-void hal_lpcram_set_latency(u8 latency);
+uint16_t hal_lpcram_read_cr0(VOID);
+uint16_t hal_lpcram_read_cr1(VOID);
+void hal_lpcram_set_cr0(uint8_t burst_len, uint8_t burst_type, uint8_t fix_laten_en, uint8_t ini_laten, uint8_t drive_stren);
+void hal_lpcram_set_cr1(uint8_t pasr, uint8_t refresh_rate);
+void hal_lpcram_set_latency(uint8_t latency);
 void hal_lpcram_set_iocr0(plpcramc_latency_t latency_info);
 void hal_lpcram_set_drr(plpcram_timing_t timing_info);
-void hal_lpcram_pin_ctl(u8 en);
+void hal_lpcram_pin_ctl(uint8_t en);
 void hal_lpcram_init(VOID);
 void hal_lpcram_deinit(VOID);
 hal_status_t hal_lpcram_is_valid (void);

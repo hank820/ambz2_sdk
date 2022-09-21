@@ -64,7 +64,7 @@ int efuse_mtp_write(uint8_t *data, uint8_t len);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_otp_read(u8 address, u8 len, u8 *buf);
+int efuse_otp_read(uint8_t address, uint8_t len, uint8_t *buf);
 
 /**
   * @brief  Write user's contant to OTP efuse
@@ -74,7 +74,7 @@ int efuse_otp_read(u8 address, u8 len, u8 *buf);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_otp_write(u8 address, u8 len, u8 *buf);
+int efuse_otp_write(uint8_t address, uint8_t len, uint8_t *buf);
 
 /**
   * @brief  ckeck user's contant to OTP efuse
@@ -83,7 +83,7 @@ int efuse_otp_write(u8 address, u8 len, u8 *buf);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_otp_chk(u8 len, u8 *buf);
+int efuse_otp_chk(uint8_t len, uint8_t *buf);
 
 /**
   * @brief  Disable jtag
@@ -105,7 +105,7 @@ int efuse_disable_jtag(void);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_key1_write(u8 address, u8 len, u8 *buf);
+int efuse_key1_write(uint8_t address, uint8_t len, uint8_t *buf);
 
 /**
   * @brief  Write key2 to efuse
@@ -115,7 +115,7 @@ int efuse_key1_write(u8 address, u8 len, u8 *buf);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_key2_write(u8 address, u8 len, u8 *buf);
+int efuse_key2_write(uint8_t address, uint8_t len, uint8_t *buf);
 ///@}
 #endif //CONFIG_PLATFORM_8195A
 
@@ -134,7 +134,7 @@ void efuse_rdp_enable(void);
   * @param  rdp_key: 16B EFUSE KEY
   * @note  can not change or read back after write.
   */
-void efuse_rdp_keyset(u8 *rdp_key);
+void efuse_rdp_keyset(uint8_t *rdp_key);
 
 /**
   * @brief  Set 16B OTF key into EFUSE.
@@ -142,7 +142,7 @@ void efuse_rdp_keyset(u8 *rdp_key);
   * @note  can not change or read back after write.
   */
 
-void efuse_otf_keyset(u8 *otf_key);
+void efuse_otf_keyset(uint8_t *otf_key);
 ///@}
 #endif //CONFIG_PLATFORM_8711B
 
@@ -178,7 +178,7 @@ int efuse_disable_nonsec_jtag(void);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_sec_key_write(u8 *buf);
+int efuse_sec_key_write(uint8_t *buf);
 
 /**
   * @brief  Write super secure key to efuse
@@ -186,7 +186,7 @@ int efuse_sec_key_write(u8 *buf);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_susec_key_write(u8 *buf);
+int efuse_susec_key_write(uint8_t *buf);
 ///@}
 #endif  // end of "#if defined(CONFIG_PLATFORM_8195BHP)"
 
@@ -212,7 +212,7 @@ int efuse_disable_nonsec_jtag(void);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_sec_key_write(u8 *buf, u8 key_num);
+int efuse_sec_key_write(uint8_t *buf, uint8_t key_num);
 
 /**
   * @brief  Write super secure key to efuse
@@ -220,7 +220,7 @@ int efuse_sec_key_write(u8 *buf, u8 key_num);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_susec_key_write(u8 *buf);
+int efuse_susec_key_write(uint8_t *buf);
 
 /**
   * @brief  Write secure j-tag key to efuse
@@ -228,7 +228,7 @@ int efuse_susec_key_write(u8 *buf);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_s_jtag_key_write(u8 *buf);
+int efuse_s_jtag_key_write(uint8_t *buf);
 
 /**
   * @brief  Write non-secure j-tag key to efuse
@@ -236,7 +236,7 @@ int efuse_s_jtag_key_write(u8 *buf);
   * @retval 0: Success
   * @retval -1: Failure
   */
-int efuse_ns_jtag_key_write(u8 *buf);
+int efuse_ns_jtag_key_write(uint8_t *buf);
 
 /**
   * @brief  lock super secure key

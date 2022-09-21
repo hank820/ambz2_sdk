@@ -229,7 +229,7 @@ extern write_reconnect_ptr p_write_reconnect_ptr;
 extern struct wlan_fast_reconnect wifi_data_to_flash;
 extern uint32_t offer_ip;
 extern uint32_t server_ip;
-extern u8 is_the_same_ap;
+extern uint8_t is_the_same_ap;
 
 #endif
 
@@ -310,7 +310,7 @@ uint8_t LwIP_DHCP(uint8_t idx, uint8_t dhcp_state)
 						}
 						memset(dhcp, 0, sizeof(struct dhcp));
 						dhcp->offered_ip_addr.addr = (u32_t)offer_ip;
-						dhcp->server_ip_addr.addr = (u32_t)server_ip;
+                        ip_addr_set_ip4_u32(&dhcp->server_ip_addr, (u32_t)server_ip);
 #if LWIP_VERSION_MAJOR >= 2
 						netif_set_client_data(pnetif, LWIP_NETIF_CLIENT_DATA_INDEX_DHCP, dhcp);
 #else
@@ -394,7 +394,7 @@ uint8_t LwIP_DHCP(uint8_t idx, uint8_t dhcp_state)
 #else
 				dhcp = pnetif->dhcp;
 #endif
-				restore_wifi_info_to_flash((uint32_t)dhcp->offered_ip_addr.addr, (uint32_t)dhcp->server_ip_addr.addr);
+                restore_wifi_info_to_flash((uint32_t)dhcp->offered_ip_addr.addr, (uint32_t)(ip_2_ip4(&dhcp->server_ip_addr)));
 #endif
 
 #if CONFIG_WLAN
@@ -432,7 +432,7 @@ uint8_t LwIP_DHCP(uint8_t idx, uint8_t dhcp_state)
 					printf("\n\rStatic IP address : %d.%d.%d.%d", iptab[3], iptab[2], iptab[1], iptab[0]);
 
 #if defined(CONFIG_FAST_DHCP) && CONFIG_FAST_DHCP
-					restore_wifi_info_to_flash((uint32_t)dhcp->offered_ip_addr.addr, (uint32_t)dhcp->server_ip_addr.addr);
+                    restore_wifi_info_to_flash((uint32_t)dhcp->offered_ip_addr.addr, (uint32_t)(ip_2_ip4(&dhcp->server_ip_addr)));
 #endif
 
 #if CONFIG_WLAN

@@ -77,6 +77,7 @@ typedef unsigned long long      __uint64_t;
 #endif
 #endif
 
+// Removed definitions to integrate with Matter
 #define s8                      int8_t
 #define u8                      uint8_t
 #define s16                     int16_t
@@ -95,9 +96,9 @@ typedef unsigned int            BOOL;
 #ifndef BOOL
 typedef unsigned char           BOOL;
 #endif
-#ifndef bool
-typedef unsigned char           bool;
-#endif
+//#ifndef bool
+//typedef unsigned char           bool;
+//#endif
 #endif
 
 #define UCHAR                   uint8_t
@@ -112,7 +113,8 @@ typedef enum _RTK_STATUS_ {
     _EXIT_FAILURE = 1
 }RTK_STATUS, *PRTK_STATUS;
 
-#define IN
+// Removed definitions to integrate with Matter
+//#define IN
 #define OUT
 #define VOID void
 #define INOUT
@@ -127,7 +129,7 @@ typedef enum _RTK_STATUS_ {
 typedef void *PVOID;
 #endif
 
-typedef     u32 dma_addr_t;
+typedef     uint32_t dma_addr_t;
 
 typedef     void (*proc_t)(void *);
 
@@ -241,7 +243,7 @@ typedef int             ssize_t;
 #if defined (__ARM_FEATURE_CMSE)
 #if defined( __ICCARM__ )
 #define NS_ENTRY    __attribute__((cmse_nonsecure_entry))
-typedef __cmse_nonsecure_call void nsfunc(void); 
+typedef __cmse_nonsecure_call void nsfunc(void);
 #else
 #define NS_ENTRY    __attribute__((cmse_nonsecure_entry))
 typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
@@ -251,22 +253,22 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 //port from fw by thomas
 // TODO: Belows are Sync from SD7-Driver. It is necessary to check correctness
 
-#define SWAP32(x) ((u32)(                         \
- 			(((u32)(x) & (u32)0x000000ff) << 24) |            \
- 			(((u32)(x) & (u32)0x0000ff00) <<  8) |            \
- 			(((u32)(x) & (u32)0x00ff0000) >>  8) |            \
- 			(((u32)(x) & (u32)0xff000000) >> 24)))
+#define SWAP32(x) ((uint32_t)(                         \
+ 			(((uint32_t)(x) & (uint32_t)0x000000ff) << 24) |            \
+ 			(((uint32_t)(x) & (uint32_t)0x0000ff00) <<  8) |            \
+ 			(((uint32_t)(x) & (uint32_t)0x00ff0000) >>  8) |            \
+ 			(((uint32_t)(x) & (uint32_t)0xff000000) >> 24)))
 
-#define WAP16(x) ((u16)(                         \
- 			(((u16)(x) & (u16)0x00ff) <<  8) |            \
- 			(((u16)(x) & (u16)0xff00) >>  8)))
+#define WAP16(x) ((uint16_t)(                         \
+ 			(((uint16_t)(x) & (uint16_t)0x00ff) <<  8) |            \
+ 			(((uint16_t)(x) & (uint16_t)0xff00) >>  8)))
 
 #if SYSTEM_ENDIAN == PLATFORM_LITTLE_ENDIAN
 #ifndef rtk_le16_to_cpu
-#define rtk_cpu_to_le32(x)		((u32)(x))
-#define rtk_le32_to_cpu(x)		((u32)(x))
-#define rtk_cpu_to_le16(x)		((u16)(x))
-#define rtk_le16_to_cpu(x)		((u16)(x))
+#define rtk_cpu_to_le32(x)		((uint32_t)(x))
+#define rtk_le32_to_cpu(x)		((uint32_t)(x))
+#define rtk_cpu_to_le16(x)		((uint16_t)(x))
+#define rtk_le16_to_cpu(x)		((uint16_t)(x))
 #define rtk_cpu_to_be32(x)		SWAP32((x))
 #define rtk_be32_to_cpu(x)		SWAP32((x))
 #define rtk_cpu_to_be16(x)		WAP16((x))
@@ -297,23 +299,23 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 //
 // Byte Swapping routine.
 //
-#define EF1Byte	(u8)
+#define EF1Byte	(uint8_t)
 #define EF2Byte 	le16_to_cpu
 #define EF4Byte	le32_to_cpu
 
 //
 // Read LE format data from memory
 //
-#define ReadEF1Byte(_ptr)		EF1Byte(*((u8 *)(_ptr)))
-#define ReadEF2Byte(_ptr)		EF2Byte(*((u16 *)(_ptr)))
-#define ReadEF4Byte(_ptr)		EF4Byte(*((u32 *)(_ptr)))
+#define ReadEF1Byte(_ptr)		EF1Byte(*((uint8_t *)(_ptr)))
+#define ReadEF2Byte(_ptr)		EF2Byte(*((uint16_t *)(_ptr)))
+#define ReadEF4Byte(_ptr)		EF4Byte(*((uint32_t *)(_ptr)))
 
 //
 // Write LE data to memory
 //
-#define WriteEF1Byte(_ptr, _val)	(*((u8 *)(_ptr)))=EF1Byte(_val)
-#define WriteEF2Byte(_ptr, _val)	(*((u16 *)(_ptr)))=EF2Byte(_val)
-#define WriteEF4Byte(_ptr, _val)	(*((u32 *)(_ptr)))=EF4Byte(_val)
+#define WriteEF1Byte(_ptr, _val)	(*((uint8_t *)(_ptr)))=EF1Byte(_val)
+#define WriteEF2Byte(_ptr, _val)	(*((uint16_t *)(_ptr)))=EF2Byte(_val)
+#define WriteEF4Byte(_ptr, _val)	(*((uint32_t *)(_ptr)))=EF4Byte(_val)
 
 //
 //	Example:
@@ -338,7 +340,7 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 //		4-byte pointer in litten-endian system.
 //
 #define LE_P4BYTE_TO_HOST_4BYTE(__pStart) \
-	(EF4Byte(*((u32 *)(__pStart))))
+	(EF4Byte(*((uint32_t *)(__pStart))))
 
 //
 //	Description:
@@ -370,11 +372,11 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 //
 #define SET_BITS_TO_LE_4BYTE(__pStart, __BitOffset, __BitLen, __Value) \
     do { \
-    	*((u32 *)(__pStart)) = \
+    	*((uint32_t *)(__pStart)) = \
     		EF4Byte( \
     			LE_BITS_CLEARED_TO_4BYTE(__pStart, __BitOffset, __BitLen) \
     			| \
-    			( (((u32)__Value) & BIT_LEN_MASK_32(__BitLen)) << (__BitOffset) ) \
+    			( (((uint32_t)__Value) & BIT_LEN_MASK_32(__BitLen)) << (__BitOffset) ) \
     		); \
     } while(0)
 
@@ -386,7 +388,7 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 	(BIT_LEN_MASK_16(__BitLen) << (__BitOffset))
 
 #define LE_P2BYTE_TO_HOST_2BYTE(__pStart) \
-	(EF2Byte(*((u16 *)(__pStart))))
+	(EF2Byte(*((uint16_t *)(__pStart))))
 
 #define LE_BITS_TO_2BYTE(__pStart, __BitOffset, __BitLen) \
 	( \
@@ -404,11 +406,11 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 
 #define SET_BITS_TO_LE_2BYTE(__pStart, __BitOffset, __BitLen, __Value) \
     do { \
-    	*((u16 *)(__pStart)) = \
+    	*((uint16_t *)(__pStart)) = \
     		EF2Byte( \
     			LE_BITS_CLEARED_TO_2BYTE(__pStart, __BitOffset, __BitLen) \
     			| \
-    			( (((u16)__Value) & BIT_LEN_MASK_16(__BitLen)) << (__BitOffset) ) \
+    			( (((uint16_t)__Value) & BIT_LEN_MASK_16(__BitLen)) << (__BitOffset) ) \
     		); \
     } while (0)
 
@@ -419,7 +421,7 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 	(BIT_LEN_MASK_8(__BitLen) << (__BitOffset))
 
 #define LE_P1BYTE_TO_HOST_1BYTE(__pStart) \
-	(EF1Byte(*((u8 *)(__pStart))))
+	(EF1Byte(*((uint8_t *)(__pStart))))
 
 #define LE_BITS_TO_1BYTE(__pStart, __BitOffset, __BitLen) \
 	( \
@@ -437,11 +439,11 @@ typedef void __attribute__((cmse_nonsecure_call)) nsfunc(void);
 
 #define SET_BITS_TO_LE_1BYTE(__pStart, __BitOffset, __BitLen, __Value) \
     do { \
-    	*((u8 *)(__pStart)) = \
+    	*((uint8_t *)(__pStart)) = \
     		EF1Byte( \
     			LE_BITS_CLEARED_TO_1BYTE(__pStart, __BitOffset, __BitLen) \
     			| \
-    			( (((u8)__Value) & BIT_LEN_MASK_8(__BitLen)) << (__BitOffset) ) \
+    			( (((uint8_t)__Value) & BIT_LEN_MASK_8(__BitLen)) << (__BitOffset) ) \
     		); \
     } while (0)
 
@@ -536,5 +538,26 @@ typedef unsigned char	BOOLEAN,*PBOOLEAN;
 #define __extension__		/* Ignore */
 #define	__restrict			/* Ignore */
 #endif
+
+#if defined(CHIP_PROJECT) && CHIP_PROJECT
+#include <assert.h>
+
+extern size_t strnlen(const char *s, size_t count);
+extern void *pvPortMalloc( size_t xWantedSize );
+
+//def
+#ifndef false
+    #define false   0
+#endif
+
+#ifndef true
+    #define true    1
+#endif
+
+#ifndef in_addr_t
+    typedef __uint32_t in_addr_t;
+#endif
+
+#endif // defined(CHIP_PROJECT) && CHIP_PROJECT
 
 #endif// __BASIC_TYPES_H__

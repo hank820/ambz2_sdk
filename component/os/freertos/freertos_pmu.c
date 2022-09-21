@@ -11,7 +11,7 @@ uint32_t pmu_set_sysactive_time(uint32_t timeout_ms)
 #endif
 }
 
-void pmu_register_sleep_callback(u32 nDeviceId, PSM_HOOK_FUN sleep_hook_fun, void* sleep_param_ptr, PSM_HOOK_FUN wakeup_hook_fun, void* wakeup_param_ptr)
+void pmu_register_sleep_callback(uint32_t nDeviceId, PSM_HOOK_FUN sleep_hook_fun, void* sleep_param_ptr, PSM_HOOK_FUN wakeup_hook_fun, void* wakeup_param_ptr)
 {
 #if defined(configUSE_TICKLESS_IDLE) && (configUSE_TICKLESS_IDLE > 0)
 	_pmu_register_sleep_callback(nDeviceId, sleep_hook_fun, sleep_param_ptr, wakeup_hook_fun, wakeup_param_ptr);
@@ -20,7 +20,7 @@ void pmu_register_sleep_callback(u32 nDeviceId, PSM_HOOK_FUN sleep_hook_fun, voi
 #endif
 }
 
-void pmu_unregister_sleep_callback(u32 nDeviceId)
+void pmu_unregister_sleep_callback(uint32_t nDeviceId)
 {
 #if defined(configUSE_TICKLESS_IDLE) && (configUSE_TICKLESS_IDLE > 0)
 	_pmu_unregister_sleep_callback(nDeviceId);

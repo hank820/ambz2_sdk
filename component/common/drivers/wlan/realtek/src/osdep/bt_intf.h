@@ -35,10 +35,10 @@ void rtlk_bt_set_gnt_bt_with_clk_source(pta_type_t gnt_bt);
 const unsigned char *rltk_bt_get_patch_code(void);
 unsigned int rltk_bt_get_patch_code_len(void);
 void rtlk_bt_set_rf_power(int power_on);
-void rtlk_bt_adv_event_update(u8 adv_event);
+void rtlk_bt_adv_event_update(uint8_t adv_event);
 void rtlk_bt_pta_init(void);
-void rltk_coex_bt_enable(u8 enable);
-int rltk_coex_mailbox_to_wifi(u8 *data, u8 len);
+void rltk_coex_bt_enable(uint8_t enable);
+int rltk_coex_mailbox_to_wifi(uint8_t *data, uint8_t len);
 
 #ifdef	__cplusplus
 }

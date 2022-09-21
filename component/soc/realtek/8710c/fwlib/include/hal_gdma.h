@@ -49,7 +49,7 @@ extern const hal_gdma_func_stubs_t __rom_stubs_hal_gdma_ns;
 
 #if defined (CONFIG_BUILD_NONSECURE)
 
-hal_status_t hal_gdma_chnl_register_ns(u8 gdma_index, u8 chnl_num);
+hal_status_t hal_gdma_chnl_register_ns(uint8_t gdma_index, uint8_t chnl_num);
 hal_status_t hal_gdma_chnl_unregister_ns(phal_gdma_adaptor_t phal_gdma_adaptor);
 
 #define hal_gdma_chnl_register hal_gdma_chnl_register_ns
@@ -218,9 +218,9 @@ __STATIC_INLINE hal_status_t hal_gdma_chnl_setting(phal_gdma_adaptor_t phal_gdma
  *
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
  *
- *   \return u32: current destination address .
+ *   \return uint32_t: current destination address .
  */
-__STATIC_INLINE u32 hal_gdma_query_dar(phal_gdma_adaptor_t phal_gdma_adaptor)
+__STATIC_INLINE uint32_t hal_gdma_query_dar(phal_gdma_adaptor_t phal_gdma_adaptor)
 {
     return hal_gdma_stubs.hal_gdma_query_dar(phal_gdma_adaptor);
 }
@@ -233,9 +233,9 @@ __STATIC_INLINE u32 hal_gdma_query_dar(phal_gdma_adaptor_t phal_gdma_adaptor)
  *
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
  *
- *   \return u32: current source address .
+ *   \return uint32_t: current source address .
  */
-__STATIC_INLINE u32 hal_gdma_query_sar(phal_gdma_adaptor_t phal_gdma_adaptor)
+__STATIC_INLINE uint32_t hal_gdma_query_sar(phal_gdma_adaptor_t phal_gdma_adaptor)
 {
     return hal_gdma_stubs.hal_gdma_query_sar(phal_gdma_adaptor);
 }
@@ -259,9 +259,9 @@ __STATIC_INLINE BOOL hal_gdma_query_chnl_en (phal_gdma_adaptor_t phal_gdma_adapt
  *
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
  *
- *   \return u32: Number of bytes already received by the destination.
+ *   \return uint32_t: Number of bytes already received by the destination.
  */
-__STATIC_INLINE u32 hal_gdma_query_transfer_bytes(phal_gdma_adaptor_t phal_gdma_adaptor)
+__STATIC_INLINE uint32_t hal_gdma_query_transfer_bytes(phal_gdma_adaptor_t phal_gdma_adaptor)
 {
     return hal_gdma_stubs.hal_gdma_query_transfer_bytes(phal_gdma_adaptor);
 }
@@ -274,12 +274,12 @@ __STATIC_INLINE u32 hal_gdma_query_transfer_bytes(phal_gdma_adaptor_t phal_gdma_
  *    If no one occupies this channel, the target channel is registered so that others cannot use this one.
  *    The GDMA clock is enabled and the reset is released if target GDMA has not been used before(GDMA is off).
  *
- *   \param u8 gdma_index:      The target GDMA, could be GDMA0 or GDMA1.
- *   \param u8 chnl_num:      The target GDMA channel, could be 0~5.
+ *   \param uint8_t gdma_index:      The target GDMA, could be GDMA0 or GDMA1.
+ *   \param uint8_t chnl_num:      The target GDMA channel, could be 0~5.
  *
  *   \return hal_status.
  */
-__STATIC_INLINE hal_status_t hal_gdma_chnl_register(u8 gdma_index, u8 chnl_num)
+__STATIC_INLINE hal_status_t hal_gdma_chnl_register(uint8_t gdma_index, uint8_t chnl_num)
 {
     return hal_gdma_stubs.hal_gdma_chnl_register(gdma_index, chnl_num);
 }
@@ -369,11 +369,11 @@ __STATIC_INLINE void hal_gdma0_irq_handler(void)
  *    hal_gdma_irq_set_priority is used to set irq priority of the target GDMA.
  *
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
- *   \param u32 irq_priority:      The priority.
+ *   \param uint32_t irq_priority:      The priority.
  *
  *   \return void.
  */
-__STATIC_INLINE void hal_gdma_irq_set_priority(phal_gdma_adaptor_t phal_gdma_adaptor, u32 irq_priority)
+__STATIC_INLINE void hal_gdma_irq_set_priority(phal_gdma_adaptor_t phal_gdma_adaptor, uint32_t irq_priority)
 {
     hal_gdma_stubs.hal_gdma_irq_set_priority(phal_gdma_adaptor, irq_priority);
 }
@@ -404,7 +404,7 @@ __STATIC_INLINE void hal_gdma_irq_reg(phal_gdma_adaptor_t phal_gdma_adaptor,
  *    Turn on GDMA IP-> Enable ISR(Unmask)->Set GDMA registers->Enable channel to start a transfer
  *
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
- *   \param u8 multi_blk_en:      Determine if multi-block mode is used.
+ *   \param uint8_t multi_blk_en:      Determine if multi-block mode is used.
  *
  *   \return void.
  */
@@ -441,14 +441,14 @@ __STATIC_INLINE void hal_gdma_group_init(phal_gdma_group_t pgdma_group)
  *   \param phal_gdma_adaptor_t phal_gdma_adaptor:      The pointer of GDMA adaptor.
  *   \param void *pdest     :      The destination address.
  *   \param void *psrc      :      The source address.
- *   \param u32 len         :      The transfer length, the unit is byte.
+ *   \param uint32_t len         :      The transfer length, the unit is byte.
  *
  *   \return hal_status_t.
  */
 __STATIC_INLINE hal_status_t hal_gdma_memcpy_config(phal_gdma_adaptor_t phal_gdma_adaptor,
                                                               void *pdest,
                                                               void *psrc,
-                                                              u32 len)
+                                                              uint32_t len)
 {
     return hal_gdma_stubs.hal_gdma_memcpy_config(phal_gdma_adaptor, pdest, psrc, len);
 }
@@ -482,7 +482,7 @@ __STATIC_INLINE void hal_gdma_chnl_reset(phal_gdma_adaptor_t phal_gdma_adaptor)
 
 BOOL hal_gdma_memcpy_init(phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_memcpy_deinit(phal_gdma_adaptor_t phal_gdma_adaptor);
-hal_status_t hal_gdma_memcpy(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, u32 len);
+hal_status_t hal_gdma_memcpy(phal_gdma_adaptor_t phal_gdma_adaptor, void *pdest, void *psrc, uint32_t len);
 hal_status_t hal_gdma_chnl_alloc (phal_gdma_adaptor_t phal_gdma_adaptor);
 void hal_gdma_chnl_free (phal_gdma_adaptor_t phal_gdma_adaptor);
 

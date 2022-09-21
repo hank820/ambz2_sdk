@@ -34,13 +34,13 @@
 #include "diag.h"
 
 /* for GNU C++ */
-#if defined(__GNUC__)
-void* __dso_handle = 0;
-#endif
+//#if defined(__GNUC__)
+//void* __dso_handle = 0;
+//#endif
 
 #if !defined(PLATFORM_OHOS) && defined(CONFIG_CMSIS_FREERTOS_EN) && (CONFIG_CMSIS_FREERTOS_EN != 0)
 /**************************************************
- * FreeRTOS memory management functions's wrapper to replace 
+ * FreeRTOS memory management functions's wrapper to replace
  * malloc/free/realloc of GCC Lib.
  **************************************************/
 //#include "FreeRTOS.h"
@@ -96,7 +96,7 @@ void __wrap__free_r( void *reent, void *p )
  *
  **************************************************/
 int check_format(const char * fmt,...){
-  
+
     const char* fmt1;
     fmt1 = fmt;
 
@@ -107,18 +107,18 @@ int check_format(const char * fmt,...){
             } while(*fmt1 != '"');
             fmt1 ++;
         }
-        
+
         if(*fmt1 != '%')
             continue;
         else
             fmt1 ++;
-        
+
         while(isdigit(*fmt1)){
             fmt1 ++;
         }
-        
+
         switch (*fmt1) {
-                  case '0':      
+                  case '0':
                   case '1':
                   case '2':
                   case '3':
@@ -130,15 +130,15 @@ int check_format(const char * fmt,...){
                   case '9':
                   case '.':
                   case '%':
-                  case 'c':                
+                  case 'c':
                   case 's':
                   case '-':
                   case '+':
-                  case ' ':  
+                  case ' ':
                   case '#':
                   case 'l':
                   case 'h':
-                  case 'z':  
+                  case 'z':
                   case 'j':
                   case 't':
                   case 'i':
@@ -152,11 +152,11 @@ int check_format(const char * fmt,...){
                   case 'F':
                   case 'f':
                   case 'A':
-                  case 'a': 
+                  case 'a':
                       continue;
                   default:
                       goto exit;
-                
+
         }
     }
         return 1;
@@ -178,11 +178,11 @@ int __wrap_printf(const char * fmt,...)
         va_list list;
         va_start(list, fmt);
 #if defined(CONFIG_BUILD_SECURE)
-        count = stdio_printf_stubs.printf_corel(stdio_printf_stubs.stdio_port_sputc, (void*)NULL, fmt, list);
+	count = stdio_printf_stubs.printf_corel(stdio_printf_stubs.stdio_port_sputc, (void*)NULL, fmt, list);
 #else
-        count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_sputc, (void*)NULL, fmt, list);
+	count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_sputc, (void*)NULL, fmt, list);
 #endif
-        va_end(list);
+	va_end(list);
     } else {
         dbg_printf("\n%s",fmt1);
         dbg_printf("format not support!\n");
@@ -193,35 +193,6 @@ int __wrap_printf(const char * fmt,...)
 int __wrap_puts(const char *str)
 {
 	return __wrap_printf("%s\n", str);
-}
-
-int __wrap_putc(char character, void* file)
-{
-	/* must handle file argument */
-	stdio_printf_stubs.stdio_port_putc(character);
-	return 0;
-}
-
-int __wrap_putchar(char character)
-{
-	stdio_printf_stubs.stdio_port_putc(character);
-	return 0;
-}
-
-#if defined(__ICCARM__)
-int __write (int fd, char *buf, int count) {
-#else
-int _write (int fd, char *buf, int count) {
-#endif
-	int written = 0;
-
-	for (; count != 0; --count) {
-		if (__wrap_putchar((uint8_t)*buf++)) {
-			return -1;
-		}
-		++written;
-	}
-	return written;
 }
 
 int __wrap_vprintf(const char *fmt, va_list args)
@@ -261,7 +232,7 @@ int __wrap_sprintf(char *buf, const char * fmt,...)
 #if defined(CONFIG_BUILD_SECURE)
         count = stdio_printf_stubs.printf_corel(stdio_printf_stubs.stdio_port_bufputc, (void *)&pnt_buf, fmt, list);
 #else
-        count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_bufputc, (void *)&pnt_buf, fmt, list);
+	count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_bufputc, (void *)&pnt_buf, fmt, list);
 #endif
         *(pnt_buf.pbuf) = 0;
         va_end(list);
@@ -271,7 +242,6 @@ int __wrap_sprintf(char *buf, const char * fmt,...)
         dbg_printf("format not support!\n");
     }
     return count;
-
 }
 
 int __wrap_snprintf(char *buf, size_t size, const char *fmt,...)
@@ -292,11 +262,11 @@ int __wrap_snprintf(char *buf, size_t size, const char *fmt,...)
 #if defined(CONFIG_BUILD_SECURE)
         count = stdio_printf_stubs.printf_corel(stdio_printf_stubs.stdio_port_bufputc,(void *)&pnt_buf, fmt, list);
 #else
-        count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_bufputc,(void *)&pnt_buf, fmt, list);
+	count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_bufputc,(void *)&pnt_buf, fmt, list);
 #endif
         *(pnt_buf.pbuf) = 0;
         va_end(list);
-        (void)list;
+	(void)list;
     } else {
         dbg_printf("\n%s",fmt1);
         dbg_printf("format not support!\n");
@@ -320,7 +290,7 @@ int __wrap_vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 #if defined(CONFIG_BUILD_SECURE)
         count = stdio_printf_stubs.printf_corel(stdio_printf_stubs.stdio_port_bufputc,(void *)&pnt_buf, fmt, args);
 #else
-        count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_bufputc,(void *)&pnt_buf, fmt, args);
+	count = stdio_printf_stubs.printf_core(stdio_printf_stubs.stdio_port_bufputc,(void *)&pnt_buf, fmt, args);
 #endif
         *(pnt_buf.pbuf) = 0;
     } else {
@@ -329,7 +299,6 @@ int __wrap_vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
     }
 
     return count;
-
 }
 
 
@@ -338,7 +307,7 @@ int __wrap_vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 
 #if defined(MEM_WR_CHECK)
 #if defined(__ICCARM__)
-#pragma section = "SRAM_OBJECT" 
+#pragma section = "SRAM_OBJECT"
 
 void const * robase = __section_begin("SRAM_OBJECT");
 void const * rolimit = __section_end("SRAM_OBJECT");
@@ -348,7 +317,7 @@ void const * rolimit = __section_end("SRAM_OBJECT");
 int check_address(uint32_t addr){
 	uint32_t valid_addr[2][2] = {{0x10000000, 0x1003FA00}, {0x60000000, 0x603F0000}};
 	uint32_t except_addr[1][2] = {{(uint32_t)robase, (uint32_t)rolimit}};
-	
+
 	int valid = 0;
 	for(int i=0;i<2;i++){
 		if((addr >= valid_addr[i][0])&&(addr < valid_addr[i][1])){
@@ -356,14 +325,14 @@ int check_address(uint32_t addr){
 			break;
 		}
 	}
-	
+
 	if(valid==1){
 		for(int i=0;i<1;i++){
 			if((addr >= except_addr[i][0])&&(addr < except_addr[i][1])){
 				valid = 0;
 				break;
 			}
-		}		
+		}
 	}
 	return valid;
 }
@@ -544,7 +513,7 @@ int __wrap_atoi(const char *num)
 #else
 	int c;
 	long total;
-	int sign; 
+	int sign;
 	char *nptr = (char *)num;
 
 	/* skip whitespace */
@@ -566,7 +535,7 @@ int __wrap_atoi(const char *num)
 		return -total;
 	else
 		return total;
-#endif	
+#endif
 }
 
 unsigned int __wrap_atoui(const char *num)
@@ -608,7 +577,7 @@ void __wrap_abort(void)
 static int gnu_errno;
 volatile int * __aeabi_errno_addr (void)
 {
-    return &gnu_errno;
+  return &gnu_errno;
 }
 #endif
 
@@ -673,7 +642,7 @@ static const int _DAYS_BEFORE_MONTH[12] =
 #include "time64.h"
 #include <platform_stdlib.h>
 
-#if defined (__ICCARM__)
+#if defined (__ICCARM__) || (__GNUC__ > 9)
 extern long long  _Tzoff();
 
 typedef struct __tzrule_struct
@@ -697,8 +666,8 @@ typedef struct __tzinfo_struct
 /* Shared timezone information for libc/time functions.  */
 static __tzinfo_type tzinfo = {1, 0,
 { {'J', 0, 0, 0, 0, (time_t)0, 0L },
-  {'J', 0, 0, 0, 0, (time_t)0, 0L } 
-  } 
+  {'J', 0, 0, 0, 0, (time_t)0, 0L }
+  }
 };
 
 __tzinfo_type *
@@ -777,7 +746,7 @@ struct tm * __wrap_localtime (const time_t * tim_p)
 
 #elif defined (__ICCARM__) //because IAR does not have _reent structure
   __ATTRIBUTES struct tm * __iar_Ttotm64(struct tm *, __time64_t, int);
-  struct tm* tm = __iar_Ttotm64(0, *tim_p + (__time64_t) _Tzoff(), -1);  
+  struct tm* tm = __iar_Ttotm64(0, *tim_p + (__time64_t) _Tzoff(), -1);
   return gmtime64_r (tim_p, tm);
 #endif
 }
@@ -981,4 +950,4 @@ void __wrap_free( void *p )
       }
     }
 }
-#endif  
+#endif

@@ -34,18 +34,18 @@ void flash_resource_unlock( void )
 
 #define FLASH_RESERVED_DATA_BASE 0x00003000
 
-void flash_erase_dword(u32 address, u32 dword_num)
+void flash_erase_dword(uint32_t address, uint32_t dword_num)
 {
-	u32 data[2];
-	u32 idx = 0;
-	u32 opt_sector = address & ~(0xFFF);
-	u32 erase_addr = address;
-	u32 erase_num = dword_num;
-	u32 read_addr;
+	uint32_t data[2];
+	uint32_t idx = 0;
+	uint32_t opt_sector = address & ~(0xFFF);
+	uint32_t erase_addr = address;
+	uint32_t erase_num = dword_num;
+	uint32_t read_addr;
 	flash_t flash;
 
-	u32 data_4=0;
-	u8 data_8[8];
+	uint32_t data_4=0;
+	uint8_t data_8[8];
 	/* erase backup sector 4k bytes*/ 
 	flash_erase_sector(&flash, FLASH_RESERVED_DATA_BASE);
 
@@ -61,7 +61,7 @@ void flash_erase_dword(u32 address, u32 dword_num)
 				erase_num--;
 			}
 		}
-		flash_stream_write(&flash, (FLASH_RESERVED_DATA_BASE + idx), 4, (u8*)data);
+		flash_stream_write(&flash, (FLASH_RESERVED_DATA_BASE + idx), 4, (uint8_t*)data);
 	}
 	/* erase this sector */
 	flash_erase_sector(&flash, opt_sector);
@@ -70,7 +70,7 @@ void flash_erase_dword(u32 address, u32 dword_num)
 	for (idx = 0; idx < 0x1000; idx += 8) {
 		flash_stream_read(&flash, FLASH_RESERVED_DATA_BASE + idx, 8, data_8);
 		memcpy(data, data_8, 8);
-		flash_stream_write(&flash, (opt_sector + idx), 8, (u8*)data);
+		flash_stream_write(&flash, (opt_sector + idx), 8, (uint8_t*)data);
 	}
 }
 

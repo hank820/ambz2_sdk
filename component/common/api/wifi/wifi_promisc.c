@@ -15,11 +15,11 @@ extern void _promisc_deinit(void *padapter);
 extern int _promisc_recv_func(void *padapter, void *rframe);
 extern int _promisc_set(rtw_rcr_level_t enabled, void (*callback)(unsigned char*, unsigned int, void*), unsigned char len_used);
 extern unsigned char _is_promisc_enabled(void);
-extern int _promisc_get_fixed_channel(void * fixed_bssid, u8 *ssid, int * ssid_length);
-extern void _promisc_filter_by_ap_and_phone_mac(u8 enable, void *ap_mac, void *phone_mac);
-extern int _promisc_recv_lens_func(void *padapter, u8 *payload, u8 plen);
-extern int _promisc_filter_with_len(u16 len);
-extern int _promisc_filter_retransmit_plcp_pkt(u8 enable, u8 filter_interval_ms);
+extern int _promisc_get_fixed_channel(void * fixed_bssid, uint8_t *ssid, int * ssid_length);
+extern void _promisc_filter_by_ap_and_phone_mac(uint8_t enable, void *ap_mac, void *phone_mac);
+extern int _promisc_recv_lens_func(void *padapter, uint8_t *payload, uint8_t plen);
+extern int _promisc_filter_with_len(uint16_t len);
+extern int _promisc_filter_retransmit_plcp_pkt(uint8_t enable, uint8_t filter_interval_ms);
 // Add extra interfaces to make release sdk able to determine promisc API linking
 void promisc_deinit(void *padapter)
 {
@@ -38,7 +38,7 @@ int promisc_recv_func(void *padapter, void *rframe)
 #endif
 }
 
-int promisc_recv_lens_func(void *padapter, u8 *payload, u8 plen)
+int promisc_recv_lens_func(void *padapter, uint8_t *payload, uint8_t plen)
 {
 	/* To avoid gcc warnings */
 	( void ) padapter;
@@ -57,7 +57,7 @@ int promisc_recv_lens_func(void *padapter, u8 *payload, u8 plen)
 #endif
 }
 
-int promisc_filter_retransmit_pkt(u8 enable, u8 filter_interval_ms)
+int promisc_filter_retransmit_pkt(uint8_t enable, uint8_t filter_interval_ms)
 {
 #ifdef CONFIG_PROMISC
 	#if defined(CONFIG_UNSUPPORT_PLCPHDR_RPT) && CONFIG_UNSUPPORT_PLCPHDR_RPT
@@ -70,7 +70,7 @@ int promisc_filter_retransmit_pkt(u8 enable, u8 filter_interval_ms)
 #endif
 }
 
-int promisc_filter_with_len(u16 len)
+int promisc_filter_with_len(uint16_t len)
 {
 	/* To avoid gcc warnings */
 	( void ) len;
@@ -105,7 +105,7 @@ unsigned char is_promisc_enabled(void)
 #endif
 }
 
-int promisc_get_fixed_channel(void *fixed_bssid, u8 *ssid, int *ssid_length)
+int promisc_get_fixed_channel(void *fixed_bssid, uint8_t *ssid, int *ssid_length)
 {
 #ifdef CONFIG_PROMISC
 	return _promisc_get_fixed_channel(fixed_bssid, ssid, ssid_length);
@@ -114,7 +114,7 @@ int promisc_get_fixed_channel(void *fixed_bssid, u8 *ssid, int *ssid_length)
 #endif
 }
 
-void promisc_filter_by_ap_and_phone_mac(u8 enable, void *ap_mac, void *phone_mac)
+void promisc_filter_by_ap_and_phone_mac(uint8_t enable, void *ap_mac, void *phone_mac)
 {
 #ifdef CONFIG_PROMISC
 	_promisc_filter_by_ap_and_phone_mac(enable, ap_mac, phone_mac);
@@ -154,7 +154,7 @@ struct inic_eth_frame {
 static struct inic_eth_frame *inic_frame, *inic_frame_tail = NULL;
 static int inic_frame_cnt = 0;
 #define MAX_INIC_FRAME_NUM 50 //maximum packets for each channel
-extern void inic_c2h_msg(const char *atcmd, char status, char *msg, u16 msg_len);
+extern void inic_c2h_msg(const char *atcmd, char status, char *msg, uint16_t msg_len);
 #endif
 
 struct eth_buffer {
@@ -168,7 +168,7 @@ static struct eth_buffer eth_buffer;
 #define MAX_PACKET_FILTER_INFO 5
 #define FILTER_ID_INIT_VALUE 10
 rtw_packet_filter_info_t paff_array[MAX_PACKET_FILTER_INFO]={0};
-static u8 packet_filter_enable_num = 0;
+static uint8_t packet_filter_enable_num = 0;
 
 void promisc_init_packet_filter(void)
 {
@@ -184,7 +184,7 @@ void promisc_init_packet_filter(void)
 	packet_filter_enable_num = 0;
 }
 
-int promisc_add_packet_filter(u8 filter_id, rtw_packet_filter_pattern_t *patt, rtw_packet_filter_rule_t rule)
+int promisc_add_packet_filter(uint8_t filter_id, rtw_packet_filter_pattern_t *patt, rtw_packet_filter_rule_t rule)
 {
 	int i = 0;
 	while(i < MAX_PACKET_FILTER_INFO){
@@ -212,7 +212,7 @@ int promisc_add_packet_filter(u8 filter_id, rtw_packet_filter_pattern_t *patt, r
 	return 0;
 }
 
-int promisc_enable_packet_filter(u8 filter_id)
+int promisc_enable_packet_filter(uint8_t filter_id)
 {
 	int i = 0;
 	while(i < MAX_PACKET_FILTER_INFO){
@@ -229,7 +229,7 @@ int promisc_enable_packet_filter(u8 filter_id)
 	return 0;
 }
 
-int promisc_disable_packet_filter(u8 filter_id)
+int promisc_disable_packet_filter(uint8_t filter_id)
 {
 	int i = 0;
 	while(i < MAX_PACKET_FILTER_INFO){
@@ -246,7 +246,7 @@ int promisc_disable_packet_filter(u8 filter_id)
 	return 0;
 }
 
-int promisc_remove_packet_filter(u8 filter_id)
+int promisc_remove_packet_filter(uint8_t filter_id)
 {
 	int i = 0;
 	while(i < MAX_PACKET_FILTER_INFO){

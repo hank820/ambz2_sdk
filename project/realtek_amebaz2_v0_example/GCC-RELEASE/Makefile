@@ -27,12 +27,27 @@ ifneq ("$(LBITS)", "64")
 	@echo ONLY 64-BIT LINUX IS SUPPORTED!
 	@exit -1
 endif
-	if [ ! -f ../../../tools/arm-none-eabi-gcc/asdk-6.4.1-linux-newlib-build-3026-x86_64.tar.bz2 ] ; then cat ../../../tools/arm-none-eabi-gcc/asdk-6.4.1-linux-newlib-build-3026-x86_64.tar.bz2* > ../../../tools/arm-none-eabi-gcc/asdk-6.4.1-linux-newlib-build-3026-x86_64.tar.bz2; fi;\
+	if [ ! -f ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2 ] ; then cat ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2* > ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2; fi;\
 	if [ ! -d ../../../tools/arm-none-eabi-gcc/asdk ] ; then mkdir ../../../tools/arm-none-eabi-gcc/asdk; fi;\
-	if [ ! -d ../../../tools/arm-none-eabi-gcc/asdk/linux ] ; then tar -jxf ../../../tools/arm-none-eabi-gcc/asdk-6.4.1-linux-newlib-build-3026-x86_64.tar.bz2 -C ../../../tools/arm-none-eabi-gcc/ ; mv ../../../tools/arm-none-eabi-gcc/asdk-6.4.1/linux ../../../tools/arm-none-eabi-gcc/asdk/linux ; rmdir ../../../tools/arm-none-eabi-gcc/asdk-6.4.1; fi
+	if [ ! -d ../../../tools/arm-none-eabi-gcc/asdk/linux ] ; then tar -jxf ../../../tools/arm-none-eabi-gcc/asdk-10.3.0-linux-newlib-build-3638-x86_64.tar.bz2 -C ../../../tools/arm-none-eabi-gcc/ ; mv ../../../tools/arm-none-eabi-gcc/asdk-10.3.0/linux ../../../tools/arm-none-eabi-gcc/asdk/linux ; rmdir ../../../tools/arm-none-eabi-gcc/asdk-10.3.0; fi
 endif
 	@echo Toolchain unzip done!
 
+
+.PHONY: lib_all
+lib_all: toolchain
+	@$(MAKE) -f lib_chip.mk all
+	@$(MAKE) -f lib_chip_main.mk all
+
+.PHONY: light
+light: toolchain
+	@$(MAKE) -f lib_chip_light_core.mk all
+	@$(MAKE) -f lib_chip_light_main.mk all
+
+.PHONY: otar
+otar: toolchain
+	@$(MAKE) -f lib_chip_otar_core.mk all
+	@$(MAKE) -f lib_chip_otar_main.mk all
 
 .PHONY: is
 is: toolchain
@@ -44,6 +59,12 @@ mp: toolchain
 
 .PHONY: clean
 clean:
+	@$(MAKE) -f lib_chip.mk clean
+	@$(MAKE) -f lib_chip_main.mk clean
+	@$(MAKE) -f lib_chip_light_core.mk clean
+	@$(MAKE) -f lib_chip_light_main.mk clean
+	@$(MAKE) -f lib_chip_otar_core.mk clean
+	@$(MAKE) -f lib_chip_otar_main.mk clean
 	@$(MAKE) -f application.is.mk clean
 
 debug: toolchain
@@ -51,6 +72,6 @@ debug: toolchain
 
 flash: toolchain
 	@$(MAKE) -f application.is.mk flash
-	
+
 setup:
 	@$(MAKE) -f application.is.mk $(MAKECMDGOALS)	

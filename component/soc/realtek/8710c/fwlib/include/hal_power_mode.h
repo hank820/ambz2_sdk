@@ -92,7 +92,7 @@ void hal_sys_reg_irq(VOID);
  *
  *  @returns void
  */
-void hal_DeepSleep (u8  Option, u32 SDuration, u8 Clock);
+void hal_DeepSleep (uint8_t  Option, uint32_t SDuration, uint8_t Clock);
 
 /** 
  *  @brief The function for hs sleep mode.
@@ -108,7 +108,7 @@ void hal_DeepSleep (u8  Option, u32 SDuration, u8 Clock);
  *
  *  @returns void
  */
-void hal_SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
+void hal_SleepCG (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption);
 
 /** 
  *  @brief The function for hs sleep mode.
@@ -124,7 +124,7 @@ void hal_SleepCG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
  *
  *  @returns void
  */
-void hal_SleepPG (u16 Option, u32 SDuration, u8 Clock, u8 GpioOption);
+void hal_SleepPG (uint16_t Option, uint32_t SDuration, uint8_t Clock, uint8_t GpioOption);
 
 #ifdef  __cplusplus
 }

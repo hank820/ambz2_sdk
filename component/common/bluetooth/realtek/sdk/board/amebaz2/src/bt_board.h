@@ -40,7 +40,7 @@ BT_TRACE_LOG: PA3    (baudrate 921600,couldn't use 1500000)
 //HCI_UART
 
 //MP DEFINE
-extern u8 rltk_wlan_is_mp(void);
+extern uint8_t rltk_wlan_is_mp(void);
 
 //hci
 #define hci_board_debug printf

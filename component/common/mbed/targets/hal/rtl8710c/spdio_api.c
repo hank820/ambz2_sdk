@@ -36,20 +36,20 @@
 
 struct spdio_t *g_spdio_priv = NULL;
 
-s8 spdio_rx_done_cb (void *padapter, u8 *data, u16 offset, u16 pktsize, u8 type)
+int8_t spdio_rx_done_cb (void *padapter, uint8_t *data, uint16_t offset, uint16_t pktsize, uint8_t type)
 {
 	struct spdio_buf_t *buf = (struct spdio_buf_t *)data;
 	struct spdio_t *obj = (struct spdio_t *)padapter;
 
 	if(obj) {
-		return obj->rx_done_cb(obj, buf, (u8 *)(buf->buf_addr+offset), pktsize, type);
+		return obj->rx_done_cb(obj, buf, (uint8_t *)(buf->buf_addr+offset), pktsize, type);
     } else {
 		SPDIO_API_PRINTK("spdio rx done callback function is null!");
     }
 	return SUCCESS;
 }
 
-s8 spdio_tx_done_cb (void *padapter, void *data, u16 offset, u16 pktsize, u8 type)
+int8_t spdio_tx_done_cb (void *padapter, void *data, uint16_t offset, uint16_t pktsize, uint8_t type)
 {
 	struct spdio_t *obj = (struct spdio_t *)padapter;
 	struct spdio_buf_t *buf = (struct spdio_buf_t *)data;
@@ -62,9 +62,9 @@ s8 spdio_tx_done_cb (void *padapter, void *data, u16 offset, u16 pktsize, u8 typ
 	return SUCCESS;		
 }
 
-s8 spdio_tx (struct spdio_t *obj, struct spdio_buf_t *pbuf)
+int8_t spdio_tx (struct spdio_t *obj, struct spdio_buf_t *pbuf)
 {
-	return hal_sdio_dev_rx_pkt_queue_push((u8 *)pbuf, 0, pbuf->buf_size, pbuf->type);
+	return hal_sdio_dev_rx_pkt_queue_push((uint8_t *)pbuf, 0, pbuf->buf_size, pbuf->type);
 }
 
 void spdio_structinit(struct spdio_t *obj)

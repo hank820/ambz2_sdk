@@ -86,11 +86,13 @@ uint8_t hal_timer_group_get_rists (hal_timer_group_adapter_t *ptg_adp)
  *
  *  @returns The interrupt pending status
  */
+#if 0
 __STATIC_INLINE
 uint8_t hal_timer_get_int_pending (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tg_ba->ists_b.ists & (1 << ptimer_adp->tid);
 }
+#endif
 
 /**
  *  @brief To get the interrupt pending status (without mask).
@@ -99,11 +101,13 @@ uint8_t hal_timer_get_int_pending (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns The interrupt pending status
  */
+#if 0
 __STATIC_INLINE
 uint8_t hal_timer_get_rint_pending (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tg_ba->raw_ists_b.rists & (1 << ptimer_adp->tid);
 }
+#endif
 
 /**
  *  @brief To set the reload value for timer operation mode.
@@ -160,11 +164,13 @@ void hal_timer_write (phal_timer_adapter_t ptimer_adp, uint32_t tc)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_write_prescal_cnt (phal_timer_adapter_t ptimer_adp, uint16_t psc)
 {
     ptimer_adp->tmr_ba->pc_b.pc = psc;
 }
+#endif
 
 /**
  *  @brief To read the timer pre-scale counter value
@@ -187,12 +193,14 @@ uint16_t hal_timer_read_prescal_cnt (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_prescal (phal_timer_adapter_t ptimer_adp, uint16_t psrc)
 {
 //    ptimer_adp->pre_scaler = psrc;
     ptimer_adp->tmr_ba->pr_b.pr = psrc;
 }
+#endif
 
 /**
  *  @brief To enable/start the timer.
@@ -228,11 +236,13 @@ void hal_timer_disable (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_imr (phal_timer_adapter_t ptimer_adp, uint8_t imr)
 {
     ptimer_adp->tmr_ba->ctrl_b.imr = imr;
 }
+#endif
 
 /**
  *  @brief To set the timer operation mode: timer (reload) mode or counter (one shot) mode
@@ -242,11 +252,13 @@ void hal_timer_set_imr (phal_timer_adapter_t ptimer_adp, uint8_t imr)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_opmode (phal_timer_adapter_t ptimer_adp, timer_op_mode_t op_mode)
 {
     ptimer_adp->tmr_ba->ctrl_b.mod = op_mode;
 }
+#endif
 
 /**
  *  @brief To set the timer countting mode. (up counter/ down counter)
@@ -256,11 +268,13 @@ void hal_timer_set_opmode (phal_timer_adapter_t ptimer_adp, timer_op_mode_t op_m
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_set_cntmode (phal_timer_adapter_t ptimer_adp, timer_cnt_mode_t cnt_mode)
 {
     ptimer_adp->tmr_ba->ctrl_b.cnt_mod = cnt_mode;
 }
+#endif
 
 /**
  *  @brief To read the interrupt status.
@@ -269,11 +283,13 @@ void hal_timer_set_cntmode (phal_timer_adapter_t ptimer_adp, timer_cnt_mode_t cn
  *
  *  @returns The interrupt status
  */
+#if 0
 __STATIC_INLINE
 uint32_t hal_timer_read_isr (phal_timer_adapter_t ptimer_adp)
 {
     return ptimer_adp->tmr_ba->isr;
 }
+#endif
 
 /**
  *  @brief To clear the interrupt pending status.
@@ -283,11 +299,13 @@ uint32_t hal_timer_read_isr (phal_timer_adapter_t ptimer_adp)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_clear_isr (phal_timer_adapter_t ptimer_adp, uint32_t int_ev)
 {
     ptimer_adp->tmr_ba->isr = int_ev;
 }
+#endif
 
 /**
  *  @brief To convert a tick count to the time period in us
@@ -297,11 +315,13 @@ void hal_timer_clear_isr (phal_timer_adapter_t ptimer_adp, uint32_t int_ev)
  *
  *  @returns The converted time period in us.
  */
+#if 0
 __STATIC_INLINE
 uint32_t hal_timer_convert_ticks_to_us (uint32_t ticks, uint8_t sclk_idx)
 {
     return hal_gtimer_stubs.hal_timer_convert_ticks_to_us (ticks, sclk_idx);
 }
+#endif
 
 /**
  *  @brief To convert a time period in us to number of 32K ticks
@@ -325,11 +345,13 @@ uint32_t hal_timer_convert_us_to_ticks (uint32_t time_us, uint8_t sclk_idx)
  *
  *  @returns The converted time period in us.
  */
+#if 0
 __STATIC_INLINE
 uint64_t hal_timer_convert_ticks_to_us64 (uint64_t ticks, uint8_t sclk_idx)
 {
     return hal_gtimer_stubs.hal_timer_convert_ticks_to_us64 (ticks, sclk_idx);
 }
+#endif
 
 /**
  *  @brief To convert a time period in us to number of 32K ticks
@@ -339,11 +361,13 @@ uint64_t hal_timer_convert_ticks_to_us64 (uint64_t ticks, uint8_t sclk_idx)
  *
  *  @returns The converted 32K ticks.
  */
+#if 0
 __STATIC_INLINE
 uint64_t hal_timer_convert_us_to_ticks64 (uint64_t time_us, uint8_t sclk_idx)
 {
     return hal_gtimer_stubs.hal_timer_convert_us_to_ticks64 (time_us, sclk_idx);
 }
+#endif
 
 /**
  *  @brief The Common IRQ handler of G-Timer group.
@@ -352,11 +376,13 @@ uint64_t hal_timer_convert_us_to_ticks64 (uint64_t time_us, uint8_t sclk_idx)
  *
  *  @returns void
  */
+#if 0
 __STATIC_INLINE
 void hal_timer_irq_handler (void *hid, uint8_t tmr_num)
 {
     hal_gtimer_stubs.hal_timer_irq_handler (hid, tmr_num);
 }
+#endif
 
 /**
  *  @brief To enable/disbale the timer counter match event.
@@ -830,7 +856,7 @@ void hal_delay_us (uint32_t time_us)
         DBG_TIMER_ERR ("system timer is not initialized\r\n");
         return;
     }
-    if ((u32)(psys_timer->tg_ba) != TG0_BASE && (u32)(psys_timer->tg_ba) != TG1_BASE) {
+    if ((uint32_t)(psys_timer->tg_ba) != TG0_BASE && (uint32_t)(psys_timer->tg_ba) != TG1_BASE) {
         DBG_TIMER_ERR ("system timer is not initialized properly\r\n");
         return;
     }
@@ -852,11 +878,13 @@ void hal_delay_us (uint32_t time_us)
  *                  - true: It is expired.
  *                  - false: It's not expire yet.
  */
+#if 0
 __STATIC_INLINE
 BOOLEAN hal_is_timeout (uint64_t start_us, uint32_t timeout_us)
 {
     return hal_gtimer_stubs.hal_is_timeout (start_us, timeout_us);
 }
+#endif
 
 /** 
  *  @brief To disable a HW timer which is used as the tick source for ADC or PWM.

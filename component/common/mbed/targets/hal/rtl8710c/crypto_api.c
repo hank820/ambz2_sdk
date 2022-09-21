@@ -59,14 +59,14 @@ int crypto_deinit(void)
 }
 
 #if defined(CONFIG_FLASH_XIP_EN) && (CONFIG_FLASH_XIP_EN == 1)
-int xip_flash_remap_check(const uint8_t *ori_addr, u32 *remap_addr, const uint32_t buf_len) {
-    u32 xip_phy_addr;
-    u8 pis_enc;
+int xip_flash_remap_check(const uint8_t *ori_addr, uint32_t *remap_addr, const uint32_t buf_len) {
+    uint32_t xip_phy_addr;
+    uint8_t pis_enc;
     int ret = SUCCESS;
 
-    if (((u32)ori_addr >= XIP_REMAPPED_START_ADDR) && ((u32)ori_addr < XIP_REMAPPED_END_ADDR)) {
+    if (((uint32_t)ori_addr >= XIP_REMAPPED_START_ADDR) && ((uint32_t)ori_addr < XIP_REMAPPED_END_ADDR)) {
         // in the range of Flash
-        if (HAL_OK == hal_xip_get_phy_addr((u32)ori_addr, &xip_phy_addr, (u32 *)&pis_enc)) {
+        if (HAL_OK == hal_xip_get_phy_addr((uint32_t)ori_addr, &xip_phy_addr, (uint32_t *)&pis_enc)) {
             // in the range of XIP remapping
             if (pis_enc == XIP_ENCRYPTED) {
                 return _ERRNO_CRYPTO_XIP_FLASH_REMAP_FAIL;
@@ -74,19 +74,19 @@ int xip_flash_remap_check(const uint8_t *ori_addr, u32 *remap_addr, const uint32
             *remap_addr = xip_phy_addr;
         } else {
             // not in the range of remapping
-            *remap_addr = (u32)ori_addr;
+            *remap_addr = (uint32_t)ori_addr;
         }
     } else {
         // not in the range of Flash
-        *remap_addr = (u32)ori_addr;
+        *remap_addr = (uint32_t)ori_addr;
     }
     return ret;
 }
 #else
-int xip_flash_remap_check(const uint8_t *ori_addr, u32 *remap_addr, const uint32_t buf_len) 
+int xip_flash_remap_check(const uint8_t *ori_addr, uint32_t *remap_addr, const uint32_t buf_len) 
 {
     int ret = SUCCESS;
-    *remap_addr = (u32)ori_addr;
+    *remap_addr = (uint32_t)ori_addr;
     return ret;
 }
 #endif
@@ -95,13 +95,13 @@ int xip_flash_remap_check(const uint8_t *ori_addr, u32 *remap_addr, const uint32
 int crypto_md5(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_md5_end;
     }
-    ret = hal_crypto_md5((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_md5((uint8_t *)msg_addr, msglen, pDigest);
 crypto_md5_end:
     return ret;
 }
@@ -117,12 +117,12 @@ int crypto_md5_init(void)
 int crypto_md5_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_md5_process_end;
     }
-    ret = hal_crypto_md5_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_md5_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_md5_process_end:
     return ret;
 }
@@ -130,12 +130,12 @@ crypto_md5_process_end:
 int crypto_md5_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_md5_update_end;
     }   
-    ret = hal_crypto_md5_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_md5_update((uint8_t *)msg_addr, msglen);
 crypto_md5_update_end:
     return ret;
 }
@@ -152,12 +152,12 @@ int crypto_md5_final(uint8_t *pDigest)
 int crypto_sha1(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha1_end;
     }
-    ret = hal_crypto_sha1((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_sha1((uint8_t *)msg_addr, msglen, pDigest);
 crypto_sha1_end:
     return ret;
 }
@@ -173,12 +173,12 @@ int crypto_sha1_init(void)
 int crypto_sha1_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha1_process_end;
     }
-    ret = hal_crypto_sha1_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_sha1_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_sha1_process_end:
     return ret;
 }
@@ -186,12 +186,12 @@ crypto_sha1_process_end:
 int crypto_sha1_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha1_update_end;
     }
-    ret = hal_crypto_sha1_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_sha1_update((uint8_t *)msg_addr, msglen);
 crypto_sha1_update_end:
     return ret;
 }
@@ -208,12 +208,12 @@ int crypto_sha1_final(uint8_t *pDigest)
 int crypto_sha2_224(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha2_224_end;
     }
-    ret = hal_crypto_sha2_224((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_sha2_224((uint8_t *)msg_addr, msglen, pDigest);
 crypto_sha2_224_end:
     return ret;
 }
@@ -229,12 +229,12 @@ int crypto_sha2_224_init(void)
 int crypto_sha2_224_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha2_224_process_end;
     }
-    ret = hal_crypto_sha2_224_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_sha2_224_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_sha2_224_process_end:
     return ret;
 }
@@ -242,12 +242,12 @@ crypto_sha2_224_process_end:
 int crypto_sha2_224_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha2_224_update_end;
     }
-    ret = hal_crypto_sha2_224_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_sha2_224_update((uint8_t *)msg_addr, msglen);
 crypto_sha2_224_update_end:
     return ret;
 }
@@ -264,12 +264,12 @@ int crypto_sha2_224_final(uint8_t *pDigest)
 int crypto_sha2_256(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha2_256_end;
     }
-    ret = hal_crypto_sha2_256((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_sha2_256((uint8_t *)msg_addr, msglen, pDigest);
 crypto_sha2_256_end:
     return ret;
 }
@@ -285,12 +285,12 @@ int crypto_sha2_256_init(void)
 int crypto_sha2_256_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha2_256_process_end;
     }
-    ret = hal_crypto_sha2_256_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_sha2_256_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_sha2_256_process_end:
     return ret;
 }
@@ -298,12 +298,12 @@ crypto_sha2_256_process_end:
 int crypto_sha2_256_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_sha2_256_update_end;
     }
-    ret = hal_crypto_sha2_256_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_sha2_256_update((uint8_t *)msg_addr, msglen);
 crypto_sha2_256_update_end:
     return ret;
 }
@@ -321,7 +321,7 @@ int crypto_hmac_md5(const uint8_t *message, const uint32_t msglen,
                     const uint8_t *key, const uint32_t keylen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr, key_addr;
+    uint32_t msg_addr, key_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -331,7 +331,7 @@ int crypto_hmac_md5(const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_hmac_md5_end;
     }
-    ret = hal_crypto_hmac_md5((u8 *)msg_addr, msglen, (u8 *)key_addr, keylen, pDigest);
+    ret = hal_crypto_hmac_md5((uint8_t *)msg_addr, msglen, (uint8_t *)key_addr, keylen, pDigest);
 crypto_hmac_md5_end:
     return ret;
 }
@@ -339,13 +339,13 @@ crypto_hmac_md5_end:
 int crypto_hmac_md5_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
 
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_hmac_md5_init_end;
     }
-    ret = hal_crypto_hmac_md5_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_hmac_md5_init((uint8_t *)key_addr, keylen);
 crypto_hmac_md5_init_end:
     return ret;
 }
@@ -353,13 +353,13 @@ crypto_hmac_md5_init_end:
 int crypto_hmac_md5_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_md5_process_end;
     }
-    ret = hal_crypto_hmac_md5_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_hmac_md5_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_hmac_md5_process_end:
     return ret;
 }
@@ -367,13 +367,13 @@ crypto_hmac_md5_process_end:
 int crypto_hmac_md5_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_md5_update_end;
     }
-    ret = hal_crypto_hmac_md5_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_hmac_md5_update((uint8_t *)msg_addr, msglen);
 crypto_hmac_md5_update_end:
     return ret;
 }
@@ -391,7 +391,7 @@ int crypto_hmac_sha1(const uint8_t *message, const uint32_t msglen,
                      const uint8_t *key, const uint32_t keylen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr, key_addr;
+    uint32_t msg_addr, key_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -401,7 +401,7 @@ int crypto_hmac_sha1(const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_hmac_sha1_end;
     }
-    ret = hal_crypto_hmac_sha1((u8 *)msg_addr, msglen, (u8 *)key_addr, keylen, pDigest);
+    ret = hal_crypto_hmac_sha1((uint8_t *)msg_addr, msglen, (uint8_t *)key_addr, keylen, pDigest);
 crypto_hmac_sha1_end:
     return ret;
 }
@@ -409,13 +409,13 @@ crypto_hmac_sha1_end:
 int crypto_hmac_sha1_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
 
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha1_init_end;
     }
-    ret = hal_crypto_hmac_sha1_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_hmac_sha1_init((uint8_t *)key_addr, keylen);
 crypto_hmac_sha1_init_end:
     return ret;
 }
@@ -423,13 +423,13 @@ crypto_hmac_sha1_init_end:
 int crypto_hmac_sha1_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha1_process_end;
     }
-    ret = hal_crypto_hmac_sha1_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_hmac_sha1_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_hmac_sha1_process_end:
     return ret;
 }
@@ -437,13 +437,13 @@ crypto_hmac_sha1_process_end:
 int crypto_hmac_sha1_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha1_update_end;
     }
-    ret = hal_crypto_hmac_sha1_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_hmac_sha1_update((uint8_t *)msg_addr, msglen);
 crypto_hmac_sha1_update_end:
     return ret;
 }
@@ -461,7 +461,7 @@ int crypto_hmac_sha2_224(const uint8_t *message, const uint32_t msglen,
                          const uint8_t *key, const uint32_t keylen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr, key_addr;
+    uint32_t msg_addr, key_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -471,7 +471,7 @@ int crypto_hmac_sha2_224(const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_224_end;
     }
-    ret = hal_crypto_hmac_sha2_224((u8 *)msg_addr, msglen, (u8 *)key_addr, keylen, pDigest);
+    ret = hal_crypto_hmac_sha2_224((uint8_t *)msg_addr, msglen, (uint8_t *)key_addr, keylen, pDigest);
 crypto_hmac_sha2_224_end:
     return ret;
 }
@@ -479,13 +479,13 @@ crypto_hmac_sha2_224_end:
 int crypto_hmac_sha2_224_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_224_init_end;
     }
-    ret = hal_crypto_hmac_sha2_224_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_hmac_sha2_224_init((uint8_t *)key_addr, keylen);
 crypto_hmac_sha2_224_init_end:
     return ret;
 }
@@ -493,13 +493,13 @@ crypto_hmac_sha2_224_init_end:
 int crypto_hmac_sha2_224_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_224_process_end;
     }
-    ret = hal_crypto_hmac_sha2_224_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_hmac_sha2_224_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_hmac_sha2_224_process_end:
     return ret;
 }
@@ -507,13 +507,13 @@ crypto_hmac_sha2_224_process_end:
 int crypto_hmac_sha2_224_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_224_update_end;
     }
-    ret = hal_crypto_hmac_sha2_224_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_hmac_sha2_224_update((uint8_t *)msg_addr, msglen);
 crypto_hmac_sha2_224_update_end:
     return ret;
 }
@@ -531,7 +531,7 @@ int crypto_hmac_sha2_256(const uint8_t *message, const uint32_t msglen,
                          const uint8_t *key, const uint32_t keylen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr, key_addr;
+    uint32_t msg_addr, key_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -542,7 +542,7 @@ int crypto_hmac_sha2_256(const uint8_t *message, const uint32_t msglen,
         goto crypto_hmac_sha2_256_end;
     }
 
-    ret = hal_crypto_hmac_sha2_256((u8 *)msg_addr, msglen, (u8 *)key_addr, keylen, pDigest);
+    ret = hal_crypto_hmac_sha2_256((uint8_t *)msg_addr, msglen, (uint8_t *)key_addr, keylen, pDigest);
 crypto_hmac_sha2_256_end:
     return ret;
 }
@@ -550,13 +550,13 @@ crypto_hmac_sha2_256_end:
 int crypto_hmac_sha2_256_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_256_init_end;
     }
-    ret = hal_crypto_hmac_sha2_256_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_hmac_sha2_256_init((uint8_t *)key_addr, keylen);
 crypto_hmac_sha2_256_init_end:
     return ret;
 }
@@ -564,13 +564,13 @@ crypto_hmac_sha2_256_init_end:
 int crypto_hmac_sha2_256_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_256_process_end;
     }
-    ret = hal_crypto_hmac_sha2_256_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_hmac_sha2_256_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_hmac_sha2_256_process_end:
     return ret;
 }
@@ -578,13 +578,13 @@ crypto_hmac_sha2_256_process_end:
 int crypto_hmac_sha2_256_update(const uint8_t *message, const uint32_t msglen)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_hmac_sha2_256_update_end;
     }
-    ret = hal_crypto_hmac_sha2_256_update((u8 *)msg_addr, msglen);
+    ret = hal_crypto_hmac_sha2_256_update((uint8_t *)msg_addr, msglen);
 crypto_hmac_sha2_256_update_end:
     return ret;
 }
@@ -600,13 +600,13 @@ int crypto_hmac_sha2_256_final(uint8_t *pDigest)
 // AES-ECB
 int crypto_aes_ecb_init (const uint8_t *key, const uint32_t keylen){
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_ecb_init_end;
     }
-    ret = hal_crypto_aes_ecb_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_ecb_init((uint8_t *)key_addr, keylen);
 crypto_aes_ecb_init_end:
     return ret;
 }
@@ -615,7 +615,7 @@ int crypto_aes_ecb_encrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -625,7 +625,7 @@ int crypto_aes_ecb_encrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ecb_encrypt_end;
     }
-    ret = hal_crypto_aes_ecb_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_ecb_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_ecb_encrypt_end:
     return ret;
 }
@@ -634,7 +634,7 @@ int crypto_aes_ecb_decrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -644,7 +644,7 @@ int crypto_aes_ecb_decrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ecb_decrypt_end;
     }
-    ret = hal_crypto_aes_ecb_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_ecb_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_ecb_decrypt_end:
     return ret;
 }
@@ -652,13 +652,13 @@ crypto_aes_ecb_decrypt_end:
 // AES-CBC
 int crypto_aes_cbc_init (const uint8_t *key, const uint32_t keylen){
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_cbc_init_end;
     }
-    ret = hal_crypto_aes_cbc_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_cbc_init((uint8_t *)key_addr, keylen);
 crypto_aes_cbc_init_end:
     return ret;
 }
@@ -667,7 +667,7 @@ int crypto_aes_cbc_encrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -677,7 +677,7 @@ int crypto_aes_cbc_encrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_cbc_encrypt_end;
     }
-    ret = hal_crypto_aes_cbc_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_cbc_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_cbc_encrypt_end:
     return ret;
 }
@@ -686,7 +686,7 @@ int crypto_aes_cbc_decrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -696,7 +696,7 @@ int crypto_aes_cbc_decrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_cbc_decrypt_end;
     }
-    ret = hal_crypto_aes_cbc_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_cbc_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_cbc_decrypt_end:
     return ret;
 }
@@ -704,13 +704,13 @@ crypto_aes_cbc_decrypt_end:
 // AES-CTR
 int crypto_aes_ctr_init (const uint8_t *key, const uint32_t keylen){
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_ctr_init_end;
     }
-    ret = hal_crypto_aes_ctr_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_ctr_init((uint8_t *)key_addr, keylen);
 crypto_aes_ctr_init_end:
     return ret;
 }
@@ -719,7 +719,7 @@ int crypto_aes_ctr_encrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -729,7 +729,7 @@ int crypto_aes_ctr_encrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ctr_encrypt_end;
     }
-    ret = hal_crypto_aes_ctr_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_ctr_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_ctr_encrypt_end:
     return ret;
 }
@@ -738,7 +738,7 @@ int crypto_aes_ctr_decrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -748,7 +748,7 @@ int crypto_aes_ctr_decrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ctr_decrypt_end;
     }
-    ret = hal_crypto_aes_ctr_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_ctr_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_ctr_decrypt_end:
     return ret;
 }
@@ -756,13 +756,13 @@ crypto_aes_ctr_decrypt_end:
 // AES-CFB
 int crypto_aes_cfb_init (const uint8_t *key, const uint32_t keylen){
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_cfb_init_end;
     }
-    ret = hal_crypto_aes_cfb_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_cfb_init((uint8_t *)key_addr, keylen);
 crypto_aes_cfb_init_end:
     return ret;
 }
@@ -771,7 +771,7 @@ int crypto_aes_cfb_encrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -781,7 +781,7 @@ int crypto_aes_cfb_encrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_cfb_encrypt_end;
     }
-    ret = hal_crypto_aes_cfb_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_cfb_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_cfb_encrypt_end:
     return ret;
 }
@@ -790,7 +790,7 @@ int crypto_aes_cfb_decrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -800,7 +800,7 @@ int crypto_aes_cfb_decrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_cfb_decrypt_end;
     }
-    ret = hal_crypto_aes_cfb_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_cfb_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_cfb_decrypt_end:
     return ret;
 }
@@ -808,13 +808,13 @@ crypto_aes_cfb_decrypt_end:
 // AES-OFB
 int crypto_aes_ofb_init (const uint8_t *key, const uint32_t keylen){
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_ofb_init_end;
     }
-    ret = hal_crypto_aes_ofb_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_ofb_init((uint8_t *)key_addr, keylen);
 crypto_aes_ofb_init_end:
     return ret;
 }
@@ -823,7 +823,7 @@ int crypto_aes_ofb_encrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -833,7 +833,7 @@ int crypto_aes_ofb_encrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ofb_encrypt_end;
     }
-    ret = hal_crypto_aes_ofb_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_ofb_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_ofb_encrypt_end:
     return ret;
 }
@@ -842,7 +842,7 @@ int crypto_aes_ofb_decrypt (const uint8_t *message, const uint32_t msglen,
                             const uint8_t *iv, const uint32_t ivlen, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr,iv_addr;
+    uint32_t msg_addr,iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -852,7 +852,7 @@ int crypto_aes_ofb_decrypt (const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ofb_decrypt_end;
     }
-    ret = hal_crypto_aes_ofb_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, ivlen, pResult);
+    ret = hal_crypto_aes_ofb_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, ivlen, pResult);
 crypto_aes_ofb_decrypt_end:
     return ret;
 }
@@ -862,7 +862,7 @@ int crypto_aes_ghash(const uint8_t *message, const uint32_t msglen,
                      const uint8_t *key, const uint32_t keylen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr, key_addr;
+    uint32_t msg_addr, key_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -872,7 +872,7 @@ int crypto_aes_ghash(const uint8_t *message, const uint32_t msglen,
     if (ret != SUCCESS) {
         goto crypto_aes_ghash_end;
     }
-    ret = hal_crypto_aes_ghash((u8 *)msg_addr, msglen, (u8 *)key_addr, keylen, pDigest);
+    ret = hal_crypto_aes_ghash((uint8_t *)msg_addr, msglen, (uint8_t *)key_addr, keylen, pDigest);
 crypto_aes_ghash_end:
     return ret;
 }
@@ -880,13 +880,13 @@ crypto_aes_ghash_end:
 int crypto_aes_ghash_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
     
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_ghash_init_end;
     }
-    ret = hal_crypto_aes_ghash_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_ghash_init((uint8_t *)key_addr, keylen);
 crypto_aes_ghash_init_end:
     return ret;
 }
@@ -894,13 +894,13 @@ crypto_aes_ghash_init_end:
 int crypto_aes_ghash_process(const uint8_t *message, const uint32_t msglen, uint8_t *pDigest)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_aes_ghash_process_end;
     }
-    ret = hal_crypto_aes_ghash_process((u8 *)msg_addr, msglen, pDigest);
+    ret = hal_crypto_aes_ghash_process((uint8_t *)msg_addr, msglen, pDigest);
 crypto_aes_ghash_process_end:
     return ret;
 }
@@ -913,7 +913,7 @@ int crypto_aes_gmac(
     const uint8_t *aad, const uint32_t aadlen, uint8_t *pTag)
 {
     int ret;
-    u32 msg_addr, key_addr, iv_addr, aad_addr;
+    uint32_t msg_addr, key_addr, iv_addr, aad_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -931,7 +931,7 @@ int crypto_aes_gmac(
     if (ret != SUCCESS) {
         goto crypto_aes_gmac_end;
     }
-    ret = hal_crypto_aes_gmac((u8 *)msg_addr, msglen, (u8 *)key_addr, keylen, (u8 *)iv_addr, (u8 *)aad_addr, aadlen, pTag);
+    ret = hal_crypto_aes_gmac((uint8_t *)msg_addr, msglen, (uint8_t *)key_addr, keylen, (uint8_t *)iv_addr, (uint8_t *)aad_addr, aadlen, pTag);
 crypto_aes_gmac_end:
     return ret;
 }
@@ -939,13 +939,13 @@ crypto_aes_gmac_end:
 int crypto_aes_gmac_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
 
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_gmac_init_end;
     }
-    ret = hal_crypto_aes_gmac_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_gmac_init((uint8_t *)key_addr, keylen);
 crypto_aes_gmac_init_end:
     return ret;
 }
@@ -955,7 +955,7 @@ int crypto_aes_gmac_process(
     const uint8_t *iv, const uint8_t *aad, const uint32_t aadlen, uint8_t *pTag)
 {
     int ret;
-    u32 msg_addr, iv_addr, aad_addr;
+    uint32_t msg_addr, iv_addr, aad_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -969,7 +969,7 @@ int crypto_aes_gmac_process(
     if (ret != SUCCESS) {
         goto crypto_aes_gmac_process_end;
     }
-    ret = hal_crypto_aes_gmac_process((u8 *)msg_addr, msglen, (u8 *)iv_addr, (u8 *)aad_addr, aadlen, pTag);
+    ret = hal_crypto_aes_gmac_process((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, (uint8_t *)aad_addr, aadlen, pTag);
 crypto_aes_gmac_process_end:
     return ret;    
 }
@@ -978,13 +978,13 @@ crypto_aes_gmac_process_end:
 int crypto_aes_gctr_init(const uint8_t *key, const uint32_t keylen)
 {
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
 
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_gctr_init_end;
     }
-    ret = hal_crypto_aes_gctr_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_gctr_init((uint8_t *)key_addr, keylen);
 crypto_aes_gctr_init_end:
     return ret;
 }
@@ -994,7 +994,7 @@ int crypto_aes_gctr_encrypt(
     const uint8_t *iv, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr, iv_addr;
+    uint32_t msg_addr, iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -1004,7 +1004,7 @@ int crypto_aes_gctr_encrypt(
     if (ret != SUCCESS) {
         goto crypto_aes_gctr_encrypt_end;
     }
-    ret = hal_crypto_aes_gctr_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, pResult);
+    ret = hal_crypto_aes_gctr_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, pResult);
 crypto_aes_gctr_encrypt_end:
     return ret;
 }
@@ -1014,7 +1014,7 @@ int crypto_aes_gctr_decrypt(
     const uint8_t *iv, uint8_t *pResult)
 {
     int ret;
-    u32 msg_addr, iv_addr;
+    uint32_t msg_addr, iv_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -1024,7 +1024,7 @@ int crypto_aes_gctr_decrypt(
     if (ret != SUCCESS) {
         goto crypto_aes_gctr_decrypt_end;
     }
-    ret = hal_crypto_aes_gctr_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, pResult);
+    ret = hal_crypto_aes_gctr_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, pResult);
 crypto_aes_gctr_decrypt_end:
     return ret;
 }
@@ -1032,13 +1032,13 @@ crypto_aes_gctr_decrypt_end:
 // AES-GCM
 int crypto_aes_gcm_init (const uint8_t *key, const uint32_t keylen){
     int ret;
-    u32 key_addr;
+    uint32_t key_addr;
 
     ret = xip_flash_remap_check(key, &key_addr, keylen);
     if (ret != SUCCESS) {
         goto crypto_aes_gcm_init_end;
     }
-    ret = hal_crypto_aes_gcm_init((u8 *)key_addr, keylen);
+    ret = hal_crypto_aes_gcm_init((uint8_t *)key_addr, keylen);
 crypto_aes_gcm_init_end:
     return ret;
 }
@@ -1047,7 +1047,7 @@ int crypto_aes_gcm_encrypt (const uint8_t *message, const uint32_t msglen, const
                             const uint8_t *aad, const uint32_t aadlen, uint8_t *pResult, uint8_t *pTag)
 {
     int ret;
-    u32 msg_addr, iv_addr, aad_addr;
+    uint32_t msg_addr, iv_addr, aad_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -1061,7 +1061,7 @@ int crypto_aes_gcm_encrypt (const uint8_t *message, const uint32_t msglen, const
     if (ret != SUCCESS) {
         goto crypto_aes_gcm_encrypt_end;
     }
-    ret = hal_crypto_aes_gcm_encrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, (u8 *)aad_addr, aadlen, pResult, pTag);
+    ret = hal_crypto_aes_gcm_encrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, (uint8_t *)aad_addr, aadlen, pResult, pTag);
 crypto_aes_gcm_encrypt_end:
     return ret;
 }
@@ -1070,7 +1070,7 @@ int crypto_aes_gcm_decrypt (const uint8_t *message, const uint32_t msglen, const
                             const uint8_t *aad, const uint32_t aadlen, uint8_t *pResult, uint8_t *pTag)
 {
     int ret;
-    u32 msg_addr, iv_addr, aad_addr;
+    uint32_t msg_addr, iv_addr, aad_addr;
 
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
@@ -1084,7 +1084,7 @@ int crypto_aes_gcm_decrypt (const uint8_t *message, const uint32_t msglen, const
     if (ret != SUCCESS) {
         goto crypto_aes_gcm_decrypt_end;
     }
-    ret = hal_crypto_aes_gcm_decrypt((u8 *)msg_addr, msglen, (u8 *)iv_addr, (u8 *)aad_addr, aadlen, pResult, pTag);
+    ret = hal_crypto_aes_gcm_decrypt((uint8_t *)msg_addr, msglen, (uint8_t *)iv_addr, (uint8_t *)aad_addr, aadlen, pResult, pTag);
 crypto_aes_gcm_decrypt_end:
     return ret;
 }
@@ -1102,12 +1102,12 @@ int crypto_crc32_cmd(const uint8_t *message, const uint32_t msglen, uint32_t *pC
 int crypto_crc32_dma(const uint8_t *message, const uint32_t msglen, uint32_t *pCrc)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_crc32_dma_end;
     }
-    ret = hal_crypto_crc32_dma((u8 *)msg_addr, msglen, pCrc);
+    ret = hal_crypto_crc32_dma((uint8_t *)msg_addr, msglen, pCrc);
 crypto_crc32_dma_end:
     return ret;
 }
@@ -1132,12 +1132,12 @@ int crypto_crc_cmd(const uint8_t *message, const uint32_t msglen, uint32_t *pCrc
 int crypto_crc_dma(const uint8_t *message, const uint32_t msglen, uint32_t *pCrc)
 {
     int ret;
-    u32 msg_addr;
+    uint32_t msg_addr;
     ret = xip_flash_remap_check(message, &msg_addr, msglen);
     if (ret != SUCCESS) {
         goto crypto_crc_dma_end;
     }
-    ret = hal_crypto_crc_dma((u8 *)msg_addr, msglen, pCrc);
+    ret = hal_crypto_crc_dma((uint8_t *)msg_addr, msglen, pCrc);
 crypto_crc_dma_end:
     return ret;
 }

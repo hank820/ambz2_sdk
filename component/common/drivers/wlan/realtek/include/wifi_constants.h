@@ -140,7 +140,7 @@ enum {
     RTW_SECURITY_WPA2_TKIP_PSK             = ( WPA2_SECURITY | TKIP_ENABLED ),                                                   /**< WPA2 Security with TKIP                                     */
     RTW_SECURITY_WPA2_AES_PSK              = ( WPA2_SECURITY | AES_ENABLED ),                                                    /**< WPA2 Security with AES                                      */
     RTW_SECURITY_WPA2_MIXED_PSK            = ( WPA2_SECURITY | TKIP_ENABLED  | AES_ENABLED ),                                    /**< WPA2 Security with AES & TKIP                               */
-    RTW_SECURITY_WPA2_AES_CMAC             = ( WPA2_SECURITY | AES_CMAC_ENABLED ),                                               /**< WPA2 Security with AES and Management Frame Protection      */
+	RTW_SECURITY_WPA2_AES_CMAC             = ( WPA2_SECURITY | AES_CMAC_ENABLED ),                                               /**< WPA2 Security with AES and Management Frame Protection      */
     RTW_SECURITY_WPA_WPA2_TKIP_PSK         = ( WPA_SECURITY | WPA2_SECURITY | TKIP_ENABLED ),                                    /**< WPA/WPA2 Security with TKIP                                 */
     RTW_SECURITY_WPA_WPA2_AES_PSK          = ( WPA_SECURITY | WPA2_SECURITY | AES_ENABLED ),                                     /**< WPA/WPA2 Security with AES                                  */
     RTW_SECURITY_WPA_WPA2_MIXED_PSK        = ( WPA_SECURITY | WPA2_SECURITY | TKIP_ENABLED | AES_ENABLED ),                      /**< WPA/WPA2 Security with AES & TKIP                           */
@@ -160,6 +160,8 @@ enum {
     RTW_SECURITY_WPA3_AES_PSK 	           = ( WPA3_SECURITY | AES_ENABLED ),                                                    /**< WPA3-SAE with AES security                                  */
     RTW_SECURITY_WPA2_WPA3_MIXED           = ( WPA2_SECURITY | WPA3_SECURITY | AES_ENABLED ),                                    /**< WPA3-SAE/WPA2 with AES security                             */
 
+    RTW_SECURITY_WPA_WPA2_MIXED            = ( WPA_SECURITY | WPA2_SECURITY | TKIP_ENABLED | AES_ENABLED ),                      /**< WPA/WPA2 Security                                           */
+
     RTW_SECURITY_UNKNOWN                   = ( -1 ),                                                                             /**< May be returned by scan function if security is unknown. Do not pass this to the join function! */
 
     RTW_SECURITY_FORCE_32_BIT              = ( 0x7fffffff )                                                                      /**< Exists only to force rtw_security_t type to 32 bits        */
@@ -167,7 +169,7 @@ enum {
 typedef unsigned long rtw_security_t;
 
 enum {
-    RTW_ENCRYPTION_UNKNOWN = 0,                 
+    RTW_ENCRYPTION_UNKNOWN = 0,
     RTW_ENCRYPTION_OPEN = 1,
     RTW_ENCRYPTION_WEP40 = 2,
     RTW_ENCRYPTION_WPA_TKIP = 3,
@@ -176,7 +178,7 @@ enum {
     RTW_ENCRYPTION_WPA2_AES = 6,
     RTW_ENCRYPTION_WPA2_MIXED = 7,
     RTW_ENCRYPTION_WEP104 = 9,
-    RTW_ENCRYPTION_UNDEF = 0xFF,                 
+    RTW_ENCRYPTION_UNDEF = 0xFF,
 };
 typedef unsigned long rtw_encryption_t;
 
@@ -392,7 +394,7 @@ enum {
 	RTW_COUNTRY_YT,
 	RTW_COUNTRY_ZA,
 	RTW_COUNTRY_ZW,
-	
+
 	RTW_COUNTRY_MAX
 
 };
@@ -562,6 +564,9 @@ enum{
 	RTW_WRONG_PASSWORD = 3 ,
 	RTW_4WAY_HANDSHAKE_TIMEOUT = 4,
 	RTW_DHCP_FAIL = 5,
+	RTW_AUTH_FAIL = 6,
+	RTW_ASSOC_FAIL =7,
+	RTW_DEAUTH_DEASSOC = 8,
 	RTW_UNKNOWN,
 };
 typedef unsigned long rtw_connect_error_flag_t;
@@ -581,7 +586,7 @@ typedef unsigned long rtw_tx_pwr_percentage_t;
 enum _WIFI_EVENT_INDICATE{
 	WIFI_EVENT_CONNECT = 0,
 	WIFI_EVENT_DISCONNECT = 1,
-	WIFI_EVENT_FOURWAY_HANDSHAKE_DONE = 2,	
+	WIFI_EVENT_FOURWAY_HANDSHAKE_DONE = 2,
 	WIFI_EVENT_SCAN_RESULT_REPORT = 3,
 	WIFI_EVENT_SCAN_DONE = 4,
 	WIFI_EVENT_RECONNECTION_FAIL = 5,

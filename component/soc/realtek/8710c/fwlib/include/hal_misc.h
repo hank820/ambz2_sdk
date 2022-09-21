@@ -96,7 +96,7 @@ void hal_misc_nmi_reg_irq (irq_handler_t handler, void *arg)
  *  @returns void
  */
 __STATIC_INLINE
-void hal_misc_sdm_32k_enable (u8 bypass_mode)
+void hal_misc_sdm_32k_enable (uint8_t bypass_mode)
 {
     hal_misc_stubs.hal_misc_sdm_32k_enable (bypass_mode);
 }
@@ -107,7 +107,7 @@ void hal_misc_sdm_32k_enable (u8 bypass_mode)
  *  @returns void
  */
 __STATIC_INLINE
-u32  hal_misc_read_sdm_32k_time_loss (void)
+uint32_t  hal_misc_read_sdm_32k_time_loss (void)
 {
     return hal_misc_stubs.hal_misc_read_sdm_32k_time_loss ();
 }
@@ -121,9 +121,9 @@ u32  hal_misc_read_sdm_32k_time_loss (void)
  *  @returns void
  */
 __STATIC_INLINE
-void hal_misc_set_sdm_32k_time_loss (u8 time_loss_set, u32 time_loss_reg)
+void hal_misc_set_sdm_32k_time_loss (uint8_t time_loss_set, uint32_t time_loss_reg)
 {
-    u32 i=0;
+    uint32_t i=0;
     hal_misc_stubs.hal_misc_set_sdm_32k_time_loss (time_loss_set, time_loss_reg);
     HAL_WRITE32 (0x40000000, 0x8C, 0xC0000000);
     for (i = 0; i < 1000000; i++) {
