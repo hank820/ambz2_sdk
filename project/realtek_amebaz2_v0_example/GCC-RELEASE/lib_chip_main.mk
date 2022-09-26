@@ -173,8 +173,8 @@ INCLUDES += -I$(CHIPDIR)/third_party/nlunit-test/repo/src
 # -------------------------------------------------------------------
 
 SRC_C =
-SRC_C += $(CHIPDIR)/examples/platform/ameba/route_hook/ameba_route_hook.c
-SRC_C += $(CHIPDIR)/examples/platform/ameba/route_hook/ameba_route_table.c
+#SRC_C += $(CHIPDIR)/examples/platform/ameba/route_hook/ameba_route_hook.c
+#SRC_C += $(CHIPDIR)/examples/platform/ameba/route_hook/ameba_route_table.c
 
 SRC_CPP = 
 
