@@ -388,6 +388,8 @@ Certain platform allows computing and verifying the IP, UDP, TCP and ICMP checks
 #if LWIP_IPV6
 #undef  MEMP_NUM_SYS_TIMEOUT
 #define MEMP_NUM_SYS_TIMEOUT            13
+#undef MEMP_NUM_MLD6_GROUP
+#define MEMP_NUM_MLD6_GROUP             6
 #define LWIP_IPV6_MLD                   1
 #define LWIP_IPV6_AUTOCONFIG            1
 #define LWIP_ICMP6                      1
