@@ -4,7 +4,6 @@
 *.o
 *.su
 *.s
-tools
 libsrc
 *.i
 project/realtek_amebaz2_v0_example/GCC-RELEASE/application_is/*
