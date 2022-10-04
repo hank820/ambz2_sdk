@@ -1,7 +1,5 @@
 SHELL = /bin/bash
 
-include project_include.mk
-
 # Initialize tool chain
 # -------------------------------------------------------------------
 BASEDIR := $(shell pwd)

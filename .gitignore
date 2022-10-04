@@ -11,4 +11,5 @@ project/realtek_amebaz2_v0_example/GCC-RELEASE/bootloader/*
 project/realtek_amebaz2_v0_example/GCC-RELEASE/lib_main/*
 project/realtek_amebaz2_v0_example/GCC-RELEASE/key.json
 project/realtek_amebaz2_v0_example/GCC-RELEASE/partition.bin
+project/realtek_amebaz2_v0_example/GCC-RELEASE/project_include.mk
 tools/arm-none-eabi-gcc/asdk/*

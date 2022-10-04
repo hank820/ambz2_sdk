@@ -331,6 +331,7 @@ prerequirement:
 	mkdir -p $(OBJ_DIR)
 	mkdir -p $(BIN_DIR)
 	mkdir -p $(INFO_DIR)
+	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/light-switch-app/light-switch-common/light-switch-app.zap
 
 $(SRC_OO): %_$(TARGET).oo : %.cpp | prerequirement
 	$(CC) $(CPPFLAGS) $(INCLUDES) -c $< -o $@

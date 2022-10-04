@@ -1,5 +1,3 @@
-include project_include.mk
-
 all: is
 
 OS := $(shell uname)
@@ -38,31 +36,26 @@ endif
 
 .PHONY: lib_all
 lib_all: toolchain
-	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/all-clusters-app/all-clusters-common/all-clusters-app.zap
 	@$(MAKE) -f lib_chip.mk all
 	@$(MAKE) -f lib_chip_main.mk all
 
 .PHONY: light
 light: toolchain
-	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/lighting-app/lighting-common/lighting-app.zap
 	@$(MAKE) -f lib_chip_light_core.mk all
 	@$(MAKE) -f lib_chip_light_main.mk all
 
 .PHONY: switch
 switch: toolchain
-	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/light-switch-app/light-switch-common/light-switch-app.zap
 	@$(MAKE) -f lib_chip_switch_core.mk all
 	@$(MAKE) -f lib_chip_switch_main.mk all
 
 .PHONY: otar
 otar: toolchain
-	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/ota-requestor-app/ota-requestor-common/ota-requestor-app.zap
 	@$(MAKE) -f lib_chip_otar_core.mk all
 	@$(MAKE) -f lib_chip_otar_main.mk all
 
 .PHONY: chef
 chef: toolchain
-	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/chef/devices/$(SAMPLE_NAME).zap
 	@$(MAKE) -f lib_chip_chef_core.mk all
 	@$(MAKE) -f lib_chip_chef_main.mk all
 
