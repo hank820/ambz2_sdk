@@ -1,4 +1,5 @@
-<Usage of 1-10 image tool for Ameba>
+# Usage of 1-10 image tool for Ameba
+
 1. Unzip Ameba_ImageTool_Linux.zip and make it executable
     - unzip Ameba_ImageTool_Linux.zip
     - chmod +x Ameba_ImageTool_Linux
@@ -9,30 +10,29 @@
 
 
 3. Set AmebaZ2 chip
-Example:
 	- sudo ./Ameba_ImageTool_Linux -set chip AmebaZ2
 
 4. Scan device port
-Example:
-Before use this command, please set the image mode on Ameba platform.
+
+Before using this command, please set Ameba platform to download mode.
+
 Enter into UART_DOWNLOAD mode.
-a) Push the UART DOWNLOAD button and keep it pressed.
-b) Re-power on the board or press the Reset button.
-c) Release the UART DOWNLOAD button.
-Now, Ameba board gets into UART_DOWNLOAD mode and is ready to receive data.
+
+	a) Push the UART DOWNLOAD button and keep it pressed.
+	b) Re-power on the board or press the Reset button.
+	c) Release the UART DOWNLOAD button.
+	Now, Ameba board gets into UART_DOWNLOAD mode and is ready to receive data.
 
 	- sudo ./Ameba_ImageTool_Linux -scan device
 (Automatically add the uart device to config, so you can skip step #5)
 
 5. Add Uart Device
-Example:
 	- sudo ./Ameba_ImageTool_Linux -add device /dev/ttyXXX
 
 6. Set Baudrate
-Example:
 	- sudo ./Ameba_ImageTool_Linux -set baudrate 1500000
 
-7.[No need on AmebaZ2] Combine Ameba three images
+7.[No need for AmebaZ2] Combine Ameba three images
 	- sudo ./Ameba_ImageTool_Linux -combine <file1> <offset1> <file2> <offset2> ...
 
 	- sudo ./Ameba_ImageTool_Linux -combine km0_boot_all.bin 0x0000 km4_boot_all.bin 0x4000 km0_km4_image2.bin 0x6000
@@ -48,10 +48,10 @@ Example:
 
 
 10. Final check
-Example:
 	- sudo ./Ameba_ImageTool_Linux -show
 
 Current Settings
+
 	CPU      : AmebaZ2
 	UART     : 1500000 bps parity:N flow control:False
 	FW NAME  : /<Current_PATH>/flash_is.bin
@@ -64,6 +64,7 @@ Current Settings
 		   factory mode :	False
 		   save log     :	True
 Port Settings
+
 	PORT 0: active:True device:/dev/tty.XXX
 	PORT 1: active:False device:NONE
 	PORT 2: active:False device:NONE
@@ -77,8 +78,7 @@ Port Settings
 
 
 11. Download image to AmebaZ2
-Example:
-(Notice : please set download mode on AmebaZ2 board before download command)
+(Notice : please set AmebaZ2 board to download mode before download command)
 	- sudo ./Ameba_ImageTool_Linux -download
 
 log file = log_2021_03_12_13_58_46.txt
@@ -88,3 +88,13 @@ status: ['OK 58.4s', 'Off', 'Off', 'Off', 'Off', 'Off', 'Off', 'Off', 'Off', 'Of
 close log file
 
 12. Check finish log
+
+# Using flashing script for easy flashing
+
+1. Identify your device USB port
+
+2. Run the flashing script
+    - ./flash.sh /dev/ttyUSB0 /home/dev/ambz2_sdk/project/realtek_amebaz2_v0_example/GCC-RELEASE/application_is/Debug/bin
+    - ./flash.sh deviceUSBPort outputFileDirectory
+	
+3. Put the board to download mode when prompted, then press enter
