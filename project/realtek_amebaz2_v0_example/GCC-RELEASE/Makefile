@@ -1,5 +1,3 @@
-include project_include.mk
-
 all: is
 
 OS := $(shell uname)
@@ -62,7 +60,7 @@ otar: toolchain
 
 .PHONY: chef
 chef: toolchain
-	python3 ameba_zap_cluster_list.py --zap_file ../../../third_party/connectedhomeip/examples/chef/devices/$(SAMPLE_NAME).zap
+	@$(MAKE) -f chef_helper.mk all
 	@$(MAKE) -f lib_chip_chef_core.mk all
 	@$(MAKE) -f lib_chip_chef_main.mk all
 
