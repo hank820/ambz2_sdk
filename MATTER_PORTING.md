@@ -1,4 +1,4 @@
-# How to support Matter on AmebaD SDK
+# How to support Matter on AmebaZ2 SDK
 
 1. Add lwip_v2.1.2 [[ref commit]](https://github.com/hank820/ambz2_sdk/commit/ee92575a388828695efa9667d5216da4b9212c4d)
 
