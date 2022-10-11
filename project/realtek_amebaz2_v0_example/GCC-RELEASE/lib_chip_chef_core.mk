@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-include project_include.mk
+-include project_include.mk
 
 # Initialize tool chain
 # -------------------------------------------------------------------
