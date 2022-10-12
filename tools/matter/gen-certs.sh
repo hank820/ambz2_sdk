@@ -21,7 +21,7 @@
 # The script expects the path to the chip-cert tool binary as an input argument.
 #
 # Generates C-Style file with those certificates/keys to be use by the SDK tests:
-#     ./credentials/test/gen-test-attestation-certs.sh ./out/debug/standalone/chip-cert src/credentials/tests/CHIPAttCert_test_vectors
+#     ./credentials/test/gen-test-attestation-certs.sh ./out/debug/standalone/chip-cert CHIPAttCert_test_vectors
 #
 # In addition to the DER/PEM files this command also generates the following C-Style files:
 #     src/credentials/tests/CHIPAttCert_test_vectors.cpp
@@ -134,12 +134,12 @@ namespace TestCerts {
 } // namespace chip
 '
 
-printf "$copyright_note" >"$output_cstyle_file".cpp
-printf "$copyright_note" >"$output_cstyle_file".h
-printf "$cpp_includes" >>"$output_cstyle_file".cpp
-printf "$header_includes" >>"$output_cstyle_file".h
-printf "$namespaces_open\n" >>"$output_cstyle_file".cpp
-printf "$namespaces_open\n" >>"$output_cstyle_file".h
+printf "$copyright_note" >"$dest_dir/$output_cstyle_file".cpp
+printf "$copyright_note" >"$dest_dir/$output_cstyle_file".h
+printf "$cpp_includes" >>"$dest_dir/$output_cstyle_file".cpp
+printf "$header_includes" >>"$dest_dir/$output_cstyle_file".h
+printf "$namespaces_open\n" >>"$dest_dir/$output_cstyle_file".cpp
+printf "$namespaces_open\n" >>"$dest_dir/$output_cstyle_file".h
 for cert_file_pem in "$dest_dir/"*Cert.pem; do
     params_prefix="${cert_file_pem/*Chip-Test/sTestCert}"
     params_prefix="${params_prefix//-/_}"
@@ -172,21 +172,21 @@ for cert_file_pem in "$dest_dir/"*Cert.pem; do
         openssl ec -text -noout -in "$key_file_pem" | sed '0,/priv:$/d' | sed '/pub:/,$d' | sed 's/:/ /g' | sed 's/\</0x/g' | sed 's/\>/,/g' | sed "s/^[ \t]*/    /" | sed 's/ *$//'
         printf "};\n\n"
         printf "extern const ByteSpan ${params_prefix}_PrivateKey = ByteSpan(${params_prefix}_PrivateKey_Array);\n\n"
-    } >>"$output_cstyle_file".cpp
+    } >>"$dest_dir/$output_cstyle_file".cpp
 
     {
         printf "extern const ByteSpan ${params_prefix}_Cert;\n"
         printf "extern const ByteSpan ${params_prefix}_SKID;\n"
         printf "extern const ByteSpan ${params_prefix}_PublicKey;\n"
         printf "extern const ByteSpan ${params_prefix}_PrivateKey;\n\n"
-    } >>"$output_cstyle_file".h
+    } >>"$dest_dir/$output_cstyle_file".h
 
 done
-printf "$namespaces_close" >>"$output_cstyle_file".cpp
-printf "$namespaces_close" >>"$output_cstyle_file".h
+printf "$namespaces_close" >>"$dest_dir/$output_cstyle_file".cpp
+printf "$namespaces_close" >>"$dest_dir/$output_cstyle_file".h
 
-cp "$output_cstyle_file".cpp $dest_dir
-cp "$output_cstyle_file".h $dest_dir
+#cp "$dest_dir/$output_cstyle_file".cpp $dest_dir
+#cp "$dest_dir/$output_cstyle_file".h $dest_dir
 
 # Generate Credential Declaration
 cd_signing_key="$chip_dir/credentials/test/certification-declaration/Chip-Test-CD-Signing-Key.pem"
