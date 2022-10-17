@@ -67,11 +67,11 @@ certification_type=0
     # paa_cert_file="$chip_dir/credentials/test/attestation/Chip-Test-PAA-NoVID-Cert"
 
     # Self generated PAA
-    paa_key_file="$dest_dir/Chip-Test-PAA-NoVID-Key"
-    paa_cert_file="$dest_dir/Chip-Test-PAA-NoVID-Cert"
+    paa_key_file="$dest_dir/Chip-Test-PAA-$vid-Key"
+    paa_cert_file="$dest_dir/Chip-Test-PAA-$vid-Cert"
 
-    # If you are using Matter's test PAA, don't need to generate it, comment below line
-    "$chip_cert_tool" gen-att-cert --type a --subject-cn "Matter Test PAA" --valid-from "$cert_valid_from" --lifetime "$cert_lifetime" --out-key "$paa_key_file".pem --out "$paa_cert_file".pem
+    # If you want to use an existing PAA, don't need to generate it, comment below line
+    "$chip_cert_tool" gen-att-cert --type a --subject-cn "Matter Test PAA" --subject-vid "$vid" --valid-from "$cert_valid_from" --lifetime "$cert_lifetime" --out-key "$paa_key_file".pem --out "$paa_cert_file".pem
 
     pai_key_file="$dest_dir/Chip-Test-PAI-$vid-NoPID-Key"
     pai_cert_file="$dest_dir/Chip-Test-PAI-$vid-NoPID-Cert"
