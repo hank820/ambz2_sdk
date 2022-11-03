@@ -29,6 +29,10 @@
 #ifndef __BASIC_TYPES_H__
 #define __BASIC_TYPES_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -559,5 +563,9 @@ extern void *pvPortMalloc( size_t xWantedSize );
 #endif
 
 #endif // defined(CHIP_PROJECT) && CHIP_PROJECT
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif// __BASIC_TYPES_H__

@@ -32,6 +32,10 @@
 #ifndef PORTABLE_H
 #define PORTABLE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Each FreeRTOS port has a unique portmacro.h header file.  Originally a
 pre-processor definition was used to ensure the pre-processor found the correct
 portmacro.h file for the port being used.  That scheme was deprecated in favour
@@ -157,6 +161,10 @@ void vPortEndScheduler( void ) PRIVILEGED_FUNCTION;
 #if( portUSING_MPU_WRAPPERS == 1 )
 	struct xMEMORY_REGION;
 	void vPortStoreTaskMPUSettings( xMPU_SETTINGS *xMPUSettings, const struct xMEMORY_REGION * const xRegions, StackType_t *pxBottomOfStack, uint32_t ulStackDepth ) PRIVILEGED_FUNCTION;
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #ifdef __cplusplus
