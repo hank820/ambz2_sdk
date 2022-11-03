@@ -12,6 +12,7 @@
 #include "dct.h"
 #include <wifi_conf.h>
 #include "chip_porting.h"
+#include "bt_matter_adapter_app_main.h"
 
 #define MICROSECONDS_PER_SECOND    ( 1000000LL )                                   /**< Microseconds per second. */
 #define NANOSECONDS_PER_SECOND     ( 1000000000LL )                                /**< Nanoseconds per second. */
@@ -118,6 +119,46 @@ int _vTaskDelay( const TickType_t xTicksToDelay )
     vTaskDelay(xTicksToDelay);
 
     return 0;
+}
+
+void DeleteMatter()
+{
+    TaskStatus_t *pxTaskStatusArray;
+    volatile UBaseType_t uxArraySize, x;
+    unsigned long ulStatsAsPercentage;
+
+   /* Take a snapshot of the number of tasks in case it changes while this
+   function is executing. */
+   uxArraySize = uxTaskGetNumberOfTasks();
+
+   /* Allocate a TaskStatus_t structure for each task.  An array could be
+   allocated statically at compile time. */
+   pxTaskStatusArray = pvPortMalloc( uxArraySize * sizeof( TaskStatus_t ) );
+
+   if( pxTaskStatusArray != NULL )
+   {
+      /* Generate raw status information about each task. */
+      uxArraySize = uxTaskGetSystemState( pxTaskStatusArray,
+                                 uxArraySize,
+                                 NULL);
+
+     for( x = 0; x < uxArraySize; x++ )
+     {
+        if ((strcmp(pxTaskStatusArray[x].pcTaskName, "CHIP") == 0)
+        || (strcmp(pxTaskStatusArray[x].pcTaskName, "Uplink") == 0)
+        || (strcmp(pxTaskStatusArray[x].pcTaskName, "Downlink") == 0)
+        || (strcmp(pxTaskStatusArray[x].pcTaskName, "matter_sh") == 0))
+        {
+            printf("Deleting %s task!\n", pxTaskStatusArray[x].pcTaskName);
+            vTaskDelete(pxTaskStatusArray[x].xHandle);
+        }
+     }
+
+      vPortFree( pxTaskStatusArray );
+   }
+
+    /* now we free up bt_matter_adapter resources */
+    bt_matter_adapter_task_deinit(); // This will also delete bt_matter_adapter_task
 }
 
 /*
