@@ -225,6 +225,7 @@ SRC_CPP += $(CHIPDIR)/examples/all-clusters-app/ameba/main/Downlink.cpp
 SRC_CPP += $(CHIPDIR)/examples/platform/ameba/ota/OTAInitializer.cpp
 SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
 SRC_CPP += $(CHIPDIR)/examples/platform/ameba/shell/launch_shell.cpp
+SRC_CPP += $(CHIPDIR)/examples/platform/ameba/common/status_api.cpp
 
 #lib_version
 VER_C += $(TARGET)_version.c
