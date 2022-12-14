@@ -216,6 +216,9 @@ const char* domainAllocator(const char *domain)
             case 5:
                 return matter_domain[7];
                 break;
+            default:
+                return "chip-fabric";
+                break;
         }
     }
     // chip-groupmsgcounters
@@ -536,18 +539,64 @@ int32_t setPref_new(const char *domain, const char *key, uint8_t *value, size_t 
     }
     else
     {
-        ret = dct_open_module2(&handle, allocatedDomain);
-        if (DCT_SUCCESS != ret)
-        {
-            printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-            goto exit;
+        if (strncmp(allocatedDomain, "chip-fabric", 11) == 0) {
+            int tmp = 0;
+            for(int i=3; i<=7; i++) {
+                if (strncmp(allocatedDomain, matter_domain[i], 13) != 0) {
+                    tmp = 1;
+                } else {
+                    tmp = 0;
+                    break;
+                }
+            }
+            if (tmp == 1) {
+                for(int j=3; j<=7; j++) {
+                    allocatedDomain = matter_domain[j];
+
+                    ret = dct_open_module2(&handle, allocatedDomain);
+                    if (DCT_SUCCESS != ret)
+                    {
+                        printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                        goto exit;
+                    }
+
+                    ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
+                    if (DCT_SUCCESS != ret)
+                        printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                    dct_close_module2(&handle);
+
+                    if (DCT_SUCCESS == ret)
+                        goto exit;
+                }
+            } else {
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                dct_close_module2(&handle);
+            }
+        } else {
+            ret = dct_open_module2(&handle, allocatedDomain);
+            if (DCT_SUCCESS != ret)
+            {
+                printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                goto exit;
+            }
+
+            ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
+            if (DCT_SUCCESS != ret)
+                printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+            dct_close_module2(&handle);
         }
-
-        ret = dct_set_variable_new2(&handle, key, (char *)value, (uint16_t)byteCount);
-        if (DCT_SUCCESS != ret)
-            printf("%s : dct_set_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
-
-        dct_close_module2(&handle);
     }
 
 exit:
@@ -869,20 +918,70 @@ int32_t getPref_bin_new(const char *domain, const char *key, uint8_t * buf, size
     }
     else
     {
-        ret = dct_open_module2(&handle, allocatedDomain);
-        if (DCT_SUCCESS != ret)
-        {
-            printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
-            goto exit;
+        if (strncmp(allocatedDomain, "chip-fabric", 11) == 0) {
+            int tmp = 0;
+            for(int i=3; i<=7; i++) {
+                if (strncmp(allocatedDomain, matter_domain[i], 13) != 0) {
+                    tmp = 1;
+                } else {
+                    tmp = 0;
+                    break;
+                }
+            }
+            if (tmp == 1) {
+                for(int j=3; j<=7; j++) {
+                    allocatedDomain = matter_domain[j];
+
+                    ret = dct_open_module2(&handle, allocatedDomain);
+                    if (DCT_SUCCESS != ret)
+                    {
+                        printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                        goto exit;
+                    }
+
+                    ret = dct_get_variable_new2(&handle, key, (char *)buf, &_bufSize);
+                    if (DCT_SUCCESS != ret)
+                        printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                    *outLen = _bufSize;
+
+                    dct_close_module2(&handle);
+                    
+                    if (DCT_SUCCESS == ret)
+                        goto exit;
+                }
+            } else {
+                ret = dct_open_module2(&handle, allocatedDomain);
+                if (DCT_SUCCESS != ret)
+                {
+                    printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                    goto exit;
+                }
+
+                ret = dct_get_variable_new2(&handle, key, (char *)buf, &_bufSize);
+                if (DCT_SUCCESS != ret)
+                    printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+                *outLen = _bufSize;
+
+                dct_close_module2(&handle);
+            }
+        } else {
+            ret = dct_open_module2(&handle, allocatedDomain);
+            if (DCT_SUCCESS != ret)
+            {
+                printf("%s : dct_open_module2(%s) failed with error: %d\n" ,__FUNCTION__, allocatedDomain, ret);
+                goto exit;
+            }
+
+            ret = dct_get_variable_new2(&handle, key, (char *)buf, &_bufSize);
+            if (DCT_SUCCESS != ret)
+                printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
+
+            *outLen = _bufSize;
+
+            dct_close_module2(&handle);
         }
-
-        ret = dct_get_variable_new2(&handle, key, (char *)buf, &_bufSize);
-        if (DCT_SUCCESS != ret)
-            printf("%s : dct_get_variable2(%s) failed with error: %d\n" ,__FUNCTION__, key, ret);
-
-        *outLen = _bufSize;
-
-        dct_close_module2(&handle);
     }
 
 exit:
